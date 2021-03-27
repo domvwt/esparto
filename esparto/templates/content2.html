@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+{% for section in content %}
+    <h2>{{ section.title }}</h2>
+    {% for row in section.rows %} 
+        <div class="row">
+            {% for column in row.columns %} 
+                <div class="col">
+                    {% for item in column.items %} 
+                        {{ item }}
+                    {% endfor %}
+                </div>
+            {% endfor %} 
+        </div>
+    {% endfor %}
+{% endfor %}
+{% endblock content %}
