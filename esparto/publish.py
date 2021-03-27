@@ -1,14 +1,15 @@
-import importlib
-from typing import Optional, TYPE_CHECKING
+from importlib.util import find_spec 
+from typing import Optional, Union, TYPE_CHECKING
 from pathlib import Path
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 if TYPE_CHECKING:
     from esparto.layout import LayoutElement
+    from esparto.content import Adaptor
 
 _optional_deps = ["bs4", "prettierfier", "IPython"]
 _found_opt_deps = [
-    x.name for x in [importlib.util.find_spec(dep) for dep in _optional_deps] if x  # type: ignore
+    x.name for x in [find_spec(dep) for dep in _optional_deps] if x  
 ]
 
 _env = Environment(
@@ -43,16 +44,18 @@ def publish(content: "LayoutElement", filepath: Optional[str] = None):
         f.write(html)
 
 
-def nb_display(content: "LayoutElement"):
+def nb_display(content: Union["LayoutElement", "Adaptor"]):
     if "IPython" in _found_opt_deps:
         from IPython.core.display import display, HTML
 
         bootstrap_css = _bootstrap_cdn
         html = content.to_html()
         html = bootstrap_css + html
+        print()
         display(HTML(html), metadata=dict(isolated=True))
+        print()
     else:
-        raise ModuleNotFoundError
+        raise ModuleNotFoundError("IPython")
 
 
 def _prettify_html(html):
@@ -60,10 +63,12 @@ def _prettify_html(html):
         from bs4 import BeautifulSoup
 
         html = str(BeautifulSoup(html, features="html.parser").prettify())
-    if "prettierfier" in _found_opt_deps:
-        from prettierfier import prettify_html
 
-        html = prettify_html(html)
+        if "prettierfier" in _found_opt_deps:
+            from prettierfier import prettify_html
+
+            html = prettify_html(html)
+
     return html
 
 

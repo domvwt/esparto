@@ -65,7 +65,7 @@ class LayoutElement(ABC):
         self._title = title
 
     @property
-    def content(self) -> Optional[list]:
+    def content(self) -> list:
         """ """
         raise NotImplementedError
 
@@ -84,30 +84,27 @@ class LayoutElement(ABC):
         Returns:
 
         """
+        content = self._sanitize_content(content)
+
+        self._content = content
+
+    def _sanitize_content(self, content) -> list:
         content = list(content) if hasattr(content, "__iter__") else [content]
         renderable = _check_content_renderable(content)
         unrenderable = list(compress(content, [not x for x in renderable]))
         assert all(renderable), f"Child has no method '.to_html()':\n{unrenderable}"
-
         # Ensure children are wrapped in appropriate classes
         if not isinstance(self, Column):
-            # children = [
-            #     self._child_class(x) if not issubclass(type(x), LayoutElement) else x
-            #     for x in children
-            # ]
             unwrapped = [x for x in content if not issubclass(type(x), LayoutElement)]
             if any(unwrapped):
                 wrapped = [x for x in content if x not in unwrapped]
-
                 if isinstance(self, Row):
                     # If contents are elements of row, wrap in individual columns
                     newly_wrapped = [self._child_class(x) for x in unwrapped]
                 else:
                     newly_wrapped = [self._child_class(*unwrapped)]
-
                 content = newly_wrapped + wrapped
-
-        self._content = content
+        return content
 
     @property
     @abstractmethod
@@ -161,6 +158,31 @@ class LayoutElement(ABC):
         if content:
             self.content = content
         self.title = title
+
+    def __call__(self, *content: Union[list, Any]):
+        if content:
+            self.content = content
+
+    def __iter__(self):
+        return ContentIterator(self)
+
+
+class ContentIterator:
+    """Content Iterator class"""
+    def __init__(self, content):
+        if not isinstance(content, list):
+            content = [content]
+        self._content: list = content
+        self._index = 0
+
+    def __next__(self):
+        if self._index < len(self._content):
+            result = self._content[self._index]
+            self._index += 1
+            return result
+        else:
+            raise StopIteration
+
 
 
 class Page(LayoutElement):

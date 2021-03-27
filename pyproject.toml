@@ -20,6 +20,7 @@ flake8 = "^3.9.0"
 pytest = "^6.2.2"
 pyment = "^0.3.3"
 mypy = "^0.812"
+rope = "^0.18.0"
 
 [tool.poetry.extras]
 extras = ["beautifulsoup4", "prettierfier"]
