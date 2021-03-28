@@ -8,8 +8,10 @@ python:
 
 before install:
   - pip install poetry
+
 install:
   - poetry install
+
 script:
   - black --check .
   - flake8 --max-line-length 120 --ignore=E203
