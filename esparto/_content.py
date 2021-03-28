@@ -8,8 +8,8 @@ import PIL.Image as pil  # type: ignore
 from PIL.Image import Image as PILImage
 
 from esparto import _installed_optional_dependencies
-from esparto.layout import Row
-from esparto.publish import nb_display
+from esparto._layout import Row
+from esparto._publish import nb_display
 
 if "pandas" in _installed_optional_dependencies:
     from pandas import DataFrame  # type: ignore

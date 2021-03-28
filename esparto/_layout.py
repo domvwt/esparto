@@ -1,12 +1,13 @@
 import copy
-
+from abc import ABC, abstractmethod
 from inspect import getmembers
 from itertools import compress
-from abc import ABC, abstractmethod
-from typing import Any, Iterable, Optional, List, Type, Union
+from typing import TYPE_CHECKING, Any, Iterable, List, Optional, Type, Union
 
-from esparto.content import Content
-from esparto.publish import publish, nb_display
+from esparto._publish import nb_display, publish
+
+if TYPE_CHECKING:
+    from esparto._content import Content
 
 
 def _has_method(object: Any, method: str) -> bool:
@@ -164,24 +165,29 @@ class LayoutElement(ABC):
 
     def __init__(
         self,
-        *content: Union["LayoutElement", Content, None],
+        *content: Union["LayoutElement", "Content", None],
         title: Optional[str] = None,
     ):
         self.content = content
         self.title = title
 
-    def __call__(self, *content: Union["LayoutElement", Content, None]):
+    def __call__(self, *content: Union["LayoutElement", "Content", None]):
         new = copy.deepcopy(self)
         if content:
             new.content = content
         return new
 
-    def __add__(self, other):
-        assert (
-            hasattr(other, "content") and other.content
-        ), "Item has no content to add."
+    def __add__(self, other: object):
+        # Hack to avoid circular import of Content class for instance checking
+        if "Content" in [x.__name__ for x in other.__class__.__bases__]:
+            other_content = [other]
+        elif isinstance(other, LayoutElement):
+            other_content = list(other.content)
+        else:
+            raise NotImplementedError
+
         new = copy.deepcopy(self)
-        new.content = [x for x in self.content + other.content if x is not None]
+        new.content = [x for x in list(self.content) + other_content]
         return new
 
     def __iter__(self):
@@ -214,7 +220,7 @@ class Page(LayoutElement):
 
     def __init__(
         self,
-        *content: Union["LayoutElement", Content, None],
+        *content: Union["LayoutElement", "Content", None],
         title: Optional[str] = None,
         org_name: Optional[str] = None,
     ):

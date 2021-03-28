@@ -1,10 +1,11 @@
-from typing import Optional, Union, TYPE_CHECKING
 from pathlib import Path
+from typing import TYPE_CHECKING, Optional, Union
+
 from jinja2 import Environment, PackageLoader, select_autoescape  # type: ignore
 
 if TYPE_CHECKING:
-    from esparto.layout import LayoutElement
-    from esparto.content import Content
+    from esparto._layout import LayoutElement
+    from esparto._content import Content
 
 from esparto import _installed_optional_dependencies
 
@@ -45,7 +46,7 @@ def publish(content: "LayoutElement", filepath: Optional[str] = None):
 
 def nb_display(content: Union["LayoutElement", "Content"]) -> None:
     if "IPython" in _installed_optional_dependencies:
-        from IPython.core.display import display, HTML  # type: ignore
+        from IPython.core.display import HTML, display  # type: ignore
 
         html = f"<div class='container my-4'>\n{content.to_html()}\n</div>\n"
         bootstrap_css = _bootstrap_cdn
