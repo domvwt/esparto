@@ -7,12 +7,11 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = ">=3.6"
-jinja2 = "^2.11.3"
-markdown = "^3.3.4"
-Pillow = "^8.1.2"
-beautifulsoup4 = {version = "^4.9.3", optional = true}
-prettierfier = {version = "^1.0.3", optional = true}
-IPython = {version = "^7.22.0", optional = true}
+jinja2 = ">=2.10.1"
+markdown = ">=3.1"
+Pillow = ">=7.2.0"
+beautifulsoup4 = {version = ">=4.9.3", optional = true}
+prettierfier = {version = ">=1.0.3", optional = true}
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"
@@ -21,6 +20,7 @@ pytest = "^6.2.2"
 pyment = "^0.3.3"
 mypy = "^0.812"
 rope = "^0.18.0"
+IPython = ">=7.3"
 
 [tool.poetry.extras]
 extras = ["beautifulsoup4", "prettierfier"]

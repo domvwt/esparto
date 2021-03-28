@@ -2,6 +2,7 @@
 scratch.ipynb
 scratch.py
 esparto-page-*.html
+notebooks/*.jpg
 
 # IDE files
 .vscode
