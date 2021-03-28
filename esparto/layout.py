@@ -1,8 +1,11 @@
+import copy
+
 from inspect import getmembers
 from itertools import compress
 from abc import ABC, abstractmethod
 from typing import Any, Iterable, Optional, List, Type, Union
 
+from esparto.content import Content
 from esparto.publish import publish, nb_display
 
 
@@ -65,14 +68,18 @@ class LayoutElement(ABC):
         self._title = title
 
     @property
-    def content(self) -> list:
+    def content(self) -> Iterable:
         """ """
         raise NotImplementedError
 
     @content.getter
-    def content(self) -> list:
+    def content(self) -> Iterable:
         """ """
-        return self._content
+        if hasattr(self, "_content"):
+            content = self._content
+        else:
+            content = []
+        return content
 
     @content.setter
     def content(self, content) -> None:
@@ -85,27 +92,27 @@ class LayoutElement(ABC):
 
         """
         content = self._sanitize_content(content)
-
         self._content = content
 
-    def _sanitize_content(self, content) -> list:
-        content = list(content) if hasattr(content, "__iter__") else [content]
-        renderable = _check_content_renderable(content)
-        unrenderable = list(compress(content, [not x for x in renderable]))
+    def _sanitize_content(self, content: Iterable[Any]) -> Iterable[Any]:
+        content_: Iterable[Any] = (
+            list(content) if hasattr(content, "__iter__") else [content]
+        )
+        renderable = _check_content_renderable(content_)
+        unrenderable = list(compress(content_, [not x for x in renderable]))
         assert all(renderable), f"Child has no method '.to_html()':\n{unrenderable}"
         # Ensure children are wrapped in appropriate classes
         if not isinstance(self, Column):
-            # unwrapped = [x for x in content if not issubclass(type(x), LayoutElement)]
-            unwrapped = [x for x in content if not isinstance(x, self._child_class)]
+            unwrapped = [x for x in content_ if not isinstance(x, self._child_class)]
             if any(unwrapped):
-                wrapped = [x for x in content if x not in unwrapped]
+                wrapped = [x for x in content_ if x not in unwrapped]
                 if isinstance(self, Row):
                     # If contents are elements of row, wrap in individual columns
                     newly_wrapped = [self._child_class(x) for x in unwrapped]
                 else:
                     newly_wrapped = [self._child_class(*unwrapped)]
-                content = newly_wrapped + wrapped
-        return content
+                content_ = newly_wrapped + wrapped
+        return content_
 
     @property
     @abstractmethod
@@ -155,24 +162,29 @@ class LayoutElement(ABC):
     def to_dict(self) -> dict:
         return dict(getmembers(self))
 
-    def __init__(self, *content: Union[list, Any], title: Optional[str] = None):
-        if content:
-            self.content = content
+    def __init__(
+        self,
+        *content: Union["LayoutElement", Content, None],
+        title: Optional[str] = None,
+    ):
+        self.content = content
         self.title = title
 
-    def __call__(self, *content: Union[list, Any]):
+    def __call__(self, *content: Union["LayoutElement", Content, None]):
+        new = copy.deepcopy(self)
         if content:
-            self.content = content
+            new.content = content
+        return new
 
     def __add__(self, other):
-        assert hasattr(other, "content"), NotImplementedError
-        if not isinstance(other, list):
-            other = [other]
-        self.content = self.content + other
-        return self
+        assert (
+            hasattr(other, "content") and other.content
+        ), "Item has no content to add."
+        new = copy.deepcopy(self)
+        new.content = [x for x in self.content + other.content if x is not None]
+        return new
 
     def __iter__(self):
-        # return iter(self.content)
         return iter([self])
 
     def _repr_html_(self):
@@ -202,11 +214,11 @@ class Page(LayoutElement):
 
     def __init__(
         self,
-        *children: Union[list, Any],
+        *content: Union["LayoutElement", Content, None],
         title: Optional[str] = None,
         org_name: Optional[str] = None,
     ):
-        super().__init__(*children, title=title)
+        super().__init__(*content, title=title)
         self.org_name = org_name if org_name else "Esparto"
 
 
@@ -237,7 +249,7 @@ class Row(LayoutElement):
 
     def _render_title(self) -> str:
         """ """
-        return f"<h3>{self._title}</h3>\n"
+        return f"<h3 class='mb-2'>{self._title}</h3>\n"
 
     @property
     def _tag_open(self) -> str:
@@ -259,7 +271,7 @@ class Column(LayoutElement):
 
     def _render_title(self) -> str:
         """ """
-        return f"<h3>{self._title}</h3>\n"
+        return f"<h3 class='mb-2'>{self._title}</h3>\n"
 
     @property
     def _tag_open(self) -> str:

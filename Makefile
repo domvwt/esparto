@@ -56,6 +56,9 @@ format: ## apply black code formatter
 lint: ## check style with flake8
 	flake8 esparto tests
 
+mypy: ## check type hints
+	mypy esparto
+
 test: ## run tests quickly with the default Python
 	pytest
 

@@ -1,12 +1,12 @@
 from typing import Optional, Union, TYPE_CHECKING
 from pathlib import Path
-from jinja2 import Environment, PackageLoader, select_autoescape
+from jinja2 import Environment, PackageLoader, select_autoescape  # type: ignore
 
 if TYPE_CHECKING:
     from esparto.layout import LayoutElement
-    from esparto.content import Adaptor
+    from esparto.content import Content
 
-from esparto import installed_optional_dependencies
+from esparto import _installed_optional_dependencies
 
 _env = Environment(
     loader=PackageLoader("esparto", "templates"),
@@ -36,16 +36,16 @@ def publish(content: "LayoutElement", filepath: Optional[str] = None):
 
     # Jinja requires dict for accessing properties
     content_ = content.to_dict()
-    html = _base_template.render(content=content_)
-    html = _prettify_html(html)
+    html_rendered: str = _base_template.render(content=content_)
+    html_prettified = _prettify_html(html_rendered)
 
     with open(filepath, "w") as f:
-        f.write(html)
+        f.write(html_prettified)
 
 
-def nb_display(content: Union["LayoutElement", "Adaptor"]):
-    if "IPython" in installed_optional_dependencies:
-        from IPython.core.display import display, HTML
+def nb_display(content: Union["LayoutElement", "Content"]) -> None:
+    if "IPython" in _installed_optional_dependencies:
+        from IPython.core.display import display, HTML  # type: ignore
 
         html = f"<div class='container my-4'>\n{content.to_html()}\n</div>\n"
         bootstrap_css = _bootstrap_cdn
@@ -62,21 +62,21 @@ def nb_display(content: Union["LayoutElement", "Adaptor"]):
         raise ModuleNotFoundError("IPython")
 
 
-def _prettify_html(html):
-    if "bs4" in installed_optional_dependencies:
-        from bs4 import BeautifulSoup
+def _prettify_html(html: str) -> str:
+    if "bs4" in _installed_optional_dependencies:
+        from bs4 import BeautifulSoup  # type: ignore
 
         html = str(BeautifulSoup(html, features="html.parser").prettify())
 
-        if "prettierfier" in installed_optional_dependencies:
-            from prettierfier import prettify_html
+        if "prettierfier" in _installed_optional_dependencies:
+            from prettierfier import prettify_html  # type: ignore
 
             html = prettify_html(html)
 
     return html
 
 
-def _determine_filepath(filepath):
+def _determine_filepath(filepath: Optional[str]) -> str:
     if not filepath:
         i = 0
         while Path(f"{_default_filename}{i}{_ext}").is_file():

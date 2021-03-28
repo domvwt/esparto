@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "esparto"
-version = "0.1.0"
+version = "0.1.0-beta-993"
 description = "Simple toolkit for building minimal Bootstrap pages."
 authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
 license = "MIT"
@@ -9,7 +9,7 @@ license = "MIT"
 python = ">=3.6"
 jinja2 = ">=2.10.1"
 markdown = ">=3.1"
-Pillow = ">=7.2.0"
+Pillow = ">=7.0.0"
 beautifulsoup4 = {version = ">=4.9.3", optional = true}
 prettierfier = {version = ">=1.0.3", optional = true}
 
@@ -21,6 +21,7 @@ pyment = "^0.3.3"
 mypy = "^0.812"
 rope = "^0.18.0"
 IPython = ">=7.3"
+jedi = "0.17.2"
 
 [tool.poetry.extras]
 extras = ["beautifulsoup4", "prettierfier"]

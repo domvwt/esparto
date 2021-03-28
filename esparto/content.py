@@ -1,21 +1,21 @@
 import base64
 from abc import ABC, abstractmethod
 from io import BytesIO
-from typing import Union
+from typing import Any, Union
 
 import markdown as md
-import PIL.Image as pil
+import PIL.Image as pil  # type: ignore
 from PIL.Image import Image as PILImage
 
-from esparto import installed_optional_dependencies
+from esparto import _installed_optional_dependencies
 from esparto.layout import Row
 from esparto.publish import nb_display
 
-if "pandas" in installed_optional_dependencies:
-    from pandas import DataFrame
+if "pandas" in _installed_optional_dependencies:
+    from pandas import DataFrame  # type: ignore
 
-if "matplotlib" in installed_optional_dependencies:
-    from matplotlib.figure import Figure
+if "matplotlib" in _installed_optional_dependencies:
+    from matplotlib.figure import Figure  # type: ignore
 
 
 def _image_to_base64(image: PILImage) -> str:
@@ -26,8 +26,20 @@ def _image_to_base64(image: PILImage) -> str:
     return image_encoded
 
 
-class Adaptor(ABC):
+class Content(ABC):
     """ """
+
+    @property
+    def content(self) -> Any:
+        raise NotImplementedError
+
+    @content.getter
+    def content(self) -> Any:
+        raise NotImplementedError
+
+    @content.setter
+    def content(self) -> Any:
+        raise NotImplementedError
 
     @abstractmethod
     def to_html(self) -> str:
@@ -43,12 +55,27 @@ class Adaptor(ABC):
     def __iter__(self):
         return iter([self])
 
+    def __len__(self):
+        return len(self.content)
+
     def _repr_html_(self):
         nb_display(self)
 
 
-class Markdown(Adaptor):
+class Markdown(Content):
     """ """
+
+    @property
+    def content(self) -> Any:
+        raise NotImplementedError
+
+    @content.getter
+    def content(self) -> Any:
+        return self._content
+
+    @content.setter
+    def content(self, content) -> Any:
+        self._content = content
 
     def __init__(self, text):
         self.content = str(text)
@@ -61,14 +88,38 @@ class Markdown(Adaptor):
         return html
 
 
-class Spacer(Adaptor):
+class Spacer(Content):
+    @property
+    def content(self) -> Any:
+        raise NotImplementedError
+
+    @content.getter
+    def content(self) -> Any:
+        raise NotImplementedError
+
+    @content.setter
+    def content(self) -> Any:
+        raise NotImplementedError
+
     def to_html(self) -> str:
         html = "<p></p>"
         return html
 
 
-class Image(Adaptor):
+class Image(Content):
     """ """
+
+    @property
+    def content(self) -> Any:
+        raise NotImplementedError
+
+    @content.getter
+    def content(self) -> Any:
+        return self._content
+
+    @content.setter
+    def content(self, content) -> Any:
+        self._content = content
 
     def __init__(
         self,
@@ -103,7 +154,19 @@ class Image(Adaptor):
         return html
 
 
-class DataFramePd(Adaptor):
+class DataFramePd(Content):
+    @property
+    def content(self) -> Any:
+        raise NotImplementedError
+
+    @content.getter
+    def content(self) -> Any:
+        return self._content
+
+    @content.setter
+    def content(self, content) -> Any:
+        self._content = content
+
     def __init__(
         self, df: "DataFrame", index: bool = False, col_space: Union[int, str] = 10
     ):
@@ -119,7 +182,7 @@ class DataFramePd(Adaptor):
         return html
 
 
-class FigureMpl(Adaptor):
+class FigureMpl(Content):
     """ """
 
     def __init__(self, figure: "Figure"):
@@ -130,5 +193,8 @@ class FigureMpl(Adaptor):
         buffer = BytesIO()
         self.content.savefig(buffer, format="png")
         img_encoded = base64.b64encode(buffer.getvalue()).decode("utf-8")
-        html = f"<img src='data:image/png;base64,{img_encoded}' class='img-fluid' width='100%'/>"
+        html = (
+            f"<img src='data:image/png;base64,{img_encoded}'"
+            + "class='img-fluid; object-fit: scale-down' width='100%'/>"
+        )
         return html
