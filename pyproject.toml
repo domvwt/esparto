@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "esparto"
-version = "0.1.0-beta-993"
+version = "0.1.0.dev1"
 description = "Simple toolkit for building minimal Bootstrap pages."
 authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
 license = "MIT"
