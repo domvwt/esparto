@@ -1,5 +1,11 @@
-# Notebooks for testing
-notebooks
+# Scratch files for testing
+scratch.ipynb
+scratch.py
+esparto-page-*.html
+
+# IDE files
+.vscode
+.idea
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

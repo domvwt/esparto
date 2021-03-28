@@ -7,10 +7,15 @@ import markdown as md
 import PIL.Image as pil
 from PIL.Image import Image as PILImage
 
-from esparto.publish import nb_display, _found_opt_deps
+from esparto import installed_optional_dependencies
+from esparto.layout import Row
+from esparto.publish import nb_display
 
-if "pandas" in _found_opt_deps:
+if "pandas" in installed_optional_dependencies:
     from pandas import DataFrame
+
+if "matplotlib" in installed_optional_dependencies:
+    from matplotlib.figure import Figure
 
 
 def _image_to_base64(image: PILImage) -> str:
@@ -32,18 +37,33 @@ class Adaptor(ABC):
     def display(self) -> None:
         nb_display(self)
 
+    def __add__(self, other):
+        return Row(self, other)
+
+    def __iter__(self):
+        return iter([self])
+
+    def _repr_html_(self):
+        nb_display(self)
+
 
 class Markdown(Adaptor):
     """ """
 
     def __init__(self, text):
-        self.content = text
+        self.content = str(text)
 
     def to_html(self) -> str:
         """ """
-        html = f"\n{md.markdown(self.content)}\n"
+        html = f"{md.markdown(self.content)}\n"
         html = html.replace("<blockquote>", "<blockquote class='blockquote'>")
         # html = html.replace("<li>", "<li class='list-group-item'>")
+        return html
+
+
+class Spacer(Adaptor):
+    def to_html(self) -> str:
+        html = "<p></p>"
         return html
 
 
@@ -83,21 +103,26 @@ class Image(Adaptor):
         return html
 
 
-class DataFramePD(Adaptor):
-    def __init__(self, df: "DataFrame", index: bool = False, col_space: Union[int, str] = 10):
+class DataFramePd(Adaptor):
+    def __init__(
+        self, df: "DataFrame", index: bool = False, col_space: Union[int, str] = 10
+    ):
         self.content = df
         self.index = index
         self.col_space = col_space
 
     def to_html(self) -> str:
         classes = "table table-sm table-striped table-hover table-bordered"
-        html = self.content.to_html(index=self.index, border=0, col_space=self.col_space, classes=classes)
+        html = self.content.to_html(
+            index=self.index, border=0, col_space=self.col_space, classes=classes
+        )
         return html
 
-class FigMPL(Adaptor):
+
+class FigureMpl(Adaptor):
     """ """
 
-    def __init__(self, figure):
+    def __init__(self, figure: "Figure"):
         self.content = figure
 
     def to_html(self):

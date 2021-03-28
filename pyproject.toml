@@ -6,7 +6,7 @@ authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.6"
 jinja2 = "^2.11.3"
 markdown = "^3.3.4"
 Pillow = "^8.1.2"

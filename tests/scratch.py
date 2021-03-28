@@ -8,6 +8,11 @@ if __name__ == "__main__":
     my_page = Page()
     my_page.content = Section(Markdown("hi"))
 
+    my_page += Row(Markdown("there"))
+
+    print(my_page.content)
+    print(my_page.to_html())
+
     # content = Page(
     #     Section(
     #         Row(

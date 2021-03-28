@@ -95,7 +95,8 @@ class LayoutElement(ABC):
         assert all(renderable), f"Child has no method '.to_html()':\n{unrenderable}"
         # Ensure children are wrapped in appropriate classes
         if not isinstance(self, Column):
-            unwrapped = [x for x in content if not issubclass(type(x), LayoutElement)]
+            # unwrapped = [x for x in content if not issubclass(type(x), LayoutElement)]
+            unwrapped = [x for x in content if not isinstance(x, self._child_class)]
             if any(unwrapped):
                 wrapped = [x for x in content if x not in unwrapped]
                 if isinstance(self, Row):
@@ -163,26 +164,19 @@ class LayoutElement(ABC):
         if content:
             self.content = content
 
+    def __add__(self, other):
+        assert hasattr(other, "content"), NotImplementedError
+        if not isinstance(other, list):
+            other = [other]
+        self.content = self.content + other
+        return self
+
     def __iter__(self):
-        return ContentIterator(self)
+        # return iter(self.content)
+        return iter([self])
 
-
-class ContentIterator:
-    """Content Iterator class"""
-    def __init__(self, content):
-        if not isinstance(content, list):
-            content = [content]
-        self._content: list = content
-        self._index = 0
-
-    def __next__(self):
-        if self._index < len(self._content):
-            result = self._content[self._index]
-            self._index += 1
-            return result
-        else:
-            raise StopIteration
-
+    def _repr_html_(self):
+        nb_display(self)
 
 
 class Page(LayoutElement):
