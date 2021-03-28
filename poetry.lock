@@ -570,7 +570,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 extras = ["beautifulsoup4", "prettierfier"]
 
 [metadata]
-content-hash = "6c7e4cc58c3f225dde75619e03ff7f0108c2aed0daf7534ecfa7dc5af9eca336"
+content-hash = "7031bb660af21fc6e2c3637bc529d908b332a3d1d227b99bef878042cec577d4"
 lock-version = "1.0"
 python-versions = ">=3.6"
 
