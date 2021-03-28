@@ -1,12 +1,13 @@
 # Config file for automatic testing at travis-ci.org
-
 language: python
+os: linux
+dist: xenial
 python:
   - 3.8
   - 3.7
   - 3.6
 
-before install:
+before_install:
   - pip install poetry
 
 install:
@@ -14,5 +15,5 @@ install:
 
 script:
   - black --check .
-  - flake8 --max-line-length 120 --ignore=E203
+  - flake8
   - pytest
