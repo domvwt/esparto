@@ -1,7 +1,7 @@
 import base64
 from abc import ABC, abstractmethod
 from io import BytesIO
-from typing import Any, Union
+from typing import Any, BinaryIO, List, Union
 
 import markdown as md
 import PIL.Image as pil  # type: ignore
@@ -30,14 +30,7 @@ class Content(ABC):
     """ """
 
     @property
-    def content(self) -> Any:
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> Any:
-        raise NotImplementedError
-
-    @content.setter
+    @abstractmethod
     def content(self) -> Any:
         raise NotImplementedError
 
@@ -61,20 +54,32 @@ class Content(ABC):
     def _repr_html_(self):
         nb_display(self)
 
+    def __str__(self):
+        return str(self.__class__.__name__)
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return all([x == y for x, y in zip(self.content, other.content)])
+        else:
+            return False
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
 
 class Markdown(Content):
     """ """
 
     @property
-    def content(self) -> Any:
+    def content(self) -> str:
         raise NotImplementedError
 
     @content.getter
-    def content(self) -> Any:
+    def content(self) -> str:
         return self._content
 
     @content.setter
-    def content(self, content) -> Any:
+    def content(self, content) -> None:
         self._content = content
 
     def __init__(self, text):
@@ -84,22 +89,24 @@ class Markdown(Content):
         """ """
         html = f"{md.markdown(self.content)}\n"
         html = html.replace("<blockquote>", "<blockquote class='blockquote'>")
-        # html = html.replace("<li>", "<li class='list-group-item'>")
+        html = f"<div class='container-fluid p-1'>\n{html}\n</div>"
         return html
 
 
 class Spacer(Content):
+    """ """
+
     @property
-    def content(self) -> Any:
+    def content(self) -> None:
         raise NotImplementedError
 
     @content.getter
-    def content(self) -> Any:
-        raise NotImplementedError
+    def content(self) -> List[None]:
+        return []
 
     @content.setter
-    def content(self) -> Any:
-        raise NotImplementedError
+    def content(self) -> None:
+        pass
 
     def to_html(self) -> str:
         html = "<p></p>"
@@ -110,20 +117,20 @@ class Image(Content):
     """ """
 
     @property
-    def content(self) -> Any:
+    def content(self) -> Union[str, BinaryIO]:
         raise NotImplementedError
 
     @content.getter
-    def content(self) -> Any:
+    def content(self) -> Union[str, BinaryIO]:
         return self._content
 
     @content.setter
-    def content(self, content) -> Any:
+    def content(self, content) -> None:
         self._content = content
 
     def __init__(
         self,
-        image: Union[str, BytesIO],
+        image: Union[str, BytesIO, pil.Image],
         size: Union[str, float] = "auto",
         alt_text: str = "Image",
     ):
@@ -135,9 +142,12 @@ class Image(Content):
         self.size = size
         return self
 
-    def to_html(self):
+    def to_html(self) -> str:
         """ """
-        image = pil.open(self.content)
+        if isinstance(self.content, pil.Image):
+            image = self.content
+        else:
+            image = pil.open(self.content)
 
         # Resize image if required
         if self.size == "auto":
@@ -146,25 +156,32 @@ class Image(Content):
             x = int(image.size[0] * self.size)
             y = int(image.size[1] * self.size)
             image.thumbnail((x, y))
-            width = f"{x}px"
+
+        width = f"{image.size[0]}px"
+        height = f"{image.size[1]}px"
 
         image_encoded = _image_to_base64(image)
-        html = f"<img src='data:image/png;base64,{image_encoded}' class='img-responsive' width='{width}'>"
+        html = (
+            f"<img width='{width}' height='{height}' src='data:image/png;base64,{image_encoded}' "
+            + "style='margin: auto; display: block'>"
+        )
 
         return html
 
 
 class DataFramePd(Content):
+    """ """
+
     @property
-    def content(self) -> Any:
+    def content(self) -> "DataFrame":
         raise NotImplementedError
 
     @content.getter
-    def content(self) -> Any:
+    def content(self) -> "DataFrame":
         return self._content
 
     @content.setter
-    def content(self, content) -> Any:
+    def content(self, content) -> None:
         self._content = content
 
     def __init__(
@@ -182,19 +199,14 @@ class DataFramePd(Content):
         return html
 
 
-class FigureMpl(Content):
+class FigureMpl(Image):
     """ """
 
-    def __init__(self, figure: "Figure"):
-        self.content = figure
-
-    def to_html(self):
-        """ """
+    def __init__(
+        self,
+        figure: "Figure",
+        alt_text: str = "Image",
+    ):
         buffer = BytesIO()
-        self.content.savefig(buffer, format="png")
-        img_encoded = base64.b64encode(buffer.getvalue()).decode("utf-8")
-        html = (
-            f"<img src='data:image/png;base64,{img_encoded}'"
-            + "class='img-fluid; object-fit: scale-down' width='100%'/>"
-        )
-        return html
+        figure.savefig(buffer, format="png")
+        super().__init__(buffer, size="auto", alt_text=alt_text)

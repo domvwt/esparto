@@ -2,7 +2,9 @@ import copy
 from abc import ABC, abstractmethod
 from inspect import getmembers
 from itertools import compress
+from pprint import pformat
 from typing import TYPE_CHECKING, Any, Iterable, List, Optional, Type, Union
+from warnings import warn
 
 from esparto._publish import nb_display, publish
 
@@ -48,9 +50,9 @@ class LayoutElement(ABC):
     @property
     def title(self) -> Optional[str]:
         """ """
-        return self._title
+        raise NotImplementedError
 
-    # Each element should return title with appropriate class
+    # Each element should return title with appropriate HTML tags
     @title.getter
     def title(self) -> Optional[str]:
         """ """
@@ -223,7 +225,7 @@ class LayoutElement(ABC):
 
     def __add__(self, other: object):
         # Hack to avoid circular import of Content class for instance checking
-        if "Content" in [x.__name__ for x in other.__class__.__bases__]:
+        if "Content" in [x.__name__ for x in other.__class__.__mro__]:
             other_content = [other]
         elif isinstance(other, LayoutElement):
             other_content = list(other.content)
@@ -240,6 +242,36 @@ class LayoutElement(ABC):
     def _repr_html_(self):
         nb_display(self)
 
+    def __repr__(self):
+        title = self._title if self._title else "Untitled"
+        return f"{type(self)}: {title}"
+
+    def _recurse_content(self) -> dict:
+        key = self._title if self._title else type(self).__name__
+        tree = {
+            f"{key}": [
+                x._recurse_content()
+                if hasattr(x, "_recurse_content")
+                else type(x).__name__
+                for x in self.content
+            ]
+        }
+        return tree
+
+    def __str__(self):
+        return pformat(self._recurse_content())
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self._title == other._title and all(
+                [x == y for x, y in zip(self.content, other.content)]
+            )
+        else:
+            return False
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
 
 class Page(LayoutElement):
     """ """
@@ -251,7 +283,7 @@ class Page(LayoutElement):
     @property
     def _tag_open(self) -> str:
         """ """
-        return "<main class='container my-4'>"
+        return "<main class='container p-4'>"
 
     @property
     def _tag_close(self) -> str:
@@ -269,7 +301,7 @@ class Page(LayoutElement):
         org_name: Optional[str] = None,
     ):
         super().__init__(*content, title=title)
-        self.org_name = org_name if org_name else "Esparto"
+        self.org_name = org_name if org_name else "esparto"
 
 
 class Section(LayoutElement):
@@ -277,12 +309,12 @@ class Section(LayoutElement):
 
     def _render_title(self) -> str:
         """ """
-        return f"<h2 class='mb-3'>{self._title}</h2>\n"
+        return f"<h1 class='mb-6rem'>{self._title}</h1>\n"
 
     @property
     def _tag_open(self) -> str:
         """ """
-        return "<div class='container p-4'>"
+        return "<div class='container p-3'>"
 
     @property
     def _tag_close(self) -> str:
@@ -297,14 +329,33 @@ class Section(LayoutElement):
 class Row(LayoutElement):
     """ """
 
+    @property
+    def title(self) -> Optional[str]:
+        """ """
+        raise NotImplementedError
+
+    # Each element should return title with appropriate HTML tags
+    @title.getter
+    def title(self) -> Optional[str]:
+        """ """
+        return self._render_title()
+
+    @title.setter
+    def title(self, title: Optional[str]) -> None:
+        """ """
+        if title:
+            warn("Row titles are not rendered - for reference use only")
+        self._title = title
+
     def _render_title(self) -> str:
         """ """
-        return f"<h3 class='mb-2'>{self._title}</h3>\n"
+        # Row should not return title
+        return ""
 
     @property
     def _tag_open(self) -> str:
         """ """
-        return "<div class='row'>"
+        return "<div class='row container-sm'>"
 
     @property
     def _tag_close(self) -> str:
@@ -321,12 +372,12 @@ class Column(LayoutElement):
 
     def _render_title(self) -> str:
         """ """
-        return f"<h3 class='mb-2'>{self._title}</h3>\n"
+        return f"<h3 class='mb-1rem'>{self._title}</h3>\n"
 
     @property
     def _tag_open(self) -> str:
         """ """
-        return "<div class='col'>"
+        return "<div class='col p-4'>"
 
     @property
     def _tag_close(self) -> str:
