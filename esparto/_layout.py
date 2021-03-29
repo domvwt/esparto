@@ -93,6 +93,7 @@ class LayoutElement(ABC):
 
         """
         content = self._sanitize_content(content)
+        content = self._smart_wrap(content)
         self._content = content
 
     def _sanitize_content(self, content: Iterable[Any]) -> Iterable[Any]:
@@ -102,18 +103,61 @@ class LayoutElement(ABC):
         renderable = _check_content_renderable(content_)
         unrenderable = list(compress(content_, [not x for x in renderable]))
         assert all(renderable), f"Child has no method '.to_html()':\n{unrenderable}"
-        # Ensure children are wrapped in appropriate classes
-        if not isinstance(self, Column):
-            unwrapped = [x for x in content_ if not isinstance(x, self._child_class)]
-            if any(unwrapped):
-                wrapped = [x for x in content_ if x not in unwrapped]
-                if isinstance(self, Row):
-                    # If contents are elements of row, wrap in individual columns
-                    newly_wrapped = [self._child_class(x) for x in unwrapped]
-                else:
-                    newly_wrapped = [self._child_class(*unwrapped)]
-                content_ = newly_wrapped + wrapped
+
         return content_
+
+    def _smart_wrap(self, content: Iterable[Any]) -> Iterable[Any]:
+        """
+        Wrap unwrapped content intelligently and preserve the order of content items.
+        If the parent object is a Column:
+            - Return the content with no modification
+        If the current item is wrapped and unwrapped items have been accumulated:
+            - wrap the unwrapped items
+            - append newly wrapped to output
+            - append current item to output
+        If the current item is wrapped and we have no accumulated unwrapped items:
+            - append the current wrapped item to output
+        If the current item is unwrapped and the parent is a Row:
+            - wrap and append the current item to output
+        If the current item is unwrapped and the parent is not a Row:
+            - add the current item to unwrapped item accumulator
+        Finally:
+            - wrap any accumulated unwrapped items
+            - append the final wrapped segment to output
+        """
+
+        if isinstance(self, Column):
+            return content
+
+        is_row = isinstance(self, Row)
+        unwrapped_acc = []
+        output = []
+
+        for item in content:
+            is_wrapped = isinstance(item, self._child_class)
+
+            if is_wrapped:
+                if unwrapped_acc:
+                    wrapped_segment = self._child_class(*unwrapped_acc)
+                    output.append(wrapped_segment)
+                    output.append(item)
+                    unwrapped_acc = []
+                else:
+                    output.append(item)
+            else: # if not is_wrapped
+                if is_row:
+                    assert (
+                        not unwrapped_acc
+                    ), "Elements should not be accumulated for row"
+                    output.append(self._child_class(item))
+                else:
+                    unwrapped_acc.append(item)
+        else:
+            if unwrapped_acc:
+                wrapped_segment = self._child_class(*unwrapped_acc)
+                output.append(wrapped_segment)
+
+        return output
 
     @property
     @abstractmethod
