@@ -130,7 +130,7 @@ class LayoutElement(ABC):
             return content
 
         is_row = isinstance(self, Row)
-        unwrapped_acc = []
+        unwrapped_acc: list = []
         output = []
 
         for item in content:
@@ -144,7 +144,7 @@ class LayoutElement(ABC):
                     unwrapped_acc = []
                 else:
                     output.append(item)
-            else: # if not is_wrapped
+            else:  # if not is_wrapped
                 if is_row:
                     assert (
                         not unwrapped_acc
