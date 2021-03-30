@@ -48,7 +48,7 @@ def nb_display(content: Union["LayoutElement", "Content"]) -> None:
     if "IPython" in _installed_optional_dependencies:
         from IPython.core.display import HTML, display  # type: ignore
 
-        html = f"<div class='container my-4'>\n{content.to_html()}\n</div>\n"
+        html = f"<div class='container'>\n{content.to_html()}\n</div>\n"
         bootstrap_css = _bootstrap_cdn
         html = bootstrap_css + html
 
