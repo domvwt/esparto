@@ -24,16 +24,18 @@ _default_filename = "esparto-page-"
 _ext = ".html"
 
 
-def publish(content: "Layout", filepath: Optional[str] = None, return_html: bool = False) -> Optional[str]:
+def publish(
+    content: "Layout", filepath: Optional[str] = None, return_html: bool = False
+) -> Optional[str]:
     """
 
     Args:
-      content: "Layout": 
+      content: "Layout":
       filepath: Optional[str]:  (Default value = None)
       return_html: bool: (Default value = False)
 
     Returns:
-      Optional[str]: 
+      Optional[str]:
 
     """
     filepath = _determine_filepath(filepath)
@@ -48,18 +50,22 @@ def publish(content: "Layout", filepath: Optional[str] = None, return_html: bool
 
     if return_html:
         return html_prettified
+    else:
+        return None
 
 
-def nb_display(content: Union["Layout", "Content"], return_html: bool = False) -> Optional[str]:
+def nb_display(
+    content: Union["Layout", "Content"], return_html: bool = False
+) -> Optional[str]:
     """
 
     Args:
-      content: Union["Layout", "Content"]: 
-      return_html:  bool: (Default value = False): 
+      content: Union["Layout", "Content"]:
+      return_html:  bool: (Default value = False):
 
     Returns:
-      Optional[str]: 
-    
+      Optional[str]:
+
     """
     if "IPython" in _installed_modules:
         from IPython.core.display import HTML, display  # type: ignore
@@ -88,11 +94,11 @@ def _prettify_html(html: str) -> str:
     """
 
     Args:
-      html: str: 
+      html: str:
 
     Returns:
-      str: 
-    
+      str:
+
     """
     if "bs4" in _installed_modules:
         from bs4 import BeautifulSoup  # type: ignore
@@ -111,11 +117,11 @@ def _determine_filepath(filepath: Optional[str]) -> str:
     """
 
     Args:
-      filepath: Optional[str]: 
+      filepath: Optional[str]:
 
     Returns:
-      str: 
-    
+      str:
+
     """
     if not filepath:
         i = 0

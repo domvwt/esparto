@@ -1,7 +1,7 @@
 import pytest
 from typing import Optional
 
-from html5lib import HTMLParser
+from html5lib import HTMLParser  # type: ignore
 
 from tests.conftest import content_list, layout_list
 

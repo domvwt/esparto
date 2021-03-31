@@ -12,7 +12,7 @@ def content_adaptor(content: str) -> Content:
     """
 
     Args:
-      content: str: 
+      content: str:
 
     Returns:
 
@@ -29,7 +29,7 @@ def ca_cb(content: Content) -> Content:
     """
 
     Args:
-      content: Content: 
+      content: Content:
 
     Returns:
 
@@ -45,7 +45,7 @@ if "pandas" in _installed_modules:
         """
 
         Args:
-          content: DataFrame: 
+          content: DataFrame:
 
         Returns:
 
@@ -61,7 +61,7 @@ if "matplotlib" in _installed_modules:
         """
 
         Args:
-          content: Figure: 
+          content: Figure:
 
         Returns:
 

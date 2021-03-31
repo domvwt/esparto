@@ -17,7 +17,7 @@ if TYPE_CHECKING:  # pragma: no cover
 
 class Layout(ABC):
     """Common methods for Layout elements.
-    
+
     Attributes:
       title: Title for object reference and HTML rendering.
       content: Nested list of child elements representing the document tree.
@@ -80,7 +80,7 @@ class Layout(ABC):
 
         Returns:
           Iterable[Any]: Clean sequence of Layout and / or Content items.
-        
+
         """
         # Convert any non-list iterators to lists
         content_: Iterable[Any] = (
@@ -207,7 +207,9 @@ class Layout(ABC):
         """Display rendered document in a Jupyter Notebook cell."""
         nb_display(self)
 
-    def save(self, filepath: Optional[str] = None, return_html: bool = False) -> Optional[str]:
+    def save(
+        self, filepath: Optional[str] = None, return_html: bool = False
+    ) -> Optional[str]:
         """
         Render document to HTML and save to disk.
 
@@ -223,6 +225,8 @@ class Layout(ABC):
 
         if return_html:
             return html
+        else:
+            return None
 
     def to_dict(self) -> dict:
         """Return object as a dictionary."""
@@ -235,7 +239,6 @@ class Layout(ABC):
     ):
         self.content = content
         self.title = title
-        __doc__ = super().__doc__
 
     def __call__(self, *content: Union["Layout", "Content", None]):
         new = copy.deepcopy(self)
@@ -294,12 +297,12 @@ class Layout(ABC):
 
 class Page(Layout):
     """Page - top level element for defining an HTML document.
-    
+
     Args:
         *content:  Layout items to include in the Page.
         title: Page title.
         org_name: Organisation name.
-    
+
     """
 
     def _render_title(self) -> str:
@@ -338,11 +341,11 @@ class Page(Layout):
 
 class Section(Layout):
     """Section - defines a Section within a Page.
-    
+
     Args:
         *content: Row items to include in the Section.
         title: Section title.
-    
+
     """
 
     def _render_title(self) -> str:
@@ -372,11 +375,11 @@ class Section(Layout):
 
 class Row(Layout):
     """Row -  defines a Row within a Section.
-    
+
     Args:
         *content: Column items to include in the Row.
         title: Row title. (for reference only, not rendered)
-    
+
     """
 
     @property
@@ -424,11 +427,11 @@ class Row(Layout):
 
 class Column(Layout):
     """Column -  defines a Column within a Row.
-    
+
     Args:
         *content: Content to include in the Column.
         title: Column title.
-    
+
     """
 
     def _render_title(self) -> str:

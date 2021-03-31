@@ -21,7 +21,7 @@ def _image_to_base64(image: PILImage) -> str:
     """
 
     Args:
-      image: PILImage: 
+      image: PILImage:
 
     Returns:
 
@@ -96,7 +96,7 @@ class Markdown(Content):
         """
 
         Args:
-          content: 
+          content:
 
         Returns:
 
@@ -133,7 +133,7 @@ class Spacer(Content):
         """
 
         Args:
-          other: 
+          other:
 
         Returns:
 
@@ -167,7 +167,7 @@ class Image(Content):
         """
 
         Args:
-          rescale: float: 
+          rescale: float:
 
         Returns:
 
@@ -190,7 +190,7 @@ class Image(Content):
         """
 
         Args:
-          content: 
+          content:
 
         Returns:
 
@@ -211,7 +211,7 @@ class Image(Content):
         """
 
         Args:
-          size: 
+          size:
 
         Returns:
 
@@ -262,7 +262,7 @@ class DataFramePd(Content):
         """
 
         Args:
-          content: 
+          content:
 
         Returns:
 

@@ -3,7 +3,6 @@ from pathlib import Path
 
 import pandas as pd  # type: ignore
 import pytest
-from html5lib import HTMLParser  # type: ignore
 
 import esparto._content as co
 import esparto._layout as la
