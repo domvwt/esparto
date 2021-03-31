@@ -7,14 +7,13 @@ import markdown as md
 import PIL.Image as pil  # type: ignore
 from PIL.Image import Image as PILImage
 
-from esparto import _installed_optional_dependencies
-from esparto._layout import Row
+from esparto import _installed_modules
 from esparto._publish import nb_display
 
-if "pandas" in _installed_optional_dependencies:
+if "pandas" in _installed_modules:  # pragma: no cover
     from pandas import DataFrame  # type: ignore
 
-if "matplotlib" in _installed_optional_dependencies:
+if "matplotlib" in _installed_modules:  # pragma: no cover
     from matplotlib.figure import Figure  # type: ignore
 
 
@@ -43,6 +42,8 @@ class Content(ABC):
         nb_display(self)
 
     def __add__(self, other):
+        from esparto._layout import Row  # Deferred for evade circular import
+
         return Row(self, other)
 
     def __iter__(self):
@@ -117,6 +118,19 @@ class Image(Content):
     """ """
 
     @property
+    def rescale(self) -> float:
+        raise NotImplementedError
+
+    @rescale.getter
+    def rescale(self) -> float:
+        return self._rescale
+
+    @rescale.setter
+    def rescale(self, rescale: float) -> None:
+        assert rescale <= 1, "Image can not be scaled over 100%"
+        self._rescale = rescale
+
+    @property
     def content(self) -> Union[str, BinaryIO]:
         raise NotImplementedError
 
@@ -130,16 +144,16 @@ class Image(Content):
 
     def __init__(
         self,
-        image: Union[str, BytesIO, pil.Image],
-        size: Union[str, float] = "auto",
+        image: Union[str, BinaryIO, pil.Image],
+        rescale: float = 1,
         alt_text: str = "Image",
     ):
         self.content = image
-        self.size = size
+        self.rescale = rescale
         self.alt_text = alt_text
 
     def resize(self, size) -> "Image":
-        self.size = size
+        self.rescale = size
         return self
 
     def to_html(self) -> str:
@@ -150,11 +164,11 @@ class Image(Content):
             image = pil.open(self.content)
 
         # Resize image if required
-        if self.size == "auto":
-            width = "100%"
+        if self.rescale == 1:
+            pass
         else:
-            x = int(image.size[0] * self.size)
-            y = int(image.size[1] * self.size)
+            x = int(image.size[0] * self.rescale)
+            y = int(image.size[1] * self.rescale)
             image.thumbnail((x, y))
 
         width = f"{image.size[0]}px"
@@ -209,4 +223,4 @@ class FigureMpl(Image):
     ):
         buffer = BytesIO()
         figure.savefig(buffer, format="png")
-        super().__init__(buffer, size="auto", alt_text=alt_text)
+        super().__init__(buffer, rescale=1, alt_text=alt_text)

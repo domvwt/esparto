@@ -1,47 +1,21 @@
 import copy
 from abc import ABC, abstractmethod
 from inspect import getmembers
-from itertools import compress
 from pprint import pformat
-from typing import TYPE_CHECKING, Any, Iterable, List, Optional, Type, Union
+from typing import TYPE_CHECKING, Any, Iterable, Optional, Type, Union
 from warnings import warn
 
 from esparto._publish import nb_display, publish
 
-if TYPE_CHECKING:
+
+if TYPE_CHECKING:  # pragma: no cover
     from esparto._content import Content
 
 
-def _has_method(object: Any, method: str) -> bool:
-    """
-
-    Args:
-      object: Any:
-      method: str:
-
-    Returns:
-
-    """
-    fn = getattr(object, method, None)
-    return callable(fn)
-
-
-def _check_content_renderable(items: Iterable) -> List[bool]:
-    """
-
-    Args:
-      items: Iterable:
-
-    Returns:
-
-    """
-    renderable = [_has_method(x, "to_html") for x in items]
-    return renderable
-
-
-class LayoutElement(ABC):
+class Layout(ABC):
     """ """
 
+    # Each element should return title with appropriate HTML tags
     @abstractmethod
     def _render_title(self) -> str:
         """ """
@@ -52,22 +26,14 @@ class LayoutElement(ABC):
         """ """
         raise NotImplementedError
 
-    # Each element should return title with appropriate HTML tags
     @title.getter
     def title(self) -> Optional[str]:
         """ """
-        return self._render_title()
+        return self._title
 
     @title.setter
     def title(self, title: Optional[str]) -> None:
-        """
-
-        Args:
-          title: Optional[str]:
-
-        Returns:
-
-        """
+        """ """
         self._title = title
 
     @property
@@ -86,33 +52,31 @@ class LayoutElement(ABC):
 
     @content.setter
     def content(self, content) -> None:
-        """
-
-        Args:
-          children:
-
-        Returns:
-
-        """
+        """ """
         content = self._sanitize_content(content)
         content = self._smart_wrap(content)
         self._content = content
 
     def _sanitize_content(self, content: Iterable[Any]) -> Iterable[Any]:
+        # Convert any not list iterators to lists
         content_: Iterable[Any] = (
-            list(content) if hasattr(content, "__iter__") else [content]
+            list(content)
+            if hasattr(content, "__iter__") and not isinstance(content, str)
+            else [content]
         )
-        renderable = _check_content_renderable(content_)
-        unrenderable = list(compress(content_, [not x for x in renderable]))
-        assert all(renderable), f"Child has no method '.to_html()':\n{unrenderable}"
-
+        # Unnest any content passed inside a nested list
+        if len(content_) == 1 and isinstance(content_[0], (list, tuple)):
+            content_ = content_[0]
         return content_
 
     def _smart_wrap(self, content: Iterable[Any]) -> Iterable[Any]:
         """
         Wrap unwrapped content intelligently and preserve the order of content items.
-        If the parent object is a Column:
-            - Return the content with no modification
+        If the parent object is a Column and the item is a Content Class:
+            - return the content with no modification
+        If the parent object is a Column and the item is not a Content Class:
+            - cast the item to an appropriate Content Class if possible
+            - return the item
         If the current item is wrapped and unwrapped items have been accumulated:
             - wrap the unwrapped items
             - append newly wrapped to output
@@ -127,9 +91,13 @@ class LayoutElement(ABC):
             - wrap any accumulated unwrapped items
             - append the final wrapped segment to output
         """
+        from esparto._adaptors import content_adaptor
+        from esparto._content import Content
 
         if isinstance(self, Column):
-            return content
+            return [
+                x if isinstance(x, Content) else content_adaptor(x) for x in content
+            ]
 
         is_row = isinstance(self, Row)
         unwrapped_acc: list = []
@@ -163,7 +131,13 @@ class LayoutElement(ABC):
 
     @property
     @abstractmethod
-    def _child_class(self) -> Type["LayoutElement"]:
+    def _parent_class(self) -> Type["Layout"]:
+        """ """
+        raise NotImplementedError
+
+    @property
+    @abstractmethod
+    def _child_class(self) -> Type["Layout"]:
         """ """
         raise NotImplementedError
 
@@ -211,30 +185,27 @@ class LayoutElement(ABC):
 
     def __init__(
         self,
-        *content: Union["LayoutElement", "Content", None],
+        *content: Union["Layout", "Content", Any],
         title: Optional[str] = None,
     ):
         self.content = content
         self.title = title
 
-    def __call__(self, *content: Union["LayoutElement", "Content", None]):
+    def __call__(self, *content: Union["Layout", "Content", None]):
         new = copy.deepcopy(self)
         if content:
             new.content = content
         return new
 
-    def __add__(self, other: object):
-        # Hack to avoid circular import of Content class for instance checking
-        if "Content" in [x.__name__ for x in other.__class__.__mro__]:
-            other_content = [other]
-        elif isinstance(other, LayoutElement):
-            other_content = list(other.content)
+    def __add__(self, other: Union["Layout", "Content", Any]):
+        if isinstance(other, type(self)):
+            return self._parent_class(
+                *(*self.content, *other.content), title=self.title
+            )
         else:
-            raise NotImplementedError
-
-        new = copy.deepcopy(self)
-        new.content = [x for x in list(self.content) + other_content]
-        return new
+            new = copy.deepcopy(self)
+            new.content = (x for x in (*self.content, *other))
+            return new
 
     def __iter__(self):
         return iter([self])
@@ -273,7 +244,7 @@ class LayoutElement(ABC):
         return not self.__eq__(other)
 
 
-class Page(LayoutElement):
+class Page(Layout):
     """ """
 
     def _render_title(self) -> str:
@@ -291,12 +262,17 @@ class Page(LayoutElement):
         return "</main>"
 
     @property
-    def _child_class(self) -> Type["LayoutElement"]:
+    def _parent_class(self) -> Type["Layout"]:
+        """ """
+        return Page
+
+    @property
+    def _child_class(self) -> Type["Layout"]:
         return Section
 
     def __init__(
         self,
-        *content: Union["LayoutElement", "Content", None],
+        *content: Union["Layout", "Content", Any],
         title: Optional[str] = None,
         org_name: Optional[str] = None,
     ):
@@ -304,7 +280,7 @@ class Page(LayoutElement):
         self.org_name = org_name if org_name else "esparto"
 
 
-class Section(LayoutElement):
+class Section(Layout):
     """ """
 
     def _render_title(self) -> str:
@@ -322,11 +298,16 @@ class Section(LayoutElement):
         return "</div>"
 
     @property
-    def _child_class(self) -> Type["LayoutElement"]:
+    def _parent_class(self) -> Type["Layout"]:
+        """ """
+        return Page
+
+    @property
+    def _child_class(self) -> Type["Layout"]:
         return Row
 
 
-class Row(LayoutElement):
+class Row(Layout):
     """ """
 
     @property
@@ -338,7 +319,7 @@ class Row(LayoutElement):
     @title.getter
     def title(self) -> Optional[str]:
         """ """
-        return self._render_title()
+        return self._title
 
     @title.setter
     def title(self, title: Optional[str]) -> None:
@@ -363,11 +344,16 @@ class Row(LayoutElement):
         return "</div>"
 
     @property
-    def _child_class(self) -> Type["LayoutElement"]:
+    def _parent_class(self) -> Type["Layout"]:
+        """ """
+        return Section
+
+    @property
+    def _child_class(self) -> Type["Layout"]:
         return Column
 
 
-class Column(LayoutElement):
+class Column(Layout):
     """ """
 
     def _render_title(self) -> str:
@@ -383,6 +369,11 @@ class Column(LayoutElement):
     def _tag_close(self) -> str:
         """ """
         return "</div>"
+
+    @property
+    def _parent_class(self) -> Type["Layout"]:
+        """ """
+        return Row
 
     @property
     def _child_class(self) -> Any:

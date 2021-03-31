@@ -3,11 +3,11 @@ from typing import TYPE_CHECKING, Optional, Union
 
 from jinja2 import Environment, PackageLoader, select_autoescape  # type: ignore
 
-if TYPE_CHECKING:
-    from esparto._layout import LayoutElement
+if TYPE_CHECKING:  # pragma: no cover
+    from esparto._layout import Layout
     from esparto._content import Content
 
-from esparto import _installed_optional_dependencies
+from esparto import _installed_modules
 
 _env = Environment(
     loader=PackageLoader("esparto", "templates"),
@@ -24,7 +24,7 @@ _default_filename = "esparto-page-"
 _ext = ".html"
 
 
-def publish(content: "LayoutElement", filepath: Optional[str] = None):
+def publish(content: "Layout", filepath: Optional[str] = None):
     """
 
     Args:
@@ -44,8 +44,10 @@ def publish(content: "LayoutElement", filepath: Optional[str] = None):
         f.write(html_prettified)
 
 
-def nb_display(content: Union["LayoutElement", "Content"]) -> None:
-    if "IPython" in _installed_optional_dependencies:
+def nb_display(
+    content: Union["Layout", "Content"], return_html=False
+) -> Optional[str]:
+    if "IPython" in _installed_modules:
         from IPython.core.display import HTML, display  # type: ignore
 
         html = f"<div class='container'>\n{content.to_html()}\n</div>\n"
@@ -59,17 +61,22 @@ def nb_display(content: Union["LayoutElement", "Content"]) -> None:
         # Prevent output scrolling
         js = "<script>$('.output_scroll').removeClass('output_scroll')</script>"
         display(HTML(js))
+
+        if return_html:
+            return html + js
+        else:
+            return None
     else:
         raise ModuleNotFoundError("IPython")
 
 
 def _prettify_html(html: str) -> str:
-    if "bs4" in _installed_optional_dependencies:
+    if "bs4" in _installed_modules:
         from bs4 import BeautifulSoup  # type: ignore
 
         html = str(BeautifulSoup(html, features="html.parser").prettify())
 
-        if "prettierfier" in _installed_optional_dependencies:
+        if "prettierfier" in _installed_modules:
             from prettierfier import prettify_html  # type: ignore
 
             html = prettify_html(html)

@@ -57,7 +57,7 @@ lint: ## check style with flake8
 	flake8 esparto tests
 
 mypy: ## check type hints
-	mypy esparto
+	mypy esparto tests
 
 test: ## run tests quickly with the default Python
 	pytest
@@ -69,7 +69,7 @@ coverage: ## check code coverage quickly with the default Python
 	coverage run --source esparto -m pytest
 	coverage report -m
 	coverage html
-	$(BROWSER) htmlcov/index.html
+	# $(BROWSER) htmlcov/index.html
 
 docstrings: ## generate google format docstrings
 	pyment esparto -o google -w
@@ -86,12 +86,11 @@ servedocs: docs ## compile the docs watching for changes
 	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
 
 release: dist ## package and upload a release
-	twine upload dist/*
+	poetry publish
 
 dist: clean ## builds source and wheel package
-	python setup.py sdist
-	python setup.py bdist_wheel
+	poetry build
 	ls -l dist
 
 install: clean ## install the package to the active Python's site-packages
-	python setup.py install
+	poetry install

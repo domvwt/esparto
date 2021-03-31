@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+import sys
 from importlib.util import find_spec as _find_spec
+from typing import Set
 
 """Top-level package for esparto."""
 
@@ -8,10 +10,8 @@ __email__ = "dominic.thorn@gmail.com"
 __version__ = "0.1.0"
 
 
-_optional_dependencies: list = ["bs4", "prettierfier", "IPython", "matplotlib"]
-_installed_optional_dependencies: list = [
-    x.name for x in [_find_spec(dep) for dep in _optional_dependencies] if x
-]
+_optional_dependencies: list = ["bs4",  "IPython", "matplotlib", "pandas", "prettierfier"]
+_installed_modules: Set[str] = {x.name for x in [_find_spec(dep) for dep in _optional_dependencies] if x}
 
 from esparto._layout import Page, Section, Row, Column
 from esparto._content import Markdown, Image, DataFramePd, FigureMpl, Spacer

@@ -4,6 +4,7 @@
 """Tests for `esparto` package."""
 
 import pytest
+
 import esparto as es
 
 print("Using pytest version:", pytest.__version__)
