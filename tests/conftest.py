@@ -1,5 +1,4 @@
 from pathlib import Path
-from io import BytesIO
 
 import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
@@ -55,7 +54,9 @@ def layout_list_fn():
 
 @pytest.fixture
 def page_layout(content_list_fn) -> la.Page:
-    return la.Page(la.Section(la.Row(*[la.Column(x) for x in content_list_fn])), title="jazz")
+    return la.Page(
+        la.Section(la.Row(*[la.Column(x) for x in content_list_fn])), title="jazz"
+    )
 
 
 @pytest.fixture

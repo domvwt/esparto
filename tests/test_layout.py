@@ -7,7 +7,6 @@ import esparto._content as co
 from tests.conftest import layout_list
 
 
-
 def test_all_layout_classes_covered(layout_list_fn):
     test_classes = [type(c) for c in layout_list_fn]
     module_classes = [c for c in la.Layout.__subclasses__()]

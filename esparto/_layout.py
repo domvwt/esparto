@@ -65,8 +65,10 @@ class Layout(ABC):
             else [content]
         )
         # Unnest any content passed inside a nested list
-        if len(content_) == 1 and isinstance(content_[0], (list, tuple)):
-            content_ = content_[0]
+        if len([x for x in content_]) == 1 and isinstance(
+            list(content_)[0], (list, tuple)
+        ):
+            content_ = list(content_)[0]
         return content_
 
     def _smart_wrap(self, content: Iterable[Any]) -> Iterable[Any]:

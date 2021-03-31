@@ -1,9 +1,6 @@
 from functools import singledispatch
 from mimetypes import guess_type
-from typing import Union, BinaryIO
-from io import BytesIO
 
-from PIL.Image import Image as PILImage  # type: ignore
 
 from esparto import _installed_modules
 

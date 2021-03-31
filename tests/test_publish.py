@@ -25,8 +25,3 @@ def test_output_html_valid(page_layout, tmp_path, htmlparser):
             print(e)
             success = False
     assert success
-
-
-@pytest.mark.skip(reason="Not implemented")
-def test_determine_filepath():
-    assert False

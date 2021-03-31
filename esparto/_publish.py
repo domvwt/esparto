@@ -44,9 +44,7 @@ def publish(content: "Layout", filepath: Optional[str] = None):
         f.write(html_prettified)
 
 
-def nb_display(
-    content: Union["Layout", "Content"], return_html=False
-) -> Optional[str]:
+def nb_display(content: Union["Layout", "Content"], return_html=False) -> Optional[str]:
     if "IPython" in _installed_modules:
         from IPython.core.display import HTML, display  # type: ignore
 
