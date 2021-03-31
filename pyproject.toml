@@ -29,6 +29,7 @@ pandas = "^1.0.0"
 beautifulsoup4 = "^4.9.3"
 prettierfier = "^1.0.3"
 mkdocs-bootstrap4 = "^0.1.5"
+coverage = "^5.5"
 
 [tool.poetry.extras]
 extras = ["beautifulsoup4", "prettierfier"]
