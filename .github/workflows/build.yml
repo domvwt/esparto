@@ -1,4 +1,4 @@
-name: Build
+name: CodeScan
 on:
   push:
     branches:

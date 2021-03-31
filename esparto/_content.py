@@ -18,7 +18,14 @@ if "matplotlib" in _installed_modules:  # pragma: no cover
 
 
 def _image_to_base64(image: PILImage) -> str:
-    """ """
+    """
+
+    Args:
+      image: PILImage: 
+
+    Returns:
+
+    """
     buffer = BytesIO()
     image.save(buffer, format="png")
     image_encoded = base64.b64encode(buffer.getvalue()).decode("utf-8")
@@ -31,6 +38,7 @@ class Content(ABC):
     @property
     @abstractmethod
     def content(self) -> Any:
+        """ """
         raise NotImplementedError
 
     @abstractmethod
@@ -39,6 +47,7 @@ class Content(ABC):
         raise NotImplementedError
 
     def display(self) -> None:
+        """ """
         nb_display(self)
 
     def __add__(self, other):
@@ -53,6 +62,7 @@ class Content(ABC):
         return len(self.content)
 
     def _repr_html_(self):
+        """ """
         nb_display(self)
 
     def __str__(self):
@@ -73,14 +83,24 @@ class Markdown(Content):
 
     @property
     def content(self) -> str:
+        """ """
         raise NotImplementedError
 
     @content.getter
     def content(self) -> str:
+        """ """
         return self._content
 
     @content.setter
     def content(self, content) -> None:
+        """
+
+        Args:
+          content: 
+
+        Returns:
+
+        """
         self._content = content
 
     def __init__(self, text):
@@ -99,17 +119,32 @@ class Spacer(Content):
 
     @property
     def content(self) -> None:
+        """ """
         raise NotImplementedError
 
     @content.getter
     def content(self) -> List[None]:
+        """ """
+        # Spacer has no content
         return []
 
     @content.setter
-    def content(self) -> None:
-        pass
+    def content(self, other) -> None:
+        """
+
+        Args:
+          other: 
+
+        Returns:
+
+        """
+        # Spacer has no content
+        if other:
+            raise AttributeError("Spacer cannot hold content.")
+        return None
 
     def to_html(self) -> str:
+        """ """
         html = "<p></p>"
         return html
 
@@ -119,27 +154,47 @@ class Image(Content):
 
     @property
     def rescale(self) -> float:
+        """ """
         raise NotImplementedError
 
     @rescale.getter
     def rescale(self) -> float:
+        """ """
         return self._rescale
 
     @rescale.setter
     def rescale(self, rescale: float) -> None:
+        """
+
+        Args:
+          rescale: float: 
+
+        Returns:
+
+        """
         assert rescale <= 1, "Image can not be scaled over 100%"
         self._rescale = rescale
 
     @property
     def content(self) -> Union[str, BinaryIO]:
+        """ """
         raise NotImplementedError
 
     @content.getter
     def content(self) -> Union[str, BinaryIO]:
+        """ """
         return self._content
 
     @content.setter
     def content(self, content) -> None:
+        """
+
+        Args:
+          content: 
+
+        Returns:
+
+        """
         self._content = content
 
     def __init__(
@@ -153,6 +208,14 @@ class Image(Content):
         self.alt_text = alt_text
 
     def resize(self, size) -> "Image":
+        """
+
+        Args:
+          size: 
+
+        Returns:
+
+        """
         self.rescale = size
         return self
 
@@ -164,9 +227,7 @@ class Image(Content):
             image = pil.open(self.content)
 
         # Resize image if required
-        if self.rescale == 1:
-            pass
-        else:
+        if self.rescale != 1:
             x = int(image.size[0] * self.rescale)
             y = int(image.size[1] * self.rescale)
             image.thumbnail((x, y))
@@ -188,14 +249,24 @@ class DataFramePd(Content):
 
     @property
     def content(self) -> "DataFrame":
+        """ """
         raise NotImplementedError
 
     @content.getter
     def content(self) -> "DataFrame":
+        """ """
         return self._content
 
     @content.setter
     def content(self, content) -> None:
+        """
+
+        Args:
+          content: 
+
+        Returns:
+
+        """
         self._content = content
 
     def __init__(
@@ -206,6 +277,7 @@ class DataFramePd(Content):
         self.col_space = col_space
 
     def to_html(self) -> str:
+        """ """
         classes = "table table-sm table-striped table-hover table-bordered"
         html = self.content.to_html(
             index=self.index, border=0, col_space=self.col_space, classes=classes

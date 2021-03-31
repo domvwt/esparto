@@ -445,6 +445,18 @@ version = "0.5.8"
 
 [[package]]
 category = "dev"
+description = "Automatically link across pages in MkDocs."
+name = "mkdocs-autorefs"
+optional = false
+python-versions = ">=3.6,<4.0"
+version = "0.1.1"
+
+[package.dependencies]
+Markdown = ">=3.3,<4.0"
+mkdocs = ">=1.1,<2.0"
+
+[[package]]
+category = "dev"
 description = "Bootstrap4 theme for MkDocs"
 name = "mkdocs-bootstrap4"
 optional = false
@@ -466,6 +478,49 @@ version = "0.2.1"
 [package.dependencies]
 PyGithub = ">=1.43"
 mkdocs = ">=0.17"
+
+[[package]]
+category = "dev"
+description = "A Material Design theme for MkDocs"
+name = "mkdocs-material"
+optional = false
+python-versions = "*"
+version = "7.1.0"
+
+[package.dependencies]
+Pygments = ">=2.4"
+markdown = ">=3.2"
+mkdocs = ">=1.1"
+mkdocs-material-extensions = ">=1.0"
+pymdown-extensions = ">=7.0"
+
+[[package]]
+category = "dev"
+description = "Extension pack for Python Markdown."
+name = "mkdocs-material-extensions"
+optional = false
+python-versions = ">=3.5"
+version = "1.0.1"
+
+[package.dependencies]
+mkdocs-material = ">=5.0.0"
+
+[[package]]
+category = "dev"
+description = "Automatic documentation from sources, for MkDocs."
+name = "mkdocstrings"
+optional = false
+python-versions = ">=3.6,<4.0"
+version = "0.15.0"
+
+[package.dependencies]
+Jinja2 = ">=2.11,<3.0"
+Markdown = ">=3.3,<4.0"
+MarkupSafe = ">=1.1,<2.0"
+mkdocs = ">=1.1,<2.0"
+mkdocs-autorefs = ">=0.1,<0.2"
+pymdown-extensions = ">=6.3,<9.0"
+pytkdocs = ">=0.2.0,<0.12.0"
 
 [[package]]
 category = "dev"
@@ -703,6 +758,17 @@ test = ["pytest (>=4.0.1,<5.0.0)", "pytest-cov (>=2.6.0,<3.0.0)", "pytest-runner
 
 [[package]]
 category = "dev"
+description = "Extension pack for Python Markdown."
+name = "pymdown-extensions"
+optional = false
+python-versions = ">=3.6"
+version = "8.1.1"
+
+[package.dependencies]
+Markdown = ">=3.2"
+
+[[package]]
+category = "dev"
 description = "Generate/convert automatically the docstrings from code signature"
 name = "pyment"
 optional = false
@@ -752,6 +818,17 @@ version = "2.8.1"
 
 [package.dependencies]
 six = ">=1.5"
+
+[[package]]
+category = "dev"
+description = "Load Python objects documentation."
+name = "pytkdocs"
+optional = false
+python-versions = ">=3.6,<4.0"
+version = "0.9.0"
+
+[package.extras]
+tests = ["coverage (>=5.2.1,<6.0.0)", "invoke (>=1.4.1,<2.0.0)", "marshmallow (>=3.5.2,<4.0.0)", "mypy (>=0.782,<0.783)", "pydantic (>=1.5.1,<2.0.0)", "pytest (>=6.0.1,<7.0.0)", "pytest-cov (>=2.10.1,<3.0.0)", "pytest-randomly (>=3.4.1,<4.0.0)", "pytest-sugar (>=0.9.4,<0.10.0)", "pytest-xdist (>=2.1.0,<3.0.0)"]
 
 [[package]]
 category = "dev"
@@ -939,7 +1016,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 extras = ["beautifulsoup4", "prettierfier"]
 
 [metadata]
-content-hash = "7b12abf1763a1f20e266289f9099d6a5261c6432c821c316414e6188b948c494"
+content-hash = "ddbf95a04db764212fb8f62b6f738412b6c73d52f6676c6b129b025c26ee33a6"
 lock-version = "1.0"
 python-versions = "^3.6.1"
 
@@ -1235,6 +1312,10 @@ mkdocs = [
     {file = "mkdocs-1.1.2-py3-none-any.whl", hash = "sha256:096f52ff52c02c7e90332d2e53da862fde5c062086e1b5356a6e392d5d60f5e9"},
     {file = "mkdocs-1.1.2.tar.gz", hash = "sha256:f0b61e5402b99d7789efa032c7a74c90a20220a9c81749da06dbfbcbd52ffb39"},
 ]
+mkdocs-autorefs = [
+    {file = "mkdocs-autorefs-0.1.1.tar.gz", hash = "sha256:ff9386ceb1ceeb88786696c7534ec31a6248a4828a5a2f8fea9d2699f650e3ab"},
+    {file = "mkdocs_autorefs-0.1.1-py3-none-any.whl", hash = "sha256:8bed8e81db45bb8d25e30e09d9d2943a7ceb92d3ad6b51e84618027c55c398eb"},
+]
 mkdocs-bootstrap4 = [
     {file = "mkdocs-bootstrap4-0.1.5.tar.gz", hash = "sha256:44968d159238c9d3f83a9cd8bc4d959bd97b1b9ee80cd868d98265e0a0121933"},
     {file = "mkdocs_bootstrap4-0.1.5-py3-none-any.whl", hash = "sha256:50a2751da90f9f820dce9f54f4a35faecf04d2aa4f2b6f550680d6d50f039a99"},
@@ -1242,6 +1323,18 @@ mkdocs-bootstrap4 = [
 mkdocs-git-committers-plugin = [
     {file = "mkdocs-git-committers-plugin-0.2.1.tar.gz", hash = "sha256:8b5d8f37cfd13cafa65625f5b1860b2f5b71cba4e7844ed822839078af9fe4e0"},
     {file = "mkdocs_git_committers_plugin-0.2.1-py3-none-any.whl", hash = "sha256:f9bd6552999c7e3ded49731de50a5d46b1cbc1d9dbbec1dd7b862fb0f329f5ec"},
+]
+mkdocs-material = [
+    {file = "mkdocs-material-7.1.0.tar.gz", hash = "sha256:1afaa5b174265eaa4a886f73187bb0e302a9596e9bfedb5aa2cb260d8b1d994e"},
+    {file = "mkdocs_material-7.1.0-py2.py3-none-any.whl", hash = "sha256:13e73b3571d36f7e4a7dc11093323cff92095f4f219a00ba19c77a5e53aa6c55"},
+]
+mkdocs-material-extensions = [
+    {file = "mkdocs-material-extensions-1.0.1.tar.gz", hash = "sha256:6947fb7f5e4291e3c61405bad3539d81e0b3cd62ae0d66ced018128af509c68f"},
+    {file = "mkdocs_material_extensions-1.0.1-py3-none-any.whl", hash = "sha256:d90c807a88348aa6d1805657ec5c0b2d8d609c110e62b9dce4daf7fa981fa338"},
+]
+mkdocstrings = [
+    {file = "mkdocstrings-0.15.0-py3-none-any.whl", hash = "sha256:a9891420c6b9e91903a4cdf4eaf5b79dab71f3af992f7871fb43fb0f869bb26f"},
+    {file = "mkdocstrings-0.15.0.tar.gz", hash = "sha256:f1e46125c7381beccb79f213468fb4e5c4492d1c6881c06b8afbec30c737733c"},
 ]
 mypy = [
     {file = "mypy-0.812-cp35-cp35m-macosx_10_9_x86_64.whl", hash = "sha256:a26f8ec704e5a7423c8824d425086705e381b4f1dfdef6e3a1edab7ba174ec49"},
@@ -1426,6 +1519,10 @@ pyjwt = [
     {file = "PyJWT-1.7.1-py2.py3-none-any.whl", hash = "sha256:5c6eca3c2940464d106b99ba83b00c6add741c9becaec087fb7ccdefea71350e"},
     {file = "PyJWT-1.7.1.tar.gz", hash = "sha256:8d59a976fb773f3e6a39c85636357c4f0e242707394cadadd9814f5cbaa20e96"},
 ]
+pymdown-extensions = [
+    {file = "pymdown-extensions-8.1.1.tar.gz", hash = "sha256:632371fa3bf1b21a0e3f4063010da59b41db049f261f4c0b0872069a9b6d1735"},
+    {file = "pymdown_extensions-8.1.1-py3-none-any.whl", hash = "sha256:478b2c04513fbb2db61688d5f6e9030a92fb9be14f1f383535c43f7be9dff95b"},
+]
 pyment = [
     {file = "Pyment-0.3.3-py2.py3-none-any.whl", hash = "sha256:a0c6ec59d06d24aeec3eaecb22115d0dc95d09e14209b2df838381fdf47a78cc"},
     {file = "Pyment-0.3.3.tar.gz", hash = "sha256:951a4c52d6791ccec55bc739811169eed69917d3874f5fe722866623a697f39d"},
@@ -1441,6 +1538,10 @@ pytest = [
 python-dateutil = [
     {file = "python-dateutil-2.8.1.tar.gz", hash = "sha256:73ebfe9dbf22e832286dafa60473e4cd239f8592f699aa5adaf10050e6e1823c"},
     {file = "python_dateutil-2.8.1-py2.py3-none-any.whl", hash = "sha256:75bb3f31ea686f1197762692a9ee6a7550b59fc6ca3a1f4b5d7e32fb98e2da2a"},
+]
+pytkdocs = [
+    {file = "pytkdocs-0.9.0-py3-none-any.whl", hash = "sha256:12ed87d71b3518301c7b8c12c1a620e4b481a9d2fca1038aea665955000fad7f"},
+    {file = "pytkdocs-0.9.0.tar.gz", hash = "sha256:c8c39acb63824f69c3f6f58b3aed6ae55250c35804b76fd0cba09d5c11be13da"},
 ]
 pytz = [
     {file = "pytz-2021.1-py2.py3-none-any.whl", hash = "sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798"},

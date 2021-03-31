@@ -79,8 +79,3 @@ def markdown_content() -> co.Markdown:
 @pytest.fixture
 def image_content() -> co.Image:
     return co.Image(_irises_path)
-
-
-@pytest.fixture
-def htmlparser():
-    return HTMLParser(strict=True)

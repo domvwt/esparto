@@ -1,3 +1,6 @@
+"""
+Layout classes for defining an HTML document.
+"""
 import copy
 from abc import ABC, abstractmethod
 from inspect import getmembers
@@ -13,17 +16,22 @@ if TYPE_CHECKING:  # pragma: no cover
 
 
 class Layout(ABC):
-    """ """
+    """Common methods for Layout elements.
+    
+    Attributes:
+      title: Title for object reference and HTML rendering.
+      content: Nested list of child elements representing the document tree.
+    """
 
     # Each element should return title with appropriate HTML tags
     @abstractmethod
     def _render_title(self) -> str:
-        """ """
+        """Each element should return its title with appropriate HTML tags."""
         raise NotImplementedError
 
     @property
     def title(self) -> Optional[str]:
-        """ """
+        """Title for object reference and HTML rendering."""
         raise NotImplementedError
 
     @title.getter
@@ -38,7 +46,14 @@ class Layout(ABC):
 
     @property
     def content(self) -> Iterable:
-        """ """
+        """Nested list of child elements representing the document tree.
+
+        Layout and Content elements can be added to any existing Layout object.
+
+        When an item is added to a Layout element it is automatically nested in a suitable child class
+        and matched to an appropriate Content class as required.
+
+        """
         raise NotImplementedError
 
     @content.getter
@@ -58,13 +73,22 @@ class Layout(ABC):
         self._content = content
 
     def _sanitize_content(self, content: Iterable[Any]) -> Iterable[Any]:
-        # Convert any not list iterators to lists
+        """Ensure new Content and Layout elements are in the correct format for further processing.
+
+        Args:
+          content: Iterable[Any]: Sequence of Layout and / or Content items.
+
+        Returns:
+          Iterable[Any]: Clean sequence of Layout and / or Content items.
+        
+        """
+        # Convert any non-list iterators to lists
         content_: Iterable[Any] = (
             list(content)
             if hasattr(content, "__iter__") and not isinstance(content, str)
             else [content]
         )
-        # Unnest any content passed inside a nested list
+        # Unnest any nested lists of content
         if len([x for x in content_]) == 1 and isinstance(
             list(content_)[0], (list, tuple)
         ):
@@ -72,8 +96,8 @@ class Layout(ABC):
         return content_
 
     def _smart_wrap(self, content: Iterable[Any]) -> Iterable[Any]:
-        """
-        Wrap unwrapped content intelligently and preserve the order of content items.
+        """Wrap new content in a coherent class hierarchy.
+
         If the parent object is a Column and the item is a Content Class:
             - return the content with no modification
         If the parent object is a Column and the item is not a Content Class:
@@ -92,14 +116,18 @@ class Layout(ABC):
         Finally:
             - wrap any accumulated unwrapped items
             - append the final wrapped segment to output
+
+        Args:
+          content: Sequence of Content and / or Layout items.
+
+        Returns:
+          List of Layout and Content items wrapped in a coherent class hierarchy.
+
         """
         from esparto._adaptors import content_adaptor
-        from esparto._content import Content
 
         if isinstance(self, Column):
-            return [
-                x if isinstance(x, Content) else content_adaptor(x) for x in content
-            ]
+            return [content_adaptor(x) for x in content]
 
         is_row = isinstance(self, Row)
         unwrapped_acc: list = []
@@ -124,44 +152,42 @@ class Layout(ABC):
                     output.append(self._child_class(item))
                 else:
                     unwrapped_acc.append(item)
-        else:
-            if unwrapped_acc:
-                wrapped_segment = self._child_class(*unwrapped_acc)
-                output.append(wrapped_segment)
+
+        if unwrapped_acc:
+            wrapped_segment = self._child_class(*unwrapped_acc)
+            output.append(wrapped_segment)
 
         return output
 
     @property
     @abstractmethod
     def _parent_class(self) -> Type["Layout"]:
-        """ """
+        """Parent class - used by _smart_wrap."""
         raise NotImplementedError
 
     @property
     @abstractmethod
     def _child_class(self) -> Type["Layout"]:
-        """ """
+        """Child class - used by _smart_wrap."""
         raise NotImplementedError
 
     @property
     @abstractmethod
     def _tag_open(self) -> str:
-        """ """
+        """Opening HTML tag and arguments."""
         raise NotImplementedError
 
     @property
     @abstractmethod
     def _tag_close(self) -> str:
-        """ """
+        """Closing HTML tag."""
         raise NotImplementedError
 
     def to_html(self) -> str:
-        """Render current object and children to HTML string.
-
-        Args:
+        """Render document to HTML code.
 
         Returns:
-            str:
+          HTML code.
 
         """
         content_rendered = " ".join([c.to_html() for c in self.content])
@@ -173,16 +199,33 @@ class Layout(ABC):
         return html
 
     @property
-    def rendered(self) -> str:
+    def _rendered(self) -> str:
+        """Alias for method to_html. Used by Jinja."""
         return self.to_html()
 
     def display(self):
+        """Display rendered document in a Jupyter Notebook cell."""
         nb_display(self)
 
-    def save(self, filepath: Optional[str] = None) -> None:
-        publish(self, filepath)
+    def save(self, filepath: Optional[str] = None, return_html: bool = False) -> Optional[str]:
+        """
+        Render document to HTML and save to disk.
+
+        Args:
+          filepath: Destination filepath. (Optional)
+          return_html: If True, return HTML as a string. (Default value = False)
+
+        Returns:
+          Document rendered as HTML. (If return_html is True)
+
+        """
+        html = publish(self, filepath, return_html)
+
+        if return_html:
+            return html
 
     def to_dict(self) -> dict:
+        """Return object as a dictionary."""
         return dict(getmembers(self))
 
     def __init__(
@@ -192,6 +235,7 @@ class Layout(ABC):
     ):
         self.content = content
         self.title = title
+        __doc__ = super().__doc__
 
     def __call__(self, *content: Union["Layout", "Content", None]):
         new = copy.deepcopy(self)
@@ -213,6 +257,7 @@ class Layout(ABC):
         return iter([self])
 
     def _repr_html_(self):
+        """ """
         nb_display(self)
 
     def __repr__(self):
@@ -220,6 +265,7 @@ class Layout(ABC):
         return f"{type(self)}: {title}"
 
     def _recurse_content(self) -> dict:
+        """ """
         key = self._title if self._title else type(self).__name__
         tree = {
             f"{key}": [
@@ -247,7 +293,14 @@ class Layout(ABC):
 
 
 class Page(Layout):
-    """ """
+    """Page - top level element for defining an HTML document.
+    
+    Args:
+        *content:  Layout items to include in the Page.
+        title: Page title.
+        org_name: Organisation name.
+    
+    """
 
     def _render_title(self) -> str:
         """ """
@@ -270,6 +323,7 @@ class Page(Layout):
 
     @property
     def _child_class(self) -> Type["Layout"]:
+        """ """
         return Section
 
     def __init__(
@@ -283,7 +337,13 @@ class Page(Layout):
 
 
 class Section(Layout):
-    """ """
+    """Section - defines a Section within a Page.
+    
+    Args:
+        *content: Row items to include in the Section.
+        title: Section title.
+    
+    """
 
     def _render_title(self) -> str:
         """ """
@@ -306,18 +366,24 @@ class Section(Layout):
 
     @property
     def _child_class(self) -> Type["Layout"]:
+        """ """
         return Row
 
 
 class Row(Layout):
-    """ """
+    """Row -  defines a Row within a Section.
+    
+    Args:
+        *content: Column items to include in the Row.
+        title: Row title. (for reference only, not rendered)
+    
+    """
 
     @property
     def title(self) -> Optional[str]:
         """ """
         raise NotImplementedError
 
-    # Each element should return title with appropriate HTML tags
     @title.getter
     def title(self) -> Optional[str]:
         """ """
@@ -352,11 +418,18 @@ class Row(Layout):
 
     @property
     def _child_class(self) -> Type["Layout"]:
+        """ """
         return Column
 
 
 class Column(Layout):
-    """ """
+    """Column -  defines a Column within a Row.
+    
+    Args:
+        *content: Content to include in the Column.
+        title: Column title.
+    
+    """
 
     def _render_title(self) -> str:
         """ """
@@ -379,4 +452,5 @@ class Column(Layout):
 
     @property
     def _child_class(self) -> Any:
+        """ """
         raise NotImplementedError
