@@ -16,7 +16,7 @@ install:
 script:
   - black --check .
   - flake8
-  - pytest
+  - coverage run --source esparto -m pytest
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
