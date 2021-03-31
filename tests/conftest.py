@@ -1,16 +1,20 @@
+import sys
 from pathlib import Path
 
-import matplotlib as mpl # type: ignore
-
-mpl.use("Agg")
-import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
 import pytest
 from html5lib import HTMLParser  # type: ignore
 
-
 import esparto._content as co
 import esparto._layout as la
+
+
+if sys.version.startswith("3.6."):
+    import matplotlib as mpl  # type: ignore
+
+    mpl.use("Agg")
+
+import matplotlib.pyplot as plt  # type: ignore
 
 pytestmark = pytest.mark.filterwarnings("ignore:Row titles are not rendered")
 
