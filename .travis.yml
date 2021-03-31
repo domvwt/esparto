@@ -1,4 +1,3 @@
-# Config file for automatic testing at travis-ci.org
 language: python
 os: linux
 dist: xenial
@@ -18,6 +17,10 @@ script:
   - flake8
   - coverage run --source esparto -m pytest
 
+addons:
+  sonarcloud:
+    organization: "domvwt"
+    
 after_success:
+  - sonar-scanner
   - bash <(curl -s https://codecov.io/bash)
-  

@@ -16,15 +16,15 @@ def content_adaptor(content: str) -> Content:
         return Markdown(content)
 
 
-@content_adaptor.register
+@content_adaptor.register(Content)
 def ca_cb(content: Content) -> Content:
     return content
 
 
 if "pandas" in _installed_modules:
-    from pandas import DataFrame  # type: ignore
+    from pandas.core.frame import DataFrame  # type: ignore
 
-    @content_adaptor.register
+    @content_adaptor.register(DataFrame)
     def ca_df(content: DataFrame) -> DataFramePd:
         return DataFramePd(content)
 
@@ -32,6 +32,6 @@ if "pandas" in _installed_modules:
 if "matplotlib" in _installed_modules:
     from matplotlib.figure import Figure  # type: ignore
 
-    @content_adaptor.register
+    @content_adaptor.register(Figure)
     def ca_fig(content: Figure) -> FigureMpl:
         return FigureMpl(content)

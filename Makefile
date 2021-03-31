@@ -75,15 +75,11 @@ docstrings: ## generate google format docstrings
 	pyment esparto -o google -w
 
 docs: ## generate Sphinx HTML documentation, including API docs
-	rm -f docs/esparto.rst
-	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ esparto
-	$(MAKE) -C docs clean
-	$(MAKE) -C docs html
-	$(BROWSER) docs/_build/html/index.html
+	mkdocs clean
+	mkdocs build
 
-servedocs: docs ## compile the docs watching for changes
-	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
+servedocs: ## compile the docs watching for changes
+	mkdocs serve -a "`hostname -I | xargs`:8000"
 
 release: dist ## package and upload a release
 	poetry publish
