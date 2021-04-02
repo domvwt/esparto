@@ -45,7 +45,7 @@ class Layout(ABC):
         self._title = title
 
     @property
-    def children(self) -> Iterable:
+    def children(self) -> list:
         """Nested list of child elements representing the document tree.
 
         Layout and Content elements can be added to any existing Layout object.
@@ -238,13 +238,13 @@ class Layout(ABC):
         *children: Union["Layout", "Content", Any],
         title: Optional[str] = None,
     ):
-        self.children = children
+        self.children = list(children)
         self.title = title
 
     def __call__(self, *children: Union["Layout", "Content", None]):
         new = copy.deepcopy(self)
         if children:
-            new.children = children
+            new.children = list(children)
         return new
 
     def __add__(self, other: Union["Layout", "Content", Any]):
@@ -254,14 +254,15 @@ class Layout(ABC):
             return self._parent_class(
                 *(*self.children, *other.children), title=self.title
             )
-        
+
         new = copy.deepcopy(self)
         new.children = self.children
-        
+
         if isinstance(other, (Layout, Content, list, tuple)):
-            new.children += other
+            new.children += list(other)
         else:
             from esparto._adaptors import content_adaptor
+
             new.children += [content_adaptor(other)]
 
         return new

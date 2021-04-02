@@ -89,7 +89,6 @@ layout_add_list = [
         image_content,
         la.Page(la.Section(la.Row(la.Column(image_content)))),
     ),
-
 ]
 
 
