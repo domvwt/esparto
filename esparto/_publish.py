@@ -25,24 +25,24 @@ _ext = ".html"
 
 
 def publish(
-    content: "Layout", filepath: Optional[str] = None, return_html: bool = False
+    document: "Layout", filepath: Optional[str] = None, return_html: bool = False
 ) -> Optional[str]:
     """
 
     Args:
-      content: "Layout":
-      filepath: Optional[str]:  (Default value = None)
-      return_html: bool: (Default value = False)
+      document (Layout):
+      filepath (str):
+      return_html (bool):
 
     Returns:
-      Optional[str]:
+      str:
 
     """
     filepath = _determine_filepath(filepath)
 
     # Jinja requires dict for accessing properties
-    content_ = content.to_dict()
-    html_rendered: str = _base_template.render(content=content_)
+    doc_dict = document.to_dict()
+    html_rendered: str = _base_template.render(content=doc_dict)
     html_prettified = _prettify_html(html_rendered)
 
     with open(filepath, "w") as f:
@@ -55,22 +55,22 @@ def publish(
 
 
 def nb_display(
-    content: Union["Layout", "Content"], return_html: bool = False
+    item: Union["Layout", "Content"], return_html: bool = False
 ) -> Optional[str]:
     """
 
     Args:
-      content: Union["Layout", "Content"]:
-      return_html:  bool: (Default value = False):
+      item (Layout, Content):
+      return_html (bool):
 
     Returns:
-      Optional[str]:
+      str:
 
     """
     if "IPython" in _installed_modules:
         from IPython.core.display import HTML, display  # type: ignore
 
-        html = f"<div class='container'>\n{content.to_html()}\n</div>\n"
+        html = f"<div class='container'>\n{item.to_html()}\n</div>\n"
         bootstrap_css = _bootstrap_cdn
         html = bootstrap_css + html
 
@@ -94,7 +94,7 @@ def _prettify_html(html: str) -> str:
     """
 
     Args:
-      html: str:
+      html (str):
 
     Returns:
       str:
@@ -117,7 +117,7 @@ def _determine_filepath(filepath: Optional[str]) -> str:
     """
 
     Args:
-      filepath: Optional[str]:
+      filepath (str):
 
     Returns:
       str:

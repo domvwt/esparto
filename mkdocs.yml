@@ -1,0 +1,54 @@
+site_name: esparto
+theme:
+  name: material
+  icon:
+    logo:
+      material/file
+  palette: 
+    primary: 'teal'
+    # primary: 'blue grey'
+    # accent: 'light blue'
+    accent: 'cyan'
+  features:
+    - 'navigation.tabs'
+
+repo_url: 'https://github.com/domvwt/esparto'
+
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences
+
+nav:
+  - Introduction: 'index.md'
+  - Getting Started:
+        - 'Quickstart': '01-getting-started/quickstart.md'
+        - 'Installation': '01-getting-started/installation.md'
+  - User Guide:
+        - 'Building a Document': '02-user-guide/none'
+        - 'Examples': '02-user-guide/none'
+  - API Reference:
+        - 'Layout': '03-api-reference/layout.md'
+        - 'Content': '03-api-reference/content.md'
+        - 'Publish': '03-api-reference/publish.md'
+        - 'Adaptors': '03-api-reference/adaptors.md'
+  - About: 
+        - 'Authors': '04-about/authors.md'
+        # - 'Contributing': '04-about/contributing.md'
+        - 'Release Notes': '04-about/release-notes.md'
+        - 'Roadmap': '04-about/roadmap.md'
+        - 'License': '04-about/license.md'
+
+# extra_css:
+#   - stylesheets/extra.css
+
+plugins:
+  - search
+  - mkdocstrings:
+        handlers:
+              python:
+                    rendering:
+                          show_root_heading: True
+                          show_root_toc_entry: False
+                          show_root_full_path: False
+                    selection:
+                          inherited_members: False

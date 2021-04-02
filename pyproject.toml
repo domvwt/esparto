@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "esparto"
 version = "0.1.0.dev3"
-description = "Simple toolkit for building minimal Bootstrap pages."
+description = "Simple toolkit for building static HTML documents."
 authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
 license = "MIT"
 

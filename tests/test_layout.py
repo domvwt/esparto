@@ -4,7 +4,7 @@ import pytest
 
 import esparto._layout as la
 import esparto._content as co
-from tests.conftest import layout_list
+from tests.conftest import image_content, layout_list
 
 
 def test_all_layout_classes_covered(layout_list_fn):
@@ -79,6 +79,17 @@ layout_add_list = [
         la.Column("grant green"),
         la.Row(la.Column("eric dolphy"), la.Column("grant green")),
     ),
+    (
+        la.Page(title="piano"),
+        "bill evans",
+        la.Page(co.Markdown("bill evans"), title="piano"),
+    ),
+    (
+        la.Page(),
+        image_content,
+        la.Page(la.Section(la.Row(la.Column(image_content)))),
+    ),
+
 ]
 
 

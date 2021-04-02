@@ -38,7 +38,7 @@ def test_image_resize(scale, image_content):
     height, width = [
         int(content.to_html().replace("px", "").split("'")[x]) for x in [1, 3]
     ]
-    resized = content.resize(scale)
+    resized = content.rescale(scale)
     height_new, width_new = [
         int(resized.to_html().replace("px", "").split("'")[x]) for x in [1, 3]
     ]

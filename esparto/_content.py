@@ -1,7 +1,10 @@
+"""
+Content classes for rendering common objects and markdown text to HTML.
+"""
 import base64
 from abc import ABC, abstractmethod
 from io import BytesIO
-from typing import Any, BinaryIO, List, Union
+from typing import Any, List, Union
 
 import markdown as md
 import PIL.Image as pil  # type: ignore
@@ -19,12 +22,13 @@ if "matplotlib" in _installed_modules:  # pragma: no cover
 
 def _image_to_base64(image: PILImage) -> str:
     """
+    Convert an image from PIL to base64 representation.
 
     Args:
-      image: PILImage:
+      image (PIL.Image):
 
     Returns:
-
+      str: Image encoded as a base64 utf-8 string.
     """
     buffer = BytesIO()
     image.save(buffer, format="png")
@@ -33,21 +37,30 @@ def _image_to_base64(image: PILImage) -> str:
 
 
 class Content(ABC):
-    """ """
+    """Template for Content elements. All Content classes come with these methods and attributes.
+
+    Attributes:
+      content (Any): Text or image to be rendered - should match the encompassing Content class.
+    """
 
     @property
     @abstractmethod
     def content(self) -> Any:
-        """ """
+        """Text or image to be rendered - should match the encompassing Content class."""
         raise NotImplementedError
 
     @abstractmethod
     def to_html(self) -> str:
-        """ """
+        """Render content to HTML code.
+
+        Returns:
+          HTML code.
+
+        """
         raise NotImplementedError
 
     def display(self) -> None:
-        """ """
+        """Display rendered content in a Jupyter Notebook cell."""
         nb_display(self)
 
     def __add__(self, other):
@@ -79,7 +92,12 @@ class Content(ABC):
 
 
 class Markdown(Content):
-    """ """
+    """Markdown text content.
+
+    Args:
+      text (str): Markdown text to be added to document.
+
+    """
 
     @property
     def content(self) -> str:
@@ -93,14 +111,7 @@ class Markdown(Content):
 
     @content.setter
     def content(self, content) -> None:
-        """
-
-        Args:
-          content:
-
-        Returns:
-
-        """
+        """ """
         self._content = content
 
     def __init__(self, text):
@@ -115,7 +126,7 @@ class Markdown(Content):
 
 
 class Spacer(Content):
-    """ """
+    """Spacer for adding empty space to a Row."""
 
     @property
     def content(self) -> None:
@@ -130,14 +141,7 @@ class Spacer(Content):
 
     @content.setter
     def content(self, other) -> None:
-        """
-
-        Args:
-          other:
-
-        Returns:
-
-        """
+        """ """
         # Spacer has no content
         if other:
             raise AttributeError("Spacer cannot hold content.")
@@ -150,73 +154,69 @@ class Spacer(Content):
 
 
 class Image(Content):
-    """ """
+    """Image content.
+
+    Can be read from a filepath, PIL.Image object, or from bytes.
+
+    Args:
+      image (str, PIL.Image, BytesIO): Image data.
+      alt_text (str): Alternative text for rendered document.
+
+    """
 
     @property
-    def rescale(self) -> float:
+    def scale(self) -> float:
         """ """
         raise NotImplementedError
 
-    @rescale.getter
-    def rescale(self) -> float:
+    @scale.getter
+    def scale(self) -> float:
         """ """
-        return self._rescale
+        return self._scale
 
-    @rescale.setter
-    def rescale(self, rescale: float) -> None:
-        """
-
-        Args:
-          rescale: float:
-
-        Returns:
-
-        """
-        assert rescale <= 1, "Image can not be scaled over 100%"
-        self._rescale = rescale
+    @scale.setter
+    def scale(self, scale: float) -> None:
+        """ """
+        assert scale <= 1, "Image can not be scaled over 100%"
+        self._scale = scale
 
     @property
-    def content(self) -> Union[str, BinaryIO]:
+    def content(self) -> Union[str, BytesIO]:
         """ """
         raise NotImplementedError
 
     @content.getter
-    def content(self) -> Union[str, BinaryIO]:
+    def content(self) -> Union[str, BytesIO]:
         """ """
         return self._content
 
     @content.setter
     def content(self, content) -> None:
-        """
-
-        Args:
-          content:
-
-        Returns:
-
-        """
+        """ """
         self._content = content
 
     def __init__(
         self,
-        image: Union[str, BinaryIO, pil.Image],
-        rescale: float = 1,
+        image: Union[str, pil.Image, BytesIO],
+        scale: float = 1,
         alt_text: str = "Image",
     ):
         self.content = image
-        self.rescale = rescale
+        self.scale = scale
         self.alt_text = alt_text
 
-    def resize(self, size) -> "Image":
+    def rescale(self, scale) -> "Image":
         """
+        Rescale the image prior to rendering.
+
+        Note:
+            Images can be scaled down only.
 
         Args:
-          size:
-
-        Returns:
+          scale (float): Scaling ratio.
 
         """
-        self.rescale = size
+        self.scale = scale
         return self
 
     def to_html(self) -> str:
@@ -227,9 +227,9 @@ class Image(Content):
             image = pil.open(self.content)
 
         # Resize image if required
-        if self.rescale != 1:
-            x = int(image.size[0] * self.rescale)
-            y = int(image.size[1] * self.rescale)
+        if self.scale != 1:
+            x = int(image.size[0] * self.scale)
+            y = int(image.size[1] * self.scale)
             image.thumbnail((x, y))
 
         width = f"{image.size[0]}px"
@@ -245,7 +245,14 @@ class Image(Content):
 
 
 class DataFramePd(Content):
-    """ """
+    """Pandas DataFrame to be rendered as a table.
+
+    Args:
+      df (pd.DataFrame): A Pandas DataFrame
+      index (bool): If True, render the DataFrame index. (default = False)
+      col_space (str, int): Minimum column width in CSS units. Use int for pixels. (default = 10)
+
+    """
 
     @property
     def content(self) -> "DataFrame":
@@ -259,14 +266,7 @@ class DataFramePd(Content):
 
     @content.setter
     def content(self, content) -> None:
-        """
-
-        Args:
-          content:
-
-        Returns:
-
-        """
+        """ """
         self._content = content
 
     def __init__(
@@ -286,7 +286,13 @@ class DataFramePd(Content):
 
 
 class FigureMpl(Image):
-    """ """
+    """Matplotlib figure to be rendered as an image.
+
+    Args:
+      figure (plt.Figure): A Matplotlib figure.
+      alt_text (str): Alternative text for rendered document.
+
+    """
 
     def __init__(
         self,
@@ -295,4 +301,4 @@ class FigureMpl(Image):
     ):
         buffer = BytesIO()
         figure.savefig(buffer, format="png")
-        super().__init__(buffer, rescale=1, alt_text=alt_text)
+        super().__init__(buffer, scale=1, alt_text=alt_text)

@@ -16,11 +16,11 @@ if TYPE_CHECKING:  # pragma: no cover
 
 
 class Layout(ABC):
-    """Common methods for Layout elements.
+    """Template for Layout elements. All Layout classes come with these methods and attributes.
 
     Attributes:
-      title: Title for object reference and HTML rendering.
-      content: Nested list of child elements representing the document tree.
+      title (str): Title for object reference and HTML rendering.
+      children (list): Child elements representing the document tree.
     """
 
     # Each element should return title with appropriate HTML tags
@@ -45,7 +45,7 @@ class Layout(ABC):
         self._title = title
 
     @property
-    def content(self) -> Iterable:
+    def children(self) -> Iterable:
         """Nested list of child elements representing the document tree.
 
         Layout and Content elements can be added to any existing Layout object.
@@ -56,84 +56,85 @@ class Layout(ABC):
         """
         raise NotImplementedError
 
-    @content.getter
-    def content(self) -> Iterable:
+    @children.getter
+    def children(self) -> Iterable:
         """ """
-        if hasattr(self, "_content"):
-            content = self._content
+        if hasattr(self, "_children"):
+            children = self._children
         else:
-            content = []
-        return content
+            children = []
+        return children
 
-    @content.setter
-    def content(self, content) -> None:
+    @children.setter
+    def children(self, children) -> None:
         """ """
-        content = self._sanitize_content(content)
-        content = self._smart_wrap(content)
-        self._content = content
+        children = self._sanitize_child_iter(children)
+        children = self._smart_wrap(children)
+        self._children = children
 
-    def _sanitize_content(self, content: Iterable[Any]) -> Iterable[Any]:
+    def _sanitize_child_iter(self, children: Iterable[Any]) -> Iterable[Any]:
         """Ensure new Content and Layout elements are in the correct format for further processing.
 
         Args:
-          content: Iterable[Any]: Sequence of Layout and / or Content items.
+          children: Iterable[Any]: Sequence of Layout and / or Content items.
 
         Returns:
           Iterable[Any]: Clean sequence of Layout and / or Content items.
 
         """
         # Convert any non-list iterators to lists
-        content_: Iterable[Any] = (
-            list(content)
-            if hasattr(content, "__iter__") and not isinstance(content, str)
-            else [content]
+        children_: Iterable[Any] = (
+            list(children)
+            if hasattr(children, "__iter__") and not isinstance(children, str)
+            else [children]
         )
-        # Unnest any nested lists of content
-        if len([x for x in content_]) == 1 and isinstance(
-            list(content_)[0], (list, tuple)
+        # Unnest any nested lists of children
+        if len([x for x in children_]) == 1 and isinstance(
+            list(children_)[0], (list, tuple)
         ):
-            content_ = list(content_)[0]
-        return content_
+            children_ = list(children_)[0]
+        return children_
 
-    def _smart_wrap(self, content: Iterable[Any]) -> Iterable[Any]:
-        """Wrap new content in a coherent class hierarchy.
-
-        If the parent object is a Column and the item is a Content Class:
-            - return the content with no modification
-        If the parent object is a Column and the item is not a Content Class:
-            - cast the item to an appropriate Content Class if possible
-            - return the item
-        If the current item is wrapped and unwrapped items have been accumulated:
-            - wrap the unwrapped items
-            - append newly wrapped to output
-            - append current item to output
-        If the current item is wrapped and we have no accumulated unwrapped items:
-            - append the current wrapped item to output
-        If the current item is unwrapped and the parent is a Row:
-            - wrap and append the current item to output
-        If the current item is unwrapped and the parent is not a Row:
-            - add the current item to unwrapped item accumulator
-        Finally:
-            - wrap any accumulated unwrapped items
-            - append the final wrapped segment to output
+    def _smart_wrap(self, children: Iterable[Any]) -> Iterable[Any]:
+        """Wrap children in a coherent class hierarchy.
 
         Args:
-          content: Sequence of Content and / or Layout items.
+          children: Sequence of Content and / or Layout items.
 
         Returns:
           List of Layout and Content items wrapped in a coherent class hierarchy.
+
+
+        If the parent object is a Column and the item is a Content Class:
+            - return child with no modification
+        If the parent object is a Column and the item is not a Content Class:
+            - cast the child to an appropriate Content Class if possible
+            - return the child
+        If the current item is wrapped and unwrapped items have been accumulated:
+            - wrap the unwrapped children
+            - append newly wrapped to output
+            - append current child to output
+        If the current child is wrapped and we have no accumulated unwrapped items:
+            - append the wrapped child to output
+        If the current child is unwrapped and the parent is a Row:
+            - wrap and append the current child to output
+        If the current item is unwrapped and the parent is not a Row:
+            - add the current child to unwrapped item accumulator
+        Finally:
+            - wrap any accumulated unwrapped items
+            - append the final wrapped segment to output
 
         """
         from esparto._adaptors import content_adaptor
 
         if isinstance(self, Column):
-            return [content_adaptor(x) for x in content]
+            return [content_adaptor(x) for x in children]
 
         is_row = isinstance(self, Row)
         unwrapped_acc: list = []
         output = []
 
-        for item in content:
+        for item in children:
             is_wrapped = isinstance(item, self._child_class)
 
             if is_wrapped:
@@ -187,15 +188,15 @@ class Layout(ABC):
         """Render document to HTML code.
 
         Returns:
-          HTML code.
+          str: HTML code.
 
         """
-        content_rendered = " ".join([c.to_html() for c in self.content])
+        children_rendered = " ".join([c.to_html() for c in self.children])
         title_rendered = f"{self._render_title()}\n" if self._title else None
         if title_rendered:
-            html = f"{self._tag_open}\n{title_rendered}{content_rendered}\n{self._tag_close}\n"
+            html = f"{self._tag_open}\n{title_rendered}{children_rendered}\n{self._tag_close}\n"
         else:
-            html = f"{self._tag_open}\n{content_rendered}\n{self._tag_close}\n"
+            html = f"{self._tag_open}\n{children_rendered}\n{self._tag_close}\n"
         return html
 
     @property
@@ -214,11 +215,11 @@ class Layout(ABC):
         Render document to HTML and save to disk.
 
         Args:
-          filepath: Destination filepath. (Optional)
-          return_html: If True, return HTML as a string. (Default value = False)
+          filepath: Destination filepath.
+          return_html: If True, return HTML as a string.
 
         Returns:
-          Document rendered as HTML. (If return_html is True)
+          Document rendered as HTML. (If 'return_html' is True)
 
         """
         html = publish(self, filepath, return_html)
@@ -234,27 +235,36 @@ class Layout(ABC):
 
     def __init__(
         self,
-        *content: Union["Layout", "Content", Any],
+        *children: Union["Layout", "Content", Any],
         title: Optional[str] = None,
     ):
-        self.content = content
+        self.children = children
         self.title = title
 
-    def __call__(self, *content: Union["Layout", "Content", None]):
+    def __call__(self, *children: Union["Layout", "Content", None]):
         new = copy.deepcopy(self)
-        if content:
-            new.content = content
+        if children:
+            new.children = children
         return new
 
     def __add__(self, other: Union["Layout", "Content", Any]):
+        from esparto._content import Content
+
         if isinstance(other, type(self)):
             return self._parent_class(
-                *(*self.content, *other.content), title=self.title
+                *(*self.children, *other.children), title=self.title
             )
+        
+        new = copy.deepcopy(self)
+        new.children = self.children
+        
+        if isinstance(other, (Layout, Content, list, tuple)):
+            new.children += other
         else:
-            new = copy.deepcopy(self)
-            new.content = (x for x in (*self.content, *other))
-            return new
+            from esparto._adaptors import content_adaptor
+            new.children += [content_adaptor(other)]
+
+        return new
 
     def __iter__(self):
         return iter([self])
@@ -267,26 +277,26 @@ class Layout(ABC):
         title = self._title if self._title else "Untitled"
         return f"{type(self)}: {title}"
 
-    def _recurse_content(self) -> dict:
+    def _recurse_children(self) -> dict:
         """ """
         key = self._title if self._title else type(self).__name__
         tree = {
             f"{key}": [
-                x._recurse_content()
-                if hasattr(x, "_recurse_content")
+                x._recurse_children()
+                if hasattr(x, "_recurse_children")
                 else type(x).__name__
-                for x in self.content
+                for x in self.children
             ]
         }
         return tree
 
     def __str__(self):
-        return pformat(self._recurse_content())
+        return pformat(self._recurse_children())
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
             return self._title == other._title and all(
-                [x == y for x, y in zip(self.content, other.content)]
+                [x == y for x, y in zip(self.children, other.children)]
             )
         else:
             return False
@@ -299,9 +309,9 @@ class Page(Layout):
     """Page - top level element for defining an HTML document.
 
     Args:
-        *content:  Layout items to include in the Page.
-        title: Page title.
-        org_name: Organisation name.
+        *children (Layout, optional):  Layout items to include in the Page.
+        title (str, optional): Page title.
+        org_name (str, optional): Organisation name.
 
     """
 
@@ -331,11 +341,11 @@ class Page(Layout):
 
     def __init__(
         self,
-        *content: Union["Layout", "Content", Any],
+        *children: Union["Layout", "Content", Any],
         title: Optional[str] = None,
         org_name: Optional[str] = None,
     ):
-        super().__init__(*content, title=title)
+        super().__init__(*children, title=title)
         self.org_name = org_name if org_name else "esparto"
 
 
@@ -343,7 +353,7 @@ class Section(Layout):
     """Section - defines a Section within a Page.
 
     Args:
-        *content: Row items to include in the Section.
+        *children: Row items to include in the Section.
         title: Section title.
 
     """
@@ -377,7 +387,7 @@ class Row(Layout):
     """Row -  defines a Row within a Section.
 
     Args:
-        *content: Column items to include in the Row.
+        *children: Column items to include in the Row.
         title: Row title. (for reference only, not rendered)
 
     """
@@ -429,7 +439,7 @@ class Column(Layout):
     """Column -  defines a Column within a Row.
 
     Args:
-        *content: Content to include in the Column.
+        *children: Content to include in the Column.
         title: Column title.
 
     """
