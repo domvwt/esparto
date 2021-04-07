@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "esparto"
-version = "0.1.0.dev4"
+version = "0.1.0"
 description = "Simple toolkit for building accessible and shareable HTML documents."
 authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
 license = "MIT"
