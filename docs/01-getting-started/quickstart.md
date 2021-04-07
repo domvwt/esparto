@@ -29,7 +29,7 @@ my_page.save("esparto-quick.html")
 
 The rendered HTML document:
 
-<img src='/images/esparto-quickstart-screenshot.png' style='border: 1px dotted lightgrey; width: 80%; height: 80%'>
+<img src='../esparto-quickstart-screenshot.png' style='border: 1px dotted lightgrey; width: 80%; height: 80%'>
 
 <br>
 
@@ -53,7 +53,7 @@ html = my_page.save("esparto-quick-image.html")
 
 Esparto determines that the string points to a valid image and loads the file:
 
-<img src='/images/esparto-image-screenshot.png' height=70% style='border: 1px dotted lightgrey; width: 80%; height: 80%'>
+<img src='../esparto-image-screenshot.png' height=70% style='border: 1px dotted lightgrey; width: 80%; height: 80%'>
 
 <br>
 
