@@ -1,0 +1,5 @@
+[flake8]
+max-line-length = 120
+exclude = scratch.*, docs/
+ignore = W503 # line break before binary operator
+per-file-ignores = __init__.py:E402, F401

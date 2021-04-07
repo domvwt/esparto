@@ -1,0 +1,21 @@
+language: python
+os: linux
+dist: xenial
+python:
+  - 3.8
+  - 3.7
+  - 3.6
+
+before_install:
+  - pip install poetry
+
+install:
+  - poetry install
+
+script:
+  - black --check .
+  - flake8
+  - coverage run --source esparto -m pytest
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
