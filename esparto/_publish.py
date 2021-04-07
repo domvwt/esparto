@@ -19,9 +19,6 @@ _bootstrap_cdn = (
     + 'integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">'
 )
 
-_default_filename = "esparto-page-"
-_ext = ".html"
-
 
 def publish(
     document: "Layout",
@@ -47,7 +44,6 @@ def publish(
     doc_dict = document.to_dict()
     html_rendered: str = _base_template.render(content=doc_dict)
     html_prettified = _prettify_html(html_rendered)
-    html_prettified = html_rendered
 
     with open(filepath, "w") as f:
         f.write(html_prettified)

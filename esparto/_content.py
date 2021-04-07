@@ -125,7 +125,6 @@ class Markdown(Content):
         """ """
         html = md.markdown(self.content)
         html = f"{html}\n"
-        # html = html.replace("<blockquote>", "<blockquote class='blockquote'>")
         html = f"<div class='container-fluid px-1'>\n{html}\n</div>"
         return html
 
