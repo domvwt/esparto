@@ -15,7 +15,7 @@ beautifulsoup4 = {version = "^4.9.3", optional = true}
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"
 flake8 = "^3.9.0"
-pytest = "^6.2.2"
+pytest = "^6.2.3"
 pyment = "^0.3.3"
 mypy = "^0.812"
 rope = "^0.18.0"
