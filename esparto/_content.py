@@ -4,7 +4,7 @@ Content classes for rendering common objects and markdown text to HTML.
 import base64
 from abc import ABC, abstractmethod
 from io import BytesIO
-from typing import Any, List, Union
+from typing import Any, Union
 
 import markdown as md
 import PIL.Image as pil  # type: ignore
@@ -115,41 +115,18 @@ class Markdown(Content):
         self._content = content
 
     def __init__(self, text):
+
+        if not isinstance(text, str):
+            raise TypeError(r"text must be str")
+
         self.content = str(text)
 
     def to_html(self) -> str:
         """ """
-        html = f"{md.markdown(self.content)}\n"
-        html = html.replace("<blockquote>", "<blockquote class='blockquote'>")
-        html = f"<div class='container-fluid p-1'>\n{html}\n</div>"
-        return html
-
-
-class Spacer(Content):
-    """Spacer for adding empty space to a Row."""
-
-    @property
-    def content(self) -> None:
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> List[None]:
-        """ """
-        # Spacer has no content
-        return []
-
-    @content.setter
-    def content(self, other) -> None:
-        """ """
-        # Spacer has no content
-        if other:
-            raise AttributeError("Spacer cannot hold content.")
-        return None
-
-    def to_html(self) -> str:
-        """ """
-        html = "<p></p>"
+        html = md.markdown(self.content)
+        html = f"{html}\n"
+        # html = html.replace("<blockquote>", "<blockquote class='blockquote'>")
+        html = f"<div class='container-fluid px-1'>\n{html}\n</div>"
         return html
 
 
@@ -160,7 +137,9 @@ class Image(Content):
 
     Args:
       image (str, PIL.Image, BytesIO): Image data.
-      alt_text (str): Alternative text for rendered document.
+      caption (str): Image caption (default = None)
+      alt_text (str): Alternative text. (default = None)
+      scale (float): Value by which to scale image, must be > 0 and <= 1. (default = 1)
 
     """
 
@@ -198,12 +177,18 @@ class Image(Content):
     def __init__(
         self,
         image: Union[str, pil.Image, BytesIO],
-        scale: float = 1,
         alt_text: str = "Image",
+        caption: str = "",
+        scale: float = 1,
     ):
+
+        if not isinstance(image, (str, pil.Image, BytesIO)):
+            raise TypeError(r"image must be one of {str, pil.Image, BytesIO}")
+
         self.content = image
-        self.scale = scale
         self.alt_text = alt_text
+        self.caption = caption
+        self.scale = scale
 
     def rescale(self, scale) -> "Image":
         """
@@ -237,9 +222,17 @@ class Image(Content):
 
         image_encoded = _image_to_base64(image)
         html = (
-            f"<img width='{width}' height='{height}' src='data:image/png;base64,{image_encoded}' "
-            + "style='margin: auto; display: block'>"
+            "<figure class='text-center'>"
+            + "<img class='figure-img img-fluid rounded' "
+            + f"alt='{self.alt_text}' "
+            + f"height='{height}' width='{width}' "
+            + f"src='data:image/png;base64,{image_encoded}'>"
         )
+
+        if self.caption:
+            html += f"<figcaption class='figure-caption'>{self.caption}</figcaption>"
+
+        html += "</figure>"
 
         return html
 
@@ -272,6 +265,10 @@ class DataFramePd(Content):
     def __init__(
         self, df: "DataFrame", index: bool = False, col_space: Union[int, str] = 10
     ):
+
+        if not isinstance(df, DataFrame):
+            raise TypeError(r"df must be Pandas DataFrame")
+
         self.content = df
         self.index = index
         self.col_space = col_space
@@ -290,15 +287,22 @@ class FigureMpl(Image):
 
     Args:
       figure (plt.Figure): A Matplotlib figure.
-      alt_text (str): Alternative text for rendered document.
+      caption (str): Image caption (default = None)
+      alt_text (str): Alternative text. (default = None)
+      scale (float): Value by which to scale image, must be > 0 and <= 1. (default = 1)
 
     """
 
     def __init__(
         self,
         figure: "Figure",
+        caption: str = "",
         alt_text: str = "Image",
     ):
+
+        if not isinstance(figure, Figure):
+            raise TypeError(r"figure must be a Matplotlib Figure")
+
         buffer = BytesIO()
         figure.savefig(buffer, format="png")
-        super().__init__(buffer, scale=1, alt_text=alt_text)
+        super().__init__(buffer, scale=1, caption=caption, alt_text=alt_text)

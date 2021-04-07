@@ -35,12 +35,29 @@ def test_content_equality(content_list_fn):
 @pytest.mark.parametrize("scale", [0.2, 0.5, 1])
 def test_image_resize(scale, image_content):
     content = image_content
-    height, width = [
-        int(content.to_html().replace("px", "").split("'")[x]) for x in [1, 3]
-    ]
+    html_input = content.to_html()
+    height = int(html_input.split("height")[1].split("'")[1][:-2])
+    width = int(html_input.split("width")[1].split("'")[1][:-2])
+
     resized = content.rescale(scale)
-    height_new, width_new = [
-        int(resized.to_html().replace("px", "").split("'")[x]) for x in [1, 3]
-    ]
+    html_resized = resized.to_html()
+    height_new = int(html_resized.split("height")[1].split("'")[1][:-2])
+    width_new = int(html_resized.split("width")[1].split("'")[1][:-2])
+
     assert height_new == int(scale * height)
     assert width_new == int(scale * width)
+
+
+@pytest.mark.parametrize("a", content_list)
+def test_incorrect_content_rejected(a):
+
+    b = type(a)
+
+    class FakeClass:
+        def __call__(self):
+            return "I'm not supported"
+
+    fake = FakeClass()
+
+    with pytest.raises(TypeError):
+        b(fake)

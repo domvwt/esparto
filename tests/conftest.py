@@ -1,4 +1,5 @@
 import sys
+from io import BytesIO
 from pathlib import Path
 
 import pandas as pd  # type: ignore
@@ -20,13 +21,12 @@ pytestmark = pytest.mark.filterwarnings("ignore:Row titles are not rendered")
 _irises_path = str(Path("tests/resources/irises.jpg").absolute())
 
 with Path(_irises_path).open("rb") as f:
-    _irises_binary = f.read()
+    _irises_binary = BytesIO(f.read())
 
 # Add new content classes here
 content_list = [
-    (co.Markdown("A")),
+    (co.Markdown("this _is_ some **markdown**")),
     (co.Image(_irises_path)),
-    (co.Spacer()),
     (co.DataFramePd(pd.DataFrame({"a": range(1, 11), "b": range(11, 21)}))),
     (co.FigureMpl(plt.figure())),
 ]

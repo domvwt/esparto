@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import sys
 from importlib.util import find_spec as _find_spec
 from typing import Set
 
@@ -15,11 +14,11 @@ _optional_dependencies: list = [
     "IPython",
     "matplotlib",
     "pandas",
-    "prettierfier",
 ]
+
 _installed_modules: Set[str] = {
     x.name for x in [_find_spec(dep) for dep in _optional_dependencies] if x
 }
 
 from esparto._layout import Page, Section, Row, Column
-from esparto._content import Markdown, Image, DataFramePd, FigureMpl, Spacer
+from esparto._content import Markdown, Image, DataFramePd, FigureMpl

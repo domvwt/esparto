@@ -1,12 +1,11 @@
 """
-Layout classes for defining an HTML document.
+Layout classes for defining a document.
 """
 import copy
 from abc import ABC, abstractmethod
 from inspect import getmembers
 from pprint import pformat
 from typing import TYPE_CHECKING, Any, Iterable, Optional, Type, Union
-from warnings import warn
 
 from esparto._publish import nb_display, publish
 
@@ -31,7 +30,7 @@ class Layout(ABC):
 
     @property
     def title(self) -> Optional[str]:
-        """Title for object reference and HTML rendering."""
+        """Title for use in document layout and as object reference."""
         raise NotImplementedError
 
     @title.getter
@@ -46,7 +45,7 @@ class Layout(ABC):
 
     @property
     def children(self) -> list:
-        """Nested list of child elements representing the document tree.
+        """List of child elements representing the document tree.
 
         Layout and Content elements can be added to any existing Layout object.
 
@@ -209,20 +208,20 @@ class Layout(ABC):
         nb_display(self)
 
     def save(
-        self, filepath: Optional[str] = None, return_html: bool = False
+        self, filepath: str = "./esparto-doc.html", return_html: bool = False
     ) -> Optional[str]:
         """
         Render document to HTML and save to disk.
 
         Args:
-          filepath: Destination filepath.
+          filepath: Destination filepath. (default = './esparto-doc.html')
           return_html: If True, return HTML as a string.
 
         Returns:
           Document rendered as HTML. (If 'return_html' is True)
 
         """
-        html = publish(self, filepath, return_html)
+        html = publish(self, filepath=filepath, return_html=return_html)
 
         if return_html:
             return html
@@ -307,7 +306,7 @@ class Layout(ABC):
 
 
 class Page(Layout):
-    """Page - top level element for defining an HTML document.
+    """Page - top level element for defining a document.
 
     Args:
         *children (Layout, optional):  Layout items to include in the Page.
@@ -318,12 +317,12 @@ class Page(Layout):
 
     def _render_title(self) -> str:
         """ """
-        return f"<h2 class='display-4'>{self._title}</h2>\n"
+        return f"<h1 class='display-4 my-3'>{self._title}</h1>\n"
 
     @property
     def _tag_open(self) -> str:
         """ """
-        return "<main class='container p-4'>"
+        return "<main class='container px-2'>"
 
     @property
     def _tag_close(self) -> str:
@@ -361,12 +360,12 @@ class Section(Layout):
 
     def _render_title(self) -> str:
         """ """
-        return f"<h1 class='mb-6rem'>{self._title}</h1>\n"
+        return f"<h2 class='mb-3'>{self._title}</h2>\n"
 
     @property
     def _tag_open(self) -> str:
         """ """
-        return "<div class='container p-3'>"
+        return "<div class='px-1 mb-5'>"
 
     @property
     def _tag_close(self) -> str:
@@ -389,36 +388,18 @@ class Row(Layout):
 
     Args:
         *children: Column items to include in the Row.
-        title: Row title. (for reference only, not rendered)
+        title: Row title.
 
     """
 
-    @property
-    def title(self) -> Optional[str]:
-        """ """
-        raise NotImplementedError
-
-    @title.getter
-    def title(self) -> Optional[str]:
-        """ """
-        return self._title
-
-    @title.setter
-    def title(self, title: Optional[str]) -> None:
-        """ """
-        if title:
-            warn("Row titles are not rendered - for reference use only")
-        self._title = title
-
     def _render_title(self) -> str:
         """ """
-        # Row should not return title
-        return ""
+        return f"<div class='col-12'><h5 class='px-1 mb-3'>{self._title}</h5></div>\n"
 
     @property
     def _tag_open(self) -> str:
         """ """
-        return "<div class='row container-sm'>"
+        return "<div class='row'>"
 
     @property
     def _tag_close(self) -> str:
@@ -447,12 +428,12 @@ class Column(Layout):
 
     def _render_title(self) -> str:
         """ """
-        return f"<h3 class='mb-1rem'>{self._title}</h3>\n"
+        return f"<h5 class='px-1 mb-3'>{self._title}</h5>\n"
 
     @property
     def _tag_open(self) -> str:
         """ """
-        return "<div class='col p-4'>"
+        return "<div class='col-lg mb-3'>"
 
     @property
     def _tag_close(self) -> str:

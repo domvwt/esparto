@@ -17,6 +17,9 @@ def content_adaptor(content: Content) -> Content:
       Content: Approriately wrapped content.
 
     """
+    if not issubclass(type(content), Content):
+        raise TypeError("Unsupported content type.")
+
     return content
 
 
