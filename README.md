@@ -1,8 +1,8 @@
 esparto
 =======
 
-[![image](https://img.shields.io/pypi/v/esparto.svg)](https://pypi.python.org/pypi/esparto) 
-[![image](https://img.shields.io/travis/domvwt/esparto.svg)](https://travis-ci.org/domvwt/esparto)
+[![image](https://img.shields.io/pypi/v/esparto.svg)](https://pypi.python.org/pypi/esparto)
+[![Build Status](https://travis-ci.com/domvwt/esparto.svg?branch=main)](https://travis-ci.com/domvwt/esparto)
 [![codecov](https://codecov.io/gh/domvwt/esparto/branch/main/graph/badge.svg?token=35J8NZCUYC)](https://codecov.io/gh/domvwt/esparto)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&metric=alert_status)](https://sonarcloud.io/dashboard?id=domvwt_esparto)
 
