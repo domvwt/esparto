@@ -6,8 +6,6 @@ theme:
       material/file
   palette: 
     primary: 'teal'
-    # primary: 'blue grey'
-    # accent: 'light blue'
     accent: 'cyan'
   features:
     - 'navigation.tabs'
@@ -24,8 +22,9 @@ nav:
         - 'Quickstart': '01-getting-started/quickstart.md'
         - 'Installation': '01-getting-started/installation.md'
   - User Guide:
-        - 'Building a Document': '02-user-guide/none'
-        - 'Examples': '02-user-guide/none'
+      #   - 'Document Design': '02-user-guide/document-design.md'
+      #   - 'Custom Content': '02-user-guide/custom-content.md'
+        - 'Examples': '02-user-guide/examples.md'
   - API Reference:
         - 'Layout': '03-api-reference/layout.md'
         - 'Content': '03-api-reference/content.md'

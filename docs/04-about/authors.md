@@ -1,10 +1,11 @@
 Credits
 =======
 
-Development Lead
-----------------
+## Lead Developer
+Dominic Thorn
 
--   Dominic Thorn &lt;<dominic.thorn@gmail.com>&gt;
+- [dominic.thorn@gmail.com](mailto:dominic.thorn@gmail.com)
+- [domvwt.github.io](https://domvwt.github.io/)
 
 <!-- Contributors
 ------------

@@ -22,7 +22,4 @@
 
 ## ::: esparto._content.FigureMpl
 
-## ::: esparto._content.Spacer
-
-
-
+<br>
