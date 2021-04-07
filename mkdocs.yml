@@ -10,7 +10,7 @@ theme:
   features:
     - 'navigation.tabs'
 
-repo_url: 'https://github.com/domvwt/esparto'
+repo_url: 'https://github.com/domvwt/esparto/'
 
 markdown_extensions:
   - admonition
