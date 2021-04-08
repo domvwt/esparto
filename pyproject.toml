@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "esparto"
-version = "0.1.1"
+version = "0.1.2"
 description = "Minimal frontend web framework written in Python."
 authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
 license = "MIT"
@@ -12,7 +12,7 @@ repository = "https://github.com/domvwt/esparto"
 python = "^3.6.1"
 jinja2 = "^2.10.1"
 markdown = "^3.1"
-Pillow = "^7.0.0, ^8.0.0"
+Pillow = [">=7.0.0", "<9.0.0"]
 beautifulsoup4 = {version = "^4.9.3", optional = true}
 
 [tool.poetry.dev-dependencies]
