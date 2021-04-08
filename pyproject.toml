@@ -1,9 +1,12 @@
 [tool.poetry]
 name = "esparto"
-version = "0.1.0"
-description = "Simple toolkit for building accessible and shareable HTML documents."
+version = "0.1.1"
+description = "Minimal frontend web framework written in Python."
 authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
 license = "MIT"
+readme = "README.md"
+homepage = "https://domvwt.github.io/esparto"
+repository = "https://github.com/domvwt/esparto"
 
 [tool.poetry.dependencies]
 python = "^3.6.1"
