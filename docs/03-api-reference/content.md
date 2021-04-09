@@ -2,7 +2,7 @@
 
 !!! info
     Content classes should be accessed from the module top level.
-    
+
     ``` python
     import esparto as es
 

@@ -1,6 +1,6 @@
 codecov:
   notify:
-    require_ci_to_pass: false	# always post
+    require_ci_to_pass: false # always post
     after_n_builds: 1
 
 coverage:
@@ -12,10 +12,10 @@ coverage:
     project:
       default:
         target: 90%
-        threshold: 5%		# allow 5% coverage variance
+        threshold: 5% # allow 5% coverage variance
 
     patch: no
     changes: no
 
 comment:
-  require_changes: yes		# only post when coverage changes
+  require_changes: yes # only post when coverage changes

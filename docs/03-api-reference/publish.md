@@ -9,12 +9,12 @@
     # Create a new Page
     page = es.Page(title="My New Page")
 
-    # Render to Jupyter Notebook cell: 
+    # Render to Jupyter Notebook cell:
     page.display()
 
     # Publish the document to an HTML file:
     page.save()
-    
+
     ```
 
 ## ::: esparto._publish.publish

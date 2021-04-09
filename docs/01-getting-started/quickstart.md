@@ -9,7 +9,7 @@ pip install esparto
 
 <br>
 
-Documents start with a Page object, to which user content can be added iteratively. 
+Documents start with a Page object, to which user content can be added iteratively.
 Creating a page, adding basic content, and saving the file can be achieved in a few
 short lines:
 
