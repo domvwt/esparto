@@ -5,4 +5,4 @@
     * Altair
 * Alternative themes
 * Additional Bootstrap components
-* Custom CSS 
+* Custom CSS

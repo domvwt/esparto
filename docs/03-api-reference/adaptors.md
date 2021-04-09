@@ -1,7 +1,7 @@
 # esparto._adaptors
 !!! info
     The ```content_adaptor``` is called internally when an explicit Content class is not provided.
-    
+
     ``` python
     import esparto as es
 

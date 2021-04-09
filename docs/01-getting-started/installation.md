@@ -43,6 +43,3 @@ And install with:
 ``` {.sourceCode .console}
 $ poetry install
 ```
-
-
-
