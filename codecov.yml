@@ -13,7 +13,8 @@ coverage:
       default:
         threshold: 1%		# allow 1% coverage variance
 
-    patch: off
+    patch: no
+    changes: no
 
 comment:
   layout: "reach, diff, flags, footer"
