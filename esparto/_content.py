@@ -1,22 +1,21 @@
-"""
-Content classes for rendering common objects and markdown text to HTML.
-"""
+"""Content classes for rendering common objects and markdown text to HTML."""
+
 import base64
 from abc import ABC, abstractmethod
 from io import BytesIO
 from typing import Any, Union
 
 import markdown as md
-import PIL.Image as pil  # type: ignore
+import PIL.Image as Img  # type: ignore
 from PIL.Image import Image as PILImage
 
-from esparto import _installed_modules
+from esparto import _INSTALLED_MODULES
 from esparto._publish import nb_display
 
-if "pandas" in _installed_modules:  # pragma: no cover
+if "pandas" in _INSTALLED_MODULES:  # pragma: no cover
     from pandas import DataFrame  # type: ignore
 
-if "matplotlib" in _installed_modules:  # pragma: no cover
+if "matplotlib" in _INSTALLED_MODULES:  # pragma: no cover
     from matplotlib.figure import Figure  # type: ignore
 
 
@@ -72,7 +71,7 @@ class Content(ABC):
         return iter([self])
 
     def __len__(self):
-        return len(self.content)
+        return len(list(self.content))
 
     def _repr_html_(self):
         """ """
@@ -83,9 +82,9 @@ class Content(ABC):
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
-            return all([x == y for x, y in zip(self.content, other.content)])
-        else:
-            return False
+            return all(x == y for x, y in zip(self.content, other.content))
+
+        return False
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -175,14 +174,14 @@ class Image(Content):
 
     def __init__(
         self,
-        image: Union[str, pil.Image, BytesIO],
+        image: Union[str, PILImage, BytesIO],
         alt_text: str = "Image",
         caption: str = "",
         scale: float = 1,
     ):
 
-        if not isinstance(image, (str, pil.Image, BytesIO)):
-            raise TypeError(r"image must be one of {str, pil.Image, BytesIO}")
+        if not isinstance(image, (str, PILImage, BytesIO)):
+            raise TypeError(r"image must be one of {str, PIL.Image, BytesIO}")
 
         self.content = image
         self.alt_text = alt_text
@@ -190,11 +189,10 @@ class Image(Content):
         self.scale = scale
 
     def rescale(self, scale) -> "Image":
-        """
-        Rescale the image prior to rendering.
+        """Rescale the image prior to rendering.
 
         Note:
-            Images can be scaled down only.
+          Images can be scaled down only.
 
         Args:
           scale (float): Scaling ratio.
@@ -205,10 +203,10 @@ class Image(Content):
 
     def to_html(self) -> str:
         """ """
-        if isinstance(self.content, pil.Image):
+        if isinstance(self.content, PILImage):
             image = self.content
         else:
-            image = pil.open(self.content)
+            image = Img.open(self.content)
 
         # Resize image if required
         if self.scale != 1:

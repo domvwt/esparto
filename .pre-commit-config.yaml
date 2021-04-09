@@ -13,21 +13,21 @@ repos:
     -   id: isort
         name: Isort
         language: system
-        entry: isort
+        entry: poetry run isort
         types: [python]
-        args: ['--filter-files']
+        args: [--filter-files, --profile, black]
     -   id: black
         name: Black
         language: system
-        entry: black
+        entry: poetry run black
         types: [python]
     -   id: flake8
         name: Flake8
         language: system
-        entry: flake8
+        entry: poetry run flake8
         types: [python]
     -   id: mypy
         name: MyPy
         language: system
-        entry: mypy
+        entry: poetry run mypy
         types: [python]

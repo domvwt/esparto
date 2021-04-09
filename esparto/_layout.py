@@ -1,6 +1,5 @@
-"""
-Layout classes for defining a document.
-"""
+"""Layout classes for defining a document."""
+
 import copy
 from abc import ABC, abstractmethod
 from inspect import getmembers
@@ -8,7 +7,6 @@ from pprint import pformat
 from typing import TYPE_CHECKING, Any, Iterable, Optional, Type, Union
 
 from esparto._publish import nb_display, publish
-
 
 if TYPE_CHECKING:  # pragma: no cover
     from esparto._content import Content
@@ -20,6 +18,7 @@ class Layout(ABC):
     Attributes:
       title (str): Title for object reference and HTML rendering.
       children (list): Child elements representing the document tree.
+
     """
 
     # Each element should return title with appropriate HTML tags
@@ -88,9 +87,7 @@ class Layout(ABC):
             else [children]
         )
         # Unnest any nested lists of children
-        if len([x for x in children_]) == 1 and isinstance(
-            list(children_)[0], (list, tuple)
-        ):
+        if len(list(children_)) == 1 and isinstance(list(children_)[0], (list, tuple)):
             children_ = list(children_)[0]
         return children_
 
@@ -296,7 +293,7 @@ class Layout(ABC):
     def __eq__(self, other):
         if isinstance(other, self.__class__):
             return self._title == other._title and all(
-                [x == y for x, y in zip(self.children, other.children)]
+                (x == y for x, y in zip(self.children, other.children))
             )
         else:
             return False
