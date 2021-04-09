@@ -1,0 +1,21 @@
+codecov:
+  notify:
+    require_ci_to_pass: false	# always post
+    after_n_builds: 1
+
+coverage:
+  precision: 2     # 2 decimals of precision
+  round: nearest   # Round to nearest precision point
+  range: "70...90" # red -> yellow -> green
+
+  status:
+    project:
+      default:
+        target: 90%
+        threshold: 5%		# allow 5% coverage variance
+
+    patch: no
+    changes: no
+
+comment:
+  require_changes: yes		# only post when coverage changes
