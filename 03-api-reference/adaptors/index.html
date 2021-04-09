@@ -841,8 +841,8 @@
     <span class="n">guess</span> <span class="o">=</span> <span class="n">guess_type</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">guess</span> <span class="ow">and</span> <span class="s2">&quot;image&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">guess</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
         <span class="k">return</span> <span class="n">Image</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Markdown</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Markdown</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
