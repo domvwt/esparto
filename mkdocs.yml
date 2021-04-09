@@ -4,7 +4,7 @@ theme:
   icon:
     logo:
       material/file
-  palette: 
+  palette:
     primary: 'teal'
     accent: 'cyan'
   features:
@@ -30,7 +30,7 @@ nav:
         - 'Content': '03-api-reference/content.md'
         - 'Publish': '03-api-reference/publish.md'
         - 'Adaptors': '03-api-reference/adaptors.md'
-  - About: 
+  - About:
         - 'Authors': '04-about/authors.md'
         # - 'Contributing': '04-about/contributing.md'
         - 'Release Notes': '04-about/release-notes.md'
