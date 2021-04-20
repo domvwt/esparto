@@ -1,7 +1,12 @@
-from importlib.metadata import version
+import sys
 
 import esparto
 
 
 def test_package_version():
-    assert esparto.__version__ == version("esparto")
+    if sys.version > "3.7":
+        from importlib.metadata import version
+
+        assert esparto.__version__ == version("esparto")
+    else:
+        assert True
