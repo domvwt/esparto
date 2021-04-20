@@ -2,7 +2,15 @@ from functools import singledispatch
 from mimetypes import guess_type
 
 from esparto import _INSTALLED_MODULES
-from esparto._content import Content, DataFramePd, FigureMpl, Image, Markdown
+from esparto._content import (
+    Content,
+    DataFramePd,
+    FigureBokeh,
+    FigureMpl,
+    FigurePlotly,
+    Image,
+    Markdown,
+)
 
 
 @singledispatch
@@ -51,3 +59,23 @@ if "matplotlib" in _INSTALLED_MODULES:
     def content_adaptor_fig(content: Figure) -> FigureMpl:
         """Called through dynamic dispatch."""
         return FigureMpl(content)
+
+
+# Function only available if Bokeh is installed.
+if "bokeh" in _INSTALLED_MODULES:
+    from bokeh.plotting import Figure as BokehFigure  # type: ignore
+
+    @content_adaptor.register(BokehFigure)
+    def content_adaptor_bokeh(content: BokehFigure) -> FigureBokeh:
+        """Called through dynamic dispatch."""
+        return FigureBokeh(content)
+
+
+# Function only available if Plotly is installed.
+if "plotly" in _INSTALLED_MODULES:
+    from plotly.graph_objs._figure import Figure as PlotlyFigure  # type: ignore
+
+    @content_adaptor.register(PlotlyFigure)
+    def content_adaptor_plotly(content: PlotlyFigure) -> FigurePlotly:
+        """Called through dynamic dispatch."""
+        return FigurePlotly(content)

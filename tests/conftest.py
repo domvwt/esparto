@@ -8,13 +8,14 @@ import pytest
 import esparto._content as co
 import esparto._layout as la
 
-
 if sys.version.startswith("3.6."):
     import matplotlib as mpl  # type: ignore
 
     mpl.use("Agg")
 
+import bokeh.plotting as bk  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
+import plotly.express as px  # type: ignore
 
 pytestmark = pytest.mark.filterwarnings("ignore:Row titles are not rendered")
 
@@ -23,12 +24,15 @@ _irises_path = str(Path("tests/resources/irises.jpg").absolute())
 with Path(_irises_path).open("rb") as f:
     _irises_binary = BytesIO(f.read())
 
+
 # Add new content classes here
 content_list = [
     (co.Markdown("this _is_ some **markdown**")),
     (co.Image(_irises_path)),
     (co.DataFramePd(pd.DataFrame({"a": range(1, 11), "b": range(11, 21)}))),
-    (co.FigureMpl(plt.figure())),
+    (co.FigureMpl(plt.Figure())),
+    (co.FigureBokeh(bk.figure())),
+    (co.FigurePlotly(px.line(x=range(10), y=range(10)))),  # type: ignore
 ]
 
 # Add new layout classes here

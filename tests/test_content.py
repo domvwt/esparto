@@ -54,8 +54,8 @@ def test_incorrect_content_rejected(a):
     b = type(a)
 
     class FakeClass:
-        def __call__(self):
-            return "I'm not supported"
+        def __init__(self):
+            self.supported = False
 
     fake = FakeClass()
 

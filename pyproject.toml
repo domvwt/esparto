@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "esparto"
-version = "0.1.2"
+version = "0.2.0"
 description = "Minimal frontend web framework written in Python."
 authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
 license = "MIT"
@@ -36,6 +36,10 @@ tox = "^3.23.0"
 mypy = "^0.812"
 isort = "^5.8.0"
 flake8 = "^3.9.0"
+bokeh = "^2.3.1"
+plotly = "^4.14.3"
+pandas-bokeh = "^0.5.5"
+selenium = "^3.141.0"
 
 [tool.poetry.extras]
 extras = ["beautifulsoup4"]

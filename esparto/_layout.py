@@ -4,7 +4,7 @@ import copy
 from abc import ABC, abstractmethod
 from inspect import getmembers
 from pprint import pformat
-from typing import TYPE_CHECKING, Any, Iterable, Optional, Type, Union
+from typing import TYPE_CHECKING, Any, Iterable, Optional, Set, Type, Union
 
 from esparto._publish import nb_display, publish
 
@@ -236,6 +236,7 @@ class Layout(ABC):
     ):
         self.children = list(children)
         self.title = title
+        self._dependencies = {"bootstrap"}
 
     def __call__(self, *children: Union["Layout", "Content", None]):
         new = copy.deepcopy(self)
@@ -271,12 +272,12 @@ class Layout(ABC):
         nb_display(self)
 
     def __repr__(self):
-        title = self._title if self._title else "Untitled"
+        title = self._title or "Untitled"
         return f"{type(self)}: {title}"
 
     def _recurse_children(self) -> dict:
         """ """
-        key = self._title if self._title else type(self).__name__
+        key = self._title or type(self).__name__
         tree = {
             f"{key}": [
                 x._recurse_children()
@@ -286,6 +287,22 @@ class Layout(ABC):
             ]
         }
         return tree
+
+    def _required_dependencies(self) -> Set[str]:
+        """ """
+        deps: Set[str] = self._dependencies
+
+        def dep_finder(item):
+            nonlocal deps
+            for child in item.children:
+                if hasattr(child, "_dependencies"):
+                    deps = deps | set(child._dependencies)
+                if hasattr(child, "children"):
+                    dep_finder(child)
+
+        dep_finder(self)
+
+        return deps
 
     def __str__(self):
         return pformat(self._recurse_children())
@@ -340,10 +357,10 @@ class Page(Layout):
         self,
         *children: Union["Layout", "Content", Any],
         title: Optional[str] = None,
-        org_name: Optional[str] = None,
+        org_name: Optional[str] = "esparto",
     ):
         super().__init__(*children, title=title)
-        self.org_name = org_name if org_name else "esparto"
+        self.org_name = org_name
 
 
 class Section(Layout):
