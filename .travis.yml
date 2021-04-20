@@ -7,20 +7,17 @@ python:
   - 3.7
   - 3.6
 
-env:
-  - INSTALL_FLAGS=""
-  - INSTALL_FLAGS="--no-dev"
-
 before_install:
   - pip install poetry
 
 install:
-  - poetry install $INSTALL_FLAGS
+  - poetry install
 
 script:
   - black --check .
   - flake8
-  - COVERAGE_FILE=".coverage${INSTALL_FLAGS}"
+  - mypy esparto tests
+  - COVERAGE_FILE=".coverage.${TRAVIS_JOB_NUMBER}"
   - coverage run --source esparto -m pytest
 
 after_success:
