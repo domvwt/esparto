@@ -8,11 +8,11 @@ from tests.conftest import content_list
 
 
 def test_all_content_classes_covered(content_list_fn):
-    test_classes = [type(c) for c in content_list_fn]
-    module_classes = [c for c in co.Content.__subclasses__()]
+    test_classes = {type(c) for c in content_list_fn}
+    module_classes = {c for c in co.Content.__subclasses__()}
     module_subclasses = [d.__subclasses__() for d in module_classes]
-    module_all = list(chain.from_iterable(module_subclasses)) + module_classes
-    assert all([c in test_classes for c in module_all])
+    module_all = set(chain.from_iterable(module_subclasses)) | module_classes
+    assert module_all <= test_classes
 
 
 @pytest.mark.parametrize("a", content_list)

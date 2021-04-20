@@ -49,6 +49,8 @@ adaptor_list = [
     (_irises_path, co.Image),
     (pd.DataFrame({"a": range(1, 11), "b": range(11, 21)}), co.DataFramePd),
     (plt.figure(), co.FigureMpl),
+    (bk.Figure(), co.FigureBokeh),
+    (px.line(x=range(10), y=range(10)), co.FigurePlotly),
 ]
 
 
@@ -60,6 +62,11 @@ def content_list_fn():
 @pytest.fixture
 def layout_list_fn():
     return layout_list
+
+
+@pytest.fixture
+def adaptor_list_fn():
+    return adaptor_list
 
 
 @pytest.fixture
