@@ -39,7 +39,6 @@ flake8 = "^3.9.0"
 bokeh = "^2.3.1"
 plotly = "^4.14.3"
 pandas-bokeh = "^0.5.5"
-selenium = "^3.141.0"
 
 [tool.poetry.extras]
 extras = ["beautifulsoup4"]
