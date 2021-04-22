@@ -8,6 +8,10 @@ python:
   - 3.7
   - 3.6
 
+env:
+  - INSTALL_DEPS=""
+  - INSTALL_DEPS="--no-dev"
+
 before_install:
   - curl -fsS -o get-poetry.py https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
   - python get-poetry.py -y
@@ -17,19 +21,11 @@ before_install:
 install:
   - poetry install --no-dev -E test
 
-jobs:
-  include:
-  - stage: test-min-deps
-    script:
-    - black --check .
-    - flake8
-    - coverage run --append --source esparto -m pytest
-  - stage: test-max-deps
-    script:
-    - poetry install -v
-    - black --check .
-    - flake8
-    - coverage run --append --source esparto -m pytest
+script:
+  - poetry install -v $INSTALL_DEPS -E test
+  - black --check .
+  - flake8
+  - coverage run --append --source esparto -m pytest
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
