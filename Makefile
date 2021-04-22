@@ -63,7 +63,7 @@ test: ## run tests quickly with the default Python
 	pytest
 
 test-all: ## run tests on every Python version with tox
-	tox
+	tox --skip-missing-interpreters
 
 coverage: ## check code coverage quickly with the default Python
 	coverage run --source esparto -m pytest

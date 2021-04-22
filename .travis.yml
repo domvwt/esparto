@@ -1,3 +1,4 @@
+sudo: false
 language: python
 os: linux
 dist: xenial
@@ -11,14 +12,10 @@ before_install:
   - pip install poetry
 
 install:
-  - poetry install
+  - pip install tox-travis
 
 script:
-  - black --check .
-  - flake8
-  - mypy esparto tests
-  - COVERAGE_FILE=".coverage.${TRAVIS_JOB_NUMBER}"
-  - coverage run --source esparto -m pytest
+  - tox
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
