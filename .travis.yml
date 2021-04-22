@@ -14,13 +14,13 @@ before_install:
 jobs:
   include:
   - stage: test-min-deps
+  - install: poetry install -v --no-dev -E test
   - script:
-    - poetry install -v --no-dev -E test
     - poetry run coverage run --append --module pytest
     - ls -la
   - stage: test-max-deps
+  - install: poetry install -v -E test
   - script:
-    - poetry install -v -E test
     - poetry run coverage run --append --module pytest
     - ls -la
 
