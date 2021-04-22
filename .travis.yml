@@ -12,13 +12,12 @@ before_install:
   - pip install poetry
 
 install:
-  - poetry install -E test
+  - poetry install --no-dev -E test
 
 jobs:
   include:
   - stage: test-min-deps
     script:
-    - poetry install -v --no-dev
     - black --check .
     - flake8
     - coverage run --source esparto -m pytest
