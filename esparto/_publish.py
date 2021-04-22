@@ -1,7 +1,6 @@
 import time
 from typing import TYPE_CHECKING, List, Optional, Set, Union
 
-from IPython.core.display import Javascript  # type: ignore
 from jinja2 import Environment, PackageLoader, select_autoescape  # type: ignore
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -116,7 +115,7 @@ def nb_display(
 
     """
     if "IPython" in _INSTALLED_MODULES:
-        from IPython.display import HTML, display  # type: ignore
+        from IPython.display import HTML, Javascript, display  # type: ignore
 
         from esparto._layout import Layout
 
