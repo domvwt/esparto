@@ -19,10 +19,9 @@ before_install:
   - poetry config virtualenvs.in-project true
 
 install:
-  - poetry install --no-dev -E test
+  - poetry install $INSTALL_DEPS -E test
 
 script:
-  - if ! [ -z "${INSTALL_DEPS}" ]; then poetry install -v -E test fi
   - black --check .
   - flake8
   - coverage run --append --source esparto -m pytest
