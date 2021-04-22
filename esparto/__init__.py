@@ -9,14 +9,14 @@ __email__ = "dominic.thorn@gmail.com"
 __version__ = "0.2.0"
 
 
-_OPTIONAL_DEPENDENCIES: list = [
+_OPTIONAL_DEPENDENCIES: set = {
     "bs4",
     "IPython",
     "matplotlib",
     "pandas",
     "bokeh",
     "plotly",
-]
+}
 
 _INSTALLED_MODULES: Set[str] = {
     x.name for x in [_find_spec(dep) for dep in _OPTIONAL_DEPENDENCIES] if x
