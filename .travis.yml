@@ -8,24 +8,27 @@ python:
   # - 3.7
   # - 3.6
 
+before_install:
+  - pip install poetry
+
 install:
-  - pip install poetry coverage
+  - poetry install -E test
 
 jobs:
   include:
   - stage: test-min-deps
     script:
     - poetry install -v --no-dev
-    - poetry install -E test
-    - poetry run coverage run --append --module pytest
-    - coverage report
+    - black --check .
+    - flake8
+    - coverage run --source esparto -m pytest
     - ls -la
   - stage: test-max-deps
     script:
     - poetry install -v
-    - poetry install -E test
-    - poetry run coverage run --append --module pytest
-    - coverage report
+    - black --check .
+    - flake8
+    - coverage run --source esparto -m pytest
     - ls -la
 
 after_success:
