@@ -17,13 +17,13 @@ jobs:
   include:
   - stage: test-min-deps
   - script:
-    - poetry install -v --no-root --no-dev -E test
-    - poetry run coverage run -append --module pytest
+    - poetry install -v --no-dev -E test
+    - poetry run coverage run --append --module pytest
     - ls -la
   - stage: test-max-deps
   - script:
-    - poetry install -v --no-root -E test
-    - poetry run coverage run -append --module pytest
+    - poetry install -v -E test
+    - poetry run coverage run --append --module pytest
     - ls -la
 
 after_success:
