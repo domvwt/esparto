@@ -26,10 +26,7 @@ and iteratively build documents without disrupting their workflow.
 * Self contained / inline dependencies
 * MIT License
 
-
-## Integrations
-The following content types are currently supported
-
+## Supported Content
 * Markdown text
 * Images
 * Matplotlib figures

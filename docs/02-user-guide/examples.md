@@ -27,7 +27,7 @@ with few lines of code.
 With the [Plotly backend for Pandas](https://plotly.com/python/pandas-backend/)
 we can access the Plotly Express API directly from the '.plot()' method of any DataFrame or Series.
 
-This example will show basic examples from each library:
+This notebook shows basic examples from each library:
 
 * Interactive plotting with Bokeh and Plotly
 * Adding interactive content to the page

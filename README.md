@@ -18,3 +18,11 @@ Full documentation and examples at [domvwt.github.io/esparto/](https://domvwt.gi
 * Self contained / inline dependencies
 * Jupyter Notebook support
 * MIT License
+
+## Supported Content
+* Markdown text
+* Images
+* Matplotlib figures
+* Pandas DataFrames
+* Bokeh objects
+* Plotly figures
