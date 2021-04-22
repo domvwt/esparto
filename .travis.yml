@@ -4,9 +4,9 @@ os: linux
 dist: xenial
 python:
   - 3.9
-  # - 3.8
-  # - 3.7
-  # - 3.6
+  - 3.8
+  - 3.7
+  - 3.6
 
 before_install:
   - curl -fsS -o get-poetry.py https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
@@ -24,15 +24,12 @@ jobs:
     - black --check .
     - flake8
     - coverage run --append --source esparto -m pytest
-    - ls -la
   - stage: test-max-deps
     script:
     - poetry install -v
     - black --check .
     - flake8
     - coverage run --append --source esparto -m pytest
-    - ls -la
 
 after_success:
-  - coverage combine
   - bash <(curl -s https://codecov.io/bash)
