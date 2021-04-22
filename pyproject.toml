@@ -42,6 +42,7 @@ pandas-bokeh = "^0.5.5"
 
 [tool.poetry.extras]
 extras = ["beautifulsoup4"]
+test = ["pytest", "coverage"]
 
 [build-system]
 requires = ["poetry>=0.12"]
