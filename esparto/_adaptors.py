@@ -26,14 +26,14 @@ def content_adaptor(content: Content) -> Content:
 
     """
     if not issubclass(type(content), Content):
-        raise TypeError("Unsupported content type.")
+        raise TypeError(f"Unsupported content type: {type(content)}")
 
     return content
 
 
 @content_adaptor.register(str)
 def content_adaptor_core(content: str) -> Content:
-    """Called through dynamic dispatch."""
+    """Convert markdown or image to Markdown or Image content."""
     guess = guess_type(content)
     if guess and "image" in str(guess[0]):
         return Image(content)
@@ -47,7 +47,7 @@ if "pandas" in _INSTALLED_MODULES:
 
     @content_adaptor.register(DataFrame)
     def content_adaptor_df(content: DataFrame) -> DataFramePd:
-        """Called through dynamic dispatch."""
+        """Convert Pandas DataFrame to DataFramePD content."""
         return DataFramePd(content)
 
 
@@ -57,17 +57,17 @@ if "matplotlib" in _INSTALLED_MODULES:
 
     @content_adaptor.register(Figure)
     def content_adaptor_fig(content: Figure) -> FigureMpl:
-        """Called through dynamic dispatch."""
+        """Convert Matplotlib Figure to FigureMpl content."""
         return FigureMpl(content)
 
 
 # Function only available if Bokeh is installed.
 if "bokeh" in _INSTALLED_MODULES:
-    from bokeh.plotting import Figure as BokehFigure  # type: ignore
+    from bokeh.layouts import LayoutDOM as BokehObject  # type: ignore
 
-    @content_adaptor.register(BokehFigure)
-    def content_adaptor_bokeh(content: BokehFigure) -> FigureBokeh:
-        """Called through dynamic dispatch."""
+    @content_adaptor.register(BokehObject)
+    def content_adaptor_bokeh_layout(content: BokehObject) -> FigureBokeh:
+        """Convert Bokeh Layout to FigureBokeh content."""
         return FigureBokeh(content)
 
 
@@ -77,5 +77,5 @@ if "plotly" in _INSTALLED_MODULES:
 
     @content_adaptor.register(PlotlyFigure)
     def content_adaptor_plotly(content: PlotlyFigure) -> FigurePlotly:
-        """Called through dynamic dispatch."""
+        """Convert Plotly Figure to FigurePlotly content."""
         return FigurePlotly(content)

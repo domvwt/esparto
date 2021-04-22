@@ -44,11 +44,11 @@ if "plotly" in _INSTALLED_MODULES:
 def _get_head_deps(required_deps: Set[str]) -> List[str]:
     include_deps: List[str] = []
 
-    for dep in required_deps:
-        if dep == "bootstrap":
-            include_deps.append(_BOOTSTRAP_CDN)
-        if dep == "plotly":
-            include_deps.append(_PLOTLY_CDN)
+    if "bootstrap" in required_deps:
+        include_deps.append(_BOOTSTRAP_CDN)
+
+    if "plotly" in required_deps:
+        include_deps.append(_PLOTLY_CDN)
 
     return include_deps
 
@@ -56,9 +56,8 @@ def _get_head_deps(required_deps: Set[str]) -> List[str]:
 def _get_tail_deps(required_deps: Set[str]) -> List[str]:
     include_deps: List[str] = []
 
-    for dep in required_deps:
-        if dep == "bokeh":
-            include_deps.append(_BOKEH_CDN)
+    if "bokeh" in required_deps:
+        include_deps.append(_BOKEH_CDN)
 
     return include_deps
 
@@ -130,7 +129,7 @@ def nb_display(
 
         head_deps = "\n".join(_get_head_deps(required_deps))
         tail_deps = "\n".join(_get_tail_deps(required_deps))
-        content_html = f"<div class='container' style='width: 100%; height: 100%;'>\n{item.to_html()}\n</div>"
+        content_html = f"<div class='container-fluid' style='width: 100%; height: 100%;'>\n{item.to_html()}\n</div>"
 
         render_html = (
             f"<!doctype html>\n<html>\n<head>{head_deps}</head>\n"

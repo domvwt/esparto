@@ -34,5 +34,7 @@ The following content types are currently supported
 * Images
 * Matplotlib figures
 * Pandas DataFrames
+* Bokeh objects
+* Plotly figures
 
 <br>

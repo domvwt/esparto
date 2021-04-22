@@ -22,4 +22,8 @@
 
 ## ::: esparto._content.FigureMpl
 
+## ::: esparto._content.FigureBokeh
+
+## ::: esparto._content.FigurePlotly
+
 <br>

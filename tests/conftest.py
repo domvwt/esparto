@@ -13,7 +13,8 @@ if sys.version.startswith("3.6."):
 
     mpl.use("Agg")
 
-import bokeh.plotting as bk  # type: ignore
+import bokeh.layouts as bkl  # type: ignore
+import bokeh.plotting as bkp  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 import plotly.express as px  # type: ignore
 
@@ -31,7 +32,8 @@ content_list = [
     (co.Image(_irises_path)),
     (co.DataFramePd(pd.DataFrame({"a": range(1, 11), "b": range(11, 21)}))),
     (co.FigureMpl(plt.Figure())),
-    (co.FigureBokeh(bk.figure())),
+    (co.FigureBokeh(bkp.figure())),
+    (co.FigureBokeh(bkl.column(bkp.figure()))),
     (co.FigurePlotly(px.line(x=range(10), y=range(10)))),  # type: ignore
 ]
 
@@ -49,7 +51,8 @@ adaptor_list = [
     (_irises_path, co.Image),
     (pd.DataFrame({"a": range(1, 11), "b": range(11, 21)}), co.DataFramePd),
     (plt.figure(), co.FigureMpl),
-    (bk.Figure(), co.FigureBokeh),
+    (bkp.Figure(), co.FigureBokeh),
+    (bkl.column(bkp.figure()), co.FigureBokeh),
     (px.line(x=range(10), y=range(10)), co.FigurePlotly),
 ]
 

@@ -20,7 +20,7 @@ if "matplotlib" in _INSTALLED_MODULES:
 
 if "bokeh" in _INSTALLED_MODULES:
     from bokeh.embed import components  # type: ignore
-    from bokeh.plotting import Figure as BokehFigure  # type: ignore
+    from bokeh.models.layouts import LayoutDOM as BokehObject  # type: ignore
 
 if "plotly" in _INSTALLED_MODULES:
     from plotly.graph_objs._figure import Figure as PlotlyFigure  # type: ignore
@@ -147,7 +147,6 @@ class Markdown(Content):
         self._dependencies = set()
 
     def to_html(self) -> str:
-        """ """
         html = md.markdown(self.content)
         html = f"{html}\n"
         html = f"<div class='container-fluid px-1'>\n{html}\n</div>"
@@ -228,7 +227,6 @@ class Image(Content):
         return self
 
     def to_html(self) -> str:
-        """ """
         if isinstance(self.content, PILImage):
             image = self.content
         else:
@@ -297,7 +295,6 @@ class DataFramePd(Content):
         self.col_space = col_space
 
     def to_html(self) -> str:
-        """ """
         classes = "table table-sm table-striped table-hover table-bordered"
         html = self.content.to_html(
             index=self.index, border=0, col_space=self.col_space, classes=classes
@@ -331,22 +328,22 @@ class FigureMpl(Image):
 
 
 class FigureBokeh(Content):
-    """Bokeh figure to be rendered as an interactive plot.
+    """Bokeh object to be rendered as an interactive plot.
 
     Args:
-      figure (bokeh.plotting.Figure): A Bokeh figure.
-      width (int): Width in pixels. (default = 600)
-      height (int): Height in pixels. (default = 400)
+      figure (bokeh.layouts.LayoutDOM): A Bokeh object.
+      width (int): Width in pixels. (default = 'auto')
+      height (int): Height in pixels. (default = 'auto')
 
     """
 
     @property
-    def content(self) -> "BokehFigure":
+    def content(self) -> "BokehObject":
         """ """
         raise NotImplementedError
 
     @content.getter
-    def content(self) -> "BokehFigure":
+    def content(self) -> "BokehObject":
         """ """
         return self._content
 
@@ -355,15 +352,57 @@ class FigureBokeh(Content):
         """ """
         self._content = content
 
-    def __init__(self, figure: "BokehFigure", width: int = None, height: int = None):
+    @property
+    def width(self) -> Union[int, str, None]:
+        """ """
+        raise NotImplementedError
 
-        if not isinstance(figure, BokehFigure):
-            raise TypeError(r"figure must be a Bokeh Figure")
+    @width.getter
+    def width(self) -> str:
+        """ """
+        if isinstance(self._width, str) and self._width == "auto":
+            return self._width
+
+        return f"{self._width}px"
+
+    @width.setter
+    def width(self, width) -> None:
+        """ """
+        self._width = width
+
+    @property
+    def height(self) -> Union[int, str, None]:
+        """ """
+        raise NotImplementedError
+
+    @height.getter
+    def height(self) -> str:
+        """ """
+        if isinstance(self._height, str) and self._height == "auto":
+            return self._height
+
+        return f"{self._height}px"
+
+    @height.setter
+    def height(self, height) -> None:
+        """ """
+        self._height = height
+
+    def __init__(
+        self,
+        figure: "BokehObject",
+        width: int = None,
+        height: int = None,
+    ):
 
         self._dependencies = {"bokeh"}
         self.content = figure
-        self.width = width or figure.width or 600
-        self.height = height or figure.height or 400
+
+        if not issubclass(type(figure), BokehObject):
+            raise TypeError(r"figure must be a Bokeh object")
+
+        self.width = width or "auto"
+        self.height = height or "auto"
 
     # Required as deep copy is not defined for Bokeh figures
     # Also need to catch some erroneous args that get passed to the function
@@ -372,8 +411,12 @@ class FigureBokeh(Content):
         return cls(self.content)
 
     def to_html(self) -> str:
-        div, script = components(self.content)
-        return f"<div style='width: auto; height: {self.height}px;'>{div}\n{script}\n</div>"
+        html, js = components(self.content)
+
+        # Remove outer <div> tag so we can give our own attributes
+        html = _remove_outer_div(html)
+
+        return f"<div class='mb-3' style='width: {self.width}; height: {self.height};'>{html}\n{js}\n</div>"
 
 
 class FigurePlotly(Content):
@@ -381,8 +424,8 @@ class FigurePlotly(Content):
 
     Args:
       figure (plotly.graph_objs._figure.Figure): A Plotly figure.
-      width (int): Width in pixels. (default = 600)
-      height (int): Height in pixels. (default = 400)
+      width (int): Width in pixels. (default = 'auto')
+      height (int): Height in pixels. (default = 500')
 
     """
 
@@ -401,17 +444,64 @@ class FigurePlotly(Content):
         """ """
         self._content = content
 
+    @property
+    def width(self) -> Union[int, str, None]:
+        """ """
+        raise NotImplementedError
+
+    @width.getter
+    def width(self) -> str:
+        """ """
+        if self._width == "auto":
+            return self._width
+
+        return f"{self._width}px"
+
+    @width.setter
+    def width(self, width) -> None:
+        """ """
+        self._width = width
+
+    @property
+    def height(self) -> Union[int, str, None]:
+        """ """
+        raise NotImplementedError
+
+    @height.getter
+    def height(self) -> str:
+        """ """
+        if self._height == "auto":
+            return self._height
+
+        return f"{self._height}px"
+
+    @height.setter
+    def height(self, height) -> None:
+        """ """
+        self._height = height
+
     def __init__(self, figure: "PlotlyFigure", width: int = None, height: int = None):
 
         if not isinstance(figure, PlotlyFigure):
             raise TypeError(r"figure must be a Plotly Figure")
 
-        self.width = width or figure.layout["width"] or 600
-        self.height = height or figure.layout["height"] or 400
+        self.width = width or figure.layout["width"] or "auto"
+        self.height = height or figure.layout["height"] or 500
 
         self._dependencies = {"plotly"}
         self.content = figure
 
     def to_html(self) -> str:
         html = plotly_to_html(self.content, include_plotlyjs=False, full_html=False)
-        return f"<div style='width: auto; height: {self.height}px;'>{html}\n</div>"
+
+        # Remove outer <div> tag so we can give our own attributes.
+        html = _remove_outer_div(html)
+
+        return f"<div class='responsive-plot mb-3' style='width: {self.width}; height: {self.height};'>{html}\n</div>"
+
+
+def _remove_outer_div(html: str) -> str:
+    """Remove outer <div> tags."""
+    html = html.replace("<div>", "", 1)
+    html = "".join(html.rsplit("</div>", 1))
+    return html

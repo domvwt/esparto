@@ -17,7 +17,8 @@ def test_all_adaptors_covered(adaptor_list_fn):
     test_classes = {type(item[0]) for item in adaptor_list_fn}
     module_functions = [x[1] for x in getmembers(ad, isfunction)]
     adaptor_types = {get_dispatch_type(fn) for fn in module_functions}
-    adaptor_types.remove(Content)  # Can't use the abstract base class in a test
+    adaptor_types.remove(Content)  # Can't use abstract base class in a test
+    adaptor_types.remove(ad.BokehObject)  # Can't use abstract base class in a test
     adaptor_types.remove(None)
     assert adaptor_types <= test_classes
 
