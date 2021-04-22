@@ -10,7 +10,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.0">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.2">
     
     
       
@@ -18,7 +18,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.33e2939f.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6f955dcd.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ef6f36e2.min.css">
@@ -453,6 +453,7 @@
       
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
+      
         
       
       
@@ -467,6 +468,7 @@
       
         
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
   
   
     
@@ -611,6 +613,7 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
+  
     
   
   
@@ -751,9 +754,15 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">filepath</span><span class="p">:</span>
         <span class="n">filepath</span> <span class="o">=</span> <span class="s2">&quot;./esparto-doc.html&quot;</span>
 
+    <span class="n">required_deps</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">_required_dependencies</span><span class="p">()</span>
+    <span class="n">head_deps</span> <span class="o">=</span> <span class="n">_get_head_deps</span><span class="p">(</span><span class="n">required_deps</span><span class="p">)</span>
+    <span class="n">tail_deps</span> <span class="o">=</span> <span class="n">_get_tail_deps</span><span class="p">(</span><span class="n">required_deps</span><span class="p">)</span>
+
     <span class="c1"># Jinja requires dict for accessing properties</span>
     <span class="n">doc_dict</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
-    <span class="n">html_rendered</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">_BASE_TEMPLATE</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">doc_dict</span><span class="p">)</span>
+    <span class="n">html_rendered</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">_BASE_TEMPLATE</span><span class="o">.</span><span class="n">render</span><span class="p">(</span>
+        <span class="n">content</span><span class="o">=</span><span class="n">doc_dict</span><span class="p">,</span> <span class="n">head_deps</span><span class="o">=</span><span class="n">head_deps</span><span class="p">,</span> <span class="n">tail_deps</span><span class="o">=</span><span class="n">tail_deps</span>
+    <span class="p">)</span>
     <span class="n">html_prettified</span> <span class="o">=</span> <span class="n">_prettify_html</span><span class="p">(</span><span class="n">html_rendered</span><span class="p">)</span>
 
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -841,22 +850,40 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="s2">&quot;IPython&quot;</span> <span class="ow">in</span> <span class="n">_INSTALLED_MODULES</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span>  <span class="c1"># type: ignore</span>
+        <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">Javascript</span><span class="p">,</span> <span class="n">display</span>  <span class="c1"># type: ignore</span>
 
-        <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;div class=&#39;container&#39;&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">to_html</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/div&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="n">bootstrap_css</span> <span class="o">=</span> <span class="n">_BOOTSTRAP_CDN</span>
-        <span class="n">html</span> <span class="o">=</span> <span class="n">bootstrap_css</span> <span class="o">+</span> <span class="n">html</span>
+        <span class="kn">from</span> <span class="nn">esparto._layout</span> <span class="kn">import</span> <span class="n">Layout</span>
+
+        <span class="n">required_deps</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">Layout</span><span class="p">):</span>
+            <span class="n">required_deps</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">_required_dependencies</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">&quot;_dependencies&quot;</span><span class="p">):</span>
+            <span class="n">required_deps</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">_dependencies</span>
+
+        <span class="n">head_deps</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_get_head_deps</span><span class="p">(</span><span class="n">required_deps</span><span class="p">))</span>
+        <span class="n">tail_deps</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_get_tail_deps</span><span class="p">(</span><span class="n">required_deps</span><span class="p">))</span>
+        <span class="n">content_html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;div class=&#39;container-fluid&#39; style=&#39;width: 100%; height: 100%;&#39;&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">to_html</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/div&gt;&quot;</span>
+
+        <span class="n">render_html</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;&lt;!doctype html&gt;</span><span class="se">\n</span><span class="s2">&lt;html&gt;</span><span class="se">\n</span><span class="s2">&lt;head&gt;</span><span class="si">{</span><span class="n">head_deps</span><span class="si">}</span><span class="s2">&lt;/head&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;&lt;body&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">content_html</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">tail_deps</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/body&gt;</span><span class="se">\n</span><span class="s2">&lt;/html&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
 
         <span class="nb">print</span><span class="p">()</span>
-        <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">html</span><span class="p">),</span> <span class="n">metadata</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">isolated</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">render_html</span><span class="p">),</span> <span class="n">metadata</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">isolated</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="c1"># This allows time to download plotly.js from the CDN - otherwise cell renders empty</span>
+        <span class="c1"># TODO: Make this asynchronous</span>
+        <span class="k">if</span> <span class="s2">&quot;plotly&quot;</span> <span class="ow">in</span> <span class="n">required_deps</span><span class="p">:</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">()</span>
 
         <span class="c1"># Prevent output scrolling</span>
-        <span class="n">js</span> <span class="o">=</span> <span class="s2">&quot;&lt;script&gt;$(&#39;.output_scroll&#39;).removeClass(&#39;output_scroll&#39;)&lt;/script&gt;&quot;</span>
-        <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">js</span><span class="p">))</span>
+        <span class="n">js</span> <span class="o">=</span> <span class="s2">&quot;$(&#39;.output_scroll&#39;).removeClass(&#39;output_scroll&#39;)&quot;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Javascript</span><span class="p">(</span><span class="n">js</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">return_html</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">html</span> <span class="o">+</span> <span class="n">js</span>
+            <span class="k">return</span> <span class="n">render_html</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
     <span class="k">else</span><span class="p">:</span>
@@ -939,7 +966,7 @@
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d892486b.min.js"></script>
+      <script src="../../assets/javascripts/bundle.4ea5477f.min.js"></script>
       
     
   </body>

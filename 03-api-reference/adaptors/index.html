@@ -10,7 +10,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.0">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.2">
     
     
       
@@ -18,7 +18,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.33e2939f.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6f955dcd.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ef6f36e2.min.css">
@@ -465,6 +465,7 @@
       
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
+      
         
       
       
@@ -479,6 +480,7 @@
       
         
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
   
   
     
@@ -506,6 +508,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#esparto._adaptors.content_adaptor_bokeh_layout" class="md-nav__link">
+    content_adaptor_bokeh_layout()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#esparto._adaptors.content_adaptor_core" class="md-nav__link">
     content_adaptor_core()
   </a>
@@ -522,6 +531,13 @@
           <li class="md-nav__item">
   <a href="#esparto._adaptors.content_adaptor_fig" class="md-nav__link">
     content_adaptor_fig()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#esparto._adaptors.content_adaptor_plotly" class="md-nav__link">
+    content_adaptor_plotly()
   </a>
   
 </li>
@@ -638,6 +654,7 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
+  
     
   
   
@@ -663,6 +680,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#esparto._adaptors.content_adaptor_bokeh_layout" class="md-nav__link">
+    content_adaptor_bokeh_layout()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#esparto._adaptors.content_adaptor_core" class="md-nav__link">
     content_adaptor_core()
   </a>
@@ -679,6 +703,13 @@
           <li class="md-nav__item">
   <a href="#esparto._adaptors.content_adaptor_fig" class="md-nav__link">
     content_adaptor_fig()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#esparto._adaptors.content_adaptor_plotly" class="md-nav__link">
+    content_adaptor_plotly()
   </a>
   
 </li>
@@ -709,11 +740,16 @@
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>The <code>content_adaptor</code> is called internally when an explicit Content class is not provided.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">esparto</span> <span class="k">as</span> <span class="nn">es</span>
+<p>Input objects are matched to a suitable Content class through <a href="https://docs.python.org/3/library/functools.html#functools.singledispatch"><em>single dispatch</em></a>.</p>
+<p><div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">esparto</span> <span class="k">as</span> <span class="nn">es</span>
 
-<span class="c1"># Create some new Markdown text</span>
-<span class="n">markdown</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">&quot;Example _markdown_ text.&quot;</span><span class="p">)</span>
+<span class="c1"># Text automatically converted to Markdown content.</span>
+<span class="n">section</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Section</span><span class="p">()</span>
+<span class="n">section</span> <span class="o">+=</span> <span class="s2">&quot;Example _markdown_ text.&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">section</span><span class="p">)</span>
 </code></pre></div>
+<div class="highlight"><pre><span></span><code>{&#39;Section&#39;: [{&#39;Row&#39;: [{&#39;Column&#39;: [&#39;Markdown&#39;]}]}]}
+</code></pre></div></p>
 </div>
 
 
@@ -808,9 +844,37 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">content</span><span class="p">),</span> <span class="n">Content</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Unsupported content type.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported content type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">content</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">content</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h3 id="esparto._adaptors.content_adaptor_bokeh_layout" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">content_adaptor_bokeh_layout</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Convert Bokeh Layout to FigureBokeh content.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>esparto/_adaptors.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="nd">@content_adaptor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">BokehObject</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">content_adaptor_bokeh_layout</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">BokehObject</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FigureBokeh</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Convert Bokeh Layout to FigureBokeh content.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">FigureBokeh</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -831,13 +895,13 @@
 
     <div class="doc doc-contents ">
 
-      <p>Called through dynamic dispatch.</p>
+      <p>Convert markdown or image to Markdown or Image content.</p>
 
         <details class="quote">
           <summary>Source code in <code>esparto/_adaptors.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@content_adaptor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">content_adaptor_core</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Content</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Called through dynamic dispatch.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Convert markdown or image to Markdown or Image content.&quot;&quot;&quot;</span>
     <span class="n">guess</span> <span class="o">=</span> <span class="n">guess_type</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">guess</span> <span class="ow">and</span> <span class="s2">&quot;image&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">guess</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
         <span class="k">return</span> <span class="n">Image</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
@@ -863,13 +927,13 @@
 
     <div class="doc doc-contents ">
 
-      <p>Called through dynamic dispatch.</p>
+      <p>Convert Pandas DataFrame to DataFramePD content.</p>
 
         <details class="quote">
           <summary>Source code in <code>esparto/_adaptors.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@content_adaptor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">DataFrame</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">content_adaptor_df</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFramePd</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Called through dynamic dispatch.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Convert Pandas DataFrame to DataFramePD content.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">DataFramePd</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
 </code></pre></div>
         </details>
@@ -891,14 +955,42 @@
 
     <div class="doc doc-contents ">
 
-      <p>Called through dynamic dispatch.</p>
+      <p>Convert Matplotlib Figure to FigureMpl content.</p>
 
         <details class="quote">
           <summary>Source code in <code>esparto/_adaptors.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@content_adaptor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Figure</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">content_adaptor_fig</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Figure</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FigureMpl</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Called through dynamic dispatch.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Convert Matplotlib Figure to FigureMpl content.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">FigureMpl</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h3 id="esparto._adaptors.content_adaptor_plotly" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">content_adaptor_plotly</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Convert Plotly Figure to FigurePlotly content.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>esparto/_adaptors.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="nd">@content_adaptor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">PlotlyFigure</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">content_adaptor_plotly</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">PlotlyFigure</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FigurePlotly</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Convert Plotly Figure to FigurePlotly content.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">FigurePlotly</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -988,7 +1080,7 @@
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d892486b.min.js"></script>
+      <script src="../../assets/javascripts/bundle.4ea5477f.min.js"></script>
       
     
   </body>
