@@ -9,7 +9,7 @@ python:
   - 3.6
 
 before_install:
-  - pip install poetry
+  - pip install poetry pytest coverage
 
 install:
   - pip install tox-travis
