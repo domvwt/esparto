@@ -9,7 +9,7 @@ python:
   # - 3.6
 
 before_install:
-  - pip install poetry
+  - curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
 
 install:
   - poetry install --no-dev -E test
@@ -20,14 +20,14 @@ jobs:
     script:
     - black --check .
     - flake8
-    - coverage run --source esparto -m pytest
+    - coverage run --append --source esparto -m pytest
     - ls -la
   - stage: test-max-deps
     script:
     - poetry install -v
     - black --check .
     - flake8
-    - coverage run --source esparto -m pytest
+    - coverage run --append --source esparto -m pytest
     - ls -la
 
 after_success:
