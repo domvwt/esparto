@@ -4,19 +4,28 @@ os: linux
 dist: xenial
 python:
   - 3.9
-  - 3.8
-  - 3.7
-  - 3.6
+  # - 3.8
+  # - 3.7
+  # - 3.6
 
 before_install:
-  - pip install poetry
+  - pip install poetry coverage
 
-install:
-  - pip install tox-travis coverage
+install: skip
 
-script:
-  - tox
-  - coverage combine
+jobs:
+  include:
+  - stage: test-min-deps
+  - script:
+    - poetry install -v --no-root --no-dev -E test
+    - poetry run coverage run -append --module pytest
+    - ls -la
+  - stage: test-max-deps
+  - script:
+    - poetry install -v --no-root -E test
+    - poetry run coverage run -append --module pytest
+    - ls -la
 
 after_success:
+  - coverage combine
   - bash <(curl -s https://codecov.io/bash)
