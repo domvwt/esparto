@@ -1209,10 +1209,10 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 
 [extras]
 extras = ["beautifulsoup4"]
-test = ["black", "flake8", "pytest", "coverage", "html5lib"]
+test = ["black", "flake8", "mypy", "pytest", "coverage", "html5lib"]
 
 [metadata]
-content-hash = "5930bd61dff6b91cbed8ca723aac70ad82f19ab78d452b1878b65afabd506123"
+content-hash = "b35f26f12e97d89f71848c3e0a0f7c743bb4704470e5ffe40f5c4f03a814b358"
 lock-version = "1.0"
 python-versions = "^3.6.1"
 
