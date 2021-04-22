@@ -12,10 +12,11 @@ before_install:
   - pip install poetry
 
 install:
-  - pip install tox-travis
+  - pip install tox-travis coverage
 
 script:
   - tox
+  - coverage combine
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
