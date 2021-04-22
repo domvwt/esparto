@@ -607,7 +607,7 @@ pymdown-extensions = ">=6.3,<9.0"
 pytkdocs = ">=0.2.0,<0.12.0"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "Optional static typing for Python"
 name = "mypy"
 optional = false
@@ -1212,7 +1212,7 @@ extras = ["beautifulsoup4"]
 test = ["black", "flake8", "pytest", "coverage", "html5lib"]
 
 [metadata]
-content-hash = "79fe98a9003741a7fec54bcb5de475b81a5f2fddd4eb46ec741e0864f455967e"
+content-hash = "5930bd61dff6b91cbed8ca723aac70ad82f19ab78d452b1878b65afabd506123"
 lock-version = "1.0"
 python-versions = "^3.6.1"
 

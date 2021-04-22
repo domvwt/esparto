@@ -24,6 +24,7 @@ install:
 script:
   - black --check .
   - flake8
+  - mypy esparto tests
   - coverage run --append --source esparto -m pytest
 
 after_success:
