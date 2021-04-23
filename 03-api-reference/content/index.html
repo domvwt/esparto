@@ -1177,7 +1177,7 @@
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="n">html</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
     <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">html</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;div class=&#39;container-fluid px-1&#39;&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">html</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/div&gt;&quot;</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;div class=&#39;container px-1&#39;&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">html</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/div&gt;&quot;</span>
     <span class="k">return</span> <span class="n">html</span>
 </code></pre></div>
         </details>
@@ -1623,13 +1623,13 @@
       <tr>
         <td><code>width</code></td>
         <td><code>int</code></td>
-        <td><p>Width in pixels. (default = 'auto')</p></td>
+        <td><p>Width in pixels. (default = from figure or 'auto')</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>height</code></td>
         <td><code>int</code></td>
-        <td><p>Height in pixels. (default = 'auto')</p></td>
+        <td><p>Height in pixels. (default = from figure or 'auto')</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1749,7 +1749,7 @@
       <tr>
         <td><code>height</code></td>
         <td><code>int</code></td>
-        <td><p>Height in pixels. (default = 500')</p></td>
+        <td><p>Height in pixels. (default = 500)</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>

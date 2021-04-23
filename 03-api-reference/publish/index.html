@@ -863,7 +863,7 @@
 
         <span class="n">head_deps</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_get_head_deps</span><span class="p">(</span><span class="n">required_deps</span><span class="p">))</span>
         <span class="n">tail_deps</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_get_tail_deps</span><span class="p">(</span><span class="n">required_deps</span><span class="p">))</span>
-        <span class="n">content_html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;div class=&#39;container-fluid&#39; style=&#39;width: 100%; height: 100%;&#39;&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">to_html</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/div&gt;&quot;</span>
+        <span class="n">content_html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;div class=&#39;container&#39; style=&#39;width: 100%; height: 100%;&#39;&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">to_html</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/div&gt;&quot;</span>
 
         <span class="n">render_html</span> <span class="o">=</span> <span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;&lt;!doctype html&gt;</span><span class="se">\n</span><span class="s2">&lt;html&gt;</span><span class="se">\n</span><span class="s2">&lt;head&gt;</span><span class="si">{</span><span class="n">head_deps</span><span class="si">}</span><span class="s2">&lt;/head&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -871,11 +871,14 @@
         <span class="p">)</span>
 
         <span class="nb">print</span><span class="p">()</span>
-        <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">render_html</span><span class="p">),</span> <span class="n">metadata</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">isolated</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
         <span class="c1"># This allows time to download plotly.js from the CDN - otherwise cell renders empty</span>
-        <span class="c1"># TODO: Make this asynchronous</span>
         <span class="k">if</span> <span class="s2">&quot;plotly&quot;</span> <span class="ow">in</span> <span class="n">required_deps</span><span class="p">:</span>
-            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">display</span><span class="p">(</span>
+                <span class="n">HTML</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;head&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">head_deps</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/head&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">),</span> <span class="n">metadata</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">isolated</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">render_html</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">isolated</span><span class="o">=</span><span class="kc">True</span><span class="p">)))</span>
         <span class="nb">print</span><span class="p">()</span>
 
         <span class="c1"># Prevent output scrolling</span>
