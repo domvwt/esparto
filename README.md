@@ -6,10 +6,10 @@ esparto
 [![codecov](https://codecov.io/gh/domvwt/esparto/branch/main/graph/badge.svg?token=35J8NZCUYC)](https://codecov.io/gh/domvwt/esparto)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&metric=alert_status)](https://sonarcloud.io/dashboard?id=domvwt_esparto)
 
-Esparto is a minimal frontend web framework written in Python.
-It aims to be the first choice for designing self-contained documents with productivity as the main concern.
+Esparto is a super minimal frontend web framework written in Python. Its primary use is for generating shareable single page documents
+with content from popular analytics and data science libraries.
 
-Full documentation available at [domvwt.github.io/esparto/](https://domvwt.github.io/esparto/).
+Full documentation and examples at [domvwt.github.io/esparto/](https://domvwt.github.io/esparto/).
 
 ### Features
 * Lightweight API
@@ -18,3 +18,11 @@ Full documentation available at [domvwt.github.io/esparto/](https://domvwt.githu
 * Self contained / inline dependencies
 * Jupyter Notebook support
 * MIT License
+
+## Supported Content
+* Markdown text
+* Images
+* Matplotlib figures
+* Pandas DataFrames
+* Bokeh objects
+* Plotly figures

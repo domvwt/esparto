@@ -1,6 +1,6 @@
 # Welcome
-Esparto is a minimal frontend web framework written in Python.
-It aims to be the first choice for designing self-contained documents with productivity as the main concern.
+Esparto is a super minimal frontend web framework written in Python. Its primary use is for generating shareable single page documents
+with content from popular analytics and data science libraries.
 
 ## Overview
 The library provides a streamlined API that lets users define their page in terms of
@@ -26,10 +26,7 @@ and iteratively build documents without disrupting their workflow.
 * Self contained / inline dependencies
 * MIT License
 
-
-## Integrations
-The following content types are currently supported
-
+## Supported Content
 * Markdown text
 * Images
 * Matplotlib figures
