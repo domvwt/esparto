@@ -19,7 +19,7 @@ Full documentation and examples at [domvwt.github.io/esparto/](https://domvwt.gi
 * Jupyter Notebook support
 * MIT License
 
-## Supported Content
+### Supported Content
 * Markdown text
 * Images
 * Matplotlib figures
