@@ -57,6 +57,6 @@ Esparto determines that the string points to a valid image and loads the file:
 
 <br>
 
-Please check the [examples page](../02-user-guide/examples.md) for a more in-depth guide.
+Please see the [examples page](../02-user-guide/examples.md) for more.
 
 <br>

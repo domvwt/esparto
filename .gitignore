@@ -1,8 +1,8 @@
 # Scratch files for testing
 scratch.ipynb
 scratch.py
-esparto-page-*.html
-notebooks/*.jpg
+esparto-doc.html
+docs/examples/*.html
 
 # IDE files
 .vscode

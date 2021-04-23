@@ -4,15 +4,16 @@ import pytest
 
 import esparto._content as co
 import esparto._layout as la
-from tests.conftest import content_list
+from tests.conftest import _EXTRAS, content_list
 
+if _EXTRAS:
 
-def test_all_content_classes_covered(content_list_fn):
-    test_classes = [type(c) for c in content_list_fn]
-    module_classes = [c for c in co.Content.__subclasses__()]
-    module_subclasses = [d.__subclasses__() for d in module_classes]
-    module_all = list(chain.from_iterable(module_subclasses)) + module_classes
-    assert all([c in test_classes for c in module_all])
+    def test_all_content_classes_covered(content_list_fn):
+        test_classes = {type(c) for c in content_list_fn}
+        module_classes = {c for c in co.Content.__subclasses__()}
+        module_subclasses = [d.__subclasses__() for d in module_classes]
+        module_all = set(chain.from_iterable(module_subclasses)) | module_classes
+        assert module_all <= test_classes
 
 
 @pytest.mark.parametrize("a", content_list)
@@ -54,8 +55,8 @@ def test_incorrect_content_rejected(a):
     b = type(a)
 
     class FakeClass:
-        def __call__(self):
-            return "I'm not supported"
+        def __init__(self):
+            self.supported = False
 
     fake = FakeClass()
 

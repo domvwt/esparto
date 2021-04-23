@@ -1,11 +1,10 @@
-import pytest
 from typing import Optional
 
+import pytest
 from html5lib import HTMLParser  # type: ignore
 
-from tests.conftest import content_list, layout_list
-
 import esparto._publish as pu
+from tests.conftest import _EXTRAS, content_list, layout_list
 
 htmlparser = HTMLParser(strict=True)
 
@@ -43,6 +42,8 @@ def test_saved_html_valid(page_layout, tmp_path):
     assert html_is_valid(html)
 
 
-def test_notebook_html_valid(page_layout):
-    html = pu.nb_display(page_layout, return_html=True)
-    assert html_is_valid(html, fragment=True)
+if _EXTRAS:
+
+    def test_notebook_html_valid(page_layout):
+        html = pu.nb_display(page_layout, return_html=True)
+        assert html_is_valid(html)

@@ -1,21 +1,31 @@
+sudo: false
 language: python
 os: linux
 dist: xenial
 python:
+  - 3.9
   - 3.8
   - 3.7
   - 3.6
 
+env:
+  - INSTALL_DEPS=""
+  - INSTALL_DEPS="--no-dev"
+
 before_install:
-  - pip install poetry
+  - curl -fsS -o get-poetry.py https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
+  - python get-poetry.py -y
+  - export PATH="$PATH:$HOME/.poetry/bin"
+  - poetry config virtualenvs.in-project true
 
 install:
-  - poetry install
+  - poetry install $INSTALL_DEPS -E test
 
 script:
   - black --check .
   - flake8
-  - coverage run --source esparto -m pytest
+  - mypy esparto tests
+  - coverage run --append --source esparto -m pytest
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
