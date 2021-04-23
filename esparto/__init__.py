@@ -6,7 +6,7 @@ from typing import Set
 
 __author__ = """Dominic Thorn"""
 __email__ = "dominic.thorn@gmail.com"
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 
 
 _OPTIONAL_DEPENDENCIES: set = {
