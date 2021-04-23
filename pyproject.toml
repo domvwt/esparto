@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "esparto"
-version = "0.2.0"
+version = "0.2.1"
 description = "Minimal frontend web framework written in Python."
 authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
 license = "MIT"

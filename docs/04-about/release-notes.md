@@ -1,6 +1,20 @@
 Release Notes
 =============
 
+0.2.1 (2021-04-24)
+------------------
+
+-   Add Bootstrap dependencies for relevant content classes.
+-   Inherit FigureBokeh height from Bokeh object.
+-   Fix issues with in-notebook content rendering.
+
+
+0.2.0 (2021-04-23)
+------------------
+
+-   Add support for Bokeh and Plotly.
+
+
 0.1.2 (2021-04-09)
 ------------------
 
@@ -17,3 +31,5 @@ Release Notes
 ------------------
 
 -   First public release.
+
+<br>

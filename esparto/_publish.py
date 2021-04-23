@@ -128,7 +128,7 @@ def nb_display(
 
         head_deps = "\n".join(_get_head_deps(required_deps))
         tail_deps = "\n".join(_get_tail_deps(required_deps))
-        content_html = f"<div class='container-fluid' style='width: 100%; height: 100%;'>\n{item.to_html()}\n</div>"
+        content_html = f"<div class='container' style='width: 100%; height: 100%;'>\n{item.to_html()}\n</div>"
 
         render_html = (
             f"<!doctype html>\n<html>\n<head>{head_deps}</head>\n"
@@ -136,11 +136,14 @@ def nb_display(
         )
 
         print()
-        display(HTML(render_html), metadata=dict(isolated=True))
         # This allows time to download plotly.js from the CDN - otherwise cell renders empty
-        # TODO: Make this asynchronous
         if "plotly" in required_deps:
-            time.sleep(1)
+            display(
+                HTML(f"<head>\n{head_deps}\n</head>\n"), metadata=dict(isolated=True)
+            )
+            time.sleep(2)
+
+        display(HTML(render_html, metadata=dict(isolated=True)))
         print()
 
         # Prevent output scrolling

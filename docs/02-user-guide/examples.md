@@ -25,7 +25,7 @@ The [pandas-bokeh](https://github.com/PatrikHlobil/Pandas-Bokeh) library offers 
 with few lines of code.
 
 With the [Plotly backend for Pandas](https://plotly.com/python/pandas-backend/)
-we can access the Plotly Express API directly from the '.plot()' method of any DataFrame or Series.
+we can access the Plotly Express API directly from the `.plot()` method of any DataFrame or Series.
 
 This notebook shows basic examples from each library:
 

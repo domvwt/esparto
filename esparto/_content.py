@@ -144,12 +144,12 @@ class Markdown(Content):
             raise TypeError(r"text must be str")
 
         self.content = str(text)
-        self._dependencies = set()
+        self._dependencies = {"bootstrap"}
 
     def to_html(self) -> str:
         html = md.markdown(self.content)
         html = f"{html}\n"
-        html = f"<div class='container-fluid px-1'>\n{html}\n</div>"
+        html = f"<div class='container px-1'>\n{html}\n</div>"
         return html
 
 
@@ -212,6 +212,7 @@ class Image(Content):
         self.alt_text = alt_text
         self.caption = caption
         self.scale = scale
+        self._dependencies = {"bootstrap"}
 
     def rescale(self, scale) -> "Image":
         """Rescale the image prior to rendering.
@@ -293,6 +294,7 @@ class DataFramePd(Content):
         self.content = df
         self.index = index
         self.col_space = col_space
+        self._dependencies = {"bootstrap"}
 
     def to_html(self) -> str:
         classes = "table table-sm table-striped table-hover table-bordered"
@@ -332,8 +334,8 @@ class FigureBokeh(Content):
 
     Args:
       figure (bokeh.layouts.LayoutDOM): A Bokeh object.
-      width (int): Width in pixels. (default = 'auto')
-      height (int): Height in pixels. (default = 'auto')
+      width (int): Width in pixels. (default = from figure or 'auto')
+      height (int): Height in pixels. (default = from figure or 'auto')
 
     """
 
@@ -401,8 +403,11 @@ class FigureBokeh(Content):
         if not issubclass(type(figure), BokehObject):
             raise TypeError(r"figure must be a Bokeh object")
 
-        self.width = width or "auto"
-        self.height = height or "auto"
+        fig_width = figure.properties_with_values().get("width")
+        fig_height = figure.properties_with_values().get("height")
+
+        self.width = width or fig_width or "auto"
+        self.height = height or fig_height or "auto"
 
     # Required as deep copy is not defined for Bokeh figures
     # Also need to catch some erroneous args that get passed to the function
@@ -425,7 +430,7 @@ class FigurePlotly(Content):
     Args:
       figure (plotly.graph_objs._figure.Figure): A Plotly figure.
       width (int): Width in pixels. (default = 'auto')
-      height (int): Height in pixels. (default = 500')
+      height (int): Height in pixels. (default = 500)
 
     """
 
@@ -488,8 +493,8 @@ class FigurePlotly(Content):
         self.width = width or figure.layout["width"] or "auto"
         self.height = height or figure.layout["height"] or 500
 
-        self._dependencies = {"plotly"}
         self.content = figure
+        self._dependencies = {"plotly"}
 
     def to_html(self) -> str:
         html = plotly_to_html(self.content, include_plotlyjs=False, full_html=False)
