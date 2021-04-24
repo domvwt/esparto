@@ -1,7 +1,9 @@
 # Scratch files for testing
-scratch.ipynb
-scratch.py
+*scratch*.ipynb
+*scratch*.py
+image.jpg
 esparto-doc.html
+esparto-quick.html
 docs/examples/*.html
 
 # IDE files

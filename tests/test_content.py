@@ -15,6 +15,10 @@ if _EXTRAS:
         module_all = set(chain.from_iterable(module_subclasses)) | module_classes
         assert module_all <= test_classes
 
+    def test_all_content_classes_have_deps(content_list_fn):
+        deps = [c._dependencies for c in content_list_fn]
+        assert all(deps)
+
 
 @pytest.mark.parametrize("a", content_list)
 @pytest.mark.parametrize("b", content_list)

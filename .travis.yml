@@ -22,6 +22,7 @@ install:
   - poetry install $INSTALL_DEPS -E test
 
 script:
+  - python -m tests.check_package_version
   - black --check .
   - flake8
   - mypy esparto tests

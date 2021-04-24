@@ -1,18 +1,21 @@
-import sys
+from pathlib import Path
 
-import esparto
+import esparto as es
 
 
 def check_package_version():
-    if sys.version >= "3.8.0":
-        from importlib.metadata import version
+    pyproject_file = Path("pyproject.toml").read_text()
+    pyproject_version = pyproject_file.split("version", 1)[1].split('"')[1]
+    module_version = es.__version__
 
-        if esparto.__version__ == version("esparto"):
-            print("Version number up to date!")
-        else:
-            print("Please bump version number!")
+    if module_version == pyproject_version:
+        print("Version number up to date!")
+        exit(0)
     else:
-        assert True
+        print("Please bump version number!")
+        print("pyproject.toml:", pyproject_version)
+        print("esparto.__version__:", module_version)
+        exit(1)
 
 
 if __name__ == "__main__":

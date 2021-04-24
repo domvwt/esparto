@@ -61,7 +61,6 @@ mypy: ## check type hints
 
 test: ## run tests quickly with the default Python
 	pytest
-	python -m tests.check_package_version
 
 test-all: ## run tests on every Python version with tox
 	tox --skip-missing-interpreters
