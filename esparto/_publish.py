@@ -143,7 +143,7 @@ def nb_display(
             )
             time.sleep(2)
 
-        display(HTML(render_html, metadata=dict(isolated=True)))
+        display(HTML(render_html), metadata=dict(isolated=True))
         print()
 
         # Prevent output scrolling
