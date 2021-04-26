@@ -17,6 +17,7 @@ Full documentation and examples at [domvwt.github.io/esparto/](https://domvwt.gi
 * Device responsive display
 * Self contained / inline dependencies
 * Jupyter Notebook support
+* Printer and PDF friendly formatting
 * MIT License
 
 ### Supported Content

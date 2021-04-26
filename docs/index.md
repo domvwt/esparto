@@ -18,15 +18,16 @@ and fed into an HTML template with all style details and dependencies captured i
 Esparto supports content rendering within Jupyter Notebooks, allowing users to interactively
 and iteratively build documents without disrupting their workflow.
 
-## Features
+### Features
 * Lightweight API
-* Jupyter Notebook support
 * No CSS or HTML required
 * Device responsive display
 * Self contained / inline dependencies
+* Jupyter Notebook support
+* Printer and PDF friendly formatting
 * MIT License
 
-## Supported Content
+### Supported Content
 * Markdown text
 * Images
 * Matplotlib figures
