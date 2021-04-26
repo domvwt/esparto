@@ -9,10 +9,38 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Required dependencies -->
+  <!-- Print friendly page formatting -->
+  <style>
+    @page {
+      size: auto;
+      margin: 15mm 20mm;
+    }
+
+    @media print {
+      html, body, main {
+        border: 1px solid white;
+        width: 90%;
+        height: auto;
+      }
+
+      div {
+        page-break-inside: avoid;
+        page-break-after: auto;
+        page-break-before: auto;
+      }
+
+      .col-lg {
+        flex: 1 !important;
+      }
+
+    }
+  </style>
+
+
   {% if head_deps is defined and head_deps|length %}
+  <!-- Required dependencies -->
     {% for dep in head_deps %}
-      {{ dep }}
+    {{ dep }}
     {% endfor %}
   {% endif %}
 
@@ -33,10 +61,10 @@
   {% endif %}
   <!-- GENERATED CONTENT END -->
 
-  <!-- Required JS dependencies -->
   {% if tail_deps is defined and tail_deps|length %}
+  <!-- Required JS dependencies -->
     {% for dep in tail_deps %}
-      {{ dep }}
+    {{ dep }}
     {% endfor %}
   {% endif %}
 

@@ -149,7 +149,7 @@ class Markdown(Content):
     def to_html(self) -> str:
         html = md.markdown(self.content)
         html = f"{html}\n"
-        html = f"<div class='container px-1'>\n{html}\n</div>"
+        html = f"<div class='px-1'>\n{html}\n</div>"
         return html
 
 
