@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "esparto"
-version = "0.2.2"
-description = "Minimal frontend web framework written in Python."
+version = "0.2.3"
+description = "Simple HTML document generator for Python."
 authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
 license = "MIT"
 readme = "README.md"
