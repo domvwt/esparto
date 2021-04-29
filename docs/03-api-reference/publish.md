@@ -13,7 +13,7 @@
     page.display()
 
     # Publish the document to an HTML file:
-    page.save()
+    page.save_html()
 
     ```
 
