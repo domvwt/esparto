@@ -16,6 +16,7 @@ _OPTIONAL_DEPENDENCIES: set = {
     "pandas",
     "bokeh",
     "plotly",
+    "weasyprint",
 }
 
 _INSTALLED_MODULES: Set[str] = {
