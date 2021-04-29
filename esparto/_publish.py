@@ -10,7 +10,7 @@ if TYPE_CHECKING:  # pragma: no cover
 from esparto import _INSTALLED_MODULES
 
 _ENV = Environment(
-    loader=PackageLoader("esparto", "templates"),
+    loader=PackageLoader("esparto", "resources/jinja"),
     autoescape=select_autoescape(["xml"]),
 )
 
