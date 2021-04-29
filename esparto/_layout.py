@@ -6,7 +6,7 @@ from inspect import getmembers
 from pprint import pformat
 from typing import TYPE_CHECKING, Any, Iterable, Optional, Set, Type, Union
 
-from esparto._publish import nb_display, publish
+from esparto._publish import nb_display, publish_html, publish_pdf
 
 if TYPE_CHECKING:  # pragma: no cover
     from esparto._content import Content
@@ -204,11 +204,11 @@ class Layout(ABC):
         """Display rendered document in a Jupyter Notebook cell."""
         nb_display(self)
 
-    def save(
+    def save_html(
         self, filepath: str = "./esparto-doc.html", return_html: bool = False
     ) -> Optional[str]:
         """
-        Render document to HTML and save to disk.
+        Save document as an HTML file.
 
         Args:
           filepath: Destination filepath. (default = './esparto-doc.html')
@@ -218,12 +218,47 @@ class Layout(ABC):
           Document rendered as HTML. (If 'return_html' is True)
 
         """
-        html = publish(self, filepath=filepath, return_html=return_html)
+        html = publish_html(self, filepath=filepath, return_html=return_html)
 
         if return_html:
             return html
         else:
             return None
+
+    def save(
+        self, filepath: str = "./esparto-doc.html", return_html: bool = False
+    ) -> Optional[str]:
+        """
+        Save document as an HTML file.
+
+        Note: Alias for `self.save_html()`.
+
+        Args:
+          filepath: Destination filepath. (default = './esparto-doc.html')
+          return_html: If True, return HTML as a string.
+
+        Returns:
+          Document rendered as HTML. (If 'return_html' is True)
+
+        """
+        html = self.save_html(filepath=filepath, return_html=return_html)
+
+        if return_html:
+            return html
+        else:
+            return None
+
+    def save_pdf(self, filepath: str = "./esparto-doc.pdf") -> None:
+        """
+        Save document as a PDF file.
+
+        Note: Requires optional module `weasyprint`.
+
+        Args:
+          filepath: Destination filepath. (default = './esparto-doc.pdf')
+
+        """
+        publish_pdf(self, filepath)
 
     def to_dict(self) -> dict:
         """Return object as a dictionary."""
@@ -374,7 +409,7 @@ class Section(Layout):
 
     def _render_title(self) -> str:
         """ """
-        return f"<h2 class='mb-3'>{self._title}</h2>\n"
+        return f"<h3 class='mb-3'>{self._title}</h3>\n"
 
     @property
     def _tag_open(self) -> str:

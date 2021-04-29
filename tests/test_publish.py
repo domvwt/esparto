@@ -1,8 +1,10 @@
+from pathlib import Path
 from typing import Optional
 
 import pytest
 from html5lib import HTMLParser  # type: ignore
 
+import esparto as es
 import esparto._publish as pu
 from tests.conftest import _EXTRAS, content_list, layout_list
 
@@ -30,15 +32,14 @@ def test_content_html_valid(content):
 
 def test_rendered_html_valid(page_layout, tmp_path):
     path = str(tmp_path / "my_page.html")
-    html = pu.publish(page_layout, path, return_html=True)
+    html = pu.publish_html(page_layout, path, return_html=True)
     assert html_is_valid(html)
 
 
 def test_saved_html_valid(page_layout, tmp_path):
-    path = str(tmp_path / "my_page.html")
-    page_layout.save(path)
-    with open(path, "r") as f:
-        html = f.read()
+    path: Path = tmp_path / "my_page.html"
+    page_layout.save_html(str(path))
+    html = path.read_text()
     assert html_is_valid(html)
 
 
@@ -47,3 +48,11 @@ if _EXTRAS:
     def test_notebook_html_valid(page_layout):
         html = pu.nb_display(page_layout, return_html=True)
         assert html_is_valid(html)
+
+    def test_pdf_output(content_list_fn, tmp_path):
+        content_list = [x for x in content_list_fn if not pu._JS_DEPS & x._deps]
+        page = es.Page(content_list)
+        path: Path = tmp_path / "my_page.pdf"
+        page.save_pdf(str(path))
+        size = path.stat().st_size
+        assert size > 500_000

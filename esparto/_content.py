@@ -244,11 +244,11 @@ class Image(Content):
 
         image_encoded = _image_to_base64(image)
         html = (
-            "<figure class='text-center'>"
-            + "<img class='figure-img img-fluid rounded' "
+            "<figure class='text-center my-1'>"
+            + "<img class='figure-img rounded' "
             + f"alt='{self.alt_text}' "
-            + f"height='{height}' width='{width}' "
-            + f"src='data:image/png;base64,{image_encoded}'>"
+            + f"src='data:image/png;base64,{image_encoded}' "
+            + ">"
         )
 
         if self.caption:
@@ -297,7 +297,7 @@ class DataFramePd(Content):
         self._dependencies = {"bootstrap"}
 
     def to_html(self) -> str:
-        classes = "table table-sm table-striped table-hover table-bordered"
+        classes = "table table-sm table-striped table-hover table-bordered my-1"
         html = self.content.to_html(
             index=self.index, border=0, col_space=self.col_space, classes=classes
         )
