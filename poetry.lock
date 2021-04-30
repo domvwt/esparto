@@ -108,7 +108,7 @@ tornado = ">=5.1"
 typing_extensions = ">=3.7.4"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "cffi-based cairo bindings for Python"
 name = "cairocffi"
 optional = false
@@ -124,7 +124,7 @@ test = ["pytest-runner", "pytest-cov", "pytest-flake8", "pytest-isort"]
 xcb = ["xcffib (>=0.3.2)"]
 
 [[package]]
-category = "dev"
+category = "main"
 description = "A Simple SVG Converter based on Cairo"
 name = "cairosvg"
 optional = false
@@ -151,7 +151,7 @@ python-versions = "*"
 version = "2020.12.5"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "Foreign Function Interface for Python calling C code."
 name = "cffi"
 optional = false
@@ -206,7 +206,7 @@ version = "5.5"
 toml = ["toml"]
 
 [[package]]
-category = "dev"
+category = "main"
 description = "cssselect2"
 name = "cssselect2"
 optional = false
@@ -250,7 +250,7 @@ python-versions = ">=3.5"
 version = "5.0.7"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "XML bomb protection for Python stdlib modules"
 name = "defusedxml"
 optional = false
@@ -639,7 +639,7 @@ description = "A Material Design theme for MkDocs"
 name = "mkdocs-material"
 optional = false
 python-versions = "*"
-version = "7.1.2"
+version = "7.1.3"
 
 [package.dependencies]
 Pygments = ">=2.4"
@@ -914,7 +914,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "2.7.0"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "C parser in Python"
 name = "pycparser"
 optional = false
@@ -935,11 +935,12 @@ description = "Use the full Github API v3"
 name = "pygithub"
 optional = false
 python-versions = ">=3.6"
-version = "1.54.1"
+version = "1.55"
 
 [package.dependencies]
 deprecated = "*"
-pyjwt = "<2.0"
+pyjwt = ">=2.0"
+pynacl = ">=1.4.0"
 requests = ">=2.14.0"
 
 [package.extras]
@@ -958,13 +959,14 @@ category = "dev"
 description = "JSON Web Token implementation in Python"
 name = "pyjwt"
 optional = false
-python-versions = "*"
-version = "1.7.1"
+python-versions = ">=3.6"
+version = "2.1.0"
 
 [package.extras]
-crypto = ["cryptography (>=1.4)"]
-flake8 = ["flake8", "flake8-import-order", "pep8-naming"]
-test = ["pytest (>=4.0.1,<5.0.0)", "pytest-cov (>=2.6.0,<3.0.0)", "pytest-runner (>=4.2,<5.0.0)"]
+crypto = ["cryptography (>=3.3.1,<4.0.0)"]
+dev = ["sphinx", "sphinx-rtd-theme", "zope.interface", "cryptography (>=3.3.1,<4.0.0)", "pytest (>=6.0.0,<7.0.0)", "coverage (5.0.4)", "mypy", "pre-commit"]
+docs = ["sphinx", "sphinx-rtd-theme", "zope.interface"]
+tests = ["pytest (>=6.0.0,<7.0.0)", "coverage (5.0.4)"]
 
 [[package]]
 category = "dev"
@@ -986,6 +988,22 @@ python-versions = "*"
 version = "0.3.3"
 
 [[package]]
+category = "dev"
+description = "Python binding to the Networking and Cryptography (NaCl) library"
+name = "pynacl"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "1.4.0"
+
+[package.dependencies]
+cffi = ">=1.4.1"
+six = "*"
+
+[package.extras]
+docs = ["sphinx (>=1.6.5)", "sphinx-rtd-theme"]
+tests = ["pytest (>=3.2.1,<3.3.0 || >3.3.0)", "hypothesis (>=3.27.0)"]
+
+[[package]]
 category = "main"
 description = "Python parsing module"
 name = "pyparsing"
@@ -994,7 +1012,7 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 version = "2.4.7"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "Pure Python module to hyphenate text"
 name = "pyphen"
 optional = false
@@ -1130,7 +1148,7 @@ python-versions = ">=3.6"
 version = "2.2.1"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "tinycss2"
 name = "tinycss2"
 optional = false
@@ -1280,7 +1298,7 @@ python-versions = "*"
 version = "0.2.5"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "The Awesome Document Factory"
 name = "weasyprint"
 optional = false
@@ -1336,7 +1354,7 @@ extras = ["beautifulsoup4"]
 test = ["black", "flake8", "mypy", "pytest", "coverage", "html5lib"]
 
 [metadata]
-content-hash = "cbd9049e5a2b66a4d99916b9c8f6782668b81aff9090da74484f384fd75419db"
+content-hash = "ca8ca4ce1b9c1fa9093abc4b8dbebdb357802371c4f041f52174815672141b48"
 lock-version = "1.0"
 python-versions = "^3.6.1"
 
@@ -1726,8 +1744,8 @@ mkdocs-git-committers-plugin = [
     {file = "mkdocs_git_committers_plugin-0.2.1-py3-none-any.whl", hash = "sha256:f9bd6552999c7e3ded49731de50a5d46b1cbc1d9dbbec1dd7b862fb0f329f5ec"},
 ]
 mkdocs-material = [
-    {file = "mkdocs-material-7.1.2.tar.gz", hash = "sha256:8973786f90468c1e947eb762a89a64ac749759e7dafba911636216dd7982c7e1"},
-    {file = "mkdocs_material-7.1.2-py2.py3-none-any.whl", hash = "sha256:2ac789c380bbea0801ae34e01fbf76c8bfbebcf0bce15bc76225182f1191617e"},
+    {file = "mkdocs-material-7.1.3.tar.gz", hash = "sha256:e34bba93ad1a0e6f9afc371f4ef55bedabbf13b9a786b013b0ce26ac55ec2932"},
+    {file = "mkdocs_material-7.1.3-py2.py3-none-any.whl", hash = "sha256:437638b0de7a9113d7f1c9ddc93c0a29a3b808c71c3606713d8c1fa437697a3e"},
 ]
 mkdocs-material-extensions = [
     {file = "mkdocs-material-extensions-1.0.1.tar.gz", hash = "sha256:6947fb7f5e4291e3c61405bad3539d81e0b3cd62ae0d66ced018128af509c68f"},
@@ -1931,16 +1949,16 @@ pyflakes = [
     {file = "pyflakes-2.3.1.tar.gz", hash = "sha256:f5bc8ecabc05bb9d291eb5203d6810b49040f6ff446a756326104746cc00c1db"},
 ]
 pygithub = [
-    {file = "PyGithub-1.54.1-py3-none-any.whl", hash = "sha256:87afd6a67ea582aa7533afdbf41635725f13d12581faed7e3e04b1579c0c0627"},
-    {file = "PyGithub-1.54.1.tar.gz", hash = "sha256:300bc16e62886ca6537b0830e8f516ea4bc3ef12d308e0c5aff8bdbd099173d4"},
+    {file = "PyGithub-1.55-py3-none-any.whl", hash = "sha256:2caf0054ea079b71e539741ae56c5a95e073b81fa472ce222e81667381b9601b"},
+    {file = "PyGithub-1.55.tar.gz", hash = "sha256:1bbfff9372047ff3f21d5cd8e07720f3dbfdaf6462fcaed9d815f528f1ba7283"},
 ]
 pygments = [
     {file = "Pygments-2.8.1-py3-none-any.whl", hash = "sha256:534ef71d539ae97d4c3a4cf7d6f110f214b0e687e92f9cb9d2a3b0d3101289c8"},
     {file = "Pygments-2.8.1.tar.gz", hash = "sha256:2656e1a6edcdabf4275f9a3640db59fd5de107d88e8663c5d4e9a0fa62f77f94"},
 ]
 pyjwt = [
-    {file = "PyJWT-1.7.1-py2.py3-none-any.whl", hash = "sha256:5c6eca3c2940464d106b99ba83b00c6add741c9becaec087fb7ccdefea71350e"},
-    {file = "PyJWT-1.7.1.tar.gz", hash = "sha256:8d59a976fb773f3e6a39c85636357c4f0e242707394cadadd9814f5cbaa20e96"},
+    {file = "PyJWT-2.1.0-py3-none-any.whl", hash = "sha256:934d73fbba91b0483d3857d1aff50e96b2a892384ee2c17417ed3203f173fca1"},
+    {file = "PyJWT-2.1.0.tar.gz", hash = "sha256:fba44e7898bbca160a2b2b501f492824fc8382485d3a6f11ba5d0c1937ce6130"},
 ]
 pymdown-extensions = [
     {file = "pymdown-extensions-8.1.1.tar.gz", hash = "sha256:632371fa3bf1b21a0e3f4063010da59b41db049f261f4c0b0872069a9b6d1735"},
@@ -1949,6 +1967,26 @@ pymdown-extensions = [
 pyment = [
     {file = "Pyment-0.3.3-py2.py3-none-any.whl", hash = "sha256:a0c6ec59d06d24aeec3eaecb22115d0dc95d09e14209b2df838381fdf47a78cc"},
     {file = "Pyment-0.3.3.tar.gz", hash = "sha256:951a4c52d6791ccec55bc739811169eed69917d3874f5fe722866623a697f39d"},
+]
+pynacl = [
+    {file = "PyNaCl-1.4.0-cp27-cp27m-macosx_10_10_x86_64.whl", hash = "sha256:ea6841bc3a76fa4942ce00f3bda7d436fda21e2d91602b9e21b7ca9ecab8f3ff"},
+    {file = "PyNaCl-1.4.0-cp27-cp27m-manylinux1_x86_64.whl", hash = "sha256:d452a6746f0a7e11121e64625109bc4468fc3100452817001dbe018bb8b08514"},
+    {file = "PyNaCl-1.4.0-cp27-cp27m-win32.whl", hash = "sha256:2fe0fc5a2480361dcaf4e6e7cea00e078fcda07ba45f811b167e3f99e8cff574"},
+    {file = "PyNaCl-1.4.0-cp27-cp27m-win_amd64.whl", hash = "sha256:f8851ab9041756003119368c1e6cd0b9c631f46d686b3904b18c0139f4419f80"},
+    {file = "PyNaCl-1.4.0-cp27-cp27mu-manylinux1_x86_64.whl", hash = "sha256:7757ae33dae81c300487591c68790dfb5145c7d03324000433d9a2c141f82af7"},
+    {file = "PyNaCl-1.4.0-cp35-abi3-macosx_10_10_x86_64.whl", hash = "sha256:757250ddb3bff1eecd7e41e65f7f833a8405fede0194319f87899690624f2122"},
+    {file = "PyNaCl-1.4.0-cp35-abi3-manylinux1_x86_64.whl", hash = "sha256:30f9b96db44e09b3304f9ea95079b1b7316b2b4f3744fe3aaecccd95d547063d"},
+    {file = "PyNaCl-1.4.0-cp35-abi3-win32.whl", hash = "sha256:4e10569f8cbed81cb7526ae137049759d2a8d57726d52c1a000a3ce366779634"},
+    {file = "PyNaCl-1.4.0-cp35-abi3-win_amd64.whl", hash = "sha256:c914f78da4953b33d4685e3cdc7ce63401247a21425c16a39760e282075ac4a6"},
+    {file = "PyNaCl-1.4.0-cp35-cp35m-win32.whl", hash = "sha256:06cbb4d9b2c4bd3c8dc0d267416aaed79906e7b33f114ddbf0911969794b1cc4"},
+    {file = "PyNaCl-1.4.0-cp35-cp35m-win_amd64.whl", hash = "sha256:511d269ee845037b95c9781aa702f90ccc36036f95d0f31373a6a79bd8242e25"},
+    {file = "PyNaCl-1.4.0-cp36-cp36m-win32.whl", hash = "sha256:11335f09060af52c97137d4ac54285bcb7df0cef29014a1a4efe64ac065434c4"},
+    {file = "PyNaCl-1.4.0-cp36-cp36m-win_amd64.whl", hash = "sha256:cd401ccbc2a249a47a3a1724c2918fcd04be1f7b54eb2a5a71ff915db0ac51c6"},
+    {file = "PyNaCl-1.4.0-cp37-cp37m-win32.whl", hash = "sha256:8122ba5f2a2169ca5da936b2e5a511740ffb73979381b4229d9188f6dcb22f1f"},
+    {file = "PyNaCl-1.4.0-cp37-cp37m-win_amd64.whl", hash = "sha256:537a7ccbea22905a0ab36ea58577b39d1fa9b1884869d173b5cf111f006f689f"},
+    {file = "PyNaCl-1.4.0-cp38-cp38-win32.whl", hash = "sha256:9c4a7ea4fb81536c1b1f5cc44d54a296f96ae78c1ebd2311bd0b60be45a48d96"},
+    {file = "PyNaCl-1.4.0-cp38-cp38-win_amd64.whl", hash = "sha256:7c6092102219f59ff29788860ccb021e80fffd953920c4a8653889c029b2d420"},
+    {file = "PyNaCl-1.4.0.tar.gz", hash = "sha256:54e9a2c849c742006516ad56a88f5c74bf2ce92c9f67435187c3c5953b346505"},
 ]
 pyparsing = [
     {file = "pyparsing-2.4.7-py2.py3-none-any.whl", hash = "sha256:ef9d7589ef3c200abe66653d3f1ab1033c3c419ae9b9bdb1240a85b024efc88b"},
