@@ -23,7 +23,7 @@ Your *content* goes **here!**
 """
 
 my_page += content_md
-my_page.save("esparto-quick.html")
+my_page.save_html("esparto-quick.html")
 ```
 <br>
 
@@ -47,7 +47,7 @@ Your *content* goes **here!**
 my_page += content_md
 my_page += "image.jpg"
 
-html = my_page.save("esparto-quick-image.html")
+html = my_page.save_html("esparto-quick-image.html")
 ```
 <br>
 

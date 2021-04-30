@@ -158,29 +158,19 @@ class Image(Content):
 
     Can be read from a filepath, PIL.Image object, or from bytes.
 
+    Only one of `scale`, `set_width`, or `set_height` should be used.
+    If more than one is populated, the values will be prioritised in the order:
+         `set_width` -> `set_height` -> `scale`
+
     Args:
       image (str, PIL.Image, BytesIO): Image data.
       caption (str): Image caption (default = None)
       alt_text (str): Alternative text. (default = None)
-      scale (float): Value by which to scale image, must be > 0 and <= 1. (default = 1)
+      scale (float): Scale image proportionately, must be > 0 and <= 1. (default = None)
+      set_width (int): Set width in pixels. (default = None)
+      set_height (int): Set height in pixels. (default = None)
 
     """
-
-    @property
-    def scale(self) -> float:
-        """ """
-        raise NotImplementedError
-
-    @scale.getter
-    def scale(self) -> float:
-        """ """
-        return self._scale
-
-    @scale.setter
-    def scale(self, scale: float) -> None:
-        """ """
-        assert scale <= 1, "Image can not be scaled over 100%"
-        self._scale = scale
 
     @property
     def content(self) -> Union[str, BytesIO]:
@@ -202,7 +192,9 @@ class Image(Content):
         image: Union[str, PILImage, BytesIO],
         alt_text: str = "Image",
         caption: str = "",
-        scale: float = 1,
+        scale: float = None,
+        set_width: int = None,
+        set_height: int = None,
     ):
 
         if not isinstance(image, (str, PILImage, BytesIO)):
@@ -211,11 +203,33 @@ class Image(Content):
         self.content = image
         self.alt_text = alt_text
         self.caption = caption
-        self.scale = scale
+        self._scale = scale
+        self._width = set_width
+        self._height = set_height
         self._dependencies = {"bootstrap"}
 
-    def rescale(self, scale) -> "Image":
-        """Rescale the image prior to rendering.
+    def set_width(self, width) -> "Image":
+        """Set width of image prior to rendering.
+
+        Args:
+          width (int): New width in pixels.
+
+        """
+        self._width = width
+        return self
+
+    def set_height(self, height) -> "Image":
+        """Set height of image prior to rendering.
+
+        Args:
+          height (int): New height in pixels.
+
+        """
+        self._height = height
+        return self
+
+    def scale(self, scale) -> "Image":
+        """Rescale the image proportionately prior to rendering.
 
         Note:
           Images can be scaled down only.
@@ -224,7 +238,7 @@ class Image(Content):
           scale (float): Scaling ratio.
 
         """
-        self.scale = scale
+        self._scale = scale
         return self
 
     def to_html(self) -> str:
@@ -233,22 +247,16 @@ class Image(Content):
         else:
             image = Img.open(self.content)
 
-        # Resize image if required
-        if self.scale != 1:
-            x = int(image.size[0] * self.scale)
-            y = int(image.size[1] * self.scale)
-            image.thumbnail((x, y))
-
-        width = f"{image.size[0]}px"
-        height = f"{image.size[1]}px"
+        if self._width or self._height or self._scale:
+            image = _rescale_image(image, self._width, self._height, self._scale)
 
         image_encoded = _image_to_base64(image)
         html = (
-            "<figure class='text-center'>"
-            + "<img class='figure-img img-fluid rounded' "
+            "<figure class='text-center my-1'>"
+            + "<img class='figure-img rounded' "
             + f"alt='{self.alt_text}' "
-            + f"height='{height}' width='{width}' "
-            + f"src='data:image/png;base64,{image_encoded}'>"
+            + f"src='data:image/png;base64,{image_encoded}' "
+            + ">"
         )
 
         if self.caption:
@@ -297,7 +305,7 @@ class DataFramePd(Content):
         self._dependencies = {"bootstrap"}
 
     def to_html(self) -> str:
-        classes = "table table-sm table-striped table-hover table-bordered"
+        classes = "table table-sm table-striped table-hover table-bordered my-1"
         html = self.content.to_html(
             index=self.index, border=0, col_space=self.col_space, classes=classes
         )
@@ -311,6 +319,9 @@ class FigureMpl(Image):
       figure (plt.Figure): A Matplotlib figure.
       caption (str): Image caption (default = None)
       alt_text (str): Alternative text. (default = None)
+      scale (float): Scale image proportionately, must be > 0 and <= 1. (default = None)
+      set_width (int): Set width in pixels. (default = None)
+      set_height (int): Set height in pixels. (default = None)
 
     """
 
@@ -319,6 +330,9 @@ class FigureMpl(Image):
         figure: "MplFigure",
         caption: str = "",
         alt_text: str = "Image",
+        scale: float = None,
+        set_width: int = None,
+        set_height: int = None,
     ):
 
         if not isinstance(figure, MplFigure):
@@ -326,7 +340,14 @@ class FigureMpl(Image):
 
         buffer = BytesIO()
         figure.savefig(buffer, format="png")
-        super().__init__(buffer, scale=1, caption=caption, alt_text=alt_text)
+        super().__init__(
+            buffer,
+            caption=caption,
+            alt_text=alt_text,
+            scale=scale,
+            set_width=set_width,
+            set_height=set_height,
+        )
 
 
 class FigureBokeh(Content):
@@ -510,3 +531,26 @@ def _remove_outer_div(html: str) -> str:
     html = html.replace("<div>", "", 1)
     html = "".join(html.rsplit("</div>", 1))
     return html
+
+
+def _rescale_image(
+    image: PILImage, width: int = None, height: int = None, scale: float = None
+) -> PILImage:
+    """Rescale image by width in px, height in px, or ratio."""
+
+    if width:
+        ratio = width / image.size[0]
+    elif height:
+        ratio = height / image.size[1]
+    elif scale:
+        ratio = scale
+    else:
+        raise ValueError("One of {'width', 'height', scale'} must be supplied")
+
+    if ratio > 1:
+        raise ValueError("Target size must be less than original size")
+
+    image = image.copy()
+    new_size = (int(image.size[0] * ratio), int(image.size[1] * ratio))
+    image.thumbnail(new_size)
+    return image

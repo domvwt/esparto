@@ -3,14 +3,14 @@ from typing import TYPE_CHECKING, List, Optional, Set, Union
 
 from jinja2 import Environment, PackageLoader, select_autoescape  # type: ignore
 
-if TYPE_CHECKING:  # pragma: no cover
+if TYPE_CHECKING:
     from esparto._layout import Layout
     from esparto._content import Content
 
 from esparto import _INSTALLED_MODULES
 
 _ENV = Environment(
-    loader=PackageLoader("esparto", "templates"),
+    loader=PackageLoader("esparto", "resources/jinja"),
     autoescape=select_autoescape(["xml"]),
 )
 
@@ -19,6 +19,7 @@ _BOOTSTRAP_CDN = (
     '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" '
     + 'integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">'
 )
+_JS_DEPS = {"bokeh", "plotly"}
 
 if "bokeh" in _INSTALLED_MODULES:
     import bokeh  # type: ignore
@@ -61,12 +62,12 @@ def _get_tail_deps(required_deps: Set[str]) -> List[str]:
     return include_deps
 
 
-def publish(
+def publish_html(
     document: "Layout",
     filepath: Optional[str] = "./esparto-doc.html",
     return_html: bool = False,
 ) -> Optional[str]:
-    """Save Layout element to HTML.
+    """Save document to HTML.
 
     Args:
       document (Layout): Any Layout object.
@@ -77,9 +78,6 @@ def publish(
       str: HTML string if return_html is True.
 
     """
-
-    if not filepath:
-        filepath = "./esparto-doc.html"
 
     required_deps = document._required_dependencies()
     head_deps = _get_head_deps(required_deps)
@@ -92,13 +90,40 @@ def publish(
     )
     html_prettified = _prettify_html(html_rendered)
 
-    with open(filepath, "w") as f:
-        f.write(html_prettified)
+    if filepath:
+        with open(filepath, "w") as f:
+            f.write(html_prettified)
 
     if return_html:
         return html_prettified
     else:
         return None
+
+
+def publish_pdf(
+    document: "Layout",
+    filepath: str = "./esparto-doc.pdf",
+) -> None:
+    """Save document to PDF.
+
+    Args:
+      document (Layout): Any Layout object.
+      filepath (str): Filepath to write to. (default = './esparto-doc.pdf')
+
+    """
+    if "weasyprint" not in _INSTALLED_MODULES:
+        raise ImportError("Install weasyprint for PDF support")
+    else:
+        import weasyprint as weasy  # type: ignore
+
+        doc_js_deps = _JS_DEPS & document._required_dependencies()
+        if doc_js_deps:
+            raise NotImplementedError(
+                f"PDF format unsupported for interactive content - document requires: {doc_js_deps}"
+            )
+
+        html = publish_html(document=document, filepath=None, return_html=True)
+        weasy.HTML(string=html).write_pdf(filepath)
 
 
 def nb_display(
