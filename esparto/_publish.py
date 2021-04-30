@@ -112,7 +112,7 @@ def publish_pdf(
 
     """
     if "weasyprint" not in _INSTALLED_MODULES:
-        raise ImportError("Install weasyprint for PDF support.")
+        raise ImportError("Install weasyprint for PDF support")
     else:
         import weasyprint as weasy  # type: ignore
 

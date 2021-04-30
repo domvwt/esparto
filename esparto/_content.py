@@ -247,21 +247,8 @@ class Image(Content):
         else:
             image = Img.open(self.content)
 
-        rescale_ratio = None
-
-        def get_new_size(image, ratio):
-            return (int(image.size[0] * ratio), int(image.size[1] * ratio))
-
-        if self._width:
-            rescale_ratio = self._width / image.size[0]
-        elif self._height:
-            rescale_ratio = self._height / image.size[1]
-        elif self._scale:
-            rescale_ratio = self._scale
-
-        if rescale_ratio:
-            new_size = get_new_size(image, rescale_ratio)
-            image.thumbnail(new_size)
+        if self._width or self._height or self._scale:
+            image = _rescale_image(image, self._width, self._height, self._scale)
 
         image_encoded = _image_to_base64(image)
         html = (
@@ -544,3 +531,26 @@ def _remove_outer_div(html: str) -> str:
     html = html.replace("<div>", "", 1)
     html = "".join(html.rsplit("</div>", 1))
     return html
+
+
+def _rescale_image(
+    image: PILImage, width: int = None, height: int = None, scale: float = None
+) -> PILImage:
+    """Rescale image by width in px, height in px, or ratio."""
+
+    if width:
+        ratio = width / image.size[0]
+    elif height:
+        ratio = height / image.size[1]
+    elif scale:
+        ratio = scale
+    else:
+        raise ValueError("One of {'width', 'height', scale'} must be supplied")
+
+    if ratio > 1:
+        raise ValueError("Target size must be less than original size")
+
+    image = image.copy()
+    new_size = (int(image.size[0] * ratio), int(image.size[1] * ratio))
+    image.thumbnail(new_size)
+    return image

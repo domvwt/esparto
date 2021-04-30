@@ -1,6 +1,7 @@
 from itertools import chain
 
 import pytest
+from PIL import Image  # type: ignore
 
 import esparto._content as co
 import esparto._layout as la
@@ -38,19 +39,49 @@ def test_content_equality(content_list_fn):
 
 
 @pytest.mark.parametrize("scale", [0.2, 0.5, 1])
-def test_image_resize(scale, image_content):
-    content = image_content
-    html_input = content.to_html()
-    height = int(html_input.split("height")[1].split("'")[1][:-2])
-    width = int(html_input.split("width")[1].split("'")[1][:-2])
+def test_image_rescale(scale, image_content):
+    img = Image.open(image_content.content)
+    width, height = img.size
 
-    resized = content.rescale(scale)
-    html_resized = resized.to_html()
-    height_new = int(html_resized.split("height")[1].split("'")[1][:-2])
-    width_new = int(html_resized.split("width")[1].split("'")[1][:-2])
+    resized = co._rescale_image(img, scale=scale)
+    width_new, height_new = resized.size
 
     assert height_new == int(scale * height)
     assert width_new == int(scale * width)
+
+
+@pytest.mark.parametrize("target", [100, 400, 550])
+def test_image_scale_width(target, image_content):
+    img = Image.open(image_content.content)
+    width, height = img.size
+
+    scale = target / width
+
+    if target > width:
+        with pytest.raises(ValueError):
+            resized = co._rescale_image(img, width=target)
+    else:
+        resized = co._rescale_image(img, width=target)
+        width_new, height_new = resized.size
+        assert height_new == int(scale * height)
+        assert width_new == target
+
+
+@pytest.mark.parametrize("target", [100, 400, 1000])
+def test_image_scale_height(target, image_content):
+    img = Image.open(image_content.content)
+    width, height = img.size
+
+    scale = target / height
+
+    if target > height:
+        with pytest.raises(ValueError):
+            resized = co._rescale_image(img, height=target)
+    else:
+        resized = co._rescale_image(img, height=target)
+        width_new, height_new = resized.size
+        assert height_new == target
+        assert width_new == int(scale * width)
 
 
 @pytest.mark.parametrize("a", content_list)
