@@ -50,7 +50,7 @@ if _EXTRAS:
         assert html_is_valid(html)
 
     def test_pdf_output(content_list_fn, tmp_path):
-        content_list = [x for x in content_list_fn if not pu._JS_DEPS & x._deps]
+        content_list = [x for x in content_list_fn if not pu.JS_DEPS & x._deps]
         page = es.Page(content_list)
         path: Path = tmp_path / "my_page.pdf"
         page.save_pdf(str(path))
