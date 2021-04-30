@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, List, Optional, Set, Union
 
 from jinja2 import Environment, PackageLoader, select_autoescape  # type: ignore
 
-if TYPE_CHECKING:  # pragma: no cover
+if TYPE_CHECKING:
     from esparto._layout import Layout
     from esparto._content import Content
 

@@ -158,15 +158,15 @@ class Image(Content):
 
     Can be read from a filepath, PIL.Image object, or from bytes.
 
-    Only one of `scale_ratio`, `set_width`, or `set_height` should be used.
+    Only one of `scale`, `set_width`, or `set_height` should be used.
     If more than one is populated, the values will be prioritised in the order:
-         `set_width` -> `set_height` -> `scale_ratio`
+         `set_width` -> `set_height` -> `scale`
 
     Args:
       image (str, PIL.Image, BytesIO): Image data.
       caption (str): Image caption (default = None)
       alt_text (str): Alternative text. (default = None)
-      scale_ratio (float): Scale image proportionately, must be > 0 and <= 1. (default = None)
+      scale (float): Scale image proportionately, must be > 0 and <= 1. (default = None)
       set_width (int): Set width in pixels. (default = None)
       set_height (int): Set height in pixels. (default = None)
 
@@ -192,7 +192,7 @@ class Image(Content):
         image: Union[str, PILImage, BytesIO],
         alt_text: str = "Image",
         caption: str = "",
-        scale_ratio: float = None,
+        scale: float = None,
         set_width: int = None,
         set_height: int = None,
     ):
@@ -203,7 +203,7 @@ class Image(Content):
         self.content = image
         self.alt_text = alt_text
         self.caption = caption
-        self._scale = scale_ratio
+        self._scale = scale
         self._width = set_width
         self._height = set_height
         self._dependencies = {"bootstrap"}
@@ -228,7 +228,7 @@ class Image(Content):
         self._height = height
         return self
 
-    def scale_ratio(self, scale) -> "Image":
+    def scale(self, scale) -> "Image":
         """Rescale the image proportionately prior to rendering.
 
         Note:
@@ -319,7 +319,7 @@ class FigureMpl(Image):
       figure (plt.Figure): A Matplotlib figure.
       caption (str): Image caption (default = None)
       alt_text (str): Alternative text. (default = None)
-      scale_ratio (float): Scale image proportionately, must be > 0 and <= 1. (default = None)
+      scale (float): Scale image proportionately, must be > 0 and <= 1. (default = None)
       set_width (int): Set width in pixels. (default = None)
       set_height (int): Set height in pixels. (default = None)
 
@@ -330,7 +330,7 @@ class FigureMpl(Image):
         figure: "MplFigure",
         caption: str = "",
         alt_text: str = "Image",
-        scale_ratio: float = None,
+        scale: float = None,
         set_width: int = None,
         set_height: int = None,
     ):
@@ -344,7 +344,7 @@ class FigureMpl(Image):
             buffer,
             caption=caption,
             alt_text=alt_text,
-            scale_ratio=scale_ratio,
+            scale=scale,
             set_width=set_width,
             set_height=set_height,
         )

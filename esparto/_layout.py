@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any, Iterable, Optional, Set, Type, Union
 
 from esparto._publish import nb_display, publish_html, publish_pdf
 
-if TYPE_CHECKING:  # pragma: no cover
+if TYPE_CHECKING:
     from esparto._content import Content
 
 
