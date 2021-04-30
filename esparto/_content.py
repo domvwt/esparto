@@ -158,29 +158,19 @@ class Image(Content):
 
     Can be read from a filepath, PIL.Image object, or from bytes.
 
+    Only one of `scale_ratio`, `set_width`, or `set_height` should be used.
+    If more than one is populated, the values will be prioritised in the order:
+         `set_width` -> `set_height` -> `scale_ratio`
+
     Args:
       image (str, PIL.Image, BytesIO): Image data.
       caption (str): Image caption (default = None)
       alt_text (str): Alternative text. (default = None)
-      scale (float): Value by which to scale image, must be > 0 and <= 1. (default = 1)
+      scale_ratio (float): Scale image proportionately, must be > 0 and <= 1. (default = None)
+      set_width (int): Set width in pixels. (default = None)
+      set_height (int): Set height in pixels. (default = None)
 
     """
-
-    @property
-    def scale(self) -> float:
-        """ """
-        raise NotImplementedError
-
-    @scale.getter
-    def scale(self) -> float:
-        """ """
-        return self._scale
-
-    @scale.setter
-    def scale(self, scale: float) -> None:
-        """ """
-        assert scale <= 1, "Image can not be scaled over 100%"
-        self._scale = scale
 
     @property
     def content(self) -> Union[str, BytesIO]:
@@ -202,7 +192,9 @@ class Image(Content):
         image: Union[str, PILImage, BytesIO],
         alt_text: str = "Image",
         caption: str = "",
-        scale: float = 1,
+        scale_ratio: float = None,
+        set_width: int = None,
+        set_height: int = None,
     ):
 
         if not isinstance(image, (str, PILImage, BytesIO)):
@@ -211,11 +203,33 @@ class Image(Content):
         self.content = image
         self.alt_text = alt_text
         self.caption = caption
-        self.scale = scale
+        self._scale = scale_ratio
+        self._width = set_width
+        self._height = set_height
         self._dependencies = {"bootstrap"}
 
-    def rescale(self, scale) -> "Image":
-        """Rescale the image prior to rendering.
+    def set_width(self, width) -> "Image":
+        """Set width of image prior to rendering.
+
+        Args:
+          width (int): New width in pixels.
+
+        """
+        self._width = width
+        return self
+
+    def set_height(self, height) -> "Image":
+        """Set height of image prior to rendering.
+
+        Args:
+          height (int): New height in pixels.
+
+        """
+        self._height = height
+        return self
+
+    def scale_ratio(self, scale) -> "Image":
+        """Rescale the image proportionately prior to rendering.
 
         Note:
           Images can be scaled down only.
@@ -224,7 +238,7 @@ class Image(Content):
           scale (float): Scaling ratio.
 
         """
-        self.scale = scale
+        self._scale = scale
         return self
 
     def to_html(self) -> str:
@@ -233,14 +247,21 @@ class Image(Content):
         else:
             image = Img.open(self.content)
 
-        # Resize image if required
-        if self.scale != 1:
-            x = int(image.size[0] * self.scale)
-            y = int(image.size[1] * self.scale)
-            image.thumbnail((x, y))
+        rescale_ratio = None
 
-        width = f"{image.size[0]}px"
-        height = f"{image.size[1]}px"
+        def get_new_size(image, ratio):
+            return (int(image.size[0] * ratio), int(image.size[1] * ratio))
+
+        if self._width:
+            rescale_ratio = self._width / image.size[0]
+        elif self._height:
+            rescale_ratio = self._height / image.size[1]
+        elif self._scale:
+            rescale_ratio = self._scale
+
+        if rescale_ratio:
+            new_size = get_new_size(image, rescale_ratio)
+            image.thumbnail(new_size)
 
         image_encoded = _image_to_base64(image)
         html = (
@@ -311,6 +332,9 @@ class FigureMpl(Image):
       figure (plt.Figure): A Matplotlib figure.
       caption (str): Image caption (default = None)
       alt_text (str): Alternative text. (default = None)
+      scale_ratio (float): Scale image proportionately, must be > 0 and <= 1. (default = None)
+      set_width (int): Set width in pixels. (default = None)
+      set_height (int): Set height in pixels. (default = None)
 
     """
 
@@ -319,6 +343,9 @@ class FigureMpl(Image):
         figure: "MplFigure",
         caption: str = "",
         alt_text: str = "Image",
+        scale_ratio: float = None,
+        set_width: int = None,
+        set_height: int = None,
     ):
 
         if not isinstance(figure, MplFigure):
@@ -326,7 +353,14 @@ class FigureMpl(Image):
 
         buffer = BytesIO()
         figure.savefig(buffer, format="png")
-        super().__init__(buffer, scale=1, caption=caption, alt_text=alt_text)
+        super().__init__(
+            buffer,
+            caption=caption,
+            alt_text=alt_text,
+            scale_ratio=scale_ratio,
+            set_width=set_width,
+            set_height=set_height,
+        )
 
 
 class FigureBokeh(Content):
