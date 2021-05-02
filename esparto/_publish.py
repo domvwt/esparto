@@ -22,6 +22,7 @@ def publish_html(
     document: "Layout",
     filepath: Optional[str] = "./esparto-doc.html",
     return_html: bool = False,
+    dependency_source="cdn",
 ) -> Optional[str]:
     """Save document to HTML.
 
@@ -36,7 +37,7 @@ def publish_html(
     """
 
     required_deps = document._required_dependencies()
-    resolved_deps = resolve_deps(required_deps)
+    resolved_deps = resolve_deps(required_deps, source=dependency_source)
     head_deps = resolved_deps.head
     tail_deps = resolved_deps.tail
 
@@ -79,7 +80,12 @@ def publish_pdf(
                 f"PDF format unsupported for interactive content - document requires: {doc_js_deps}"
             )
 
-        html = publish_html(document=document, filepath=None, return_html=True)
+        html = publish_html(
+            document=document,
+            filepath=None,
+            return_html=True,
+            dependency_source="inline",
+        )
         weasy.HTML(string=html).write_pdf(filepath)
 
 

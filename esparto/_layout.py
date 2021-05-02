@@ -205,20 +205,29 @@ class Layout(ABC):
         nb_display(self)
 
     def save_html(
-        self, filepath: str = "./esparto-doc.html", return_html: bool = False
+        self,
+        filepath: str = "./esparto-doc.html",
+        return_html: bool = False,
+        dependency_source="cdn",
     ) -> Optional[str]:
         """
         Save document as an HTML file.
 
         Args:
-          filepath: Destination filepath. (default = './esparto-doc.html')
-          return_html: If True, return HTML as a string.
+          filepath (str): Destination filepath. (default = './esparto-doc.html')
+          return_html (bool): If True, return HTML as a string. (default = False)
+          dependency_source (str): One of 'cdn' or 'inline'. (default = 'cdn')
 
         Returns:
           Document rendered as HTML. (If 'return_html' is True)
 
         """
-        html = publish_html(self, filepath=filepath, return_html=return_html)
+        html = publish_html(
+            self,
+            filepath=filepath,
+            return_html=return_html,
+            dependency_source=dependency_source,
+        )
 
         if return_html:
             return html
@@ -226,7 +235,10 @@ class Layout(ABC):
             return None
 
     def save(
-        self, filepath: str = "./esparto-doc.html", return_html: bool = False
+        self,
+        filepath: str = "./esparto-doc.html",
+        return_html: bool = False,
+        dependency_source="cdn",
     ) -> Optional[str]:
         """
         Save document as an HTML file.
@@ -234,14 +246,19 @@ class Layout(ABC):
         Note: Alias for `self.save_html()`.
 
         Args:
-          filepath: Destination filepath. (default = './esparto-doc.html')
-          return_html: If True, return HTML as a string.
+          filepath (str): Destination filepath. (default = './esparto-doc.html')
+          return_html (bool): If True, return HTML as a string. (default = False)
+          dependency_source (str): One of 'cdn' or 'inline'. (default = 'cdn')
 
         Returns:
           Document rendered as HTML. (If 'return_html' is True)
 
         """
-        html = self.save_html(filepath=filepath, return_html=return_html)
+        html = self.save_html(
+            filepath=filepath,
+            return_html=return_html,
+            dependency_source=dependency_source,
+        )
 
         if return_html:
             return html
@@ -255,7 +272,7 @@ class Layout(ABC):
         Note: Requires optional module `weasyprint`.
 
         Args:
-          filepath: Destination filepath. (default = './esparto-doc.pdf')
+          filepath (str): Destination filepath. (default = './esparto-doc.pdf')
 
         """
         publish_pdf(self, filepath)
@@ -358,9 +375,9 @@ class Page(Layout):
     """Page - top level element for defining a document.
 
     Args:
-        *children (Layout, optional):  Layout items to include in the Page.
-        title (str, optional): Page title.
-        org_name (str, optional): Organisation name.
+        *children (Layout, Any):  Layout items to include in the element.
+        title (str): Element title.
+        org_name (str): Organisation name.
 
     """
 
@@ -402,8 +419,8 @@ class Section(Layout):
     """Section - defines a Section within a Page.
 
     Args:
-        *children: Row items to include in the Section.
-        title: Section title.
+        *children (Layout, Any):  Layout items to include in the element.
+        title (str): Element title.
 
     """
 
@@ -436,8 +453,8 @@ class Row(Layout):
     """Row -  defines a Row within a Section.
 
     Args:
-        *children: Column items to include in the Row.
-        title: Row title.
+        *children (Layout, Any):  Layout items to include in the element.
+        title (str): Element title.
 
     """
 
@@ -470,8 +487,8 @@ class Column(Layout):
     """Column -  defines a Column within a Row.
 
     Args:
-        *children: Content to include in the Column.
-        title: Column title.
+        *children (Layout, Any):  Layout items to include in the element.
+        title (str): Element title.
 
     """
 
