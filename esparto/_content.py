@@ -228,7 +228,7 @@ class Image(Content):
         self._height = height
         return self
 
-    def scale(self, scale) -> "Image":
+    def rescale(self, scale) -> "Image":
         """Rescale the image proportionately prior to rendering.
 
         Note:
