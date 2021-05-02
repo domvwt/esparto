@@ -208,7 +208,7 @@ class Layout(ABC):
         self,
         filepath: str = "./esparto-doc.html",
         return_html: bool = False,
-        dependency_source="cdn",
+        dependency_source="esparto.options",
     ) -> Optional[str]:
         """
         Save document as an HTML file.
@@ -216,7 +216,7 @@ class Layout(ABC):
         Args:
           filepath (str): Destination filepath. (default = './esparto-doc.html')
           return_html (bool): If True, return HTML as a string. (default = False)
-          dependency_source (str): One of 'cdn' or 'inline'. (default = 'cdn')
+          dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'. (default = 'esparto.options')
 
         Returns:
           Document rendered as HTML. (If 'return_html' is True)
@@ -238,7 +238,7 @@ class Layout(ABC):
         self,
         filepath: str = "./esparto-doc.html",
         return_html: bool = False,
-        dependency_source="cdn",
+        dependency_source="esparto.options",
     ) -> Optional[str]:
         """
         Save document as an HTML file.
@@ -248,7 +248,7 @@ class Layout(ABC):
         Args:
           filepath (str): Destination filepath. (default = './esparto-doc.html')
           return_html (bool): If True, return HTML as a string. (default = False)
-          dependency_source (str): One of 'cdn' or 'inline'. (default = 'cdn')
+          dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'. (default = 'esparto.options')
 
         Returns:
           Document rendered as HTML. (If 'return_html' is True)

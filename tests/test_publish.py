@@ -30,23 +30,42 @@ def test_content_html_valid(content):
     assert html_is_valid(html, fragment=True)
 
 
-def test_rendered_html_valid(page_layout, tmp_path):
+def test_rendered_html_valid_cdn(page_layout: es.Page, tmp_path):
     path = str(tmp_path / "my_page.html")
-    html = pu.publish_html(page_layout, path, return_html=True)
+    html = pu.publish_html(page_layout, path, return_html=True, dependency_source="cdn")
     assert html_is_valid(html)
 
 
-def test_saved_html_valid(page_layout, tmp_path):
+def test_rendered_html_valid_inline(page_layout: es.Page, tmp_path):
+    path = str(tmp_path / "my_page.html")
+    html = pu.publish_html(
+        page_layout, path, return_html=True, dependency_source="inline"
+    )
+    assert html_is_valid(html)
+
+
+def test_saved_html_valid_cdn(page_layout: es.Page, tmp_path):
     path: Path = tmp_path / "my_page.html"
-    page_layout.save_html(str(path))
+    page_layout.save_html(str(path), dependency_source="cdn")
+    html = path.read_text()
+    assert html_is_valid(html)
+
+
+def test_saved_html_valid_inline(page_layout: es.Page, tmp_path):
+    path: Path = tmp_path / "my_page.html"
+    page_layout.save_html(str(path), dependency_source="inline")
     html = path.read_text()
     assert html_is_valid(html)
 
 
 if _EXTRAS:
 
-    def test_notebook_html_valid(page_layout):
-        html = pu.nb_display(page_layout, return_html=True)
+    def test_notebook_html_valid_cdn(page_layout):
+        html = pu.nb_display(page_layout, return_html=True, dependency_source="cdn")
+        assert html_is_valid(html)
+
+    def test_notebook_html_valid_inline(page_layout):
+        html = pu.nb_display(page_layout, return_html=True, dependency_source="inline")
         assert html_is_valid(html)
 
     def test_pdf_output(content_list_fn, tmp_path):

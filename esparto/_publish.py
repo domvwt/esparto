@@ -9,6 +9,7 @@ if TYPE_CHECKING:
 
 from esparto import _INSTALLED_MODULES
 from esparto._contentdeps import JS_DEPS, resolve_deps
+from esparto._options import _get_source_from_options
 
 _ENV = Environment(
     loader=PackageLoader("esparto", "resources/jinja"),
@@ -30,6 +31,7 @@ def publish_html(
       document (Layout): Any Layout object.
       filepath (str): Filepath to write to. (default = './esparto-doc.html')
       return_html (bool): Returns HTML string if True.
+      dependency_source (str): One of 'cdn' or 'inline'. (default = 'cdn')
 
     Returns:
       str: HTML string if return_html is True.
@@ -38,13 +40,11 @@ def publish_html(
 
     required_deps = document._required_dependencies()
     resolved_deps = resolve_deps(required_deps, source=dependency_source)
-    head_deps = resolved_deps.head
-    tail_deps = resolved_deps.tail
 
     # Jinja requires dict for accessing properties
     doc_dict = document.to_dict()
     html_rendered: str = _BASE_TEMPLATE.render(
-        content=doc_dict, head_deps=head_deps, tail_deps=tail_deps
+        content=doc_dict, head_deps=resolved_deps.head, tail_deps=resolved_deps.tail
     )
     html_prettified = _prettify_html(html_rendered)
 
@@ -90,13 +90,16 @@ def publish_pdf(
 
 
 def nb_display(
-    item: Union["Layout", "Content"], return_html: bool = False
+    item: Union["Layout", "Content"],
+    return_html: bool = False,
+    dependency_source="esparto.options",
 ) -> Optional[str]:
     """Display Layout or Content to Jupyter Notebook cell.
 
     Args:
       item (Layout, Content): A Layout or Content item.
-      return_html (bool): Returns HTML string if True.
+      return_html (bool): Returns HTML string if True. (default = False)
+      dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'. (default = 'esparto.options')
 
     Returns:
       str: HTML string if return_html is True.
@@ -113,7 +116,9 @@ def nb_display(
     elif hasattr(item, "_dependencies"):
         required_deps = item._dependencies
 
-    resolved_deps = resolve_deps(required_deps)
+    dependency_source = _get_source_from_options(dependency_source)
+
+    resolved_deps = resolve_deps(required_deps, source=dependency_source)
     head_deps = "\n".join(resolved_deps.head)
     tail_deps = "\n".join(resolved_deps.tail)
     content_html = f"<div class='container' style='width: 100%; height: 100%;'>\n{item.to_html()}\n</div>"

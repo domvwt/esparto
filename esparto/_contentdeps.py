@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Set
 
 from esparto import _INSTALLED_MODULES, _MODULE_PATH
+from esparto._options import _get_source_from_options
 
 
 @dataclass
@@ -62,14 +63,19 @@ if "plotly" in _INSTALLED_MODULES:
         f"<script src='https://cdn.plot.ly/plotly-{plotly_version}.min.js'></script>"
     )
     PLOTLY_INLINE = plotly_offline.get_plotlyjs()
+    PLOTLY_INLINE = f"<script>\n{PLOTLY_INLINE}\n</script>"
 
     CONTENT_DEPENDENCY_DICT += ContentDependency(
         "plotly", PLOTLY_CDN, PLOTLY_INLINE, "head"
     )
 
 
-def resolve_deps(required_deps: Set[str], source: str = "cdn") -> ResolvedDeps:
+def resolve_deps(
+    required_deps: Set[str], source: str = "esparto.options"
+) -> ResolvedDeps:
     resolved_deps = ResolvedDeps()
+
+    source = _get_source_from_options(source)
 
     for dep in required_deps:
         dep_details: ContentDependency = CONTENT_DEPENDENCY_DICT[dep]

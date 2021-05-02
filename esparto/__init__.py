@@ -35,3 +35,4 @@ from esparto._content import (
     Markdown,
 )
 from esparto._layout import Column, Page, Row, Section
+from esparto._options import options
