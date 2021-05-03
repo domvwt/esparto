@@ -10,12 +10,16 @@ exclude_lines =
     if __name__ == .__main__.:
     def __repr__
     def _repr_html_
+    def __str__
     def display
     return self._
+    def set_
     def _render_title
     def _parent_class
     def _child_class
     if TYPE_CHECKING
+    if kwargs.get("pdf_mode"):
+    if output_format == "svg":
 ignore_errors = True
 omit =
     tests/*
