@@ -1,7 +1,7 @@
 # esparto._layout
 
 !!! info
-    Layout classes should be accessed from the module top level.
+    Layout classes can be accessed from the module top level:
 
     ``` python
     import esparto as es

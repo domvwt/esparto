@@ -2,7 +2,6 @@
 
 import copy
 from abc import ABC, abstractmethod
-from inspect import getmembers
 from pprint import pformat
 from typing import TYPE_CHECKING, Any, Iterable, Optional, Set, Type, Union
 
@@ -95,7 +94,7 @@ class Layout(ABC):
         """Wrap children in a coherent class hierarchy.
 
         Args:
-          children: Sequence of Content and / or Layout items.
+          children: Sequence of Content and / or Child items.
 
         Returns:
           List of Layout and Content items wrapped in a coherent class hierarchy.
@@ -204,10 +203,6 @@ class Layout(ABC):
         """Display rendered document in a Jupyter Notebook cell."""
         nb_display(self)
 
-    def to_dict(self) -> dict:
-        """Return object as a dictionary."""
-        return dict(getmembers(self))
-
     def __init__(
         self,
         *children: Union["Layout", "Content", Any],
@@ -302,7 +297,7 @@ class Page(Layout):
     """Page - top level element for defining a document.
 
     Args:
-        *children (Layout, Any):  Layout items to include in the element.
+        *children (Layout, Any):  Child items to include within the element.
         title (str): Element title.
         org_name (str): Organisation name.
 
@@ -342,9 +337,9 @@ class Page(Layout):
         Save document as an HTML file.
 
         Args:
-          filepath (str): Destination filepath. (default = './esparto-doc.html')
-          return_html (bool): If True, return HTML as a string. (default = False)
-          dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'. (default = 'esparto.options')
+          filepath (str): Destination filepath.
+          return_html (bool): If True, return HTML as a string.
+          dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'.
 
         Returns:
           Document rendered as HTML. (If 'return_html' is True)
@@ -374,9 +369,9 @@ class Page(Layout):
         Note: Alias for `self.save_html()`.
 
         Args:
-          filepath (str): Destination filepath. (default = './esparto-doc.html')
-          return_html (bool): If True, return HTML as a string. (default = False)
-          dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'. (default = 'esparto.options')
+          filepath (str): Destination filepath.
+          return_html (bool): If True, return HTML as a string.
+          dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'.
 
         Returns:
           Document rendered as HTML. (If 'return_html' is True)
@@ -402,8 +397,8 @@ class Page(Layout):
         Note: Requires optional module `weasyprint`.
 
         Args:
-          filepath (str): Destination filepath. (default = './esparto-doc.pdf')
-          return_html (bool): If True, return HTML as a string. (default = False)
+          filepath (str): Destination filepath.
+          return_html (bool): If True, return HTML as a string.
 
         Returns:
           Document rendered as HTML. (If 'return_html' is True)
@@ -430,7 +425,7 @@ class Section(Layout):
     """Section - defines a Section within a Page.
 
     Args:
-        *children (Layout, Any):  Layout items to include in the element.
+        *children (Layout, Any):  Child items to include within the element.
         title (str): Element title.
 
     """
@@ -464,7 +459,7 @@ class Row(Layout):
     """Row -  defines a Row within a Section.
 
     Args:
-        *children (Layout, Any):  Layout items to include in the element.
+        *children (Layout, Any):  Child items to include within the element.
         title (str): Element title.
 
     """
@@ -498,7 +493,7 @@ class Column(Layout):
     """Column -  defines a Column within a Row.
 
     Args:
-        *children (Layout, Any):  Layout items to include in the element.
+        *children (Layout, Any):  Child items to include within the element.
         title (str): Element title.
 
     """

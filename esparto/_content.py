@@ -306,6 +306,8 @@ class FigureMpl(Content):
       figure (plt.Figure): A Matplotlib figure.
       caption (str): Image caption (default = None)
       alt_text (str): Alternative text. (default = None)
+      output_format (str): One of 'svg', 'png', or 'esparto.options'. (default = 'esparto.options')
+
     """
 
     @property
@@ -386,8 +388,8 @@ class FigureBokeh(Content):
 
     Args:
       figure (bokeh.layouts.LayoutDOM): A Bokeh object.
-      width (int): Width in pixels. (default = from figure or 'auto')
-      height (int): Height in pixels. (default = from figure or 'auto')
+      width (int): Width in pixels. (default = figure.width or 'auto')
+      height (int): Height in pixels. (default = figure.height or 'auto')
 
     """
 

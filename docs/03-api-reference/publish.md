@@ -1,7 +1,7 @@
 # esparto._publish
 
 !!! info
-    Publishing methods should be accessed via Layout classes.
+    Publishing methods should usually be accessed via Layout classes:
 
     ``` python
     import esparto as es
@@ -9,16 +9,18 @@
     # Create a new Page
     page = es.Page(title="My New Page")
 
-    # Render to Jupyter Notebook cell:
-    page.display()
-
     # Publish the document to an HTML file:
-    page.save_html()
+    page.save_html("my-page.html")
+
+    # Or as a PDF:
+    page.save_pdf("my-page.pdf")
 
     ```
 
-## ::: esparto._publish.publish
+### ::: esparto._publish.publish_html
 
-## ::: esparto._publish.nb_display
+### ::: esparto._publish.publish_pdf
+
+### ::: esparto._publish.nb_display
 
 <br>

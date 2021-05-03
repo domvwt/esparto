@@ -31,9 +31,9 @@ def publish_html(
 
     Args:
       document (Page): A Page object.
-      filepath (str): Filepath to write to. (default = './esparto-doc.html')
+      filepath (str): Filepath to write to.
       return_html (bool): Returns HTML string if True.
-      dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'. (default = 'esparto.options')
+      dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'.
       **kwargs (Dict[str, Any]): Arguments passed to `document.to_html()`.
 
     Returns:
@@ -71,7 +71,7 @@ def publish_pdf(
 
     Args:
       document (Layout): A Page object.
-      filepath (str): Filepath to write to. (default = './esparto-doc.pdf')
+      filepath (str): Filepath to write to.
       return_html (bool): Returns HTML string if True.
 
     Returns:
@@ -118,8 +118,8 @@ def nb_display(
 
     Args:
       item (Layout, Content): A Layout or Content item.
-      return_html (bool): Returns HTML string if True. (default = False)
-      dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'. (default = 'esparto.options')
+      return_html (bool): Returns HTML string if True.
+      dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'.
 
     Returns:
       str: HTML string if return_html is True.
@@ -150,7 +150,7 @@ def nb_display(
 
     print()
     # This allows time to download plotly.js from the CDN - otherwise cell renders empty
-    if "plotly" in required_deps:
+    if "plotly" in required_deps and dependency_source == "cdn":
         display(HTML(f"<head>\n{head_deps}\n</head>\n"), metadata=dict(isolated=True))
         time.sleep(2)
 

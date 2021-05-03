@@ -1,7 +1,7 @@
 # esparto._content
 
 !!! info
-    Content classes should be accessed from the module top level.
+    Content classes can be accessed from the module top level:
 
     ``` python
     import esparto as es

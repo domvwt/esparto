@@ -1,9 +1,9 @@
 # Welcome
-Esparto is a simple HTML document generator for Python. Its primary use is for generating shareable single page reports
+Esparto is a simple HTML and PDF document generator for Python. Its primary use is for generating shareable single page reports
 with content from popular analytics and data science libraries.
 
 ## Overview
-The library provides a streamlined API that lets users define their page in terms of
+The library features a streamlined API that defines pages in terms of
 sections, rows, and columns; and an intelligent wrapping system that automatically
 converts Python objects into content.
 
@@ -18,21 +18,25 @@ and fed into an HTML template with all style details and dependencies captured i
 Esparto supports content rendering within Jupyter Notebooks, allowing users to interactively
 and iteratively build documents without disrupting their workflow.
 
+PDF conversion is provided by [Weasyprint](https://weasyprint.org/).
+
 ### Features
 * Lightweight API
 * No CSS or HTML required
 * Device responsive display
 * Self contained / inline dependencies
 * Jupyter Notebook support
-* Printer and PDF friendly formatting
+* Printer friendly formatting
+* PDF output
 * MIT License
 
 ### Supported Content
-* Markdown text
+* Markdown
 * Images
-* Matplotlib figures
 * Pandas DataFrames
-* Bokeh objects
-* Plotly figures
+* Plots from:
+    * Matplotlib
+    * Bokeh
+    * Plotly
 
 <br>
