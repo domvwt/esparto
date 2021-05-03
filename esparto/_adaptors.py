@@ -56,7 +56,7 @@ if "matplotlib" in _INSTALLED_MODULES:
     from matplotlib.figure import Figure  # type: ignore
 
     @content_adaptor.register(Figure)
-    def content_adaptor_fig(content: Figure) -> FigureMpl:
+    def content_adaptor_mpl(content: Figure) -> FigureMpl:
         """Convert Matplotlib Figure to FigureMpl content."""
         return FigureMpl(content)
 
@@ -66,7 +66,7 @@ if "bokeh" in _INSTALLED_MODULES:
     from bokeh.layouts import LayoutDOM as BokehObject  # type: ignore
 
     @content_adaptor.register(BokehObject)
-    def content_adaptor_bokeh_layout(content: BokehObject) -> FigureBokeh:
+    def content_adaptor_bokeh(content: BokehObject) -> FigureBokeh:
         """Convert Bokeh Layout to FigureBokeh content."""
         return FigureBokeh(content)
 

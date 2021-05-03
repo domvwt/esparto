@@ -2,13 +2,12 @@
 
 import copy
 from abc import ABC, abstractmethod
-from inspect import getmembers
 from pprint import pformat
 from typing import TYPE_CHECKING, Any, Iterable, Optional, Set, Type, Union
 
-from esparto._publish import nb_display, publish
+from esparto._publish import nb_display, publish_html, publish_pdf
 
-if TYPE_CHECKING:  # pragma: no cover
+if TYPE_CHECKING:
     from esparto._content import Content
 
 
@@ -95,7 +94,7 @@ class Layout(ABC):
         """Wrap children in a coherent class hierarchy.
 
         Args:
-          children: Sequence of Content and / or Layout items.
+          children: Sequence of Content and / or Child items.
 
         Returns:
           List of Layout and Content items wrapped in a coherent class hierarchy.
@@ -180,14 +179,14 @@ class Layout(ABC):
         """Closing HTML tag."""
         raise NotImplementedError
 
-    def to_html(self) -> str:
+    def to_html(self, **kwargs) -> str:
         """Render document to HTML code.
 
         Returns:
           str: HTML code.
 
         """
-        children_rendered = " ".join([c.to_html() for c in self.children])
+        children_rendered = " ".join([c.to_html(**kwargs) for c in self.children])
         title_rendered = f"{self._render_title()}\n" if self._title else None
         if title_rendered:
             html = f"{self._tag_open}\n{title_rendered}{children_rendered}\n{self._tag_close}\n"
@@ -203,31 +202,6 @@ class Layout(ABC):
     def display(self):
         """Display rendered document in a Jupyter Notebook cell."""
         nb_display(self)
-
-    def save(
-        self, filepath: str = "./esparto-doc.html", return_html: bool = False
-    ) -> Optional[str]:
-        """
-        Render document to HTML and save to disk.
-
-        Args:
-          filepath: Destination filepath. (default = './esparto-doc.html')
-          return_html: If True, return HTML as a string.
-
-        Returns:
-          Document rendered as HTML. (If 'return_html' is True)
-
-        """
-        html = publish(self, filepath=filepath, return_html=return_html)
-
-        if return_html:
-            return html
-        else:
-            return None
-
-    def to_dict(self) -> dict:
-        """Return object as a dictionary."""
-        return dict(getmembers(self))
 
     def __init__(
         self,
@@ -323,9 +297,9 @@ class Page(Layout):
     """Page - top level element for defining a document.
 
     Args:
-        *children (Layout, optional):  Layout items to include in the Page.
-        title (str, optional): Page title.
-        org_name (str, optional): Organisation name.
+        *children (Layout, Any):  Child items to include within the element.
+        title (str): Element title.
+        org_name (str): Organisation name.
 
     """
 
@@ -353,6 +327,90 @@ class Page(Layout):
         """ """
         return Section
 
+    def save_html(
+        self,
+        filepath: str = "./esparto-doc.html",
+        return_html: bool = False,
+        dependency_source="esparto.options",
+    ) -> Optional[str]:
+        """
+        Save document as an HTML file.
+
+        Args:
+          filepath (str): Destination filepath.
+          return_html (bool): If True, return HTML as a string.
+          dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'.
+
+        Returns:
+          Document rendered as HTML. (If 'return_html' is True)
+
+        """
+        html = publish_html(
+            self,
+            filepath=filepath,
+            return_html=return_html,
+            dependency_source=dependency_source,
+        )
+
+        if return_html:
+            return html
+        else:
+            return None
+
+    def save(
+        self,
+        filepath: str = "./esparto-doc.html",
+        return_html: bool = False,
+        dependency_source="esparto.options",
+    ) -> Optional[str]:
+        """
+        Save document as an HTML file.
+
+        Note: Alias for `self.save_html()`.
+
+        Args:
+          filepath (str): Destination filepath.
+          return_html (bool): If True, return HTML as a string.
+          dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'.
+
+        Returns:
+          Document rendered as HTML. (If 'return_html' is True)
+
+        """
+        html = self.save_html(
+            filepath=filepath,
+            return_html=return_html,
+            dependency_source=dependency_source,
+        )
+
+        if return_html:
+            return html
+        else:
+            return None
+
+    def save_pdf(
+        self, filepath: str = "./esparto-doc.pdf", return_html: bool = False
+    ) -> Optional[str]:
+        """
+        Save document as a PDF file.
+
+        Note: Requires optional module `weasyprint`.
+
+        Args:
+          filepath (str): Destination filepath.
+          return_html (bool): If True, return HTML as a string.
+
+        Returns:
+          Document rendered as HTML. (If 'return_html' is True)
+
+        """
+        html = publish_pdf(self, filepath, return_html=return_html)
+
+        if return_html:
+            return html
+        else:
+            return None
+
     def __init__(
         self,
         *children: Union["Layout", "Content", Any],
@@ -367,14 +425,14 @@ class Section(Layout):
     """Section - defines a Section within a Page.
 
     Args:
-        *children: Row items to include in the Section.
-        title: Section title.
+        *children (Layout, Any):  Child items to include within the element.
+        title (str): Element title.
 
     """
 
     def _render_title(self) -> str:
         """ """
-        return f"<h2 class='mb-3'>{self._title}</h2>\n"
+        return f"<h3 class='mb-3'>{self._title}</h3>\n"
 
     @property
     def _tag_open(self) -> str:
@@ -401,8 +459,8 @@ class Row(Layout):
     """Row -  defines a Row within a Section.
 
     Args:
-        *children: Column items to include in the Row.
-        title: Row title.
+        *children (Layout, Any):  Child items to include within the element.
+        title (str): Element title.
 
     """
 
@@ -435,8 +493,8 @@ class Column(Layout):
     """Column -  defines a Column within a Row.
 
     Args:
-        *children: Content to include in the Column.
-        title: Column title.
+        *children (Layout, Any):  Child items to include within the element.
+        title (str): Element title.
 
     """
 

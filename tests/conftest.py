@@ -50,9 +50,10 @@ if _EXTRAS:
 
         mpl.use("Agg")
 
+    # svg output format cannot be parsed in testing
     content_extra = [
         (co.DataFramePd(pd.DataFrame({"a": range(1, 11), "b": range(11, 21)}))),
-        (co.FigureMpl(plt.Figure())),
+        (co.FigureMpl(plt.Figure(), output_format="png")),
         (co.FigureBokeh(bkp.figure())),
         (co.FigureBokeh(bkl.column(bkp.figure()))),
         (co.FigurePlotly(px.line(x=range(10), y=range(10)))),  # type: ignore

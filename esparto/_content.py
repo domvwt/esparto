@@ -2,14 +2,17 @@
 
 import base64
 from abc import ABC, abstractmethod
-from io import BytesIO
-from typing import Any, Set, Union
+from io import BytesIO, StringIO
+from pathlib import Path
+from typing import Any, Set, Tuple, Union
+from uuid import uuid4
 
 import markdown as md
 import PIL.Image as Img  # type: ignore
 from PIL.Image import Image as PILImage
 
 from esparto import _INSTALLED_MODULES
+from esparto._options import options
 from esparto._publish import nb_display
 
 if "pandas" in _INSTALLED_MODULES:
@@ -27,22 +30,6 @@ if "plotly" in _INSTALLED_MODULES:
     from plotly.io import to_html as plotly_to_html  # type: ignore
 
 
-def _image_to_base64(image: PILImage) -> str:
-    """
-    Convert an image from PIL to base64 representation.
-
-    Args:
-      image (PIL.Image):
-
-    Returns:
-      str: Image encoded as a base64 utf-8 string.
-    """
-    buffer = BytesIO()
-    image.save(buffer, format="png")
-    image_encoded = base64.b64encode(buffer.getvalue()).decode("utf-8")
-    return image_encoded
-
-
 class Content(ABC):
     """Template for Content elements. All Content classes come with these methods and attributes.
 
@@ -57,7 +44,7 @@ class Content(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def to_html(self) -> str:
+    def to_html(self, **kwargs) -> str:
         """Render content to HTML code.
 
         Returns:
@@ -85,7 +72,7 @@ class Content(ABC):
         self._deps = deps
 
     def __add__(self, other):
-        from esparto._layout import Row  # Deferred for evade circular import
+        from esparto._layout import Row
 
         return Row(self, other)
 
@@ -146,10 +133,10 @@ class Markdown(Content):
         self.content = str(text)
         self._dependencies = {"bootstrap"}
 
-    def to_html(self) -> str:
+    def to_html(self, **kwargs) -> str:
         html = md.markdown(self.content)
         html = f"{html}\n"
-        html = f"<div class='container px-1'>\n{html}\n</div>"
+        html = f"<div class='px-1'>\n{html}\n</div>"
         return html
 
 
@@ -158,29 +145,19 @@ class Image(Content):
 
     Can be read from a filepath, PIL.Image object, or from bytes.
 
+    Only one of `scale`, `set_width`, or `set_height` should be used.
+    If more than one is populated, the values will be prioritised in the order:
+         `set_width` -> `set_height` -> `scale`
+
     Args:
       image (str, PIL.Image, BytesIO): Image data.
       caption (str): Image caption (default = None)
       alt_text (str): Alternative text. (default = None)
-      scale (float): Value by which to scale image, must be > 0 and <= 1. (default = 1)
+      scale (float): Scale image proportionately, must be > 0 and <= 1. (default = None)
+      set_width (int): Set width in pixels. (default = None)
+      set_height (int): Set height in pixels. (default = None)
 
     """
-
-    @property
-    def scale(self) -> float:
-        """ """
-        raise NotImplementedError
-
-    @scale.getter
-    def scale(self) -> float:
-        """ """
-        return self._scale
-
-    @scale.setter
-    def scale(self, scale: float) -> None:
-        """ """
-        assert scale <= 1, "Image can not be scaled over 100%"
-        self._scale = scale
 
     @property
     def content(self) -> Union[str, BytesIO]:
@@ -202,7 +179,9 @@ class Image(Content):
         image: Union[str, PILImage, BytesIO],
         alt_text: str = "Image",
         caption: str = "",
-        scale: float = 1,
+        scale: float = None,
+        set_width: int = None,
+        set_height: int = None,
     ):
 
         if not isinstance(image, (str, PILImage, BytesIO)):
@@ -211,11 +190,33 @@ class Image(Content):
         self.content = image
         self.alt_text = alt_text
         self.caption = caption
-        self.scale = scale
+        self._scale = scale
+        self._width = set_width
+        self._height = set_height
         self._dependencies = {"bootstrap"}
 
+    def set_width(self, width) -> "Image":
+        """Set width of image prior to rendering.
+
+        Args:
+          width (int): New width in pixels.
+
+        """
+        self._width = width
+        return self
+
+    def set_height(self, height) -> "Image":
+        """Set height of image prior to rendering.
+
+        Args:
+          height (int): New height in pixels.
+
+        """
+        self._height = height
+        return self
+
     def rescale(self, scale) -> "Image":
-        """Rescale the image prior to rendering.
+        """Rescale the image proportionately prior to rendering.
 
         Note:
           Images can be scaled down only.
@@ -224,31 +225,25 @@ class Image(Content):
           scale (float): Scaling ratio.
 
         """
-        self.scale = scale
+        self._scale = scale
         return self
 
-    def to_html(self) -> str:
+    def to_html(self, **kwargs) -> str:
         if isinstance(self.content, PILImage):
             image = self.content
         else:
             image = Img.open(self.content)
 
-        # Resize image if required
-        if self.scale != 1:
-            x = int(image.size[0] * self.scale)
-            y = int(image.size[1] * self.scale)
-            image.thumbnail((x, y))
-
-        width = f"{image.size[0]}px"
-        height = f"{image.size[1]}px"
+        if self._width or self._height or self._scale:
+            image = _rescale_image(image, self._width, self._height, self._scale)
 
         image_encoded = _image_to_base64(image)
         html = (
-            "<figure class='text-center'>"
-            + "<img class='figure-img img-fluid rounded' "
+            "<figure class='text-center my-1'>"
+            + "<img class='figure-img rounded' "
             + f"alt='{self.alt_text}' "
-            + f"height='{height}' width='{width}' "
-            + f"src='data:image/png;base64,{image_encoded}'>"
+            + f"src='data:image/png;base64,{image_encoded}' "
+            + ">"
         )
 
         if self.caption:
@@ -296,37 +291,96 @@ class DataFramePd(Content):
         self.col_space = col_space
         self._dependencies = {"bootstrap"}
 
-    def to_html(self) -> str:
-        classes = "table table-sm table-striped table-hover table-bordered"
+    def to_html(self, **kwargs) -> str:
+        classes = "table table-sm table-striped table-hover table-bordered my-1"
         html = self.content.to_html(
             index=self.index, border=0, col_space=self.col_space, classes=classes
         )
         return html
 
 
-class FigureMpl(Image):
-    """Matplotlib figure to be rendered as an image.
+class FigureMpl(Content):
+    """Matplotlib figure.
 
     Args:
       figure (plt.Figure): A Matplotlib figure.
       caption (str): Image caption (default = None)
       alt_text (str): Alternative text. (default = None)
+      output_format (str): One of 'svg', 'png', or 'esparto.options'. (default = 'esparto.options')
 
     """
+
+    @property
+    def content(self) -> "MplFigure":
+        """ """
+        raise NotImplementedError
+
+    @content.getter
+    def content(self) -> "MplFigure":
+        """ """
+        return self._content
+
+    @content.setter
+    def content(self, content) -> None:
+        """ """
+        self._content = content
 
     def __init__(
         self,
         figure: "MplFigure",
         caption: str = "",
         alt_text: str = "Image",
+        output_format="esparto.options",
     ):
 
         if not isinstance(figure, MplFigure):
             raise TypeError(r"figure must be a Matplotlib Figure")
 
+        self.content = figure
+        self.caption = caption
+        self.alt_text = alt_text
+        self.output_format = output_format
+        self._dependencies = {"bootstrap"}
+
+    def __deepcopy__(self, *args, **kwargs):
+        cls = self.__class__
+        return cls(self.content)
+
+    def to_html(self, **kwargs):
+
+        if self.output_format == "esparto.options":
+            output_format = options.matplotlib_output_format
+        else:
+            output_format = self.output_format
+
+        if output_format == "svg":
+            if kwargs.get("pdf_mode"):
+                temp_file = Path(options.pdf_temp_dir) / f"{uuid4()}.svg"
+                self.content.savefig(temp_file, format="svg")
+                source = f"<img src='{temp_file.name}'>\n"
+
+            else:
+                buffer = StringIO()
+                self.content.savefig(buffer, format="svg")
+                buffer.seek(0)
+                source = buffer.read()
+
+            html = f"<figure class='text-center my-1'>\n{source}\n"
+
+            if self.caption:
+                html += (
+                    f"<figcaption class='figure-caption'>{self.caption}</figcaption>\n"
+                )
+
+            html += "</figure>\n"
+
+            return html
+
+        # If not svg:
         buffer = BytesIO()
-        figure.savefig(buffer, format="png")
-        super().__init__(buffer, scale=1, caption=caption, alt_text=alt_text)
+        self.content.savefig(buffer, format="png")
+        buffer.seek(0)
+        return Image(buffer, caption=self.caption, alt_text=self.alt_text).to_html()
 
 
 class FigureBokeh(Content):
@@ -334,8 +388,8 @@ class FigureBokeh(Content):
 
     Args:
       figure (bokeh.layouts.LayoutDOM): A Bokeh object.
-      width (int): Width in pixels. (default = from figure or 'auto')
-      height (int): Height in pixels. (default = from figure or 'auto')
+      width (int): Width in pixels. (default = figure.width or 'auto')
+      height (int): Height in pixels. (default = figure.height or 'auto')
 
     """
 
@@ -415,13 +469,23 @@ class FigureBokeh(Content):
         cls = self.__class__
         return cls(self.content)
 
-    def to_html(self) -> str:
-        html, js = components(self.content)
+    def to_html(self, **kwargs) -> str:
 
-        # Remove outer <div> tag so we can give our own attributes
-        html = _remove_outer_div(html)
+        if kwargs.get("pdf_mode"):
+            from bokeh.io import export_svg  # type: ignore
 
-        return f"<div class='mb-3' style='width: {self.width}; height: {self.height};'>{html}\n{js}\n</div>"
+            temp_file = Path(options.pdf_temp_dir) / f"{uuid4()}.svg"
+            export_svg(self.content, filename=str(temp_file))
+            html = f"<img src='{temp_file.name}'>\n"
+            return html
+
+        else:
+            html, js = components(self.content)
+
+            # Remove outer <div> tag so we can give our own attributes
+            html = _remove_outer_div(html)
+
+            return f"<div class='mb-3' style='width: {self.width}; height: {self.height};'>{html}\n{js}\n</div>"
 
 
 class FigurePlotly(Content):
@@ -496,13 +560,24 @@ class FigurePlotly(Content):
         self.content = figure
         self._dependencies = {"plotly"}
 
-    def to_html(self) -> str:
-        html = plotly_to_html(self.content, include_plotlyjs=False, full_html=False)
+    def to_html(self, **kwargs) -> str:
 
-        # Remove outer <div> tag so we can give our own attributes.
-        html = _remove_outer_div(html)
+        if kwargs.get("pdf_mode"):
+            temp_file = Path(options.pdf_temp_dir) / f"{uuid4()}.svg"
+            self.content.write_image(str(temp_file))
+            html = f"<img src='{temp_file.name}'>\n"
 
-        return f"<div class='responsive-plot mb-3' style='width: {self.width}; height: {self.height};'>{html}\n</div>"
+        else:
+            html = plotly_to_html(self.content, include_plotlyjs=False, full_html=False)
+
+            # Remove outer <div> tag so we can give our own attributes.
+            html = _remove_outer_div(html)
+            html = (
+                "<div class='responsive-plot mb-3' "
+                + f"style='width: {self.width}; height: {self.height};'>{html}\n</div>"
+            )
+
+        return html
 
 
 def _remove_outer_div(html: str) -> str:
@@ -510,3 +585,49 @@ def _remove_outer_div(html: str) -> str:
     html = html.replace("<div>", "", 1)
     html = "".join(html.rsplit("</div>", 1))
     return html
+
+
+def _image_to_base64(image: PILImage) -> str:
+    """
+    Convert an image from PIL to base64 representation.
+
+    Args:
+      image (PIL.Image):
+
+    Returns:
+      str: Image encoded as a base64 utf-8 string.
+    """
+    buffer = BytesIO()
+    image.save(buffer, format="png")
+    image_encoded = base64.b64encode(buffer.getvalue()).decode("utf-8")
+    return image_encoded
+
+
+def _rescale_image(
+    image: PILImage, width: int = None, height: int = None, scale: float = None
+) -> PILImage:
+    """Rescale image by width in px, height in px, or ratio."""
+    image = image.copy()
+    new_size = _rescale_dims(image.size, width, height, scale)
+    image.thumbnail(new_size)
+    return image
+
+
+def _rescale_dims(
+    size: Tuple[int, int], width: int = None, height: int = None, scale: float = None
+) -> Tuple[int, int]:
+    """Rescale dimensions by width in px, height in px, or ratio."""
+    if width:
+        ratio = width / size[0]
+    elif height:
+        ratio = height / size[1]
+    elif scale:
+        ratio = scale
+    else:
+        raise ValueError("One of {'width', 'height', scale'} must be supplied")
+
+    if ratio > 1:
+        raise ValueError("Target size must be less than original size")
+
+    new_size = (int(size[0] * ratio), int(size[1] * ratio))
+    return new_size

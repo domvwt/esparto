@@ -1,6 +1,15 @@
 Release Notes
 =============
 
+0.2.3 (2021-05-03)
+------------------
+
+-   Make documents 'print friendly'.
+-   Output to PDF with weasyprint.
+-   Export matplotlib plots as SVG by default.
+-   Use  `esparto.options` for configuring behaviour.
+
+
 0.2.2 (2021-04-24)
 ------------------
 

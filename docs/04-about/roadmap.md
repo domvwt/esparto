@@ -1,8 +1,6 @@
-## New Features
-* Provide content support for
-    * Plotly
-    * Bokeh
-    * Altair
+Potential features:
+
 * Alternative themes
 * Additional Bootstrap components
+* User supplied Jinja templates
 * Custom CSS

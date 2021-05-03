@@ -1,99 +1,62 @@
 import time
-from typing import TYPE_CHECKING, List, Optional, Set, Union
+from pathlib import Path
+from typing import TYPE_CHECKING, Optional, Union
 
 from jinja2 import Environment, PackageLoader, select_autoescape  # type: ignore
 
-if TYPE_CHECKING:  # pragma: no cover
-    from esparto._layout import Layout
+if TYPE_CHECKING:
+    from esparto._layout import Page, Layout
     from esparto._content import Content
 
 from esparto import _INSTALLED_MODULES
+from esparto._contentdeps import resolve_deps
+from esparto._options import _get_source_from_options, options
 
 _ENV = Environment(
-    loader=PackageLoader("esparto", "templates"),
+    loader=PackageLoader("esparto", "resources/jinja"),
     autoescape=select_autoescape(["xml"]),
 )
 
 _BASE_TEMPLATE = _ENV.get_template("base.html")
-_BOOTSTRAP_CDN = (
-    '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" '
-    + 'integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">'
-)
-
-if "bokeh" in _INSTALLED_MODULES:
-    import bokeh  # type: ignore
-
-    bokeh_version = bokeh.__version__
-    _BOKEH_CDN = f"""\
-        <script src='https://cdn.bokeh.org/bokeh/release/bokeh-{bokeh_version}.min.js'
-                crossorigin='anonymous'></script>
-        <script src='https://cdn.bokeh.org/bokeh/release/bokeh-widgets-{bokeh_version}.min.js'
-                crossorigin='anonymous'></script>
-        <script src='https://cdn.bokeh.org/bokeh/release/bokeh-tables-{bokeh_version}.min.js'
-                crossorigin='anonymous'></script>
-        """
-
-if "plotly" in _INSTALLED_MODULES:
-    plotly_version = "latest"
-    _PLOTLY_CDN = f"""\
-        <script src='https://cdn.plot.ly/plotly-{plotly_version}.min.js'></script>
-        """
 
 
-def _get_head_deps(required_deps: Set[str]) -> List[str]:
-    include_deps: List[str] = []
-
-    if "bootstrap" in required_deps:
-        include_deps.append(_BOOTSTRAP_CDN)
-
-    if "plotly" in required_deps:
-        include_deps.append(_PLOTLY_CDN)
-
-    return include_deps
-
-
-def _get_tail_deps(required_deps: Set[str]) -> List[str]:
-    include_deps: List[str] = []
-
-    if "bokeh" in required_deps:
-        include_deps.append(_BOKEH_CDN)
-
-    return include_deps
-
-
-def publish(
-    document: "Layout",
+def publish_html(
+    document: "Page",
     filepath: Optional[str] = "./esparto-doc.html",
     return_html: bool = False,
+    dependency_source="esparto.options",
+    **kwargs,
 ) -> Optional[str]:
-    """Save Layout element to HTML.
+    """Save document to HTML.
 
     Args:
-      document (Layout): Any Layout object.
-      filepath (str): Filepath to write to. (default = './esparto-doc.html')
+      document (Page): A Page object.
+      filepath (str): Filepath to write to.
       return_html (bool): Returns HTML string if True.
+      dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'.
+      **kwargs (Dict[str, Any]): Arguments passed to `document.to_html()`.
 
     Returns:
       str: HTML string if return_html is True.
 
     """
 
-    if not filepath:
-        filepath = "./esparto-doc.html"
-
     required_deps = document._required_dependencies()
-    head_deps = _get_head_deps(required_deps)
-    tail_deps = _get_tail_deps(required_deps)
+    dependency_source = _get_source_from_options(dependency_source)
+    resolved_deps = resolve_deps(required_deps, source=dependency_source)
 
-    # Jinja requires dict for accessing properties
-    doc_dict = document.to_dict()
     html_rendered: str = _BASE_TEMPLATE.render(
-        content=doc_dict, head_deps=head_deps, tail_deps=tail_deps
+        org_name=document.org_name,
+        title=document.title,
+        content=document.to_html(**kwargs),
+        head_deps=resolved_deps.head,
+        tail_deps=resolved_deps.tail,
     )
     html_prettified = _prettify_html(html_rendered)
 
-    with open(filepath, "w") as f:
-        f.write(html_prettified)
+    if filepath:
+        with open(filepath, "w") as f:
+            f.write(html_prettified)
 
     if return_html:
         return html_prettified
@@ -101,68 +64,114 @@ def publish(
         return None
 
 
-def nb_display(
-    item: Union["Layout", "Content"], return_html: bool = False
+def publish_pdf(
+    document: "Page", filepath: str = "./esparto-doc.pdf", return_html: bool = False
 ) -> Optional[str]:
-    """Display Layout or Content to Jupyter Notebook cell.
+    """Save document to PDF.
 
     Args:
-      item (Layout, Content): A Layout or Content item.
+      document (Layout): A Page object.
+      filepath (str): Filepath to write to.
       return_html (bool): Returns HTML string if True.
 
     Returns:
       str: HTML string if return_html is True.
 
     """
-    if "IPython" in _INSTALLED_MODULES:
-        from IPython.display import HTML, Javascript, display  # type: ignore
+    if "weasyprint" not in _INSTALLED_MODULES:
+        raise ModuleNotFoundError("Install weasyprint for PDF support")
+    else:
+        import weasyprint as weasy  # type: ignore
 
-        from esparto._layout import Layout
+        temp_dir = Path(options.pdf_temp_dir)
+        temp_dir.mkdir(parents=True, exist_ok=True)
 
-        required_deps: set = set()
-
-        if isinstance(item, Layout):
-            required_deps = item._required_dependencies()
-        elif hasattr(item, "_dependencies"):
-            required_deps = item._dependencies
-
-        head_deps = "\n".join(_get_head_deps(required_deps))
-        tail_deps = "\n".join(_get_tail_deps(required_deps))
-        content_html = f"<div class='container' style='width: 100%; height: 100%;'>\n{item.to_html()}\n</div>"
-
-        render_html = (
-            f"<!doctype html>\n<html>\n<head>{head_deps}</head>\n"
-            f"<body>\n{content_html}\n{tail_deps}\n</body>\n</html>\n"
+        html_rendered = publish_html(
+            document=document,
+            filepath=None,
+            return_html=True,
+            dependency_source="inline",
+            pdf_mode=True,
+        )
+        weasy.HTML(string=html_rendered, base_url=options.pdf_temp_dir).write_pdf(
+            filepath
         )
 
-        print()
-        # This allows time to download plotly.js from the CDN - otherwise cell renders empty
-        if "plotly" in required_deps:
-            display(
-                HTML(f"<head>\n{head_deps}\n</head>\n"), metadata=dict(isolated=True)
-            )
-            time.sleep(2)
+        for f in temp_dir.iterdir():
+            f.unlink()
+        temp_dir.rmdir()
 
-        display(HTML(render_html), metadata=dict(isolated=True))
-        print()
-
-        # Prevent output scrolling
-        js = "$('.output_scroll').removeClass('output_scroll')"
-        display(Javascript(js))
+        html_prettified = _prettify_html(html_rendered)
 
         if return_html:
-            return render_html
+            return html_prettified
         else:
             return None
+
+
+def nb_display(
+    item: Union["Layout", "Content"],
+    return_html: bool = False,
+    dependency_source="esparto.options",
+) -> Optional[str]:
+    """Display Layout or Content to Jupyter Notebook cell.
+
+    Args:
+      item (Layout, Content): A Layout or Content item.
+      return_html (bool): Returns HTML string if True.
+      dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'.
+
+    Returns:
+      str: HTML string if return_html is True.
+
+    """
+    from IPython.display import HTML, Javascript, display  # type: ignore
+
+    from esparto._layout import Layout
+
+    required_deps: set = set()
+
+    if isinstance(item, Layout):
+        required_deps = item._required_dependencies()
+    elif hasattr(item, "_dependencies"):
+        required_deps = item._dependencies
+
+    dependency_source = _get_source_from_options(dependency_source)
+
+    resolved_deps = resolve_deps(required_deps, source=dependency_source)
+    head_deps = "\n".join(resolved_deps.head)
+    tail_deps = "\n".join(resolved_deps.tail)
+    content_html = f"<div class='container' style='width: 100%; height: 100%;'>\n{item.to_html()}\n</div>"
+
+    render_html = (
+        f"<!doctype html>\n<html>\n<head>{head_deps}</head>\n"
+        f"<body>\n{content_html}\n{tail_deps}\n</body>\n</html>\n"
+    )
+
+    print()
+    # This allows time to download plotly.js from the CDN - otherwise cell renders empty
+    if "plotly" in required_deps and dependency_source == "cdn":
+        display(HTML(f"<head>\n{head_deps}\n</head>\n"), metadata=dict(isolated=True))
+        time.sleep(2)
+
+    display(HTML(render_html), metadata=dict(isolated=True))
+    print()
+
+    # Prevent output scrolling
+    js = "$('.output_scroll').removeClass('output_scroll')"
+    display(Javascript(js))
+
+    if return_html:
+        return render_html
     else:
-        raise ModuleNotFoundError("IPython")
+        return None
 
 
-def _prettify_html(html: str) -> str:
+def _prettify_html(html: Optional[str]) -> str:
     """Prettify HTML."""
     if "bs4" in _INSTALLED_MODULES:
         from bs4 import BeautifulSoup  # type: ignore
 
         html = str(BeautifulSoup(html, features="html.parser").prettify())
 
-    return html
+    return html or ""
