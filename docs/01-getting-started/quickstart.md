@@ -1,11 +1,21 @@
 Quickstart
 ==========
 
-The esparto library can be installed with pip:
+The esparto library can be installed with pip. Only the minimal package requirements will be installed by default:
 
 ```bash
 pip install esparto
 ```
+
+<br>
+
+For PDF output we will also require [weasyprint]("https://weasyprint.org/"), although
+this is optional:
+
+```bash
+pip install weasyprint
+```
+
 
 <br>
 
@@ -47,13 +57,21 @@ Your *content* goes **here!**
 my_page += content_md
 my_page += "image.jpg"
 
-html = my_page.save_html("esparto-quick-image.html")
+my_page.save_html("esparto-quick-image.html")
 ```
 <br>
 
 Esparto determines that the string points to a valid image and loads the file:
 
 <img src='../esparto-image-screenshot.png' height=70% style='border: 1px dotted lightgrey; width: 60%; height: auto%'>
+
+<br>
+
+And for PDF output:
+
+```python
+my_page.save_pdf("esparto-quick-image.pdf")
+```
 
 <br>
 

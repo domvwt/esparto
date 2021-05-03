@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>{{ content["_title"] | default("esparto", true) }}</title>
+  <title>{{ title | default("esparto-doc", true) }}</title>
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
   <!-- Required meta tags -->
@@ -49,16 +49,12 @@
 <body>
   <nav class="navbar navbar-expand-md navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">{{ content["org_name"] | default("esparto", false) }}</a>
+      <a class="navbar-brand" href="#">{{ org_name }}</a>
     </div>
   </nav>
 
   <!-- GENERATED CONTENT START -->
-  {% if "_rendered" in content %}
-    {{ content["_rendered"] }}
-  {% else %}
-    <h4>There's nothing here...</h4>
-  {% endif %}
+  {{ content }}
   <!-- GENERATED CONTENT END -->
 
   {% if tail_deps is defined and tail_deps|length %}

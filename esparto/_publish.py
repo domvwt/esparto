@@ -1,15 +1,16 @@
 import time
+from pathlib import Path
 from typing import TYPE_CHECKING, Optional, Union
 
 from jinja2 import Environment, PackageLoader, select_autoescape  # type: ignore
 
 if TYPE_CHECKING:
-    from esparto._layout import Layout
+    from esparto._layout import Page, Layout
     from esparto._content import Content
 
 from esparto import _INSTALLED_MODULES
-from esparto._contentdeps import JS_DEPS, resolve_deps
-from esparto._options import _get_source_from_options
+from esparto._contentdeps import resolve_deps
+from esparto._options import _get_source_from_options, options
 
 _ENV = Environment(
     loader=PackageLoader("esparto", "resources/jinja"),
@@ -20,18 +21,20 @@ _BASE_TEMPLATE = _ENV.get_template("base.html")
 
 
 def publish_html(
-    document: "Layout",
+    document: "Page",
     filepath: Optional[str] = "./esparto-doc.html",
     return_html: bool = False,
-    dependency_source="cdn",
+    dependency_source="esparto.options",
+    **kwargs,
 ) -> Optional[str]:
     """Save document to HTML.
 
     Args:
-      document (Layout): Any Layout object.
-      filepath (str): Filepath to write to. (default = './esparto-doc.html')
+      document (Page): A Page object.
+      filepath (str): Filepath to write to.
       return_html (bool): Returns HTML string if True.
-      dependency_source (str): One of 'cdn' or 'inline'. (default = 'cdn')
+      dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'.
+      **kwargs (Dict[str, Any]): Arguments passed to `document.to_html()`.
 
     Returns:
       str: HTML string if return_html is True.
@@ -39,12 +42,15 @@ def publish_html(
     """
 
     required_deps = document._required_dependencies()
+    dependency_source = _get_source_from_options(dependency_source)
     resolved_deps = resolve_deps(required_deps, source=dependency_source)
 
-    # Jinja requires dict for accessing properties
-    doc_dict = document.to_dict()
     html_rendered: str = _BASE_TEMPLATE.render(
-        content=doc_dict, head_deps=resolved_deps.head, tail_deps=resolved_deps.tail
+        org_name=document.org_name,
+        title=document.title,
+        content=document.to_html(**kwargs),
+        head_deps=resolved_deps.head,
+        tail_deps=resolved_deps.tail,
     )
     html_prettified = _prettify_html(html_rendered)
 
@@ -59,14 +65,17 @@ def publish_html(
 
 
 def publish_pdf(
-    document: "Layout",
-    filepath: str = "./esparto-doc.pdf",
-) -> None:
+    document: "Page", filepath: str = "./esparto-doc.pdf", return_html: bool = False
+) -> Optional[str]:
     """Save document to PDF.
 
     Args:
-      document (Layout): Any Layout object.
-      filepath (str): Filepath to write to. (default = './esparto-doc.pdf')
+      document (Layout): A Page object.
+      filepath (str): Filepath to write to.
+      return_html (bool): Returns HTML string if True.
+
+    Returns:
+      str: HTML string if return_html is True.
 
     """
     if "weasyprint" not in _INSTALLED_MODULES:
@@ -74,19 +83,30 @@ def publish_pdf(
     else:
         import weasyprint as weasy  # type: ignore
 
-        doc_js_deps = JS_DEPS & document._required_dependencies()
-        if doc_js_deps:
-            raise NotImplementedError(
-                f"PDF format unsupported for interactive content - document requires: {doc_js_deps}"
-            )
+        temp_dir = Path(options.pdf_temp_dir)
+        temp_dir.mkdir(parents=True, exist_ok=True)
 
-        html = publish_html(
+        html_rendered = publish_html(
             document=document,
             filepath=None,
             return_html=True,
             dependency_source="inline",
+            pdf_mode=True,
         )
-        weasy.HTML(string=html).write_pdf(filepath)
+        weasy.HTML(string=html_rendered, base_url=options.pdf_temp_dir).write_pdf(
+            filepath
+        )
+
+        for f in temp_dir.iterdir():
+            f.unlink()
+        temp_dir.rmdir()
+
+        html_prettified = _prettify_html(html_rendered)
+
+        if return_html:
+            return html_prettified
+        else:
+            return None
 
 
 def nb_display(
@@ -98,8 +118,8 @@ def nb_display(
 
     Args:
       item (Layout, Content): A Layout or Content item.
-      return_html (bool): Returns HTML string if True. (default = False)
-      dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'. (default = 'esparto.options')
+      return_html (bool): Returns HTML string if True.
+      dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'.
 
     Returns:
       str: HTML string if return_html is True.
@@ -130,7 +150,7 @@ def nb_display(
 
     print()
     # This allows time to download plotly.js from the CDN - otherwise cell renders empty
-    if "plotly" in required_deps:
+    if "plotly" in required_deps and dependency_source == "cdn":
         display(HTML(f"<head>\n{head_deps}\n</head>\n"), metadata=dict(isolated=True))
         time.sleep(2)
 
@@ -147,11 +167,11 @@ def nb_display(
         return None
 
 
-def _prettify_html(html: str) -> str:
+def _prettify_html(html: Optional[str]) -> str:
     """Prettify HTML."""
     if "bs4" in _INSTALLED_MODULES:
         from bs4 import BeautifulSoup  # type: ignore
 
         html = str(BeautifulSoup(html, features="html.parser").prettify())
 
-    return html
+    return html or ""

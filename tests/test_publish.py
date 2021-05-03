@@ -68,10 +68,11 @@ if _EXTRAS:
         html = pu.nb_display(page_layout, return_html=True, dependency_source="inline")
         assert html_is_valid(html)
 
-    def test_pdf_output(content_list_fn, tmp_path):
-        content_list = [x for x in content_list_fn if not pu.JS_DEPS & x._deps]
-        page = es.Page(content_list)
-        path: Path = tmp_path / "my_page.pdf"
-        page.save_pdf(str(path))
-        size = path.stat().st_size
-        assert size > 500_000
+    @pytest.mark.parametrize("content", content_list)
+    def test_pdf_output(content, tmp_path):
+        if "bokeh" not in content._dependencies:
+            page = es.Page(content)
+            path: Path = tmp_path / "my_page.pdf"
+            page.save_pdf(str(path))
+            size = path.stat().st_size
+            assert size > 1000
