@@ -161,7 +161,7 @@ my_page += bokeh_section, plotly_section
 
 
 page_name = "interactive-plots.html"
-my_page.save(page_name)
+my_page.save_html(page_name)
 
 
 # Check your current working directory for the finished report!

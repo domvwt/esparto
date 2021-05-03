@@ -10,7 +10,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.2">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.3">
     
     
       
@@ -18,7 +18,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.6f955dcd.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e35208c4.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ef6f36e2.min.css">
@@ -538,6 +538,20 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#esparto._content.Image.set_height" class="md-nav__link">
+    set_height()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#esparto._content.Image.set_width" class="md-nav__link">
+    set_width()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#esparto._content.Image.to_html" class="md-nav__link">
     to_html()
   </a>
@@ -573,6 +587,19 @@
   <a href="#esparto._content.FigureMpl" class="md-nav__link">
     FigureMpl
   </a>
+  
+    <nav class="md-nav" aria-label="FigureMpl">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#esparto._content.FigureMpl.to_html" class="md-nav__link">
+    to_html()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -827,6 +854,20 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#esparto._content.Image.set_height" class="md-nav__link">
+    set_height()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#esparto._content.Image.set_width" class="md-nav__link">
+    set_width()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#esparto._content.Image.to_html" class="md-nav__link">
     to_html()
   </a>
@@ -862,6 +903,19 @@
   <a href="#esparto._content.FigureMpl" class="md-nav__link">
     FigureMpl
   </a>
+  
+    <nav class="md-nav" aria-label="FigureMpl">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#esparto._content.FigureMpl.to_html" class="md-nav__link">
+    to_html()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -925,7 +979,7 @@
                 <h1 id="esparto_content">esparto._content</h1>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>Content classes should be accessed from the module top level.</p>
+<p>Content classes can be accessed from the module top level:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">esparto</span> <span class="k">as</span> <span class="nn">es</span>
 
 <span class="c1"># Create some new Markdown text</span>
@@ -1040,7 +1094,7 @@
 
 
 <h3 id="esparto._content.Content.to_html" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
 </h3>
@@ -1067,7 +1121,7 @@
         <details class="quote">
           <summary>Source code in <code>esparto/_content.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@abstractmethod</span>
-<span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Render content to HTML code.</span>
 
 <span class="sd">    Returns:</span>
@@ -1148,7 +1202,7 @@
 
 
 <h3 id="esparto._content.Markdown.to_html" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
 </h3>
@@ -1174,10 +1228,10 @@
 </table>
         <details class="quote">
           <summary>Source code in <code>esparto/_content.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="n">html</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
     <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">html</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;div class=&#39;container px-1&#39;&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">html</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/div&gt;&quot;</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;div class=&#39;px-1&#39;&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">html</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/div&gt;&quot;</span>
     <span class="k">return</span> <span class="n">html</span>
 </code></pre></div>
         </details>
@@ -1212,6 +1266,9 @@
 
       <p>Image content.</p>
 <p>Can be read from a filepath, PIL.Image object, or from bytes.</p>
+<p>Only one of <code>scale</code>, <code>set_width</code>, or <code>set_height</code> should be used.
+If more than one is populated, the values will be prioritised in the order:
+     <code>set_width</code> -&gt; <code>set_height</code> -&gt; <code>scale</code></p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1245,7 +1302,19 @@
       <tr>
         <td><code>scale</code></td>
         <td><code>float</code></td>
-        <td><p>Value by which to scale image, must be &gt; 0 and &lt;= 1. (default = 1)</p></td>
+        <td><p>Scale image proportionately, must be &gt; 0 and &lt;= 1. (default = None)</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>set_width</code></td>
+        <td><code>int</code></td>
+        <td><p>Set width in pixels. (default = None)</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>set_height</code></td>
+        <td><code>int</code></td>
+        <td><p>Set height in pixels. (default = None)</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1254,7 +1323,6 @@
 
 
   <div class="doc doc-children">
-
 
 
 
@@ -1278,7 +1346,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Rescale the image prior to rendering.</p>
+      <p>Rescale the image proportionately prior to rendering.</p>
 <p>Note:
   Images can be scaled down only.</p>
 
@@ -1304,7 +1372,7 @@
         <details class="quote">
           <summary>Source code in <code>esparto/_content.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">rescale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Image&quot;</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Rescale the image prior to rendering.</span>
+    <span class="sd">&quot;&quot;&quot;Rescale the image proportionately prior to rendering.</span>
 
 <span class="sd">    Note:</span>
 <span class="sd">      Images can be scaled down only.</span>
@@ -1313,7 +1381,111 @@
 <span class="sd">      scale (float): Scaling ratio.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span> <span class="o">=</span> <span class="n">scale</span>
+    <span class="k">return</span> <span class="bp">self</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="esparto._content.Image.set_height" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">set_height</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Set height of image prior to rendering.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>height</code></td>
+        <td><code>int</code></td>
+        <td><p>New height in pixels.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>esparto/_content.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_height</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Image&quot;</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Set height of image prior to rendering.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      height (int): New height in pixels.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_height</span> <span class="o">=</span> <span class="n">height</span>
+    <span class="k">return</span> <span class="bp">self</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="esparto._content.Image.set_width" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">set_width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Set width of image prior to rendering.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>width</code></td>
+        <td><code>int</code></td>
+        <td><p>New width in pixels.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>esparto/_content.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Image&quot;</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Set width of image prior to rendering.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      width (int): New width in pixels.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_width</span> <span class="o">=</span> <span class="n">width</span>
     <span class="k">return</span> <span class="bp">self</span>
 </code></pre></div>
         </details>
@@ -1328,7 +1500,7 @@
 
 
 <h3 id="esparto._content.Image.to_html" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
 </h3>
@@ -1354,28 +1526,22 @@
 </table>
         <details class="quote">
           <summary>Source code in <code>esparto/_content.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="n">PILImage</span><span class="p">):</span>
         <span class="n">image</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">image</span> <span class="o">=</span> <span class="n">Img</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 
-    <span class="c1"># Resize image if required</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
-        <span class="n">image</span><span class="o">.</span><span class="n">thumbnail</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
-
-    <span class="n">width</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">image</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">px&quot;</span>
-    <span class="n">height</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">image</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">px&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_width</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_height</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span><span class="p">:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">_rescale_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span><span class="p">)</span>
 
     <span class="n">image_encoded</span> <span class="o">=</span> <span class="n">_image_to_base64</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
     <span class="n">html</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s2">&quot;&lt;figure class=&#39;text-center&#39;&gt;&quot;</span>
-        <span class="o">+</span> <span class="s2">&quot;&lt;img class=&#39;figure-img img-fluid rounded&#39; &quot;</span>
+        <span class="s2">&quot;&lt;figure class=&#39;text-center my-1&#39;&gt;&quot;</span>
+        <span class="o">+</span> <span class="s2">&quot;&lt;img class=&#39;figure-img rounded&#39; &quot;</span>
         <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;alt=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">alt_text</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
-        <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;height=&#39;</span><span class="si">{</span><span class="n">height</span><span class="si">}</span><span class="s2">&#39; width=&#39;</span><span class="si">{</span><span class="n">width</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
-        <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;src=&#39;data:image/png;base64,</span><span class="si">{</span><span class="n">image_encoded</span><span class="si">}</span><span class="s2">&#39;&gt;&quot;</span>
+        <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;src=&#39;data:image/png;base64,</span><span class="si">{</span><span class="n">image_encoded</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
+        <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span>
     <span class="p">)</span>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">caption</span><span class="p">:</span>
@@ -1468,7 +1634,7 @@
 
 
 <h3 id="esparto._content.DataFramePd.to_html" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
 </h3>
@@ -1494,8 +1660,8 @@
 </table>
         <details class="quote">
           <summary>Source code in <code>esparto/_content.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="n">classes</span> <span class="o">=</span> <span class="s2">&quot;table table-sm table-striped table-hover table-bordered&quot;</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">classes</span> <span class="o">=</span> <span class="s2">&quot;table table-sm table-striped table-hover table-bordered my-1&quot;</span>
     <span class="n">html</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span>
         <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">col_space</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">col_space</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="n">classes</span>
     <span class="p">)</span>
@@ -1531,7 +1697,7 @@
 
     <div class="doc doc-contents first">
 
-      <p>Matplotlib figure to be rendered as an image.</p>
+      <p>Matplotlib figure.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1562,6 +1728,12 @@
         <td><p>Alternative text. (default = None)</p></td>
         <td><em>required</em></td>
       </tr>
+      <tr>
+        <td><code>output_format</code></td>
+        <td><code>str</code></td>
+        <td><p>One of 'svg', 'png', or 'esparto.options'. (default = 'esparto.options')</p></td>
+        <td><em>required</em></td>
+      </tr>
   </tbody>
 </table>
 
@@ -1575,6 +1747,82 @@
 
 
 
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="esparto._content.FigureMpl.to_html" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Render content to HTML code.</p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code></code></td>
+      <td><p>HTML code.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>esparto/_content.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_format</span> <span class="o">==</span> <span class="s2">&quot;esparto.options&quot;</span><span class="p">:</span>
+        <span class="n">output_format</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">matplotlib_output_format</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">output_format</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_format</span>
+
+    <span class="k">if</span> <span class="n">output_format</span> <span class="o">==</span> <span class="s2">&quot;svg&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pdf_mode&quot;</span><span class="p">):</span>
+            <span class="n">temp_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">pdf_temp_dir</span><span class="p">)</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">uuid4</span><span class="p">()</span><span class="si">}</span><span class="s2">.svg&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">temp_file</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;img src=&#39;</span><span class="si">{</span><span class="n">temp_file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">buffer</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+        <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;figure class=&#39;text-center my-1&#39;&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">caption</span><span class="p">:</span>
+            <span class="n">html</span> <span class="o">+=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&lt;figcaption class=&#39;figure-caption&#39;&gt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">caption</span><span class="si">}</span><span class="s2">&lt;/figcaption&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">html</span> <span class="o">+=</span> <span class="s2">&quot;&lt;/figure&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">return</span> <span class="n">html</span>
+
+    <span class="c1"># If not svg:</span>
+    <span class="n">buffer</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">)</span>
+    <span class="n">buffer</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Image</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">caption</span><span class="p">,</span> <span class="n">alt_text</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">alt_text</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
 
 
 
@@ -1623,13 +1871,13 @@
       <tr>
         <td><code>width</code></td>
         <td><code>int</code></td>
-        <td><p>Width in pixels. (default = from figure or 'auto')</p></td>
+        <td><p>Width in pixels. (default = figure.width or 'auto')</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>height</code></td>
         <td><code>int</code></td>
-        <td><p>Height in pixels. (default = from figure or 'auto')</p></td>
+        <td><p>Height in pixels. (default = figure.height or 'auto')</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1657,7 +1905,7 @@
 
 
 <h3 id="esparto._content.FigureBokeh.to_html" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
 </h3>
@@ -1683,13 +1931,23 @@
 </table>
         <details class="quote">
           <summary>Source code in <code>esparto/_content.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="n">html</span><span class="p">,</span> <span class="n">js</span> <span class="o">=</span> <span class="n">components</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 
-    <span class="c1"># Remove outer &lt;div&gt; tag so we can give our own attributes</span>
-    <span class="n">html</span> <span class="o">=</span> <span class="n">_remove_outer_div</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pdf_mode&quot;</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">bokeh.io</span> <span class="kn">import</span> <span class="n">export_svg</span>  <span class="c1"># type: ignore</span>
 
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;div class=&#39;mb-3&#39; style=&#39;width: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">; height: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="si">}</span><span class="s2">;&#39;&gt;</span><span class="si">{</span><span class="n">html</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">js</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/div&gt;&quot;</span>
+        <span class="n">temp_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">pdf_temp_dir</span><span class="p">)</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">uuid4</span><span class="p">()</span><span class="si">}</span><span class="s2">.svg&quot;</span>
+        <span class="n">export_svg</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">temp_file</span><span class="p">))</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;img src=&#39;</span><span class="si">{</span><span class="n">temp_file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">html</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">html</span><span class="p">,</span> <span class="n">js</span> <span class="o">=</span> <span class="n">components</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+
+        <span class="c1"># Remove outer &lt;div&gt; tag so we can give our own attributes</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="n">_remove_outer_div</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;div class=&#39;mb-3&#39; style=&#39;width: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">; height: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="si">}</span><span class="s2">;&#39;&gt;</span><span class="si">{</span><span class="n">html</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">js</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/div&gt;&quot;</span>
 </code></pre></div>
         </details>
     </div>
@@ -1776,7 +2034,7 @@
 
 
 <h3 id="esparto._content.FigurePlotly.to_html" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
 </h3>
@@ -1802,13 +2060,24 @@
 </table>
         <details class="quote">
           <summary>Source code in <code>esparto/_content.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="n">html</span> <span class="o">=</span> <span class="n">plotly_to_html</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="n">include_plotlyjs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">full_html</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 
-    <span class="c1"># Remove outer &lt;div&gt; tag so we can give our own attributes.</span>
-    <span class="n">html</span> <span class="o">=</span> <span class="n">_remove_outer_div</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pdf_mode&quot;</span><span class="p">):</span>
+        <span class="n">temp_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">pdf_temp_dir</span><span class="p">)</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">uuid4</span><span class="p">()</span><span class="si">}</span><span class="s2">.svg&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">write_image</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">temp_file</span><span class="p">))</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;img src=&#39;</span><span class="si">{</span><span class="n">temp_file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
 
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;div class=&#39;responsive-plot mb-3&#39; style=&#39;width: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">; height: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="si">}</span><span class="s2">;&#39;&gt;</span><span class="si">{</span><span class="n">html</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/div&gt;&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="n">plotly_to_html</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="n">include_plotlyjs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">full_html</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Remove outer &lt;div&gt; tag so we can give our own attributes.</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="n">_remove_outer_div</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;&lt;div class=&#39;responsive-plot mb-3&#39; &quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;style=&#39;width: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">; height: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="si">}</span><span class="s2">;&#39;&gt;</span><span class="si">{</span><span class="n">html</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/div&gt;&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">html</span>
 </code></pre></div>
         </details>
     </div>
