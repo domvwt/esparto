@@ -7,12 +7,12 @@ from typing import Set as _Set
 
 __author__ = """Dominic Thorn"""
 __email__ = "dominic.thorn@gmail.com"
-__version__ = "0.2.3"
+__version__ = "0.2.4"
 
 _MODULE_PATH: _Path = _Path(__file__).parent.absolute()
 
 
-_OPTIONAL_DEPENDENCIES: set = {
+_OPTIONAL_DEPENDENCIES: _Set[str] = {
     "bs4",
     "IPython",
     "matplotlib",

@@ -1,6 +1,6 @@
 # Examples
 
-### Data Analysis
+## Data Analysis
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/domvwt/esparto/blob/main/docs/examples/iris-report.ipynb)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/domvwt/esparto/main?filepath=docs%2Fexamples%2Firis-report.ipynb)
@@ -14,9 +14,7 @@ This example covers:
 * Converting a Pandas DataFrame to a table
 * Adding plots from Matplotlib and Seaborn
 
-<br>
-
-### Interactive Plotting
+## Interactive Plotting
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/domvwt/esparto/blob/main/docs/examples/interactive-plots.ipynb)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/domvwt/esparto/main?filepath=docs%2Fexamples%2Finteractive-plots.ipynb)

@@ -194,11 +194,6 @@ class Layout(ABC):
             html = f"{self._tag_open}\n{children_rendered}\n{self._tag_close}\n"
         return html
 
-    @property
-    def _rendered(self) -> str:
-        """Alias for method to_html. Used by Jinja."""
-        return self.to_html()
-
     def display(self):
         """Display rendered document in a Jupyter Notebook cell."""
         nb_display(self)

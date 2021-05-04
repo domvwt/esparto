@@ -47,7 +47,7 @@ def publish_html(
 
     html_rendered: str = _BASE_TEMPLATE.render(
         org_name=document.org_name,
-        title=document.title,
+        doc_title=document.title,
         content=document.to_html(**kwargs),
         head_deps=resolved_deps.head,
         tail_deps=resolved_deps.tail,
@@ -93,9 +93,11 @@ def publish_pdf(
             dependency_source="inline",
             pdf_mode=True,
         )
-        weasy.HTML(string=html_rendered, base_url=options.pdf_temp_dir).write_pdf(
-            filepath
-        )
+        pdf_doc = weasy.HTML(
+            string=html_rendered, base_url=options.pdf_temp_dir
+        ).render()
+        pdf_doc.metadata.title = document.title
+        pdf_doc.write_pdf(filepath)
 
         for f in temp_dir.iterdir():
             f.unlink()
