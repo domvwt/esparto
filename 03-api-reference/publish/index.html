@@ -799,7 +799,7 @@
 
     <span class="n">html_rendered</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">_BASE_TEMPLATE</span><span class="o">.</span><span class="n">render</span><span class="p">(</span>
         <span class="n">org_name</span><span class="o">=</span><span class="n">document</span><span class="o">.</span><span class="n">org_name</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="n">document</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+        <span class="n">doc_title</span><span class="o">=</span><span class="n">document</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
         <span class="n">content</span><span class="o">=</span><span class="n">document</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
         <span class="n">head_deps</span><span class="o">=</span><span class="n">resolved_deps</span><span class="o">.</span><span class="n">head</span><span class="p">,</span>
         <span class="n">tail_deps</span><span class="o">=</span><span class="n">resolved_deps</span><span class="o">.</span><span class="n">tail</span><span class="p">,</span>
@@ -913,9 +913,11 @@
             <span class="n">dependency_source</span><span class="o">=</span><span class="s2">&quot;inline&quot;</span><span class="p">,</span>
             <span class="n">pdf_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">weasy</span><span class="o">.</span><span class="n">HTML</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="n">html_rendered</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">pdf_temp_dir</span><span class="p">)</span><span class="o">.</span><span class="n">write_pdf</span><span class="p">(</span>
-            <span class="n">filepath</span>
-        <span class="p">)</span>
+        <span class="n">pdf_doc</span> <span class="o">=</span> <span class="n">weasy</span><span class="o">.</span><span class="n">HTML</span><span class="p">(</span>
+            <span class="n">string</span><span class="o">=</span><span class="n">html_rendered</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">pdf_temp_dir</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+        <span class="n">pdf_doc</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">title</span>
+        <span class="n">pdf_doc</span><span class="o">.</span><span class="n">write_pdf</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">temp_dir</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
             <span class="n">f</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
