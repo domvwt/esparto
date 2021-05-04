@@ -22,9 +22,8 @@ nav:
         - 'Quickstart': '01-getting-started/quickstart.md'
         - 'Installation': '01-getting-started/installation.md'
   - User Guide:
-      #   - 'Document Design': '02-user-guide/document-design.md'
-      #   - 'Custom Content': '02-user-guide/custom-content.md'
         - 'Examples': '02-user-guide/examples.md'
+        - 'General Usage': '02-user-guide/general-usage.md'
   - API Reference:
         - 'Layout': '03-api-reference/layout.md'
         - 'Content': '03-api-reference/content.md'
