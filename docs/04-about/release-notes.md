@@ -1,6 +1,14 @@
 Release Notes
 =============
 
+0.2.4 (2021-05-04)
+------------------
+
+-   Fix bug corrupting document titles.
+-   Lazy load the content dependency dict.
+-   Remove unused code.
+
+
 0.2.3 (2021-05-03)
 ------------------
 

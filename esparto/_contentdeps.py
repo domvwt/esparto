@@ -1,5 +1,6 @@
 from collections import UserDict
 from dataclasses import dataclass
+from functools import lru_cache
 from pathlib import Path
 from typing import Set
 
@@ -32,42 +33,44 @@ class ContentDependencyDict(UserDict):
 
 JS_DEPS = {"bokeh", "plotly"}
 
-BOOTSTRAP_CDN = (
-    '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" '
-    + 'integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">'
-)
-BOOTSTRAP_INLINE = Path(_MODULE_PATH, "resources/css/bootstrap.min.css").read_text()
-BOOTSTRAP_INLINE = f"<style>\n{BOOTSTRAP_INLINE}\n</style>"
 
-CONTENT_DEPENDENCY_DICT = ContentDependencyDict()
-CONTENT_DEPENDENCY_DICT += ContentDependency(
-    "bootstrap", BOOTSTRAP_CDN, BOOTSTRAP_INLINE, "head"
-)
+@lru_cache(maxsize=None)
+def content_dependency_dict() -> ContentDependencyDict:
+    bootstrap_cdn = (
+        '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" '
+        + 'integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">'
+    )
+    bootstrap_inline = Path(_MODULE_PATH, "resources/css/bootstrap.min.css").read_text()
+    bootstrap_inline = f"<style>\n{bootstrap_inline}\n</style>"
 
-
-if "bokeh" in _INSTALLED_MODULES:
-    import bokeh.resources as bk_resources  # type: ignore
-
-    BOKEH_CDN = bk_resources.CDN.render_js()
-    BOKEH_INLINE = bk_resources.INLINE.render_js()
-
-    CONTENT_DEPENDENCY_DICT += ContentDependency(
-        "bokeh", BOKEH_CDN, BOKEH_INLINE, "tail"
+    content_dependency_dict = ContentDependencyDict()
+    content_dependency_dict += ContentDependency(
+        "bootstrap", bootstrap_cdn, bootstrap_inline, "head"
     )
 
-if "plotly" in _INSTALLED_MODULES:
-    from plotly import offline as plotly_offline  # type: ignore
+    if "bokeh" in _INSTALLED_MODULES:
+        import bokeh.resources as bk_resources  # type: ignore
 
-    plotly_version = "latest"
-    PLOTLY_CDN = (
-        f"<script src='https://cdn.plot.ly/plotly-{plotly_version}.min.js'></script>"
-    )
-    PLOTLY_INLINE = plotly_offline.get_plotlyjs()
-    PLOTLY_INLINE = f"<script>\n{PLOTLY_INLINE}\n</script>"
+        bokeh_cdn = bk_resources.CDN.render_js()
+        bokeh_inline = bk_resources.INLINE.render_js()
 
-    CONTENT_DEPENDENCY_DICT += ContentDependency(
-        "plotly", PLOTLY_CDN, PLOTLY_INLINE, "head"
-    )
+        content_dependency_dict += ContentDependency(
+            "bokeh", bokeh_cdn, bokeh_inline, "tail"
+        )
+
+    if "plotly" in _INSTALLED_MODULES:
+        from plotly import offline as plotly_offline  # type: ignore
+
+        plotly_version = "latest"
+        plotly_cdn = f"<script src='https://cdn.plot.ly/plotly-{plotly_version}.min.js'></script>"
+        plotly_inline = plotly_offline.get_plotlyjs()
+        plotly_inline = f"<script>\n{plotly_inline}\n</script>"
+
+        content_dependency_dict += ContentDependency(
+            "plotly", plotly_cdn, plotly_inline, "head"
+        )
+
+    return content_dependency_dict
 
 
 def resolve_deps(
@@ -78,7 +81,7 @@ def resolve_deps(
     source = _get_source_from_options(source)
 
     for dep in required_deps:
-        dep_details: ContentDependency = CONTENT_DEPENDENCY_DICT[dep]
+        dep_details: ContentDependency = content_dependency_dict()[dep]
         getattr(resolved_deps, dep_details.target).append(getattr(dep_details, source))
 
     return resolved_deps

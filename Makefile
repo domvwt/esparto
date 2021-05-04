@@ -82,7 +82,12 @@ docs: ## generate Sphinx HTML documentation, including API docs
 servedocs: ## compile the docs watching for changes
 	mkdocs serve -a "`hostname -I | xargs`:8000"
 
-release: dist ## package and upload a release
+class-diagram: ## make UML class diagram
+	pyreverse esparto -o png -f ALL --ignore _contentdeps.py,_options.py,_publish.py
+	mv classes.png devdocs/classes.png
+	rm packages.png
+
+release: dist class-diagram ## package and upload a release
 	poetry publish
 
 dist: clean ## builds source and wheel package
