@@ -92,7 +92,7 @@ class-diagram: ## make UML class diagram
 reqs: ## output requirements.txt
 	poetry export -f requirements.txt -o requirements.txt --without-hashes
 
-release: dist reqs ## package and upload a release
+release: dist ## package and upload a release
 	poetry publish
 
 dist: clean ## builds source and wheel package
