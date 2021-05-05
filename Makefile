@@ -99,5 +99,8 @@ dist: clean ## builds source and wheel package
 	poetry build
 	ls -l dist
 
+hooks: ## run pre-commit hooks on all files
+	pre-commit run -a
+
 install: clean ## install the package to the active Python's site-packages
 	poetry install
