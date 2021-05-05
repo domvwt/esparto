@@ -20,7 +20,7 @@ before_install:
 
 install:
   - poetry install $INSTALL_DEPS
-  - pip install black flake8 mypy pytest coverage
+  - pip install black flake8 mypy pytest coverage html5lib
 
 script:
   - python -m tests.check_package_version
