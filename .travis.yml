@@ -19,8 +19,7 @@ before_install:
   - poetry config virtualenvs.in-project true
 
 install:
-  - poetry install $INSTALL_DEPS
-  - poetry install --extras test
+  - poetry install --extras test $INSTALL_DEPS
 
 script:
   - python -m tests.check_package_version
