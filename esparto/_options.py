@@ -15,7 +15,7 @@ class ConfigOptions:
 options = ConfigOptions()
 
 
-def _get_source_from_options(source):
+def get_source_from_options(source):
     if source == "esparto.options":
         if options.offline_mode:
             return options._offline_source
@@ -23,5 +23,4 @@ def _get_source_from_options(source):
             return options._online_source
     elif source in ["cdn", "inline"]:
         return source
-    else:
-        raise ValueError(f"Unrecognised source: {source}")
+    raise ValueError(f"Unrecognised source: {source}")

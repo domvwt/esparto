@@ -93,9 +93,7 @@ class Content(ABC):
         if isinstance(other, self.__class__):
             if hasattr(self.content, "__iter__") and hasattr(other.content, "__iter__"):
                 return all(x == y for x, y in zip(self.content, other.content))
-            else:
-                return self.content == other.content
-
+            return self.content == other.content
         return False
 
     def __ne__(self, other):
@@ -479,13 +477,12 @@ class FigureBokeh(Content):
             html = f"<img src='{temp_file.name}'>\n"
             return html
 
-        else:
-            html, js = components(self.content)
+        html, js = components(self.content)
 
-            # Remove outer <div> tag so we can give our own attributes
-            html = _remove_outer_div(html)
+        # Remove outer <div> tag so we can give our own attributes
+        html = _remove_outer_div(html)
 
-            return f"<div class='mb-3' style='width: {self.width}; height: {self.height};'>{html}\n{js}\n</div>"
+        return f"<div class='mb-3' style='width: {self.width}; height: {self.height};'>{html}\n{js}\n</div>"
 
 
 class FigurePlotly(Content):
