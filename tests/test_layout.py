@@ -2,8 +2,8 @@ from itertools import chain
 
 import pytest
 
-import esparto._layout as la
 import esparto._content as co
+import esparto._layout as la
 from tests.conftest import _irises_path, layout_list
 
 
