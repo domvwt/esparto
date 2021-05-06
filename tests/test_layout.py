@@ -2,8 +2,8 @@ from itertools import chain
 
 import pytest
 
-import esparto._layout as la
 import esparto._content as co
+import esparto._layout as la
 from tests.conftest import _irises_path, layout_list
 
 
@@ -11,8 +11,9 @@ def test_all_layout_classes_covered(layout_list_fn):
     test_classes = [type(c) for c in layout_list_fn]
     module_classes = [c for c in la.Layout.__subclasses__()]
     module_subclasses = [d.__subclasses__() for d in module_classes]
-    module_all = list(chain.from_iterable(module_subclasses)) + module_classes
-    assert all([c in test_classes for c in module_all])
+    module_all = set(list(chain.from_iterable(module_subclasses)) + module_classes)
+    missing = module_all.difference(test_classes)
+    assert not missing, missing
 
 
 def test_layout_smart_wrapping(page_layout):

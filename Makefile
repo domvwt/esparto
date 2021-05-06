@@ -75,24 +75,32 @@ coverage: ## check code coverage quickly with the default Python
 docstrings: ## generate google format docstrings
 	pyment esparto -o google -w
 
-docs: ## generate Sphinx HTML documentation, including API docs
-	mkdocs clean
-	mkdocs build
+docs: class-diagram ## generate documentation, including API docs
+	mkdocs build --clean
 
 servedocs: ## compile the docs watching for changes
 	mkdocs serve -a "`hostname -I | xargs`:8000"
+
+deploydocs: ## deploy docs to github pages
+	mkdocs gh-deploy
 
 class-diagram: ## make UML class diagram
 	pyreverse esparto -o png -f ALL --ignore _contentdeps.py,_options.py,_publish.py
 	mv classes.png devdocs/classes.png
 	rm packages.png
 
-release: dist class-diagram ## package and upload a release
+reqs: ## output requirements.txt
+	poetry export -f requirements.txt -o requirements.txt --without-hashes
+
+release: dist ## package and upload a release
 	poetry publish
 
 dist: clean ## builds source and wheel package
 	poetry build
 	ls -l dist
+
+hooks: ## run pre-commit hooks on all files
+	pre-commit run -a
 
 install: clean ## install the package to the active Python's site-packages
 	poetry install

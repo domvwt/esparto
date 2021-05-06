@@ -2,7 +2,7 @@ import time
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional, Union
 
-from jinja2 import Environment, PackageLoader, select_autoescape  # type: ignore
+from jinja2 import Environment, PackageLoader  # type: ignore
 
 if TYPE_CHECKING:
     from esparto._layout import Page, Layout
@@ -10,11 +10,10 @@ if TYPE_CHECKING:
 
 from esparto import _INSTALLED_MODULES
 from esparto._contentdeps import resolve_deps
-from esparto._options import _get_source_from_options, options
+from esparto._options import get_source_from_options, options
 
 _ENV = Environment(
     loader=PackageLoader("esparto", "resources/jinja"),
-    autoescape=select_autoescape(["xml"]),
 )
 
 _BASE_TEMPLATE = _ENV.get_template("base.html")
@@ -42,7 +41,7 @@ def publish_html(
     """
 
     required_deps = document._required_dependencies()
-    dependency_source = _get_source_from_options(dependency_source)
+    dependency_source = get_source_from_options(dependency_source)
     resolved_deps = resolve_deps(required_deps, source=dependency_source)
 
     html_rendered: str = _BASE_TEMPLATE.render(
@@ -60,8 +59,7 @@ def publish_html(
 
     if return_html:
         return html_prettified
-    else:
-        return None
+    return None
 
 
 def publish_pdf(
@@ -80,35 +78,31 @@ def publish_pdf(
     """
     if "weasyprint" not in _INSTALLED_MODULES:
         raise ModuleNotFoundError("Install weasyprint for PDF support")
-    else:
-        import weasyprint as weasy  # type: ignore
+    import weasyprint as weasy  # type: ignore
 
-        temp_dir = Path(options.pdf_temp_dir)
-        temp_dir.mkdir(parents=True, exist_ok=True)
+    temp_dir = Path(options.pdf_temp_dir)
+    temp_dir.mkdir(parents=True, exist_ok=True)
 
-        html_rendered = publish_html(
-            document=document,
-            filepath=None,
-            return_html=True,
-            dependency_source="inline",
-            pdf_mode=True,
-        )
-        pdf_doc = weasy.HTML(
-            string=html_rendered, base_url=options.pdf_temp_dir
-        ).render()
-        pdf_doc.metadata.title = document.title
-        pdf_doc.write_pdf(filepath)
+    html_rendered = publish_html(
+        document=document,
+        filepath=None,
+        return_html=True,
+        dependency_source="inline",
+        pdf_mode=True,
+    )
+    pdf_doc = weasy.HTML(string=html_rendered, base_url=options.pdf_temp_dir).render()
+    pdf_doc.metadata.title = document.title
+    pdf_doc.write_pdf(filepath)
 
-        for f in temp_dir.iterdir():
-            f.unlink()
-        temp_dir.rmdir()
+    for f in temp_dir.iterdir():
+        f.unlink()
+    temp_dir.rmdir()
 
-        html_prettified = _prettify_html(html_rendered)
+    html_prettified = _prettify_html(html_rendered)
 
-        if return_html:
-            return html_prettified
-        else:
-            return None
+    if return_html:
+        return html_prettified
+    return None
 
 
 def nb_display(
@@ -138,7 +132,7 @@ def nb_display(
     elif hasattr(item, "_dependencies"):
         required_deps = item._dependencies
 
-    dependency_source = _get_source_from_options(dependency_source)
+    dependency_source = get_source_from_options(dependency_source)
 
     resolved_deps = resolve_deps(required_deps, source=dependency_source)
     head_deps = "\n".join(resolved_deps.head)
@@ -165,8 +159,7 @@ def nb_display(
 
     if return_html:
         return render_html
-    else:
-        return None
+    return None
 
 
 def _prettify_html(html: Optional[str]) -> str:

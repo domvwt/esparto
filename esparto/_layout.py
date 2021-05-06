@@ -281,8 +281,7 @@ class Layout(ABC):
             return self._title == other._title and all(
                 (x == y for x, y in zip(self.children, other.children))
             )
-        else:
-            return False
+        return False
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -349,8 +348,7 @@ class Page(Layout):
 
         if return_html:
             return html
-        else:
-            return None
+        return None
 
     def save(
         self,
@@ -380,8 +378,7 @@ class Page(Layout):
 
         if return_html:
             return html
-        else:
-            return None
+        return None
 
     def save_pdf(
         self, filepath: str = "./esparto-doc.pdf", return_html: bool = False
@@ -403,8 +400,7 @@ class Page(Layout):
 
         if return_html:
             return html
-        else:
-            return None
+        return None
 
     def __init__(
         self,
