@@ -2,26 +2,28 @@ from pathlib import Path
 from typing import Optional
 
 import pytest
-from html5lib import HTMLParser  # type: ignore
 
 import esparto as es
 import esparto._publish as pu
 from tests.conftest import _EXTRAS, content_list, layout_list
 
-htmlparser = HTMLParser(strict=True)
-
 
 def html_is_valid(html: Optional[str], fragment: bool = False):
-    try:
-        if fragment:
-            htmlparser.parseFragment(html)
-        else:
-            htmlparser.parse(html)
-        success = True
-    except Exception as e:
-        print(e)
-        success = False
-    return success
+    if _EXTRAS:
+        from html5lib import HTMLParser  # type: ignore
+
+        htmlparser = HTMLParser(strict=True)
+        try:
+            if fragment:
+                htmlparser.parseFragment(html)
+            else:
+                htmlparser.parse(html)
+            success = True
+        except Exception as e:
+            print(e)
+            success = False
+        return success
+    return True
 
 
 @pytest.mark.parametrize("content", (*content_list, *layout_list))

@@ -20,14 +20,20 @@ before_install:
 
 install:
   - poetry install $INSTALL_DEPS
-  - pip install black flake8 mypy pytest coverage html5lib
+  - pip install pytest coverage
 
 script:
-  - python -m tests.check_package_version
-  - black --check .
-  - flake8
-  - mypy esparto tests
   - coverage run --append --source esparto -m pytest
+
+jobs:
+  include:
+  - python: "3.8"
+    script:
+    - pip install black flake8 mypy
+    - black esparto tests --check
+    - flake8 esparto tests
+    - mypy esparto tests
+    - python -m tests.check_package_version
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
