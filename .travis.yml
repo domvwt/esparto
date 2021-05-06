@@ -9,7 +9,7 @@ python:
   - 3.6
 
 env:
-  - EXTRA_INSTALLS="pandas matplotlib bokeh plotly kaleido weasyprint beautifulsoup4 html5lib"
+  - EXTRA_INSTALLS="ipython pandas matplotlib bokeh plotly kaleido weasyprint beautifulsoup4 html5lib"
   - EXTRA_INSTALLS=""
 
 install:
