@@ -233,7 +233,7 @@ version = "0.10.0"
 six = "*"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "A backport of the dataclasses module for Python 3.6"
 marker = "python_version < \"3.7\""
 name = "dataclasses"
@@ -1361,7 +1361,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 extras = ["beautifulsoup4", "weasyprint"]
 
 [metadata]
-content-hash = "56511f544af3434b1686e5cb65092786d36dda638ad89375d3cc840caab0ef97"
+content-hash = "5ea15be95439545d2b39b9eb3351f28514c33afbd28066eeb3b2bdcd089f29e4"
 lock-version = "1.0"
 python-versions = "^3.6.1"
 
