@@ -18,16 +18,5 @@ install:
 script:
   - coverage run --append --source esparto -m pytest
 
-jobs:
-  include:
-  - name: "codequal"
-  - python: "3.8"
-    install: pip install black flake8 mypy
-    script:
-    - black esparto tests --check
-    - flake8 esparto tests
-    - mypy esparto tests
-    - python -m tests.check_package_version
-
 after_success:
   - bash <(curl -s https://codecov.io/bash)
