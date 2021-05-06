@@ -21,7 +21,8 @@ def test_all_adaptors_covered(adaptor_list_fn):
     if _EXTRAS:
         adaptor_types.remove(ad.BokehObject)  # Can't use abstract base class in a test
     adaptor_types.remove(None)
-    assert adaptor_types <= test_classes
+    missing = adaptor_types.difference(test_classes)
+    assert not missing, missing
 
 
 @pytest.mark.parametrize("input_,expected", adaptor_list)

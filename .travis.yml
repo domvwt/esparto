@@ -13,8 +13,7 @@ env:
   - EXTRA_INSTALLS=""
 
 install:
-  - pip install .
-  - pip install pytest coverage $EXTRA_INSTALLS
+  - pip install . pytest coverage $EXTRA_INSTALLS
 
 script:
   - coverage run --append --source esparto -m pytest

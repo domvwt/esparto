@@ -14,7 +14,8 @@ if _EXTRAS:
         module_classes = {c for c in co.Content.__subclasses__()}
         module_subclasses = [d.__subclasses__() for d in module_classes]
         module_all = set(chain.from_iterable(module_subclasses)) | module_classes
-        assert module_all <= test_classes
+        missing = module_all.difference(test_classes)
+        assert not missing, missing
 
     def test_all_content_classes_have_deps(content_list_fn):
         deps = [c._dependencies for c in content_list_fn]
