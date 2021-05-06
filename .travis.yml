@@ -3,24 +3,17 @@ language: python
 os: linux
 dist: xenial
 python:
-  - 3.9
-  - 3.8
-  - 3.7
+  # - 3.9
+  # - 3.8
+  # - 3.7
   - 3.6
 
 env:
-  - INSTALL_DEPS=""
-  - INSTALL_DEPS="--no-dev"
-
-before_install:
-  - curl -fsS -o get-poetry.py https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
-  - python get-poetry.py -y
-  - export PATH="$PATH:$HOME/.poetry/bin"
-  - poetry config virtualenvs.in-project true
+  - EXTRA_INSTALLS="pandas matplotlib bokeh plotly kaleido weasyprint beautifulsoup4"
+  - EXTRA_INSTALLS=""
 
 install:
-  - poetry install $INSTALL_DEPS
-  - pip install pytest coverage
+  - pip install pytest coverage $EXTRA_INSTALLS
 
 script:
   - coverage run --append --source esparto -m pytest
