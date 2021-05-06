@@ -1953,13 +1953,12 @@ If more than one is populated, the values will be prioritised in the order:
         <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;img src=&#39;</span><span class="si">{</span><span class="n">temp_file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">return</span> <span class="n">html</span>
 
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">html</span><span class="p">,</span> <span class="n">js</span> <span class="o">=</span> <span class="n">components</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+    <span class="n">html</span><span class="p">,</span> <span class="n">js</span> <span class="o">=</span> <span class="n">components</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 
-        <span class="c1"># Remove outer &lt;div&gt; tag so we can give our own attributes</span>
-        <span class="n">html</span> <span class="o">=</span> <span class="n">_remove_outer_div</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+    <span class="c1"># Remove outer &lt;div&gt; tag so we can give our own attributes</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">_remove_outer_div</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;div class=&#39;mb-3&#39; style=&#39;width: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">; height: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="si">}</span><span class="s2">;&#39;&gt;</span><span class="si">{</span><span class="n">html</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">js</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/div&gt;&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;div class=&#39;mb-3&#39; style=&#39;width: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">; height: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="si">}</span><span class="s2">;&#39;&gt;</span><span class="si">{</span><span class="n">html</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">js</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/div&gt;&quot;</span>
 </code></pre></div>
         </details>
     </div>
