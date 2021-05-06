@@ -31,3 +31,8 @@ repos:
         language: system
         entry: poetry run mypy
         types: [python]
+    -   id: version
+        name: Version
+        language: system
+        entry: python -m tests.check_package_version
+        types: [python]
