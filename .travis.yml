@@ -3,14 +3,14 @@ language: python
 os: linux
 dist: xenial
 python:
-  # - 3.9
-  # - 3.8
-  # - 3.7
   - 3.6
+  - 3.7
+  - 3.8
+  - 3.9
 
 env:
-  - EXTRA_INSTALLS="ipython pandas matplotlib bokeh plotly kaleido weasyprint beautifulsoup4 html5lib"
   - EXTRA_INSTALLS=""
+  - EXTRA_INSTALLS="ipython pandas matplotlib bokeh plotly kaleido weasyprint beautifulsoup4 html5lib"
 
 install:
   - pip install . pytest coverage $EXTRA_INSTALLS
@@ -21,8 +21,8 @@ script:
 jobs:
   include:
   - python: "3.8"
+    install: pip install black flake8 mypy
     script:
-    - pip install black flake8 mypy
     - black esparto tests --check
     - flake8 esparto tests
     - mypy esparto tests
