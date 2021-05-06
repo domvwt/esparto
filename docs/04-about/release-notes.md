@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+0.2.5 (2021-05-06)
+------------------
+
+-   Fix linting errors
+-   Add dataclasses dependency for Python < 3.7
+
+
 0.2.4 (2021-05-04)
 ------------------
 
