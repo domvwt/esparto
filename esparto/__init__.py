@@ -7,7 +7,7 @@ from typing import Set as _Set
 
 __author__ = """Dominic Thorn"""
 __email__ = "dominic.thorn@gmail.com"
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 
 _MODULE_PATH: _Path = _Path(__file__).parent.absolute()
 

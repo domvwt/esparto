@@ -34,5 +34,5 @@ repos:
     -   id: version
         name: Version
         language: system
-        entry: python -m tests.check_package_version
+        entry: poetry run python -m tests.check_package_version
         types: [python]

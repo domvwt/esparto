@@ -1,6 +1,5 @@
 from collections import UserDict
 from dataclasses import dataclass, field
-from functools import lru_cache
 from pathlib import Path
 from typing import List, Set
 
@@ -31,7 +30,6 @@ class ContentDependencyDict(UserDict):
 JS_DEPS = {"bokeh", "plotly"}
 
 
-@lru_cache(maxsize=None)
 def lazy_content_dependency_dict() -> ContentDependencyDict:
     bootstrap_cdn = (
         '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" '

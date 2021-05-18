@@ -137,11 +137,14 @@ def nb_display(
     resolved_deps = resolve_deps(required_deps, source=dependency_source)
     head_deps = "\n".join(resolved_deps.head)
     tail_deps = "\n".join(resolved_deps.tail)
-    content_html = f"<div class='container' style='width: 100%; height: 100%;'>\n{item.to_html()}\n</div>"
+    html = item.to_html(notebook_mode=True)
+    render_html = (
+        f"<div class='container' style='width: 100%; height: 100%;'>\n{html}\n</div>"
+    )
 
     render_html = (
         f"<!doctype html>\n<html>\n<head>{head_deps}</head>\n"
-        f"<body>\n{content_html}\n{tail_deps}\n</body>\n</html>\n"
+        f"<body>\n{render_html}\n{tail_deps}\n</body>\n</html>\n"
     )
 
     print()

@@ -8,6 +8,7 @@ class ConfigOptions:
     _offline_source: str = "inline"
 
     matplotlib_output_format: str = "svg"
+    matplotlib_notebook_format: str = "png"
 
     pdf_temp_dir: str = ".pdf-temp"
 

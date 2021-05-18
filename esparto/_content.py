@@ -346,7 +346,9 @@ class FigureMpl(Content):
 
     def to_html(self, **kwargs):
 
-        if self.output_format == "esparto.options":
+        if kwargs.get("notebook_mode"):
+            output_format = options.matplotlib_notebook_format
+        elif self.output_format == "esparto.options":
             output_format = options.matplotlib_output_format
         else:
             output_format = self.output_format
