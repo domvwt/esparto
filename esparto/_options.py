@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 
+# TODO: Add options to control automatic display titles for Layout objects
 @dataclass
 class ConfigOptions:
     offline_mode: bool = False
