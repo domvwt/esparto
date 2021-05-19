@@ -42,9 +42,6 @@ class Layout(ABC):
         """ """
         self._title = title
 
-    # TODO: Change this to dict of `title -> item`
-    # TODO: Define class for ContentDict
-    # TODO: Define __get_item__ and __set_item__ to refer to ContentDict
     @property
     def children(self) -> list:
         """List of child elements representing the document tree.
@@ -74,7 +71,7 @@ class Layout(ABC):
         children = self._smart_wrap(children)
         self._children = children
 
-    # TODO: Remove method from class
+    # TODO: Remove method from class?
     def _sanitize_child_iter(self, children: Iterable[Any]) -> Iterable[Any]:
         """Ensure new Content and Layout elements are in the correct format for further processing.
 
@@ -85,7 +82,6 @@ class Layout(ABC):
           Iterable[Any]: Clean sequence of Layout and / or Content items.
 
         """
-        # TODO: Make utility function to identify list-likes
         # Convert any non-list iterators to lists
         children_: Iterable[Any] = (
             list(children)
@@ -240,13 +236,18 @@ class Layout(ABC):
 
         return new
 
+    # TODO: Add this to docs
+    def __lshift__(self, other: Union["Layout", "Content", Any]):
+        self += other
+        return other
+
     def __iter__(self):
         return iter([self])
 
-    # TODO: Display representation instead of HTML
-    def _repr_html_(self):
-        """ """
-        nb_display(self)
+    # TODO: Add this to docs
+    # def _repr_html_(self):
+    #     """ """
+    #     nb_display(self)
 
     def __repr__(self):
         title = self._title or "Untitled"
@@ -293,6 +294,28 @@ class Layout(ABC):
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+    def __setitem__(self, key: str, item: Any):
+        item = self._sanitize_child_iter([item])
+        item = self._smart_wrap(item)
+        item.title = key
+        self.children.append(item)
+
+    # TODO: Should this work more like defaultdict? Instead of key error, return new child_class?
+    def __getitem__(self, key: str):
+        for child in self._children:
+            if hasattr(child, "title") and child.title == key:
+                return child
+            else:
+                raise KeyError(key)
+
+    # IPython key completions: https://ipython.readthedocs.io/en/stable/config/integrating.html
+    def _ipython_key_completions_(self):
+        return [
+            child.title
+            for child in self.children
+            if hasattr(child, "title") and child.title
+        ]
 
 
 class Page(Layout):

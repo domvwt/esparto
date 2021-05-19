@@ -22,8 +22,8 @@ class ResolvedDeps:
 
 
 class ContentDependencyDict(UserDict):
-    def __add__(self, other: ContentDependency):
-        self.data[other.name] = other
+    def __add__(self, item: ContentDependency):
+        super().__setitem__(item.name, item)
         return self
 
 

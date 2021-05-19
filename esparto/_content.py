@@ -82,9 +82,9 @@ class Content(ABC):
     def __len__(self):
         return len(list(self.content))
 
-    def _repr_html_(self):
-        """ """
-        nb_display(self)
+    # def _repr_html_(self):
+    #     """ """
+    #     nb_display(self)
 
     def __str__(self):
         return str(self.__class__.__name__)
