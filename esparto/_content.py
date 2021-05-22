@@ -42,12 +42,7 @@ class Content(ABC):
 
     @abstractmethod
     def to_html(self, **kwargs) -> str:
-        """Render content to HTML code.
-
-        Returns:
-          HTML code.
-
-        """
+        """Render content to HTML string."""
         raise NotImplementedError
 
     def display(self) -> None:
@@ -65,9 +60,9 @@ class Content(ABC):
     def __len__(self):
         return len(list(self.content))
 
-    # def _repr_html_(self):
-    #     """ """
-    #     nb_display(self)
+    def _repr_html_(self):
+        """ """
+        nb_display(self)
 
     def __str__(self):
         return str(self.__class__.__name__)
@@ -91,13 +86,14 @@ class Markdown(Content):
 
     """
 
+    _dependencies = {"bootstrap"}
+
     def __init__(self, text):
 
         if not isinstance(text, str):
             raise TypeError(r"text must be str")
 
-        self.content = str(text)
-        self._dependencies = {"bootstrap"}
+        self.content: str = text
 
     def to_html(self, **kwargs) -> str:
         html = md.markdown(self.content)
@@ -125,6 +121,8 @@ class Image(Content):
 
     """
 
+    _dependencies = {"bootstrap"}
+
     def __init__(
         self,
         image: Union[str, PILImage, BytesIO],
@@ -144,7 +142,6 @@ class Image(Content):
         self._scale = scale
         self._width = set_width
         self._height = set_height
-        self._dependencies = {"bootstrap"}
 
     def set_width(self, width) -> "Image":
         """Set width of image prior to rendering.
@@ -215,6 +212,8 @@ class DataFramePd(Content):
 
     """
 
+    _dependencies = {"bootstrap"}
+
     def __init__(
         self, df: "DataFrame", index: bool = False, col_space: Union[int, str] = 10
     ):
@@ -222,10 +221,9 @@ class DataFramePd(Content):
         if not isinstance(df, DataFrame):
             raise TypeError(r"df must be Pandas DataFrame")
 
-        self.content = df
+        self.content: "DataFrame" = df
         self.index = index
         self.col_space = col_space
-        self._dependencies = {"bootstrap"}
 
     def to_html(self, **kwargs) -> str:
         classes = "table table-sm table-striped table-hover table-bordered my-1"
@@ -246,6 +244,8 @@ class FigureMpl(Content):
 
     """
 
+    _dependencies = {"bootstrap"}
+
     def __init__(
         self,
         figure: "MplFigure",
@@ -257,11 +257,10 @@ class FigureMpl(Content):
         if not isinstance(figure, MplFigure):
             raise TypeError(r"figure must be a Matplotlib Figure")
 
-        self.content = figure
+        self.content: MplFigure = figure
         self.caption = caption
         self.alt_text = alt_text
         self.output_format = output_format
-        self._dependencies = {"bootstrap"}
 
     def __deepcopy__(self, *args, **kwargs):
         cls = self.__class__
@@ -316,6 +315,8 @@ class FigureBokeh(Content):
 
     """
 
+    _dependencies = {"bokeh"}
+
     @property
     def width(self) -> Union[int, str, None]:
         """ """
@@ -358,12 +359,10 @@ class FigureBokeh(Content):
         width: int = None,
         height: int = None,
     ):
-
-        self._dependencies = {"bokeh"}
-        self.content = figure
-
         if not issubclass(type(figure), BokehObject):
             raise TypeError(r"figure must be a Bokeh object")
+
+        self.content: BokehObject = figure
 
         fig_width = figure.properties_with_values().get("width")
         fig_height = figure.properties_with_values().get("height")
@@ -404,6 +403,8 @@ class FigurePlotly(Content):
       height (int): Height in pixels. (default = 500)
 
     """
+
+    _dependencies = {"plotly"}
 
     @property
     def width(self) -> Union[int, str, None]:
@@ -449,8 +450,7 @@ class FigurePlotly(Content):
         self.width = width or figure.layout["width"] or "auto"
         self.height = height or figure.layout["height"] or 500
 
-        self.content = figure
-        self._dependencies = {"plotly"}
+        self.content: PlotlyFigure = figure
 
     def to_html(self, **kwargs) -> str:
 

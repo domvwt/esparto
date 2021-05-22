@@ -22,7 +22,6 @@ class Layout(ABC):
 
     """
 
-    # Each element should return title with appropriate HTML tags
     @abstractmethod
     def _render_title(self) -> str:
         """Each element should return its title with appropriate HTML tags."""
@@ -162,9 +161,18 @@ class Layout(ABC):
             html = f"{self._tag_open}\n{children_rendered}\n{self._tag_close}\n"
         return html
 
-    def display(self):
-        """Display rendered document in a Jupyter Notebook cell."""
+    def display(self) -> None:
+        """Display rendered document in the Notebook environment."""
         nb_display(self)
+
+    def doctree(self) -> str:
+        """String representation of the document tree.
+
+        Returns:
+            str: Formatted string.
+
+        """
+        return pformat(self._recurse_children(idx=0))
 
     def __init__(
         self,
@@ -211,7 +219,7 @@ class Layout(ABC):
 
     def _repr_html_(self):
         """ """
-        return str(self)
+        self.display()
 
     def __repr__(self):
         title = self.title or "Untitled"
@@ -246,7 +254,7 @@ class Layout(ABC):
         return deps
 
     def __str__(self):
-        return pformat(self._recurse_children(idx=0))
+        return self.doctree()
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
@@ -330,7 +338,7 @@ class Page(Layout):
           dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'.
 
         Returns:
-          Document rendered as HTML. (If 'return_html' is True)
+          Document rendered as HTML. (If `return_html` is True)
 
         """
         html = publish_html(
@@ -361,7 +369,7 @@ class Page(Layout):
           dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'.
 
         Returns:
-          Document rendered as HTML. (If 'return_html' is True)
+          Document rendered as HTML. (If `return_html` is True)
 
         """
         html = self.save_html(
@@ -384,10 +392,10 @@ class Page(Layout):
 
         Args:
           filepath (str): Destination filepath.
-          return_html (bool): If True, return HTML as a string.
+          return_html (bool): If True, return intermediate HTML representation as a string.
 
         Returns:
-          Document rendered as HTML. (If 'return_html' is True)
+          Document rendered as HTML. (If `return_html` is True)
 
         """
         html = publish_pdf(self, filepath, return_html=return_html)
