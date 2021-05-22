@@ -6,6 +6,7 @@ from pprint import pformat
 from typing import TYPE_CHECKING, Any, Iterable, Optional, Set, Type, Union
 
 from esparto._publish import nb_display, publish_html, publish_pdf
+from esparto._utils import get_matching_titles
 
 if TYPE_CHECKING:
     from esparto._content import Content
@@ -57,12 +58,7 @@ class Layout(ABC):
     @children.getter
     def children(self) -> Iterable:
         """ """
-        # TODO: Do we need this check?
-        if hasattr(self, "_children"):
-            children = self._children
-        else:
-            children = []
-        return children
+        return getattr(self, "_children", [])
 
     @children.setter
     def children(self, children) -> None:
@@ -71,7 +67,6 @@ class Layout(ABC):
         children = self._smart_wrap(children)
         self._children = children
 
-    # TODO: Remove method from class?
     def _sanitize_child_iter(self, children: Iterable[Any]) -> Iterable[Any]:
         """Ensure new Content and Layout elements are in the correct format for further processing.
 
@@ -93,7 +88,9 @@ class Layout(ABC):
             children_ = list(children_)[0]
         return children_
 
-    def _smart_wrap(self, children: Iterable[Any]) -> Iterable[Any]:
+    def _smart_wrap(
+        self, children: Iterable[Any]
+    ) -> Iterable[Union["Layout", "Content"]]:
         """Wrap children in a coherent class hierarchy.
 
         Args:
@@ -158,29 +155,10 @@ class Layout(ABC):
 
         return output
 
-    @property
-    @abstractmethod
-    def _parent_class(self) -> Type["Layout"]:
-        """Parent class - used by _smart_wrap."""
-        raise NotImplementedError
-
-    @property
-    @abstractmethod
-    def _child_class(self) -> Type["Layout"]:
-        """Child class - used by _smart_wrap."""
-        raise NotImplementedError
-
-    @property
-    @abstractmethod
-    def _tag_open(self) -> str:
-        """Opening HTML tag and arguments."""
-        raise NotImplementedError
-
-    @property
-    @abstractmethod
-    def _tag_close(self) -> str:
-        """Closing HTML tag."""
-        raise NotImplementedError
+    _parent_class: Type["Layout"]
+    _child_class: Type["Layout"]
+    _tag_open: str
+    _tag_close: str
 
     def to_html(self, **kwargs) -> str:
         """Render document to HTML code.
@@ -244,24 +222,23 @@ class Layout(ABC):
     def __iter__(self):
         return iter([self])
 
-    # TODO: Add this to docs
-    # def _repr_html_(self):
-    #     """ """
-    #     nb_display(self)
+    def _repr_html_(self):
+        """ """
+        return str(self)
 
     def __repr__(self):
         title = self._title or "Untitled"
         return f"{type(self)}: {title}"
 
-    def _recurse_children(self) -> dict:
+    def _recurse_children(self, idx) -> dict:
         """ """
-        key = self._title or type(self).__name__
+        key = self._title or f"{type(self).__name__} {idx}"
         tree = {
             f"{key}": [
-                x._recurse_children()
-                if hasattr(x, "_recurse_children")
-                else type(x).__name__
-                for x in self.children
+                child._recurse_children(idx)
+                if hasattr(child, "_recurse_children")
+                else type(child).__name__
+                for idx, child in enumerate(self.children)
             ]
         }
         return tree
@@ -283,7 +260,7 @@ class Layout(ABC):
         return deps
 
     def __str__(self):
-        return pformat(self._recurse_children())
+        return pformat(self._recurse_children(idx=0))
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
@@ -295,21 +272,32 @@ class Layout(ABC):
     def __ne__(self, other):
         return not self.__eq__(other)
 
-    def __setitem__(self, key: str, item: Any):
-        item = self._sanitize_child_iter([item])
-        item = self._smart_wrap(item)
-        item.title = key
-        self.children.append(item)
+    def __getitem__(self, key: Union[str, int]):
+        """Get child by title or index."""
+        if isinstance(key, str):
+            indexes = get_matching_titles(key, self.children)
+            if len(indexes):
+                return self.children[indexes[0]]
+            raise KeyError(key)
+        else:
+            return self.children[key]
 
-    # TODO: Should this work more like defaultdict? Instead of key error, return new child_class?
-    def __getitem__(self, key: str):
-        for child in self._children:
-            if hasattr(child, "title") and child.title == key:
-                return child
+    def __setitem__(self, key: Union[str, int], value: Any):
+        """Set child by title or index."""
+        value = self._sanitize_child_iter([value])
+        value = self._smart_wrap(value)
+        value = value[0]
+        value.title = key
+
+        if isinstance(key, str):
+            indexes = get_matching_titles(key, self.children)
+            if len(indexes):
+                self.children[indexes[0]] = value
             else:
-                raise KeyError(key)
+                self.children.append(value)
+        else:
+            self.children[key] = value
 
-    # IPython key completions: https://ipython.readthedocs.io/en/stable/config/integrating.html
     def _ipython_key_completions_(self):
         return [
             child.title
@@ -332,23 +320,16 @@ class Page(Layout):
         """ """
         return f"<h1 class='display-4 my-3'>{self._title}</h1>\n"
 
-    @property
-    def _tag_open(self) -> str:
-        """ """
-        return "<main class='container px-2'>"
+    _tag_open = "<main class='container px-2'>"
+    _tag_close = "</main>"
 
     @property
-    def _tag_close(self) -> str:
-        """ """
-        return "</main>"
-
-    @property
-    def _parent_class(self) -> Type["Layout"]:
+    def _parent_class(self):
         """ """
         return Page
 
     @property
-    def _child_class(self) -> Type["Layout"]:
+    def _child_class(self):
         """ """
         return Section
 
@@ -456,23 +437,12 @@ class Section(Layout):
         """ """
         return f"<h3 class='mb-3'>{self._title}</h3>\n"
 
-    @property
-    def _tag_open(self) -> str:
-        """ """
-        return "<div class='px-1 mb-5'>"
+    _tag_open = "<div class='px-1 mb-5'>"
+    _tag_close = "</div>"
+    _parent_class = Page
 
     @property
-    def _tag_close(self) -> str:
-        """ """
-        return "</div>"
-
-    @property
-    def _parent_class(self) -> Type["Layout"]:
-        """ """
-        return Page
-
-    @property
-    def _child_class(self) -> Type["Layout"]:
+    def _child_class(self):
         """ """
         return Row
 
@@ -490,23 +460,12 @@ class Row(Layout):
         """ """
         return f"<div class='col-12'><h5 class='px-1 mb-3'>{self._title}</h5></div>\n"
 
-    @property
-    def _tag_open(self) -> str:
-        """ """
-        return "<div class='row'>"
+    _tag_open = "<div class='row'>"
+    _tag_close = "</div>"
+    _parent_class = Section
 
     @property
-    def _tag_close(self) -> str:
-        """ """
-        return "</div>"
-
-    @property
-    def _parent_class(self) -> Type["Layout"]:
-        """ """
-        return Section
-
-    @property
-    def _child_class(self) -> Type["Layout"]:
+    def _child_class(self):
         """ """
         return Column
 
@@ -524,22 +483,11 @@ class Column(Layout):
         """ """
         return f"<h5 class='px-1 mb-3'>{self._title}</h5>\n"
 
-    @property
-    def _tag_open(self) -> str:
-        """ """
-        return "<div class='col-lg mb-3'>"
+    _tag_open = "<div class='col-lg mb-3'>"
+    _tag_close = "</div>"
+    _parent_class = Row
 
     @property
-    def _tag_close(self) -> str:
-        """ """
-        return "</div>"
-
-    @property
-    def _parent_class(self) -> Type["Layout"]:
-        """ """
-        return Row
-
-    @property
-    def _child_class(self) -> Any:
+    def _child_class(self):
         """ """
         raise NotImplementedError
