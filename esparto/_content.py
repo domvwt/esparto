@@ -37,11 +37,8 @@ class Content(ABC):
       content (Any): Text or image to be rendered - should match the encompassing Content class.
     """
 
-    @property
-    @abstractmethod
-    def content(self) -> Any:
-        """Text or image to be rendered - should match the encompassing Content class."""
-        raise NotImplementedError
+    content: Any
+    _dependencies: Set[str]
 
     @abstractmethod
     def to_html(self, **kwargs) -> str:
@@ -56,20 +53,6 @@ class Content(ABC):
     def display(self) -> None:
         """Display rendered content in a Jupyter Notebook cell."""
         nb_display(self)
-
-    @property
-    def _dependencies(self) -> Set[str]:
-        raise NotImplementedError
-
-    @_dependencies.getter
-    def _dependencies(self) -> Set[str]:
-        if hasattr(self, "_deps"):
-            return self._deps
-        return set()
-
-    @_dependencies.setter
-    def _dependencies(self, deps) -> None:
-        self._deps = deps
 
     def __add__(self, other):
         from esparto._layout import Row
@@ -108,21 +91,6 @@ class Markdown(Content):
 
     """
 
-    @property
-    def content(self) -> str:
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> str:
-        """ """
-        return self._content
-
-    @content.setter
-    def content(self, content) -> None:
-        """ """
-        self._content = content
-
     def __init__(self, text):
 
         if not isinstance(text, str):
@@ -156,21 +124,6 @@ class Image(Content):
       set_height (int): Set height in pixels. (default = None)
 
     """
-
-    @property
-    def content(self) -> Union[str, BytesIO]:
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> Union[str, BytesIO]:
-        """ """
-        return self._content
-
-    @content.setter
-    def content(self, content) -> None:
-        """ """
-        self._content = content
 
     def __init__(
         self,
@@ -262,21 +215,6 @@ class DataFramePd(Content):
 
     """
 
-    @property
-    def content(self) -> "DataFrame":
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> "DataFrame":
-        """ """
-        return self._content
-
-    @content.setter
-    def content(self, content) -> None:
-        """ """
-        self._content = content
-
     def __init__(
         self, df: "DataFrame", index: bool = False, col_space: Union[int, str] = 10
     ):
@@ -307,21 +245,6 @@ class FigureMpl(Content):
       output_format (str): One of 'svg', 'png', or 'esparto.options'. (default = 'esparto.options')
 
     """
-
-    @property
-    def content(self) -> "MplFigure":
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> "MplFigure":
-        """ """
-        return self._content
-
-    @content.setter
-    def content(self, content) -> None:
-        """ """
-        self._content = content
 
     def __init__(
         self,
@@ -392,21 +315,6 @@ class FigureBokeh(Content):
       height (int): Height in pixels. (default = figure.height or 'auto')
 
     """
-
-    @property
-    def content(self) -> "BokehObject":
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> "BokehObject":
-        """ """
-        return self._content
-
-    @content.setter
-    def content(self, content) -> None:
-        """ """
-        self._content = content
 
     @property
     def width(self) -> Union[int, str, None]:
@@ -496,21 +404,6 @@ class FigurePlotly(Content):
       height (int): Height in pixels. (default = 500)
 
     """
-
-    @property
-    def content(self) -> "PlotlyFigure":
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> "PlotlyFigure":
-        """ """
-        return self._content
-
-    @content.setter
-    def content(self, content) -> None:
-        """ """
-        self._content = content
 
     @property
     def width(self) -> Union[int, str, None]:

@@ -28,20 +28,7 @@ class Layout(ABC):
         """Each element should return its title with appropriate HTML tags."""
         raise NotImplementedError
 
-    @property
-    def title(self) -> Optional[str]:
-        """Title for use in document layout and as object reference."""
-        raise NotImplementedError
-
-    @title.getter
-    def title(self) -> Optional[str]:
-        """ """
-        return self._title
-
-    @title.setter
-    def title(self, title: Optional[str]) -> None:
-        """ """
-        self._title = title
+    title: Optional[str]
 
     @property
     def children(self) -> list:
@@ -168,7 +155,7 @@ class Layout(ABC):
 
         """
         children_rendered = " ".join([c.to_html(**kwargs) for c in self.children])
-        title_rendered = f"{self._render_title()}\n" if self._title else None
+        title_rendered = f"{self._render_title()}\n" if self.title else None
         if title_rendered:
             html = f"{self._tag_open}\n{title_rendered}{children_rendered}\n{self._tag_close}\n"
         else:
@@ -227,12 +214,12 @@ class Layout(ABC):
         return str(self)
 
     def __repr__(self):
-        title = self._title or "Untitled"
+        title = self.title or "Untitled"
         return f"{type(self)}: {title}"
 
     def _recurse_children(self, idx) -> dict:
         """ """
-        key = self._title or f"{type(self).__name__} {idx}"
+        key = self.title or f"{type(self).__name__} {idx}"
         tree = {
             f"{key}": [
                 child._recurse_children(idx)
@@ -250,8 +237,7 @@ class Layout(ABC):
         def dep_finder(item):
             nonlocal deps
             for child in item.children:
-                if hasattr(child, "_dependencies"):
-                    deps = deps | set(child._dependencies)
+                deps = deps | set(getattr(child, "_dependencies", None))
                 if hasattr(child, "children"):
                     dep_finder(child)
 
@@ -264,7 +250,7 @@ class Layout(ABC):
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
-            return self._title == other._title and all(
+            return self.title == other.title and all(
                 (x == y for x, y in zip(self.children, other.children))
             )
         return False
@@ -299,11 +285,7 @@ class Layout(ABC):
             self.children[key] = value
 
     def _ipython_key_completions_(self):
-        return [
-            child.title
-            for child in self.children
-            if hasattr(child, "title") and child.title
-        ]
+        return [child.title for child in self.children if getattr(child, "title", None)]
 
 
 class Page(Layout):
@@ -318,7 +300,7 @@ class Page(Layout):
 
     def _render_title(self) -> str:
         """ """
-        return f"<h1 class='display-4 my-3'>{self._title}</h1>\n"
+        return f"<h1 class='display-4 my-3'>{self.title}</h1>\n"
 
     _tag_open = "<main class='container px-2'>"
     _tag_close = "</main>"
@@ -435,7 +417,7 @@ class Section(Layout):
 
     def _render_title(self) -> str:
         """ """
-        return f"<h3 class='mb-3'>{self._title}</h3>\n"
+        return f"<h3 class='mb-3'>{self.title}</h3>\n"
 
     _tag_open = "<div class='px-1 mb-5'>"
     _tag_close = "</div>"
@@ -458,7 +440,7 @@ class Row(Layout):
 
     def _render_title(self) -> str:
         """ """
-        return f"<div class='col-12'><h5 class='px-1 mb-3'>{self._title}</h5></div>\n"
+        return f"<div class='col-12'><h5 class='px-1 mb-3'>{self.title}</h5></div>\n"
 
     _tag_open = "<div class='row'>"
     _tag_close = "</div>"
@@ -481,7 +463,7 @@ class Column(Layout):
 
     def _render_title(self) -> str:
         """ """
-        return f"<h5 class='px-1 mb-3'>{self._title}</h5>\n"
+        return f"<h5 class='px-1 mb-3'>{self.title}</h5>\n"
 
     _tag_open = "<div class='col-lg mb-3'>"
     _tag_close = "</div>"

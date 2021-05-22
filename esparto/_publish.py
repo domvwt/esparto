@@ -140,8 +140,8 @@ def nb_display(
 
     if isinstance(item, Layout):
         required_deps = item._required_dependencies()
-    elif hasattr(item, "_dependencies"):
-        required_deps = item._dependencies
+    else:
+        required_deps = getattr(item, "_dependencies", set())
 
     dependency_source = get_source_from_options(dependency_source)
 
