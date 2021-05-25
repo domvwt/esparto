@@ -4,7 +4,7 @@ import pytest
 
 import esparto._content as co
 import esparto._layout as la
-from tests.conftest import _irises_path, layout_list
+from tests.conftest import _irises_path
 
 
 def test_all_layout_classes_covered(layout_list_fn):
@@ -19,7 +19,7 @@ def test_all_layout_classes_covered(layout_list_fn):
 def test_layout_smart_wrapping(page_layout):
     strings = ["first", "second", "third"]
     output = page_layout + la.Section(*strings, "fourth", la.Column("fifth"), "sixth")
-    expected = page_layout()
+    expected = page_layout
     expected += la.Section(
         *[co.Markdown(x) for x in strings],
         la.Row("fourth", la.Column("fifth"), "sixth")
@@ -28,13 +28,6 @@ def test_layout_smart_wrapping(page_layout):
     print()
     print(expected)
     assert output == expected
-
-
-@pytest.mark.parametrize("a", layout_list)
-def test_layout_call(a):
-    b = a()
-    assert a == b
-    assert a is not b
 
 
 def test_layout_call_many(page_layout, content_list_fn):
@@ -97,3 +90,96 @@ layout_add_list = [
 def test_layout_add(a, b, expected):
     output = a + b
     assert output == expected
+
+
+def test_get_item(page_basic_layout):
+    page = la.Page(title="Test Page")
+    page["Section One"]["Row One"] = "markdown content"
+    assert page.section_one.row_one[0] == page_basic_layout[0][0][0]
+
+
+def test_get_item_key_str_error(page_basic_layout):
+    page = la.Page(title="Test Page")
+    page["Section One"]["Row One"] = "markdown content"
+    with pytest.raises(KeyError):
+        page["Section One"][2]
+
+
+def test_set_item_key_int_error(page_basic_layout):
+    page = la.Page(title="Test Page")
+    page["Section One"]["Row One"] = "markdown content"
+    with pytest.raises(KeyError):
+        page["Section One"][2] = "different content"
+
+
+def test_set_item_new(page_basic_layout):
+    page = la.Page(title="Test Page")
+    page["Section One"]["Row One"] = "markdown content"
+    assert page == page_basic_layout
+
+
+def test_set_item_existing_str(page_basic_layout):
+    page = la.Page(title="Test Page")
+    page["Section One"]["Row One"] = "different content"
+    page["Section One"]["Row One"] = "markdown content"
+    assert page == page_basic_layout
+
+
+def test_set_item_existing_int(page_basic_layout):
+    page = la.Page(title="Test Page")
+    page["Section One"]["Row One"] = "different content"
+    page[0][0] = "markdown content"
+    assert page == page_basic_layout
+
+
+def test_set_item_existing_attr(page_basic_layout):
+    page = la.Page(title="Test Page")
+    page["Section One"]["Row One"] = "different content"
+    page.section_one.row_one = "markdown content"
+    assert page == page_basic_layout
+
+
+def test_delitem_str(page_basic_layout):
+    page = la.Page(title="Test Page")
+    page["Section One"]["Row One"] = "markdown content"
+    page["Section One"]["Row Two"] = "different content"
+    del page["Section One"]["Row Two"]
+    assert page == page_basic_layout
+
+
+def test_delitem_int(page_basic_layout):
+    page = la.Page(title="Test Page")
+    page["Section One"]["Row One"] = "markdown content"
+    page["Section One"]["Row Two"] = "different content"
+    del page["Section One"][1]
+    assert page == page_basic_layout
+
+
+def test_delitem_key_int_error():
+    page = la.Page(title="Test Page")
+    page["Section One"]["Row One"] = "markdown content"
+    page["Section One"]["Row Two"] = "different content"
+    with pytest.raises(KeyError):
+        del page["Section One"][3]
+
+
+def test_delitem_key_str_error():
+    page = la.Page(title="Test Page")
+    page["Section One"]["Row One"] = "markdown content"
+    page["Section One"]["Row Two"] = "different content"
+    with pytest.raises(KeyError):
+        del page["Section One"]["Row Three"]
+
+
+def test_child_id_maps_to_child():
+    page = la.Page()
+    page["Section One"]["Row One"] = "markdown content"
+    assert page.section_one is page.children[0]
+
+
+def test_lshift(page_basic_layout):
+    page = la.Page(title="Test Page")
+    content = "markdown content"
+    passthrough = page["Section One"]["Row One"] << content
+    assert passthrough == content
+    assert page == page_basic_layout

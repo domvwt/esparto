@@ -95,6 +95,18 @@ def page_layout(content_list_fn) -> la.Page:
 
 
 @pytest.fixture
+def page_basic_layout() -> la.Page:
+    page = la.Page(
+        la.Section(
+            la.Row(la.Column(co.Markdown("markdown content")), title="Row One"),
+            title="Section One",
+        ),
+        title="Test Page",
+    )
+    return page
+
+
+@pytest.fixture
 def section_layout(image_content) -> la.Section:
     return la.Section(image_content)
 

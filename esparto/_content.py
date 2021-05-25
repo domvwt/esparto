@@ -65,7 +65,7 @@ class Content(ABC):
         nb_display(self)
 
     def __str__(self):
-        return str(self.__class__.__name__)
+        return getattr(self, "title", None) or self.__class__.__name__
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
@@ -378,7 +378,8 @@ class FigureBokeh(Content):
 
     def to_html(self, **kwargs) -> str:
 
-        if kwargs.get("pdf_mode"):
+        # Bokeh to PDF is experimental and untested
+        if kwargs.get("pdf_mode"):  # pragma: no cover
             from bokeh.io import export_svg  # type: ignore
 
             temp_file = Path(options.pdf_temp_dir) / f"{uuid4()}.svg"
