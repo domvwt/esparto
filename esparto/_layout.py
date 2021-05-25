@@ -3,7 +3,7 @@
 import copy
 from abc import ABC, abstractmethod
 from pprint import pformat
-from typing import TYPE_CHECKING, Any, Dict, Iterable, Optional, Set, Type, Union
+from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Optional, Set, Type, Union
 
 from esparto._publish import nb_display, publish_html, publish_pdf
 from esparto._utils import clean_identifier, clean_iterator, get_matching_titles
@@ -111,7 +111,7 @@ class Layout(ABC):
 
             if is_wrapped:
                 if unwrapped_acc:
-                    wrapped_segment = self._child_class(*unwrapped_acc)
+                    wrapped_segment = self._child_class(children=unwrapped_acc)
                     output.append(wrapped_segment)
                     output.append(item)
                     unwrapped_acc = []
@@ -122,12 +122,12 @@ class Layout(ABC):
                     assert (
                         not unwrapped_acc
                     ), "Elements should not be accumulated for row"
-                    output.append(self._child_class(item))
+                    output.append(self._child_class(children=[item]))
                 else:
                     unwrapped_acc.append(item)
 
         if unwrapped_acc:
-            wrapped_segment = self._child_class(*unwrapped_acc)
+            wrapped_segment = self._child_class(children=unwrapped_acc)
             output.append(wrapped_segment)
 
         return output
@@ -189,8 +189,10 @@ class Layout(ABC):
 
     def __init__(
         self,
-        *children: Union["Layout", "Content", Any],
         title: Optional[str] = None,
+        children: Union[
+            List[Union["Layout", "Content", Any]], "Layout", "Content"
+        ] = list(),
     ):
         self.children = list(children)
         self.title = title
@@ -200,7 +202,7 @@ class Layout(ABC):
 
         if isinstance(other, type(self)):
             return self._parent_class(
-                *(*self.children, *other.children), title=self.title
+                title=self.title, children=[*(*self.children, *other.children)]
             )
 
         new = copy.deepcopy(self)
@@ -323,9 +325,9 @@ class Page(Layout):
     """Page - top level element for defining a document.
 
     Args:
-        *children (Layout, Any):  Child items to include within the element.
         title (str): Element title.
         org_name (str): Organisation name.
+        children (Layout, Any):  Child items to include within the element.
 
     """
 
@@ -429,11 +431,13 @@ class Page(Layout):
 
     def __init__(
         self,
-        *children: Union["Layout", "Content", Any],
         title: Optional[str] = None,
-        org_name: Optional[str] = "esparto",
+        org_name: Optional[str] = "",
+        children: Union[
+            List[Union["Layout", "Content", Any]], "Layout", "Content"
+        ] = list(),
     ):
-        super().__init__(*children, title=title)
+        super().__init__(title, children)
         self.org_name = org_name
 
 

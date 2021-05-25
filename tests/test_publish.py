@@ -105,7 +105,7 @@ if _EXTRAS:
     @pytest.mark.parametrize("content", content_list)
     def test_pdf_output(content, tmp_path):
         if "bokeh" not in content._dependencies:
-            page = es.Page(content)
+            page = es.Page(children=[content])
             path: Path = tmp_path / "my_page.pdf"
             page.save_pdf(str(path))
             size = path.stat().st_size

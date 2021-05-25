@@ -52,7 +52,7 @@ class Content(ABC):
     def __add__(self, other):
         from esparto._layout import Row
 
-        return Row(self, other)
+        return Row(children=[self, other])
 
     def __iter__(self):
         return iter([self])

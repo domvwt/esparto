@@ -26,10 +26,10 @@ content_list = [
 
 # Add new layout classes here
 layout_list = [
-    (la.Page(*content_list)),
-    (la.Section(*content_list)),
-    (la.Row(*content_list)),
-    (la.Column(*content_list)),
+    (la.Page(children=[*content_list])),
+    (la.Section(children=[*content_list])),
+    (la.Row(children=[*content_list])),
+    (la.Column(children=[*content_list])),
 ]
 
 # Add new adaptor types here
@@ -90,18 +90,24 @@ def adaptor_list_fn():
 @pytest.fixture
 def page_layout(content_list_fn) -> la.Page:
     return la.Page(
-        la.Section(la.Row(*[la.Column(x) for x in content_list_fn])), title="jazz"
+        title="jazz",
+        children=la.Section(
+            children=la.Row(children=[la.Column(children=[x]) for x in content_list_fn])
+        ),
     )
 
 
 @pytest.fixture
 def page_basic_layout() -> la.Page:
     page = la.Page(
-        la.Section(
-            la.Row(la.Column(co.Markdown("markdown content")), title="Row One"),
-            title="Section One",
-        ),
         title="Test Page",
+        children=la.Section(
+            title="Section One",
+            children=la.Row(
+                title="Row One",
+                children=la.Column(children=co.Markdown("markdown content")),
+            ),
+        ),
     )
     return page
 

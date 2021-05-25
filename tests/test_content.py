@@ -26,7 +26,7 @@ if _EXTRAS:
 @pytest.mark.parametrize("b", content_list)
 def test_content_add(a, b):
     output = a + b
-    expected = la.Row(a, b)
+    expected = la.Row(children=[a, b])
     assert output == expected
 
 

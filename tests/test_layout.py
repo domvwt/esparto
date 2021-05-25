@@ -18,11 +18,15 @@ def test_all_layout_classes_covered(layout_list_fn):
 
 def test_layout_smart_wrapping(page_layout):
     strings = ["first", "second", "third"]
-    output = page_layout + la.Section(*strings, "fourth", la.Column("fifth"), "sixth")
+    output = page_layout + la.Section(
+        children=[*strings, "fourth", la.Column("fifth"), "sixth"]
+    )
     expected = page_layout
     expected += la.Section(
-        *[co.Markdown(x) for x in strings],
-        la.Row("fourth", la.Column("fifth"), "sixth")
+        children=[
+            *[co.Markdown(x) for x in strings],
+            la.Row(children=["fourth", la.Column(children=["fifth"]), "sixth"]),
+        ]
     )
     print(output)
     print()
@@ -31,12 +35,12 @@ def test_layout_smart_wrapping(page_layout):
 
 
 def test_layout_call_many(page_layout, content_list_fn):
-    a = la.Page(*content_list_fn, title="jazz")
+    a = la.Page(title="jazz", children=content_list_fn)
     assert a == page_layout
 
 
 def test_layout_call_list(page_layout, content_list_fn):
-    a = la.Page(content_list_fn, title="jazz")
+    a = la.Page(title="jazz", children=content_list_fn)
     assert a == page_layout
 
 
@@ -50,38 +54,64 @@ def test_layout_equality(layout_list_fn):
 
 
 layout_add_list = [
-    (la.Column(), "miles davis", la.Column(co.Markdown("miles davis"))),
+    (
+        la.Column(),
+        "miles davis",
+        la.Column(children=co.Markdown("miles davis")),
+    ),
     (
         la.Row(),
         co.Markdown("ornette coleman"),
-        la.Row(la.Column(co.Markdown("ornette coleman"))),
+        la.Row(children=la.Column(children=co.Markdown("ornette coleman"))),
     ),
     (
-        la.Page("charles mingus"),
-        la.Section("thelonious monk"),
-        la.Page(["charles mingus", "thelonious monk"]),
+        la.Page(children=["charles mingus"]),
+        la.Section(children=["thelonious monk"]),
+        la.Page(children=["charles mingus", "thelonious monk"]),
     ),
     (
         la.Section(title="jazz"),
-        la.Row(la.Column("john coltrane"), la.Column("wayne shorter")),
+        la.Row(
+            children=[
+                la.Column(children=["john coltrane"]),
+                la.Column(children=["wayne shorter"]),
+            ]
+        ),
         la.Section(
-            la.Row(la.Column("john coltrane"), la.Column("wayne shorter")), title="jazz"
+            title="jazz",
+            children=[
+                la.Row(
+                    children=[
+                        la.Column(children=["john coltrane"]),
+                        la.Column(children=["wayne shorter"]),
+                    ]
+                )
+            ],
         ),
     ),
     (
-        la.Column("eric dolphy"),
-        la.Column("grant green"),
-        la.Row(la.Column("eric dolphy"), la.Column("grant green")),
+        la.Column(children=["eric dolphy"]),
+        la.Column(children=["grant green"]),
+        la.Row(
+            children=[
+                la.Column(children=["eric dolphy"]),
+                la.Column(children=["grant green"]),
+            ]
+        ),
     ),
     (
         la.Page(title="piano"),
         "bill evans",
-        la.Page(co.Markdown("bill evans"), title="piano"),
+        la.Page(title="piano", children=[co.Markdown("bill evans")]),
     ),
     (
         la.Page(),
         _irises_path,
-        la.Page(la.Section(la.Row(la.Column(co.Image(_irises_path))))),
+        la.Page(
+            children=la.Section(
+                children=la.Row(children=la.Column(children=co.Image(_irises_path)))
+            )
+        ),
     ),
 ]
 
