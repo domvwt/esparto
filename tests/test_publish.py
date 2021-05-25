@@ -60,6 +60,28 @@ def test_saved_html_valid_inline(page_layout: es.Page, tmp_path):
     assert html_is_valid(html)
 
 
+def test_saved_html_valid_online(page_layout: es.Page, tmp_path, monkeypatch):
+    monkeypatch.setattr(es.options, "offline_mode", False)
+    path: Path = tmp_path / "my_page.html"
+    page_layout.save_html(str(path))
+    html = path.read_text()
+    assert html_is_valid(html)
+
+
+def test_saved_html_valid_offline(page_layout: es.Page, tmp_path, monkeypatch):
+    monkeypatch.setattr(es.options, "offline_mode", True)
+    path: Path = tmp_path / "my_page.html"
+    page_layout.save_html(str(path))
+    html = path.read_text()
+    assert html_is_valid(html)
+
+
+def test_saved_html_valid_bad_source(page_layout: es.Page, tmp_path):
+    path: Path = tmp_path / "my_page.html"
+    with pytest.raises(ValueError):
+        page_layout.save_html(str(path), dependency_source="flapjack")
+
+
 if _EXTRAS:
 
     def test_notebook_html_valid_cdn(page_layout):
@@ -68,6 +90,16 @@ if _EXTRAS:
 
     def test_notebook_html_valid_inline(page_layout):
         html = pu.nb_display(page_layout, return_html=True, dependency_source="inline")
+        assert html_is_valid(html)
+
+    def test_notebook_html_valid_offline(page_layout, monkeypatch):
+        monkeypatch.setattr(es.options, "offline_mode", True)
+        html = pu.nb_display(page_layout, return_html=True)
+        assert html_is_valid(html)
+
+    def test_notebook_html_valid_online(page_layout, monkeypatch):
+        monkeypatch.setattr(es.options, "offline_mode", False)
+        html = pu.nb_display(page_layout, return_html=True)
         assert html_is_valid(html)
 
     @pytest.mark.parametrize("content", content_list)

@@ -37,39 +37,17 @@ class Content(ABC):
       content (Any): Text or image to be rendered - should match the encompassing Content class.
     """
 
-    @property
-    @abstractmethod
-    def content(self) -> Any:
-        """Text or image to be rendered - should match the encompassing Content class."""
-        raise NotImplementedError
+    content: Any
+    _dependencies: Set[str]
 
     @abstractmethod
     def to_html(self, **kwargs) -> str:
-        """Render content to HTML code.
-
-        Returns:
-          HTML code.
-
-        """
+        """Render content to HTML string."""
         raise NotImplementedError
 
     def display(self) -> None:
         """Display rendered content in a Jupyter Notebook cell."""
         nb_display(self)
-
-    @property
-    def _dependencies(self) -> Set[str]:
-        raise NotImplementedError
-
-    @_dependencies.getter
-    def _dependencies(self) -> Set[str]:
-        if hasattr(self, "_deps"):
-            return self._deps
-        return set()
-
-    @_dependencies.setter
-    def _dependencies(self, deps) -> None:
-        self._deps = deps
 
     def __add__(self, other):
         from esparto._layout import Row
@@ -87,7 +65,7 @@ class Content(ABC):
         nb_display(self)
 
     def __str__(self):
-        return str(self.__class__.__name__)
+        return getattr(self, "title", None) or self.__class__.__name__
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
@@ -108,28 +86,14 @@ class Markdown(Content):
 
     """
 
-    @property
-    def content(self) -> str:
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> str:
-        """ """
-        return self._content
-
-    @content.setter
-    def content(self, content) -> None:
-        """ """
-        self._content = content
+    _dependencies = {"bootstrap"}
 
     def __init__(self, text):
 
         if not isinstance(text, str):
             raise TypeError(r"text must be str")
 
-        self.content = str(text)
-        self._dependencies = {"bootstrap"}
+        self.content: str = text
 
     def to_html(self, **kwargs) -> str:
         html = md.markdown(self.content)
@@ -157,20 +121,7 @@ class Image(Content):
 
     """
 
-    @property
-    def content(self) -> Union[str, BytesIO]:
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> Union[str, BytesIO]:
-        """ """
-        return self._content
-
-    @content.setter
-    def content(self, content) -> None:
-        """ """
-        self._content = content
+    _dependencies = {"bootstrap"}
 
     def __init__(
         self,
@@ -191,7 +142,6 @@ class Image(Content):
         self._scale = scale
         self._width = set_width
         self._height = set_height
-        self._dependencies = {"bootstrap"}
 
     def set_width(self, width) -> "Image":
         """Set width of image prior to rendering.
@@ -262,20 +212,7 @@ class DataFramePd(Content):
 
     """
 
-    @property
-    def content(self) -> "DataFrame":
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> "DataFrame":
-        """ """
-        return self._content
-
-    @content.setter
-    def content(self, content) -> None:
-        """ """
-        self._content = content
+    _dependencies = {"bootstrap"}
 
     def __init__(
         self, df: "DataFrame", index: bool = False, col_space: Union[int, str] = 10
@@ -284,10 +221,9 @@ class DataFramePd(Content):
         if not isinstance(df, DataFrame):
             raise TypeError(r"df must be Pandas DataFrame")
 
-        self.content = df
+        self.content: "DataFrame" = df
         self.index = index
         self.col_space = col_space
-        self._dependencies = {"bootstrap"}
 
     def to_html(self, **kwargs) -> str:
         classes = "table table-sm table-striped table-hover table-bordered my-1"
@@ -308,20 +244,7 @@ class FigureMpl(Content):
 
     """
 
-    @property
-    def content(self) -> "MplFigure":
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> "MplFigure":
-        """ """
-        return self._content
-
-    @content.setter
-    def content(self, content) -> None:
-        """ """
-        self._content = content
+    _dependencies = {"bootstrap"}
 
     def __init__(
         self,
@@ -334,11 +257,10 @@ class FigureMpl(Content):
         if not isinstance(figure, MplFigure):
             raise TypeError(r"figure must be a Matplotlib Figure")
 
-        self.content = figure
+        self.content: MplFigure = figure
         self.caption = caption
         self.alt_text = alt_text
         self.output_format = output_format
-        self._dependencies = {"bootstrap"}
 
     def __deepcopy__(self, *args, **kwargs):
         cls = self.__class__
@@ -393,20 +315,7 @@ class FigureBokeh(Content):
 
     """
 
-    @property
-    def content(self) -> "BokehObject":
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> "BokehObject":
-        """ """
-        return self._content
-
-    @content.setter
-    def content(self, content) -> None:
-        """ """
-        self._content = content
+    _dependencies = {"bokeh"}
 
     @property
     def width(self) -> Union[int, str, None]:
@@ -450,12 +359,10 @@ class FigureBokeh(Content):
         width: int = None,
         height: int = None,
     ):
-
-        self._dependencies = {"bokeh"}
-        self.content = figure
-
         if not issubclass(type(figure), BokehObject):
             raise TypeError(r"figure must be a Bokeh object")
+
+        self.content: BokehObject = figure
 
         fig_width = figure.properties_with_values().get("width")
         fig_height = figure.properties_with_values().get("height")
@@ -471,7 +378,8 @@ class FigureBokeh(Content):
 
     def to_html(self, **kwargs) -> str:
 
-        if kwargs.get("pdf_mode"):
+        # Bokeh to PDF is experimental and untested
+        if kwargs.get("pdf_mode"):  # pragma: no cover
             from bokeh.io import export_svg  # type: ignore
 
             temp_file = Path(options.pdf_temp_dir) / f"{uuid4()}.svg"
@@ -497,20 +405,7 @@ class FigurePlotly(Content):
 
     """
 
-    @property
-    def content(self) -> "PlotlyFigure":
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> "PlotlyFigure":
-        """ """
-        return self._content
-
-    @content.setter
-    def content(self, content) -> None:
-        """ """
-        self._content = content
+    _dependencies = {"plotly"}
 
     @property
     def width(self) -> Union[int, str, None]:
@@ -556,8 +451,7 @@ class FigurePlotly(Content):
         self.width = width or figure.layout["width"] or "auto"
         self.height = height or figure.layout["height"] or 500
 
-        self.content = figure
-        self._dependencies = {"plotly"}
+        self.content: PlotlyFigure = figure
 
     def to_html(self, **kwargs) -> str:
 
