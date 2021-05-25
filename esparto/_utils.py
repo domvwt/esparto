@@ -23,3 +23,17 @@ def clean_identifier(s: str):
     s = re.sub("^[^a-zA-Z_]+", "", s)
 
     return s
+
+
+def clean_iterator(iter: Iterable) -> Iterable:
+    # Convert any non-list iterators to lists
+    iter = (
+        list(iter)
+        if hasattr(iter, "__iter__") and not isinstance(iter, str)
+        else [iter]
+    )
+    # Unnest any nested lists of children
+    if len(list(iter)) == 1 and isinstance(list(iter)[0], (list, tuple)):
+        iter = list(iter)[0]
+
+    return iter

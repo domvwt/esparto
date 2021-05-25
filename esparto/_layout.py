@@ -6,7 +6,7 @@ from pprint import pformat
 from typing import TYPE_CHECKING, Any, Dict, Iterable, Optional, Set, Type, Union
 
 from esparto._publish import nb_display, publish_html, publish_pdf
-from esparto._utils import clean_identifier, get_matching_titles
+from esparto._utils import clean_identifier, clean_iterator, get_matching_titles
 
 if TYPE_CHECKING:
     from esparto._content import Content
@@ -17,6 +17,7 @@ if TYPE_CHECKING:
 # TODO: Warning about printing from HTML opened via Jupyter
 # TODO: Print option in new footer style
 # TODO: New page style in jinja template
+# TODO: Fix wonky tables
 class Layout(ABC):
     """Template for Layout elements. All Layout classes come with these methods and attributes.
 
@@ -96,15 +97,7 @@ class Layout(ABC):
         """
         from esparto._adaptors import content_adaptor
 
-        # Convert any non-list iterators to lists
-        children = (
-            list(children)
-            if hasattr(children, "__iter__") and not isinstance(children, str)
-            else [children]
-        )
-        # Unnest any nested lists of children
-        if len(list(children)) == 1 and isinstance(list(children)[0], (list, tuple)):
-            children = list(children)[0]
+        children = clean_iterator(children)
 
         if isinstance(self, Column):
             return [content_adaptor(x) for x in children]
@@ -281,9 +274,8 @@ class Layout(ABC):
                 self._add_child_id(key)
             return self[key]
 
-        elif isinstance(key, int):
-            if key < len(self.children):
-                return self.children[key]
+        elif isinstance(key, int) and key < len(self.children):
+            return self.children[key]
 
         raise KeyError(key)
 
@@ -313,10 +305,9 @@ class Layout(ABC):
             if len(indexes):
                 del self.children[indexes[0]]
                 return None
-        elif isinstance(key, int):
-            if key < len(self.children):
-                del self.children[key]
-                return None
+        elif isinstance(key, int) and key < len(self.children):
+            del self.children[key]
+            return None
         raise KeyError(key)
 
     def _add_child_id(self, key):

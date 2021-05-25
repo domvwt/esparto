@@ -136,8 +136,6 @@ def nb_display(
 
     from esparto._layout import Layout
 
-    required_deps: set = set()
-
     if isinstance(item, Layout):
         required_deps = item._required_dependencies()
     else:
