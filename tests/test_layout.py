@@ -213,3 +213,11 @@ def test_lshift(page_basic_layout):
     passthrough = page["Section One"]["Row One"] << content
     assert passthrough == content
     assert page == page_basic_layout
+
+
+def test_rshift(page_basic_layout):
+    page = la.Page(title="Test Page")
+    content = "markdown content"
+    passthrough = page["Section One"]["Row One"] >> content
+    assert passthrough == page_basic_layout["Section One"]["Row One"]
+    assert page == page_basic_layout

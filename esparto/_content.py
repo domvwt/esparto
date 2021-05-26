@@ -14,6 +14,7 @@ from PIL.Image import Image as PILImage
 from esparto import _INSTALLED_MODULES
 from esparto._options import options
 from esparto._publish import nb_display
+from esparto._utils import responsive_svg_mpl
 
 if "pandas" in _INSTALLED_MODULES:
     from pandas import DataFrame  # type: ignore
@@ -208,14 +209,14 @@ class DataFramePd(Content):
     Args:
       df (pd.DataFrame): A Pandas DataFrame
       index (bool): If True, render the DataFrame index. (default = False)
-      col_space (str, int): Minimum column width in CSS units. Use int for pixels. (default = 10)
+      col_space (str, int): Minimum column width in CSS units. Use int for pixels. (default = 0)
 
     """
 
     _dependencies = {"bootstrap"}
 
     def __init__(
-        self, df: "DataFrame", index: bool = False, col_space: Union[int, str] = 10
+        self, df: "DataFrame", index: bool = False, col_space: Union[int, str] = 0
     ):
 
         if not isinstance(df, DataFrame):
@@ -238,8 +239,8 @@ class FigureMpl(Content):
 
     Args:
       figure (plt.Figure): A Matplotlib figure.
-      caption (str): Image caption (default = None)
-      alt_text (str): Alternative text. (default = None)
+      width (int): Width in pixels. (default = 'auto')
+      height (int): Height in pixels. (default = 500)
       output_format (str): One of 'svg', 'png', or 'esparto.options'. (default = 'esparto.options')
 
     """
@@ -249,8 +250,8 @@ class FigureMpl(Content):
     def __init__(
         self,
         figure: "MplFigure",
-        caption: str = "",
-        alt_text: str = "Image",
+        width: int = None,
+        height: int = 500,
         output_format="esparto.options",
     ):
 
@@ -258,8 +259,8 @@ class FigureMpl(Content):
             raise TypeError(r"figure must be a Matplotlib Figure")
 
         self.content: MplFigure = figure
-        self.caption = caption
-        self.alt_text = alt_text
+        self.width = width
+        self.height = height
         self.output_format = output_format
 
     def __deepcopy__(self, *args, **kwargs):
@@ -267,7 +268,6 @@ class FigureMpl(Content):
         return cls(self.content)
 
     def to_html(self, **kwargs):
-
         if kwargs.get("notebook_mode"):
             output_format = options.matplotlib_notebook_format
         elif self.output_format == "esparto.options":
@@ -276,25 +276,24 @@ class FigureMpl(Content):
             output_format = self.output_format
 
         if output_format == "svg":
+
+            buffer = StringIO()
+            self.content.savefig(buffer, format="svg")
+            buffer.seek(0)
+            xml = buffer.read()
+            xml = responsive_svg_mpl(xml, width=self.width, height=self.height)
+
             if kwargs.get("pdf_mode"):
                 temp_file = Path(options.pdf_temp_dir) / f"{uuid4()}.svg"
-                self.content.savefig(temp_file, format="svg")
-                source = f"<img src='{temp_file.name}'>\n"
-
-            else:
-                buffer = StringIO()
-                self.content.savefig(buffer, format="svg")
-                buffer.seek(0)
-                source = buffer.read()
-
-            html = f"<figure class='text-center my-1'>\n{source}\n"
-
-            if self.caption:
-                html += (
-                    f"<figcaption class='figure-caption'>{self.caption}</figcaption>\n"
+                temp_file.write_text(xml)
+                inner = (
+                    "<object type='image/svg+xml' width='100%' height='100%' "
+                    f"class='svg-content-mpl' data='{temp_file.name}'></object>\n"
                 )
+            else:
+                inner = xml
 
-            html += "</figure>\n"
+            html = f"<div class='svg-container-mpl' width='auto' height='400px'>\n{inner}\n</div>\n"
 
             return html
 
@@ -302,7 +301,7 @@ class FigureMpl(Content):
         buffer = BytesIO()
         self.content.savefig(buffer, format="png")
         buffer.seek(0)
-        return Image(buffer, caption=self.caption, alt_text=self.alt_text).to_html()
+        return Image(buffer).to_html()
 
 
 class FigureBokeh(Content):

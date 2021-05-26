@@ -37,3 +37,24 @@ def clean_iterator(iter: Iterable) -> Iterable:
         iter = list(iter)[0]
 
     return iter
+
+
+# TODO: Set width and height of SVG
+def responsive_svg_mpl(source: str, width: int = None, height: int = None) -> str:
+    """Make SVG element responsive."""
+
+    width_ = width or "auto"
+    height_ = height or "auto"
+
+    regex_w = r"width=\S*"
+    regex_h = r"height=\S*"
+
+    source = re.sub(regex_w, f"length='{width_}'", source, count=1)
+    source = re.sub(regex_h, f"height='{height_}'", source, count=1)
+
+    # Preserve aspect ratio of SVG
+    regexp = r"<svg"
+    repl = '<svg class="svg-content-mpl" preserveAspectRatio="xMinYMin meet" '
+    source = re.sub(regexp, repl, source, count=1)
+
+    return source

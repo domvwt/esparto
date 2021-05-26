@@ -12,12 +12,28 @@ if TYPE_CHECKING:
     from esparto._content import Content
 
 
+# TODO: Docs
+#   Look at Pandera documentation for inspo: https://pandera.readthedocs.io/en/stable/index.html
+#   Page Design
+#   Producing Documents
+#   Look and Feel
+#       Org name
+#       Custom templates
+#   Other considerations
+#       Offline mode
+#       Notebook output
+#       Fonts?
+#       Warning about printing from HTML opened via Jupyter
+
+# TODO: Responsive SVG http://thenewcode.com/744/Make-SVG-Responsive
+#   Set SVG height and LENGTH
+#
 # TODO: Update documentation for get / set item
+# TODO: Update documentation for lshift / rshift
 # TODO: Order class methods properly
-# TODO: Warning about printing from HTML opened via Jupyter
-# TODO: Print option in new footer style
-# TODO: New page style in jinja template
 # TODO: Fix wonky tables
+# TODO: Add children to child_ids and set_attrs
+# TODO:
 class Layout(ABC):
     """Template for Layout elements. All Layout classes come with these methods and attributes.
 
@@ -147,14 +163,12 @@ class Layout(ABC):
             html = f"{self._tag_open}\n{children_rendered}\n{self._tag_close}\n"
         return html
 
-    def tree(self) -> str:
-        """String representation of the document tree.
-
-        Returns:
-            str: Formatted string.
-
-        """
+    def _tree(self) -> str:
         return pformat(self._recurse_children(idx=0))
+
+    def tree(self) -> None:
+        """Display document tree."""
+        print(self._tree())
 
     def display(self) -> None:
         """Display rendered document in a Notebook environment."""
@@ -205,7 +219,7 @@ class Layout(ABC):
                 title=self.title, children=[*(*self.children, *other.children)]
             )
 
-        new = copy.deepcopy(self)
+        new = copy.copy(self)
         new.children = self.children
 
         if isinstance(other, (Layout, Content, list, tuple)):
@@ -218,14 +232,15 @@ class Layout(ABC):
         return new
 
     def __repr__(self):
-        return self.tree()
+        return self._tree()
 
     def __str__(self):
-        return self.tree()
+        return self._tree()
 
-    # TODO: Add this to docs
-    def __lshift__(self, other: Union["Layout", "Content", Any]):
+    def _set_children(self, other: Union["Layout", "Content", Any]):
         from esparto._content import Content
+
+        other = copy.copy(other)
 
         if isinstance(other, (Layout, Content, list, tuple)):
             self.children = list(other)
@@ -233,7 +248,16 @@ class Layout(ABC):
             from esparto._adaptors import content_adaptor
 
             self.children = [content_adaptor(other)]
+
+    # TODO: Add this to docs
+    def __lshift__(self, other: Union["Layout", "Content", Any]):
+        self._set_children(other)
         return other
+
+    # TODO: Add this to docs
+    def __rshift__(self, other: Union["Layout", "Content", Any]):
+        self._set_children(other)
+        return self
 
     def __iter__(self):
         return iter([self])
@@ -265,6 +289,13 @@ class Layout(ABC):
         else:
             super().__setattr__(key, value)
 
+    def __delattr__(self, key: str) -> None:
+        child_id = super().__getattribute__("_child_ids").get(key)
+        if child_id:
+            self.__delitem__(child_id)
+        else:
+            super().__delattr__(key)
+
     def __getitem__(self, key: Union[str, int]):
         if isinstance(key, str):
             indexes = get_matching_titles(key, self.children)
@@ -282,6 +313,7 @@ class Layout(ABC):
         raise KeyError(key)
 
     def __setitem__(self, key: Union[str, int], value: Any):
+        value = copy.copy(value)
         value = self._smart_wrap(value)
         value = value[0]
         if isinstance(key, str):
@@ -305,17 +337,27 @@ class Layout(ABC):
         if isinstance(key, str):
             indexes = get_matching_titles(key, self.children)
             if len(indexes):
+                self._remove_child_id(key)
                 del self.children[indexes[0]]
                 return None
         elif isinstance(key, int) and key < len(self.children):
+            child_title = self.children[key].title
+            self._remove_child_id(child_title)
             del self.children[key]
             return None
         raise KeyError(key)
 
     def _add_child_id(self, key):
         attr_name = clean_identifier(key)
-        self._child_ids[attr_name] = key
-        super().__setattr__(attr_name, self[key])
+        if attr_name:
+            self._child_ids[attr_name] = key
+            super().__setattr__(attr_name, self[key])
+
+    def _remove_child_id(self, key):
+        attr_name = clean_identifier(key)
+        if attr_name in self._child_ids:
+            del self._child_ids[attr_name]
+            super().__delattr__(attr_name)
 
     def _ipython_key_completions_(self):  # pragma: no cover
         return [child.title for child in self.children if getattr(child, "title", None)]
