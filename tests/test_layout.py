@@ -185,6 +185,14 @@ def test_delitem_int(page_basic_layout):
     assert page == page_basic_layout
 
 
+def test_delattr(page_basic_layout):
+    page = la.Page(title="Test Page")
+    page["Section One"]["Row One"] = "markdown content"
+    page["Section One"]["Row Two"]["Markdown"] = "different content"
+    del page.section_one.row_two.markdown
+    assert page == page_basic_layout
+
+
 def test_delitem_key_int_error():
     page = la.Page(title="Test Page")
     page["Section One"]["Row One"] = "markdown content"
