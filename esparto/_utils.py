@@ -25,18 +25,18 @@ def clean_identifier(s: str):
     return s
 
 
-def clean_iterator(iter: Iterable) -> Iterable:
+def clean_iterator(iterator: Iterable) -> Iterable:
     # Convert any non-list iterators to lists
-    iter = (
-        list(iter)
-        if hasattr(iter, "__iter__") and not isinstance(iter, str)
-        else [iter]
+    iterator = (
+        list(iterator)
+        if hasattr(iterator, "__iter__") and not isinstance(iterator, str)
+        else [iterator]
     )
     # Unnest any nested lists of children
-    if len(list(iter)) == 1 and isinstance(list(iter)[0], (list, tuple)):
-        iter = list(iter)[0]
+    if len(list(iterator)) == 1 and isinstance(list(iterator)[0], (list, tuple)):
+        iterator = list(iterator)[0]
 
-    return iter
+    return iterator
 
 
 # TODO: Set width and height of SVG
