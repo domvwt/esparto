@@ -29,7 +29,7 @@ weasyprint = {version = ">=51", optional = true}
 black = "^20.8b1"
 pytest = "^6.2.2"
 pyment = "^0.3.3"
-rope = "^0.18.0"
+rope = "^0.19.0"
 IPython = "^7.3"
 jedi = "0.17.2"
 mkdocs = "^1.1.2"
