@@ -15,6 +15,11 @@ This example covers:
 * Converting a Pandas DataFrame to a table
 * Adding plots from Matplotlib and Seaborn
 
+[Generated Page](../examples/iris-report.html)
+
+----
+
+
 ## Interactive Plotting
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/domvwt/esparto/blob/main/docs/examples/interactive-plots.ipynb)
@@ -31,5 +36,7 @@ This notebook shows basic examples from each library:
 
 * Interactive plotting with Bokeh and Plotly
 * Adding interactive content to the page
+
+[Generated Page](../examples/interactive-plots.html)
 
 <br>
