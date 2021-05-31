@@ -4,7 +4,7 @@
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/domvwt/esparto/blob/main/docs/examples/iris-report.ipynb)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/domvwt/esparto/main?filepath=docs%2Fexamples%2Firis-report.ipynb)
-[![GitHub](https://img.shields.io/badge/view%20on-GitHub-lightgrey)](https://github.com/domvwt/esparto/blob/9ed51fcf16da41ff8e1a683177df031fbba0fd85/docs/examples/iris-report.ipynb)
+[![GitHub](https://img.shields.io/badge/view%20on-GitHub-lightgrey)](https://github.com/domvwt/esparto/blob/main/docs/examples/iris-report.ipynb)
 
 The iris dataset is one of the most well known datasets in statistics and data science. This example notebook shows how we can put together a simple data analysis report in esparto.
 
@@ -19,7 +19,7 @@ This example covers:
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/domvwt/esparto/blob/main/docs/examples/interactive-plots.ipynb)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/domvwt/esparto/main?filepath=docs%2Fexamples%2Finteractive-plots.ipynb)
-[![GitHub](https://img.shields.io/badge/view%20on-GitHub-lightgrey)](https://github.com/domvwt/esparto/blob/9ed51fcf16da41ff8e1a683177df031fbba0fd85/docs/examples/interactive-plots.ipynb)
+[![GitHub](https://img.shields.io/badge/view%20on-GitHub-lightgrey)](https://github.com/domvwt/esparto/blob/main/docs/examples/interactive-plots.ipynb)
 
 The [pandas-bokeh](https://github.com/PatrikHlobil/Pandas-Bokeh) library offers convenient functions for producing interactive Bokeh plots
 with few lines of code.
