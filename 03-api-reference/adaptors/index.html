@@ -606,13 +606,13 @@
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>The <code>content_adaptor</code> function is called internally when an explicit <code>Content</code> class is not provided.</p>
-<p>Input objects are matched to a suitable <code>Content</code> class through <a href="https://docs.python.org/3/library/functools.html#functools.singledispatch"><em>single dispatch</em></a>.</p>
+<p>Objects are matched to a suitable <code>Content</code> class through <a href="https://docs.python.org/3/library/functools.html#functools.singledispatch"><em>single dispatch</em></a>.</p>
 <p><div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">esparto</span> <span class="k">as</span> <span class="nn">es</span>
 
 <span class="c1"># Text automatically converted to Markdown content.</span>
 <span class="n">page</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Page</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;New Page&quot;</span><span class="p">)</span>
 <span class="n">page</span><span class="p">[</span><span class="s2">&quot;New Section&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Example _markdown_ text.&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">section</span><span class="p">)</span>
+<span class="n">page</span><span class="o">.</span><span class="n">tree</span><span class="p">()</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>{&#39;New Page&#39;: [{&#39;New Section&#39;: [{&#39;Row 0&#39;: [{&#39;Column 0&#39;: [&#39;Markdown&#39;]}]}]}]}
 </code></pre></div></p>
