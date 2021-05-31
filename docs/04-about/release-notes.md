@@ -1,6 +1,15 @@
 Release Notes
 =============
 
+1.0.0 (2021-05-31)
+------------------
+
+-   Improve API.
+-   Responsive SVG plots.
+-   Update Jinja template to remove branding.
+-   Refactor codebase.
+
+
 0.2.5 (2021-05-06)
 ------------------
 

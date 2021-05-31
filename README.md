@@ -24,12 +24,12 @@ use cases more than adequately. `esparto` is suitable for tasks such as:
 * Responsive layout from [Bootstrap](https://getbootstrap.com/)
 * No CSS or HTML required
 * Automatic conversion for:
-  * Markdown
-  * Images
-  * Pandas DataFrames
-  * Matplotlib
-  * Bokeh
-  * Plotly
+    * Markdown
+    * Images
+    * Pandas DataFrames
+    * Matplotlib
+    * Bokeh
+    * Plotly
 
 
 ## Installation
