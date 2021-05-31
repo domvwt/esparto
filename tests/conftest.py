@@ -10,8 +10,6 @@ from esparto import _INSTALLED_MODULES, _OPTIONAL_DEPENDENCIES
 
 _EXTRAS = _OPTIONAL_DEPENDENCIES <= _INSTALLED_MODULES
 
-pytestmark = pytest.mark.filterwarnings("ignore:Row titles are not rendered")
-
 _irises_path = str(Path("tests/resources/irises.jpg").absolute())
 
 with Path(_irises_path).open("rb") as f:
@@ -60,6 +58,11 @@ if _EXTRAS:
     ]
 
     content_list += content_extra
+
+    content_pdf = content_list + [
+        (co.FigureMpl(plt.Figure())),
+        (co.FigureMpl(plt.Figure(), output_format="svg")),
+    ]
 
     adaptors_extra = [
         (pd.DataFrame({"a": range(1, 11), "b": range(11, 21)}), co.DataFramePd),

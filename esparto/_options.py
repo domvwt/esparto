@@ -1,3 +1,5 @@
+"""Global configuration options."""
+
 from dataclasses import dataclass
 
 

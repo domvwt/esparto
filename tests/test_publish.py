@@ -83,6 +83,7 @@ def test_saved_html_valid_bad_source(page_layout: es.Page, tmp_path):
 
 
 if _EXTRAS:
+    from tests.conftest import content_pdf
 
     def test_notebook_html_valid_cdn(page_layout):
         html = pu.nb_display(page_layout, return_html=True, dependency_source="cdn")
@@ -102,7 +103,7 @@ if _EXTRAS:
         html = pu.nb_display(page_layout, return_html=True)
         assert html_is_valid(html)
 
-    @pytest.mark.parametrize("content", content_list)
+    @pytest.mark.parametrize("content", content_pdf)
     def test_pdf_output(content, tmp_path):
         if "bokeh" not in content._dependencies:
             page = es.Page(children=[content])

@@ -19,13 +19,23 @@ def test_all_layout_classes_covered(layout_list_fn):
 def test_layout_smart_wrapping(page_layout):
     strings = ["first", "second", "third"]
     output = page_layout + la.Section(
-        children=[*strings, "fourth", la.Column("fifth"), "sixth"]
+        children=[
+            la.Row(children=[*strings, "fourth"]),
+            "another bit of content",
+            la.Row(children=[la.Column(children=["fifth"]), "sixth"]),
+        ]
     )
     expected = page_layout
     expected += la.Section(
         children=[
-            *[co.Markdown(x) for x in strings],
-            la.Row(children=["fourth", la.Column(children=["fifth"]), "sixth"]),
+            la.Row(children=[*[co.Markdown(x) for x in strings], "fourth"]),
+            co.Markdown("another bit of content"),
+            la.Row(
+                children=[
+                    la.Column(children=[co.Markdown("fifth")]),
+                    la.Column(children=[co.Markdown("sixth")]),
+                ]
+            ),
         ]
     )
     print(output)
@@ -67,7 +77,12 @@ layout_add_list = [
     (
         la.Page(children=["charles mingus"]),
         la.Section(children=["thelonious monk"]),
-        la.Page(children=["charles mingus", "thelonious monk"]),
+        la.Page(
+            children=[
+                la.Section(children=["charles mingus"]),
+                la.Section(children=["thelonious monk"]),
+            ]
+        ),
     ),
     (
         la.Section(title="jazz"),
@@ -185,6 +200,14 @@ def test_delitem_int(page_basic_layout):
     assert page == page_basic_layout
 
 
+def test_delattr(page_basic_layout):
+    page = la.Page(title="Test Page")
+    page["Section One"]["Row One"] = "markdown content"
+    page["Section One"]["Row Two"]["Markdown"] = "different content"
+    del page.section_one.row_two
+    assert page == page_basic_layout
+
+
 def test_delitem_key_int_error():
     page = la.Page(title="Test Page")
     page["Section One"]["Row One"] = "markdown content"
@@ -212,4 +235,13 @@ def test_lshift(page_basic_layout):
     content = "markdown content"
     passthrough = page["Section One"]["Row One"] << content
     assert passthrough == content
+    assert page.children == page_basic_layout.children
+    assert page == page_basic_layout
+
+
+def test_rshift(page_basic_layout):
+    page = la.Page(title="Test Page")
+    content = "markdown content"
+    passthrough = page["Section One"]["Row One"] >> content
+    assert passthrough == page_basic_layout["Section One"]["Row One"]
     assert page == page_basic_layout

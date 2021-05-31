@@ -12,28 +12,45 @@ def get_matching_titles(title: str, children: list) -> List[int]:
     return get_index_where(lambda x: getattr(x, "title", None) == title, children)
 
 
-def clean_identifier(s: str):
+def clean_attr_name(attr_name: str):
     # Remove leading and trailing spaces
-    s = s.strip().replace(" ", "_").lower()
+    attr_name = attr_name.strip().replace(" ", "_").lower()
 
     # Remove invalid characters
-    s = re.sub("[^0-9a-zA-Z_]", "", s)
+    attr_name = re.sub("[^0-9a-zA-Z_]", "", attr_name)
 
     # Remove leading characters until we find a letter or underscore
-    s = re.sub("^[^a-zA-Z_]+", "", s)
+    attr_name = re.sub("^[^a-zA-Z_]+", "", attr_name)
 
-    return s
+    return attr_name
 
 
-def clean_iterator(iter: Iterable) -> Iterable:
+def clean_iterator(iterator: Iterable) -> Iterable:
     # Convert any non-list iterators to lists
-    iter = (
-        list(iter)
-        if hasattr(iter, "__iter__") and not isinstance(iter, str)
-        else [iter]
+    iterator = (
+        list(iterator) if isinstance(iterator, (list, tuple, set)) else [iterator]
     )
     # Unnest any nested lists of children
-    if len(list(iter)) == 1 and isinstance(list(iter)[0], (list, tuple)):
-        iter = list(iter)[0]
+    if len(list(iterator)) == 1 and isinstance(list(iterator)[0], (list, tuple, set)):
+        iterator = list(iterator)[0]
+    return iterator
 
-    return iter
+
+def responsive_svg_mpl(source: str, width: int = None, height: int = None) -> str:
+    """Make SVG element responsive."""
+
+    regex_w = r"width=\S*"
+    regex_h = r"height=\S*"
+
+    width_ = f"weight='{width}px'" if width else ""
+    height_ = f"height='{height}px'" if height else ""
+
+    source = re.sub(regex_w, width_, source, count=1)
+    source = re.sub(regex_h, height_, source, count=1)
+
+    # Preserve aspect ratio of SVG
+    regexp = r"<svg"
+    repl = '<svg class="svg-content-mpl" preserveAspectRatio="xMinYMin meet" '
+    source = re.sub(regexp, repl, source, count=1)
+
+    return source

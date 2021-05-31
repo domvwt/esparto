@@ -1,3 +1,5 @@
+"""Functions for rendering and saving documents and content."""
+
 import time
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional, Union
@@ -19,7 +21,6 @@ _ENV = Environment(
 _BASE_TEMPLATE = _ENV.get_template("base.html")
 
 
-# TODO: Add font to resources directory
 def publish_html(
     document: "Page",
     filepath: Optional[str] = "./esparto-doc.html",
@@ -63,16 +64,6 @@ def publish_html(
     return None
 
 
-# TODO: Read font from resources directory so that this works on systems without fonts installed
-# TODO: Add custom CSS to specify font location like this:
-#   https://www.pagecloud.com/blog/how-to-add-custom-fonts-to-any-website
-# @font-face {
-# font-family: "CustomFont";
-# src: url("https://yoursite.com/css/fonts/CustomFont.eot");
-# src: url("https://yoursite.com/css/fonts/CustomFont.woff") format("woff"),
-# url("https://yoursite.com/css/fonts/CustomFont.otf") format("opentype"),
-# url("https://yoursite.com/css/fonts/CustomFont.svg#filename") format("svg");
-# }
 def publish_pdf(
     document: "Page", filepath: str = "./esparto-doc.pdf", return_html: bool = False
 ) -> Optional[str]:
