@@ -16,11 +16,10 @@ use cases more than adequately. `esparto` is suitable for tasks such as:
 * Collating and sharing data graphics
 * ML model performance and evaluation documents
 
-## Documentation
 Full documentation and examples are available at [domvwt.github.io/esparto/](https://domvwt.github.io/esparto/).
 
 ## Installation
-`esparto` is installable with `pip`:
+`esparto` is available from PyPI:
 ```bash
 pip install esparto
 ```
@@ -37,7 +36,7 @@ pip install weasyprint
 *   [jinja2](https://palletsprojects.com/p/jinja/)
 *   [markdown](https://python-markdown.github.io/)
 *   [Pillow](https://python-pillow.org/)
-*   [weasyprint](https://weasyprint.org/) _(optional - for PDF support only)_
+*   [weasyprint](https://weasyprint.org/) _(optional - for PDF output)_
 
 ## Main Features
 * Lightweight API
@@ -56,7 +55,6 @@ pip install weasyprint
 ## Basic Usage
 ```python
 import esparto as es
-
 
 # Instantiating a Page
 page = es.Page(title="Research")
@@ -106,10 +104,9 @@ page.save_pdf("my-page.pdf)
 ```
 
 ## Example Output
-<img width=400  src="./docs/images/iris-report2.png"
+<img width=600  src="https://github.com/domvwt/esparto/blob/fdc0e787c0bc013d16667773e82e21c647b71d91/docs/images/iris-report-compressed.png?raw=true"
 alt="example page">
 
-https://domvwt.github.io/esparto/
 ## License
 [MIT](https://opensource.org/licenses/MIT)
 <br>
