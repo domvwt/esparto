@@ -14,6 +14,7 @@ from PIL.Image import Image as PILImage
 from esparto import _INSTALLED_MODULES
 from esparto._options import options
 from esparto._publish import nb_display
+from esparto._utils import responsive_svg_mpl
 
 if "pandas" in _INSTALLED_MODULES:
     from pandas import DataFrame  # type: ignore
@@ -34,21 +35,18 @@ class Content(ABC):
     """Template for Content elements. All Content classes come with these methods and attributes.
 
     Attributes:
-      content (Any): Text or image to be rendered - should match the encompassing Content class.
+      content (Any): Item to be included in the page - should match the encompassing Content class.
     """
 
-    @property
-    @abstractmethod
-    def content(self) -> Any:
-        """Text or image to be rendered - should match the encompassing Content class."""
-        raise NotImplementedError
+    content: Any
+    _dependencies: Set[str]
 
     @abstractmethod
     def to_html(self, **kwargs) -> str:
-        """Render content to HTML code.
+        """Convert content to HTML code.
 
         Returns:
-          HTML code.
+          str: HTML code.
 
         """
         raise NotImplementedError
@@ -57,24 +55,10 @@ class Content(ABC):
         """Display rendered content in a Jupyter Notebook cell."""
         nb_display(self)
 
-    @property
-    def _dependencies(self) -> Set[str]:
-        raise NotImplementedError
-
-    @_dependencies.getter
-    def _dependencies(self) -> Set[str]:
-        if hasattr(self, "_deps"):
-            return self._deps
-        return set()
-
-    @_dependencies.setter
-    def _dependencies(self, deps) -> None:
-        self._deps = deps
-
     def __add__(self, other):
         from esparto._layout import Row
 
-        return Row(self, other)
+        return Row(children=[self, other])
 
     def __iter__(self):
         return iter([self])
@@ -83,11 +67,10 @@ class Content(ABC):
         return len(list(self.content))
 
     def _repr_html_(self):
-        """ """
         nb_display(self)
 
     def __str__(self):
-        return str(self.__class__.__name__)
+        return getattr(self, "title", None) or self.__class__.__name__
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
@@ -108,28 +91,14 @@ class Markdown(Content):
 
     """
 
-    @property
-    def content(self) -> str:
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> str:
-        """ """
-        return self._content
-
-    @content.setter
-    def content(self, content) -> None:
-        """ """
-        self._content = content
+    _dependencies = {"bootstrap"}
 
     def __init__(self, text):
 
         if not isinstance(text, str):
             raise TypeError(r"text must be str")
 
-        self.content = str(text)
-        self._dependencies = {"bootstrap"}
+        self.content: str = text
 
     def to_html(self, **kwargs) -> str:
         html = md.markdown(self.content)
@@ -157,20 +126,7 @@ class Image(Content):
 
     """
 
-    @property
-    def content(self) -> Union[str, BytesIO]:
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> Union[str, BytesIO]:
-        """ """
-        return self._content
-
-    @content.setter
-    def content(self, content) -> None:
-        """ """
-        self._content = content
+    _dependencies = {"bootstrap"}
 
     def __init__(
         self,
@@ -191,9 +147,8 @@ class Image(Content):
         self._scale = scale
         self._width = set_width
         self._height = set_height
-        self._dependencies = {"bootstrap"}
 
-    def set_width(self, width) -> "Image":
+    def set_width(self, width) -> None:
         """Set width of image prior to rendering.
 
         Args:
@@ -201,9 +156,8 @@ class Image(Content):
 
         """
         self._width = width
-        return self
 
-    def set_height(self, height) -> "Image":
+    def set_height(self, height) -> None:
         """Set height of image prior to rendering.
 
         Args:
@@ -211,9 +165,8 @@ class Image(Content):
 
         """
         self._height = height
-        return self
 
-    def rescale(self, scale) -> "Image":
+    def rescale(self, scale) -> None:
         """Rescale the image proportionately prior to rendering.
 
         Note:
@@ -224,7 +177,6 @@ class Image(Content):
 
         """
         self._scale = scale
-        return self
 
     def to_html(self, **kwargs) -> str:
         if isinstance(self.content, PILImage):
@@ -237,8 +189,8 @@ class Image(Content):
 
         image_encoded = _image_to_base64(image)
         html = (
-            "<figure class='text-center my-1'>"
-            + "<img class='figure-img rounded' "
+            "<figure class='text-center p-3'>"
+            + "<img class='img-fluid figure-img rounded' "
             + f"alt='{self.alt_text}' "
             + f"src='data:image/png;base64,{image_encoded}' "
             + ">"
@@ -253,47 +205,34 @@ class Image(Content):
 
 
 class DataFramePd(Content):
-    """Pandas DataFrame to be rendered as a table.
+    """Pandas DataFrame to be converted to table.
 
     Args:
       df (pd.DataFrame): A Pandas DataFrame
       index (bool): If True, render the DataFrame index. (default = False)
-      col_space (str, int): Minimum column width in CSS units. Use int for pixels. (default = 10)
+      col_space (str, int): Minimum column width in CSS units. Use int for pixels. (default = 0)
 
     """
 
-    @property
-    def content(self) -> "DataFrame":
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> "DataFrame":
-        """ """
-        return self._content
-
-    @content.setter
-    def content(self, content) -> None:
-        """ """
-        self._content = content
+    _dependencies = {"bootstrap"}
 
     def __init__(
-        self, df: "DataFrame", index: bool = False, col_space: Union[int, str] = 10
+        self, df: "DataFrame", index: bool = False, col_space: Union[int, str] = 0
     ):
 
         if not isinstance(df, DataFrame):
             raise TypeError(r"df must be Pandas DataFrame")
 
-        self.content = df
+        self.content: "DataFrame" = df
         self.index = index
         self.col_space = col_space
-        self._dependencies = {"bootstrap"}
 
     def to_html(self, **kwargs) -> str:
         classes = "table table-sm table-striped table-hover table-bordered my-1"
         html = self.content.to_html(
             index=self.index, border=0, col_space=self.col_space, classes=classes
         )
+        html = f"<div class='table-responsive'>{html}</div>"
         return html
 
 
@@ -302,75 +241,62 @@ class FigureMpl(Content):
 
     Args:
       figure (plt.Figure): A Matplotlib figure.
-      caption (str): Image caption (default = None)
-      alt_text (str): Alternative text. (default = None)
+      width (int): Width in pixels. (default = '100%')
+      height (int): Height in pixels. (default = 'auto')
       output_format (str): One of 'svg', 'png', or 'esparto.options'. (default = 'esparto.options')
 
     """
 
-    @property
-    def content(self) -> "MplFigure":
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> "MplFigure":
-        """ """
-        return self._content
-
-    @content.setter
-    def content(self, content) -> None:
-        """ """
-        self._content = content
+    _dependencies = {"bootstrap"}
 
     def __init__(
         self,
         figure: "MplFigure",
-        caption: str = "",
-        alt_text: str = "Image",
+        width: Union[str, int] = "100%",
+        height: Union[str, int] = "auto",
         output_format="esparto.options",
     ):
 
         if not isinstance(figure, MplFigure):
             raise TypeError(r"figure must be a Matplotlib Figure")
 
-        self.content = figure
-        self.caption = caption
-        self.alt_text = alt_text
+        self.content: MplFigure = figure
+        self.width = html_dim(width)
+        self.height = html_dim(height)
         self.output_format = output_format
-        self._dependencies = {"bootstrap"}
-
-    def __deepcopy__(self, *args, **kwargs):
-        cls = self.__class__
-        return cls(self.content)
 
     def to_html(self, **kwargs):
-
-        if self.output_format == "esparto.options":
+        if kwargs.get("notebook_mode"):
+            output_format = options.matplotlib_notebook_format
+        elif self.output_format == "esparto.options":
             output_format = options.matplotlib_output_format
         else:
             output_format = self.output_format
 
         if output_format == "svg":
+
+            buffer = StringIO()
+            self.content.savefig(buffer, format="svg")
+            buffer.seek(0)
+            xml = buffer.read()
+
             if kwargs.get("pdf_mode"):
+                width, height = self.content.get_size_inches() * 96
+                xml = responsive_svg_mpl(xml, width=int(width), height=int(height))
                 temp_file = Path(options.pdf_temp_dir) / f"{uuid4()}.svg"
-                self.content.savefig(temp_file, format="svg")
-                source = f"<img src='{temp_file.name}'>\n"
-
-            else:
-                buffer = StringIO()
-                self.content.savefig(buffer, format="svg")
-                buffer.seek(0)
-                source = buffer.read()
-
-            html = f"<figure class='text-center my-1'>\n{source}\n"
-
-            if self.caption:
-                html += (
-                    f"<figcaption class='figure-caption'>{self.caption}</figcaption>\n"
+                temp_file.write_text(xml)
+                inner = (
+                    "<object type='image/svg+xml' width='100%' height='100%' "
+                    f"class='svg-content-mpl' data='{temp_file.name}'></object>\n"
                 )
+            else:
+                xml = responsive_svg_mpl(xml)
+                inner = xml
 
-            html += "</figure>\n"
+            html = (
+                f"<div class='svg-container-mpl' style='max-width: {self.width}; height: {self.height};'>\n"
+                + f"{inner}\n</div>\n"
+            )
 
             return html
 
@@ -378,7 +304,7 @@ class FigureMpl(Content):
         buffer = BytesIO()
         self.content.savefig(buffer, format="png")
         buffer.seek(0)
-        return Image(buffer, caption=self.caption, alt_text=self.alt_text).to_html()
+        return Image(buffer).to_html()
 
 
 class FigureBokeh(Content):
@@ -386,90 +312,34 @@ class FigureBokeh(Content):
 
     Args:
       figure (bokeh.layouts.LayoutDOM): A Bokeh object.
-      width (int): Width in pixels. (default = figure.width or 'auto')
+      width (int): Width in pixels. (default = figure.width or '100%')
       height (int): Height in pixels. (default = figure.height or 'auto')
 
     """
 
-    @property
-    def content(self) -> "BokehObject":
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> "BokehObject":
-        """ """
-        return self._content
-
-    @content.setter
-    def content(self, content) -> None:
-        """ """
-        self._content = content
-
-    @property
-    def width(self) -> Union[int, str, None]:
-        """ """
-        raise NotImplementedError
-
-    @width.getter
-    def width(self) -> str:
-        """ """
-        if isinstance(self._width, str) and self._width == "auto":
-            return self._width
-
-        return f"{self._width}px"
-
-    @width.setter
-    def width(self, width) -> None:
-        """ """
-        self._width = width
-
-    @property
-    def height(self) -> Union[int, str, None]:
-        """ """
-        raise NotImplementedError
-
-    @height.getter
-    def height(self) -> str:
-        """ """
-        if isinstance(self._height, str) and self._height == "auto":
-            return self._height
-
-        return f"{self._height}px"
-
-    @height.setter
-    def height(self, height) -> None:
-        """ """
-        self._height = height
+    _dependencies = {"bokeh"}
 
     def __init__(
         self,
         figure: "BokehObject",
-        width: int = None,
-        height: int = None,
+        width: Union[int, str] = None,
+        height: Union[int, str] = None,
     ):
-
-        self._dependencies = {"bokeh"}
-        self.content = figure
-
         if not issubclass(type(figure), BokehObject):
             raise TypeError(r"figure must be a Bokeh object")
+
+        self.content: BokehObject = figure
 
         fig_width = figure.properties_with_values().get("width")
         fig_height = figure.properties_with_values().get("height")
 
-        self.width = width or fig_width or "auto"
-        self.height = height or fig_height or "auto"
-
-    # Required as deep copy is not defined for Bokeh figures
-    # Also need to catch some erroneous args that get passed to the function
-    def __deepcopy__(self, *args, **kwargs):
-        cls = self.__class__
-        return cls(self.content)
+        self.width = html_dim(width or fig_width or "100%")
+        self.height = html_dim(height or fig_height or "auto")
 
     def to_html(self, **kwargs) -> str:
 
-        if kwargs.get("pdf_mode"):
+        # Bokeh to PDF is experimental and untested
+        if kwargs.get("pdf_mode"):  # pragma: no cover
             from bokeh.io import export_svg  # type: ignore
 
             temp_file = Path(options.pdf_temp_dir) / f"{uuid4()}.svg"
@@ -482,7 +352,7 @@ class FigureBokeh(Content):
         # Remove outer <div> tag so we can give our own attributes
         html = _remove_outer_div(html)
 
-        return f"<div class='mb-3' style='width: {self.width}; height: {self.height};'>{html}\n{js}\n</div>"
+        return f"<div class='mb-3' style='max-width: {self.width}; height: {self.height};'>{html}\n{js}\n</div>"
 
 
 class FigurePlotly(Content):
@@ -490,72 +360,22 @@ class FigurePlotly(Content):
 
     Args:
       figure (plotly.graph_objs._figure.Figure): A Plotly figure.
-      width (int): Width in pixels. (default = 'auto')
+      width (int): Width in pixels. (default = '100%')
       height (int): Height in pixels. (default = 500)
 
     """
 
-    @property
-    def content(self) -> "PlotlyFigure":
-        """ """
-        raise NotImplementedError
-
-    @content.getter
-    def content(self) -> "PlotlyFigure":
-        """ """
-        return self._content
-
-    @content.setter
-    def content(self, content) -> None:
-        """ """
-        self._content = content
-
-    @property
-    def width(self) -> Union[int, str, None]:
-        """ """
-        raise NotImplementedError
-
-    @width.getter
-    def width(self) -> str:
-        """ """
-        if self._width == "auto":
-            return self._width
-
-        return f"{self._width}px"
-
-    @width.setter
-    def width(self, width) -> None:
-        """ """
-        self._width = width
-
-    @property
-    def height(self) -> Union[int, str, None]:
-        """ """
-        raise NotImplementedError
-
-    @height.getter
-    def height(self) -> str:
-        """ """
-        if self._height == "auto":
-            return self._height
-
-        return f"{self._height}px"
-
-    @height.setter
-    def height(self, height) -> None:
-        """ """
-        self._height = height
+    _dependencies = {"plotly"}
 
     def __init__(self, figure: "PlotlyFigure", width: int = None, height: int = None):
 
         if not isinstance(figure, PlotlyFigure):
             raise TypeError(r"figure must be a Plotly Figure")
 
-        self.width = width or figure.layout["width"] or "auto"
-        self.height = height or figure.layout["height"] or 500
+        self.width = html_dim(width or int(figure.layout["width"] or 0) or "100%")  # type: ignore
+        self.height = html_dim(height or int(figure.layout["height"] or 0) or 500)  # type: ignore
 
-        self.content = figure
-        self._dependencies = {"plotly"}
+        self.content: PlotlyFigure = figure
 
     def to_html(self, **kwargs) -> str:
 
@@ -571,7 +391,7 @@ class FigurePlotly(Content):
             html = _remove_outer_div(html)
             html = (
                 "<div class='responsive-plot mb-3' "
-                + f"style='width: {self.width}; height: {self.height};'>{html}\n</div>"
+                + f"style='max-width: {self.width}; height: {self.height};'>{html}\n</div>"
             )
 
         return html
@@ -628,3 +448,12 @@ def _rescale_dims(
 
     new_size = (int(size[0] * ratio), int(size[1] * ratio))
     return new_size
+
+
+def html_dim(size: Union[int, str]) -> str:
+    if isinstance(size, int):
+        return f"{size}px"
+    elif isinstance(size, str):
+        return size
+    else:
+        raise TypeError(type(size))

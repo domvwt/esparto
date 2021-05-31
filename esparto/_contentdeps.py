@@ -1,6 +1,7 @@
+"""Content dependency management."""
+
 from collections import UserDict
 from dataclasses import dataclass, field
-from functools import lru_cache
 from pathlib import Path
 from typing import List, Set
 
@@ -23,15 +24,14 @@ class ResolvedDeps:
 
 
 class ContentDependencyDict(UserDict):
-    def __add__(self, other: ContentDependency):
-        self.data[other.name] = other
+    def __add__(self, item: ContentDependency):
+        super().__setitem__(item.name, item)
         return self
 
 
 JS_DEPS = {"bokeh", "plotly"}
 
 
-@lru_cache(maxsize=None)
 def lazy_content_dependency_dict() -> ContentDependencyDict:
     bootstrap_cdn = (
         '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" '

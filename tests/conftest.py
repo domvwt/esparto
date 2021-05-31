@@ -10,8 +10,6 @@ from esparto import _INSTALLED_MODULES, _OPTIONAL_DEPENDENCIES
 
 _EXTRAS = _OPTIONAL_DEPENDENCIES <= _INSTALLED_MODULES
 
-pytestmark = pytest.mark.filterwarnings("ignore:Row titles are not rendered")
-
 _irises_path = str(Path("tests/resources/irises.jpg").absolute())
 
 with Path(_irises_path).open("rb") as f:
@@ -26,10 +24,10 @@ content_list = [
 
 # Add new layout classes here
 layout_list = [
-    (la.Page(*content_list)),
-    (la.Section(*content_list)),
-    (la.Row(*content_list)),
-    (la.Column(*content_list)),
+    (la.Page(children=[*content_list])),
+    (la.Section(children=[*content_list])),
+    (la.Row(children=[*content_list])),
+    (la.Column(children=[*content_list])),
 ]
 
 # Add new adaptor types here
@@ -61,6 +59,11 @@ if _EXTRAS:
 
     content_list += content_extra
 
+    content_pdf = content_list + [
+        (co.FigureMpl(plt.Figure())),
+        (co.FigureMpl(plt.Figure(), output_format="svg")),
+    ]
+
     adaptors_extra = [
         (pd.DataFrame({"a": range(1, 11), "b": range(11, 21)}), co.DataFramePd),
         (plt.figure(), co.FigureMpl),
@@ -90,8 +93,26 @@ def adaptor_list_fn():
 @pytest.fixture
 def page_layout(content_list_fn) -> la.Page:
     return la.Page(
-        la.Section(la.Row(*[la.Column(x) for x in content_list_fn])), title="jazz"
+        title="jazz",
+        children=la.Section(
+            children=la.Row(children=[la.Column(children=[x]) for x in content_list_fn])
+        ),
     )
+
+
+@pytest.fixture
+def page_basic_layout() -> la.Page:
+    page = la.Page(
+        title="Test Page",
+        children=la.Section(
+            title="Section One",
+            children=la.Row(
+                title="Row One",
+                children=la.Column(children=co.Markdown("markdown content")),
+            ),
+        ),
+    )
+    return page
 
 
 @pytest.fixture

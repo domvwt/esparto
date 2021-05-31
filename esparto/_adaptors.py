@@ -27,7 +27,6 @@ def content_adaptor(content: Content) -> Content:
     """
     if not issubclass(type(content), Content):
         raise TypeError(f"Unsupported content type: {type(content)}")
-
     return content
 
 
@@ -37,7 +36,6 @@ def content_adaptor_core(content: str) -> Content:
     guess = guess_type(content)
     if guess and "image" in str(guess[0]):
         return Image(content)
-
     return Markdown(content)
 
 

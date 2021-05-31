@@ -1,3 +1,5 @@
+"""Functions for rendering and saving documents and content."""
+
 import time
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional, Union
@@ -125,23 +127,24 @@ def nb_display(
 
     from esparto._layout import Layout
 
-    required_deps: set = set()
-
     if isinstance(item, Layout):
         required_deps = item._required_dependencies()
-    elif hasattr(item, "_dependencies"):
-        required_deps = item._dependencies
+    else:
+        required_deps = getattr(item, "_dependencies", set())
 
     dependency_source = get_source_from_options(dependency_source)
 
     resolved_deps = resolve_deps(required_deps, source=dependency_source)
     head_deps = "\n".join(resolved_deps.head)
     tail_deps = "\n".join(resolved_deps.tail)
-    content_html = f"<div class='container' style='width: 100%; height: 100%;'>\n{item.to_html()}\n</div>"
+    html = item.to_html(notebook_mode=True)
+    render_html = (
+        f"<div class='container' style='width: 100%; height: 100%;'>\n{html}\n</div>"
+    )
 
     render_html = (
         f"<!doctype html>\n<html>\n<head>{head_deps}</head>\n"
-        f"<body>\n{content_html}\n{tail_deps}\n</body>\n</html>\n"
+        f"<body>\n{render_html}\n{tail_deps}\n</body>\n</html>\n"
     )
 
     print()
