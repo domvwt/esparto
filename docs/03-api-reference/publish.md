@@ -1,7 +1,7 @@
 # esparto._publish
 
 !!! info
-    Publishing methods should usually be accessed via Layout classes:
+    Publishing methods are accessed via Layout classes:
 
     ``` python
     import esparto as es
