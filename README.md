@@ -109,7 +109,7 @@ page.introduction.part_one.tree()
 
 # Save the document
 page.save_html("my-page.html")
-page.save_pdf("my-page.pdf)
+page.save_pdf("my-page.pdf")
 ```
 
 
