@@ -1,8 +1,8 @@
 # esparto._content
 
 !!! info
-    The `Content` class will usually be inferred from the content object type.
-    They may be accessed via the model top level if required.
+    `Content` classes will usually be inferred from the content object type.
+    They may be accessed via the top level module if required.
 
     ``` python
     import esparto as es

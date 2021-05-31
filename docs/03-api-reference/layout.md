@@ -1,7 +1,7 @@
 # esparto._layout
 
 !!! info
-    `Layout` classes are accessed from the module top level:
+    `Layout` classes are accessed from the top level module.
 
     ``` python
     import esparto as es

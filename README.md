@@ -7,6 +7,8 @@ esparto
 [![codecov](https://codecov.io/gh/domvwt/esparto/branch/main/graph/badge.svg?token=35J8NZCUYC)](https://codecov.io/gh/domvwt/esparto)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&metric=alert_status)](https://sonarcloud.io/dashboard?id=domvwt_esparto)
 
+## Introduction
+
 `esparto` is a simple HTML and PDF document generator for Python. The API has been designed to emphasise
 productivity and reliability over flexibility or complexity - although you should find that it serves many
 use cases more than adequately. `esparto` is suitable for tasks such as:
