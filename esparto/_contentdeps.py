@@ -1,3 +1,5 @@
+"""Content dependency management."""
+
 from collections import UserDict
 from dataclasses import dataclass, field
 from pathlib import Path

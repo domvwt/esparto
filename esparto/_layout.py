@@ -1,12 +1,12 @@
-"""Layout classes for defining a document."""
+"""Layout classes for defining and interacting with a document."""
 
 import copy
-from abc import ABC, abstractmethod
+from abc import ABC
 from pprint import pformat
 from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Optional, Set, Type, Union
 
 from esparto._publish import nb_display, publish_html, publish_pdf
-from esparto._utils import clean_identifier, clean_iterator, get_matching_titles
+from esparto._utils import clean_attr_name, clean_iterator, get_matching_titles
 
 if TYPE_CHECKING:
     from esparto._content import Content
@@ -15,15 +15,18 @@ if TYPE_CHECKING:
 class Layout(ABC):
     """Template for Layout elements. All Layout classes come with these methods and attributes.
 
+    Layout class hierarchy:
+        `Page -> Section -> Row -> Column -> Content`
+
     Attributes:
-      title (str): Title for object reference and HTML rendering.
-      children (list): Child elements representing the document tree.
+      title (str): Object title. Used as a title within the document and as a key value.
+      children (list): Child items defining the document layout and content.
 
     """
 
-    # -----------------+
-    #  Magic Methods   |
-    # -----------------+
+    # ------------------------------------------------------------------------+
+    #                              Magic Methods                              |
+    # ------------------------------------------------------------------------+
 
     def __init__(
         self,
@@ -55,14 +58,16 @@ class Layout(ABC):
             )
 
         new = copy.copy(self)
-        new.children = self.children + list(self._smart_wrap(other))
+        new.children = self.children + [*self._smart_wrap(other)]
 
         return new
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
-            return self.title == other.title and all(
-                (x == y for x, y in zip(self.children, other.children))
+            return (
+                self.title == other.title
+                and len(self.children) == len(other.children)
+                and all((x == y for x, y in zip(self.children, other.children)))
             )
         return False
 
@@ -113,18 +118,20 @@ class Layout(ABC):
             if key:
                 value.title = key
                 indexes = get_matching_titles(key, self.children)
-                if len(indexes):
+                if indexes:
                     self.children[indexes[0]] = value
                 else:
                     self.children.append(value)
-            if key:
                 self._add_child_id(key)
-        else:
+            else:
+                self.children.append(value)
+            return None
+        elif isinstance(key, int):
             if key < len(self.children):
                 value.title = getattr(self.children[key], "title", None)
                 self.children[key] = value
-            else:
-                raise KeyError(key)
+                return None
+        raise KeyError(key)
 
     def __delitem__(self, key) -> None:
         if isinstance(key, str):
@@ -152,14 +159,22 @@ class Layout(ABC):
     children: List[Any] = []
     _parent_class: Type["Layout"]
     _child_class: Type["Layout"]
-    _tag_open: str
-    _tag_close: str
+    _title_tags: str
+    _body_tags: str
     _dependencies = {"bootstrap"}
-    _child_ids: Dict[str, str] = dict()
 
-    # -----------------+
-    #  Public Methods  |
-    # -----------------+
+    @property
+    def _child_ids(self) -> Dict[str, str]:
+        """Return existing child IDs or a new dict."""
+        try:
+            super().__getattribute__("__child_ids")
+        except AttributeError:
+            super().__setattr__("__child_ids", dict())
+        return super().__getattribute__("__child_ids")
+
+    # ------------------------------------------------------------------------+
+    #                              Public Methods                             |
+    # ------------------------------------------------------------------------+
 
     def display(self) -> None:
         """Display rendered document in a Notebook environment."""
@@ -168,7 +183,7 @@ class Layout(ABC):
     def set_children(self, other: Union["Layout", "Content", Any]):
         """Set children as other."""
         other = copy.copy(other)
-        self.children = list(self._smart_wrap(other))
+        self.children = [*self._smart_wrap(other)]
 
     def to_html(self, **kwargs) -> str:
         """Convert document to HTML code.
@@ -178,40 +193,33 @@ class Layout(ABC):
 
         """
         children_rendered = " ".join([c.to_html(**kwargs) for c in self.children])
-        title_rendered = f"{self._render_title()}\n" if self.title else None
-        if title_rendered:
-            html = f"{self._tag_open}\n{title_rendered}{children_rendered}\n{self._tag_close}\n"
-        else:
-            html = f"{self._tag_open}\n{children_rendered}\n{self._tag_close}\n"
+        title_rendered = self._title_tags.format(self.title) if self.title else ""
+
+        html = self._body_tags.format(f"{title_rendered}\n{children_rendered}\n")
         return html
 
     def tree(self) -> None:
         """Display document tree."""
         print(self._tree())
 
-    # -----------------+
-    #  Private Methods |
-    # -----------------+
+    # ------------------------------------------------------------------------+
+    #                             Private Methods                             |
+    # ------------------------------------------------------------------------+
 
     def _add_child_id(self, key):
-        attr_name = clean_identifier(key)
+        attr_name = clean_attr_name(key)
         if attr_name:
             self._child_ids[attr_name] = key
             super().__setattr__(attr_name, self[key])
 
     def _remove_child_id(self, key):
-        attr_name = clean_identifier(key)
+        attr_name = clean_attr_name(key)
         if attr_name in self._child_ids:
             del self._child_ids[attr_name]
             super().__delattr__(attr_name)
 
-    @abstractmethod
-    def _render_title(self) -> str:
-        """Each element should return its title with appropriate HTML tags."""
-        raise NotImplementedError
-
     def _smart_wrap(
-        self, childs: Iterable[Any]
+        self, child_list: Iterable[Any]
     ) -> Iterable[Union["Layout", "Content"]]:
         """Wrap children in a coherent class hierarchy.
 
@@ -244,34 +252,31 @@ class Layout(ABC):
         """
         from esparto._adaptors import content_adaptor
 
-        childs = clean_iterator(childs)
+        child_list = clean_iterator(child_list)
 
         if isinstance(self, Column):
-            return [content_adaptor(x) for x in childs]
+            return [content_adaptor(x) for x in child_list]
 
         is_row = isinstance(self, Row)
         unwrapped_acc: list = []
         output = []
 
-        for item in childs:
-            is_wrapped = isinstance(item, self._child_class)
+        for child in child_list:
+            is_wrapped = isinstance(child, self._child_class)
 
             if is_wrapped:
                 if unwrapped_acc:
                     wrapped_segment = self._child_class(children=unwrapped_acc)
                     output.append(wrapped_segment)
-                    output.append(item)
+                    output.append(child)
                     unwrapped_acc = []
                 else:
-                    output.append(item)
+                    output.append(child)
             else:  # if not is_wrapped
                 if is_row:
-                    assert (
-                        not unwrapped_acc
-                    ), "Elements should not be accumulated for row"
-                    output.append(self._child_class(children=[item]))
+                    output.append(self._child_class(children=[child]))
                 else:
-                    unwrapped_acc.append(item)
+                    unwrapped_acc.append(child)
 
         if unwrapped_acc:
             wrapped_segment = self._child_class(children=unwrapped_acc)
@@ -280,7 +285,6 @@ class Layout(ABC):
         return output
 
     def _recurse_children(self, idx) -> dict:
-        """ """
         key = self.title or f"{type(self).__name__} {idx}"
         tree = {
             f"{key}": [
@@ -293,7 +297,6 @@ class Layout(ABC):
         return tree
 
     def _required_dependencies(self) -> Set[str]:
-        """ """
         deps: Set[str] = self._dependencies
 
         def dep_finder(item):
@@ -318,25 +321,25 @@ class Layout(ABC):
 
 
 class Page(Layout):
-    """Page - top level element for defining a document.
+    """Defines the top level of a document.
 
     Args:
-        title (str): Element title.
-        org_name (str): Organisation name.
-        children (Layout, Any):  Child items to include within the element.
+        title (str): Used as a title within the document and as a key value.
+        navbrand (str): Brand name. Displayed in the page navbar if provided.
+        children (list): Child items defining layout and content.
 
     """
 
     def __init__(
         self,
         title: Optional[str] = None,
-        org_name: Optional[str] = "",
+        navbrand: Optional[str] = "",
         children: Union[
             List[Union["Layout", "Content", Any]], "Layout", "Content"
         ] = list(),
     ):
         super().__init__(title, children)
-        self.org_name = org_name
+        self.org_name = navbrand
 
     def save(
         self,
@@ -419,88 +422,67 @@ class Page(Layout):
             return html
         return None
 
-    _tag_open = "<main class='container px-2'>"
-    _tag_close = "</main>"
+    _title_tags = "<h1 class='display-4 my-3'>{}</h1>"
+    _body_tags = "<main class='container px-2'>{}</main>"
 
     @property
     def _parent_class(self):
-        """ """
         return Page
 
     @property
     def _child_class(self):
-        """ """
         return Section
-
-    def _render_title(self) -> str:
-        """ """
-        return f"<h1 class='display-4 my-3'>{self.title}</h1>\n"
 
 
 class Section(Layout):
-    """Section - defines a Section within a Page.
+    """Sections define thematically distinct groups of content within a Page.
 
     Args:
-        *children (Layout, Any):  Child items to include within the element.
-        title (str): Element title.
+        title (str): Used as a title within the document and as a key value.
+        children (list): Child items defining layout and content.
 
     """
 
-    _tag_open = "<div class='px-1 mb-5'>"
-    _tag_close = "</div>"
+    _title_tags = "<h3 class='mb-3'>{}</h3>"
+    _body_tags = "<div class='px-1 mb-5'>{}</div>"
     _parent_class = Page
 
     @property
     def _child_class(self):
-        """ """
         return Row
-
-    def _render_title(self) -> str:
-        """ """
-        return f"<h3 class='mb-3'>{self.title}</h3>\n"
 
 
 class Row(Layout):
-    """Row -  defines a Row within a Section.
+    """Rows are used in combination with Columns to define the grid layout within a section.
 
     Args:
-        *children (Layout, Any):  Child items to include within the element.
-        title (str): Element title.
+        title (str): Used as a title within the document and as a key value.
+        children (list): Child items defining layout and content.
 
     """
 
-    _tag_open = "<div class='row'>"
-    _tag_close = "</div>"
+    _title_tags = "<div class='col-12'><h5 class='px-1 mb-3'>{}</h5></div>"
+    _body_tags = "<div class='row'>{}</div>"
     _parent_class = Section
 
     @property
     def _child_class(self):
-        """ """
         return Column
-
-    def _render_title(self) -> str:
-        """ """
-        return f"<div class='col-12'><h5 class='px-1 mb-3'>{self.title}</h5></div>\n"
 
 
 class Column(Layout):
-    """Column -  defines a Column within a Row.
+    """Columns sit within Rows and act as content holders.
 
     Args:
-        *children (Layout, Any):  Child items to include within the element.
-        title (str): Element title.
+        title (str): Used as a title within the document and as a key value.
+        children (list): Child items defining layout and content.
 
     """
 
-    _tag_open = "<div class='col-lg mb-3'>"
-    _tag_close = "</div>"
+    _title_tags = "<h5 class='px-1 mb-3'>{}</h5>"
+    _body_tags = "<div class='col-lg mb-3'>{}</div>"
     _parent_class = Row
 
     @property
     def _child_class(self):
-        """ """
         raise NotImplementedError
-
-    def _render_title(self) -> str:
-        """ """
-        return f"<h5 class='px-1 mb-3'>{self.title}</h5>\n"

@@ -1,18 +1,27 @@
 [tool.poetry]
 name = "esparto"
-version = "0.2.5"
+version = "1.0.0"
 description = "Simple HTML and PDF document generator for Python."
 authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 homepage = "https://domvwt.github.io/esparto"
 repository = "https://github.com/domvwt/esparto"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Intended Audience :: Developers",
+
+]
 
 [tool.poetry.dependencies]
-python = "^3.6.1"
+python = ">=3.6.1, <4.0"
 jinja2 = "^2.10.1"
 markdown = "^3.1"
-Pillow = [">=7.0.0", "<9.0.0"]
+Pillow = ">=7.0.0, <9"
 dataclasses = {version = "*", python = "<3.7"}
 beautifulsoup4 = {version = ">=4.7", optional = true}
 weasyprint = {version = ">=51", optional = true}

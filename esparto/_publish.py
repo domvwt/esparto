@@ -1,3 +1,5 @@
+"""Functions for rendering and saving documents and content."""
+
 import time
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional, Union

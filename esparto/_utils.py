@@ -12,45 +12,41 @@ def get_matching_titles(title: str, children: list) -> List[int]:
     return get_index_where(lambda x: getattr(x, "title", None) == title, children)
 
 
-def clean_identifier(s: str):
+def clean_attr_name(attr_name: str):
     # Remove leading and trailing spaces
-    s = s.strip().replace(" ", "_").lower()
+    attr_name = attr_name.strip().replace(" ", "_").lower()
 
     # Remove invalid characters
-    s = re.sub("[^0-9a-zA-Z_]", "", s)
+    attr_name = re.sub("[^0-9a-zA-Z_]", "", attr_name)
 
     # Remove leading characters until we find a letter or underscore
-    s = re.sub("^[^a-zA-Z_]+", "", s)
+    attr_name = re.sub("^[^a-zA-Z_]+", "", attr_name)
 
-    return s
+    return attr_name
 
 
 def clean_iterator(iterator: Iterable) -> Iterable:
     # Convert any non-list iterators to lists
     iterator = (
-        list(iterator)
-        if hasattr(iterator, "__iter__") and not isinstance(iterator, str)
-        else [iterator]
+        list(iterator) if isinstance(iterator, (list, tuple, set)) else [iterator]
     )
     # Unnest any nested lists of children
-    if len(list(iterator)) == 1 and isinstance(list(iterator)[0], (list, tuple)):
+    if len(list(iterator)) == 1 and isinstance(list(iterator)[0], (list, tuple, set)):
         iterator = list(iterator)[0]
-
     return iterator
 
 
-# TODO: Set width and height of SVG
 def responsive_svg_mpl(source: str, width: int = None, height: int = None) -> str:
     """Make SVG element responsive."""
-
-    width_ = width or "auto"
-    height_ = height or "auto"
 
     regex_w = r"width=\S*"
     regex_h = r"height=\S*"
 
-    source = re.sub(regex_w, f"length='{width_}'", source, count=1)
-    source = re.sub(regex_h, f"height='{height_}'", source, count=1)
+    width_ = f"weight='{width}px'" if width else ""
+    height_ = f"height='{height}px'" if height else ""
+
+    source = re.sub(regex_w, width_, source, count=1)
+    source = re.sub(regex_h, height_, source, count=1)
 
     # Preserve aspect ratio of SVG
     regexp = r"<svg"

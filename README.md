@@ -2,48 +2,114 @@ esparto
 =======
 
 [![image](https://img.shields.io/pypi/v/esparto.svg)](https://pypi.python.org/pypi/esparto)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/esparto.svg)](https://pypi.python.org/pypi/esparto/)
 [![Build Status](https://travis-ci.com/domvwt/esparto.svg?branch=main)](https://travis-ci.com/domvwt/esparto)
 [![codecov](https://codecov.io/gh/domvwt/esparto/branch/main/graph/badge.svg?token=35J8NZCUYC)](https://codecov.io/gh/domvwt/esparto)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&metric=alert_status)](https://sonarcloud.io/dashboard?id=domvwt_esparto)
 
-Esparto is a simple HTML and PDF document generator for Python. Its primary use is for generating shareable single page reports
-with content from popular analytics and data science libraries.
+`esparto` is a simple HTML and PDF document generator for Python. The API has been designed to emphasise
+productivity and reliability over flexibility or complexity - although you should find that it serves many
+use cases more than adequately. `esparto` is suitable for tasks such as:
 
+* Designing simple web pages
+* Automated MI reporting
+* Collating and sharing data graphics
+* ML model performance and evaluation documents
+
+## Documentation
 Full documentation and examples are available at [domvwt.github.io/esparto/](https://domvwt.github.io/esparto/).
 
-## Overview
-The library features a streamlined API that defines pages in terms of
-sections, rows, and columns; and an intelligent wrapping system that automatically
-converts Python objects into content.
+## Installation
+`esparto` is installable with `pip`:
+```bash
+pip install esparto
+```
 
-We use the grid system and components from [Bootstrap](https://getbootstrap.com/) to ensure
-documents adapt to the viewing device and appear immediately familiar and accessible.
-No knowledge of Bootstrap or web development is required to use the library, however, as these
-details are conveniently abstracted.
+If PDF output is required, `weasyprint` must also be installed:
+```bash
+pip install weasyprint
+```
 
-At publishing time, the completed document is passed to [Jinja2](https://palletsprojects.com/p/jinja/)
-and fed into an HTML template with all style details and dependencies captured inline.
 
-Esparto supports content rendering within Jupyter Notebooks, allowing users to interactively
-and iteratively build documents without disrupting their workflow.
+## Dependencies
 
-PDF conversion is provided by [Weasyprint](https://weasyprint.org/).
+*   [python](python.org) >= 3.6
+*   [jinja2](https://palletsprojects.com/p/jinja/)
+*   [markdown](https://python-markdown.github.io/)
+*   [Pillow](https://python-pillow.org/)
+*   [weasyprint](https://weasyprint.org/) _(optional - for PDF support only)_
 
-### Features
+## Main Features
 * Lightweight API
-* No CSS or HTML required
-* Device responsive display
-* Self contained / inline dependencies
 * Jupyter Notebook support
-* Printer friendly formatting
-* PDF output
-* MIT License
+* Output self-contained HTML and PDF files
+* Responsive layout from [Bootstrap](https://getbootstrap.com/)
+* No CSS or HTML required
+* Automatic conversion for:
+  * Markdown
+  * Images
+  * Pandas DataFrames
+  * Matplotlib
+  * Bokeh
+  * Plotly
 
-### Supported Content
-* Markdown
-* Images
-* Pandas DataFrames
-* Plots from:
-    * Matplotlib
-    * Bokeh
-    * Plotly
+## Basic Usage
+```python
+import esparto as es
+
+
+# Instantiating a Page
+page = es.Page(title="Research")
+
+# Page layout hierarchy:
+# Page -> Section -> Row -> Column -> Content
+
+# Add or update content
+# Keys are used as titles
+page["Introduction"]["Part One"]["Item A"] = "lorem ipsum"
+page["Introduction"]["Part One"]["Item B"] = "./pictures/image1.jpg"
+
+# Add content without a title
+page["Introduction"]["Part One"][""] = "Hello, Wolrd!"
+
+# Replace child at index - useful if no title given
+page["Introduction"]["Part One"][-1] = "Hello, World!"
+
+# Set content and return either content or layout
+# Useful in Jupyter Notebook as it will be displayed in cell output
+page["Methodology"]["Part One"]["Item A"] << "dolor sit amet"
+# >>> "dolor sit amet"
+page["Methodology"]["Part Two"]["Item B"] >> "foobar"
+# >>> {'Item A': ['Markdown']}
+
+# Show document structure
+page.tree()
+# >>> {'Research': [{'Introduction': [{'Part One': [{'Item A': ['Markdown']},
+#                                                   {'Item B': ['Image']}]}]},
+#                   {'Methodology': [{'Part One': [{'Item A': ['Markdown']}]},
+#                                    {'Part Two': [{'Item A': ['Markdown']}]}]}]}
+
+# Remove content
+del page["Methodology"]["Part One"]["Item A"]
+del page.methodology.part_two.item_b
+
+# Access existing content as an attribute
+page.introduction.part_one.item_a = "./pictures/image2.jpg"
+page.introduction.part_one.tree()
+# >>> {'Part One': [{'Item A': ['Image']},
+#                   {'Item B': ['Image']},
+#                   {'Column 2': ['Markdown']}]}
+
+# Save the document
+page.save_html("my-page.html")
+page.save_pdf("my-page.pdf)
+```
+
+## Example Output
+<img width=400  src="./docs/images/iris-report2.png"
+alt="example page">
+
+https://domvwt.github.io/esparto/
+## License
+[MIT](https://opensource.org/licenses/MIT)
+<br>
