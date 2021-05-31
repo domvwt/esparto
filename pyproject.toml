@@ -50,7 +50,7 @@ bokeh = "^2.3.1"
 plotly = "^4.14.3"
 pandas-bokeh = "^0.5.5"
 weasyprint = "^52.5"
-kaleido = "0.2.1"
+kaleido = "0.2.1.post1"
 
 [tool.poetry.extras]
 extras = ["beautifulsoup4", "weasyprint"]
