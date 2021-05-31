@@ -17,10 +17,10 @@ markdown_extensions:
   - pymdownx.superfences
 
 nav:
-  - Introduction: 'index.md'
-  - Getting Started:
-        - 'Quickstart': '01-getting-started/quickstart.md'
-        - 'Installation': '01-getting-started/installation.md'
+  - Welcome: 'index.md'
+#   - Getting Started:
+#         - 'Quickstart': '01-getting-started/quickstart.md'
+#         - 'Installation': '01-getting-started/installation.md'
   - User Guide:
         - 'Examples': '02-user-guide/examples.md'
         - 'General Usage': '02-user-guide/general-usage.md'
@@ -36,8 +36,8 @@ nav:
         - 'Roadmap': '04-about/roadmap.md'
         - 'License': '04-about/license.md'
 
-# extra_css:
-#   - stylesheets/extra.css
+extra_css:
+  - stylesheets/extra.css
 
 plugins:
   - search

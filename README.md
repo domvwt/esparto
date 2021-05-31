@@ -24,12 +24,12 @@ use cases more than adequately. `esparto` is suitable for tasks such as:
 * Responsive layout from [Bootstrap](https://getbootstrap.com/)
 * No CSS or HTML required
 * Automatic conversion for:
-  * Markdown
-  * Images
-  * Pandas DataFrames
-  * Matplotlib
-  * Bokeh
-  * Plotly
+    * Markdown
+    * Images
+    * Pandas DataFrames
+    * Matplotlib
+    * Bokeh
+    * Plotly
 
 
 ## Installation
@@ -46,7 +46,7 @@ pip install weasyprint
 
 ## Dependencies
 
-*   [python](python.org) >= 3.6
+*   [python](https://python.org/) >= 3.6
 *   [jinja2](https://palletsprojects.com/p/jinja/)
 *   [markdown](https://python-markdown.github.io/)
 *   [Pillow](https://python-pillow.org/)
