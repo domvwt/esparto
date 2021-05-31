@@ -46,7 +46,7 @@ pip install weasyprint
 
 ## Dependencies
 
-*   [python](python.org) >= 3.6
+*   [python](https://python.org/) >= 3.6
 *   [jinja2](https://palletsprojects.com/p/jinja/)
 *   [markdown](https://python-markdown.github.io/)
 *   [Pillow](https://python-pillow.org/)
