@@ -87,7 +87,7 @@ page["Introduction"]["Part One"][-1] = "Hello, World!"
 page["Methodology"]["Part One"]["Item A"] << "dolor sit amet"
 # >>> "dolor sit amet"
 page["Methodology"]["Part Two"]["Item B"] >> "foobar"
-# >>> {'Item A': ['Markdown']}
+# >>> {'Item B': ['Markdown']}
 
 # Show document structure
 page.tree()
