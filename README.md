@@ -16,7 +16,21 @@ use cases more than adequately. `esparto` is suitable for tasks such as:
 * Collating and sharing data graphics
 * ML model performance and evaluation documents
 
-Full documentation and examples are available at [domvwt.github.io/esparto/](https://domvwt.github.io/esparto/).
+
+## Main Features
+* Lightweight API
+* Jupyter Notebook support
+* Output self-contained HTML and PDF files
+* Responsive layout from [Bootstrap](https://getbootstrap.com/)
+* No CSS or HTML required
+* Automatic conversion for:
+  * Markdown
+  * Images
+  * Pandas DataFrames
+  * Matplotlib
+  * Bokeh
+  * Plotly
+
 
 ## Installation
 `esparto` is available from PyPI:
@@ -38,19 +52,14 @@ pip install weasyprint
 *   [Pillow](https://python-pillow.org/)
 *   [weasyprint](https://weasyprint.org/) _(optional - for PDF output)_
 
-## Main Features
-* Lightweight API
-* Jupyter Notebook support
-* Output self-contained HTML and PDF files
-* Responsive layout from [Bootstrap](https://getbootstrap.com/)
-* No CSS or HTML required
-* Automatic conversion for:
-  * Markdown
-  * Images
-  * Pandas DataFrames
-  * Matplotlib
-  * Bokeh
-  * Plotly
+
+## License
+[MIT](https://opensource.org/licenses/MIT)
+
+
+## Documentation
+Full documentation and examples are available at [domvwt.github.io/esparto/](https://domvwt.github.io/esparto/).
+
 
 ## Basic Usage
 ```python
@@ -103,10 +112,7 @@ page.save_html("my-page.html")
 page.save_pdf("my-page.pdf)
 ```
 
+
 ## Example Output
 <img width=600  src="https://github.com/domvwt/esparto/blob/fdc0e787c0bc013d16667773e82e21c647b71d91/docs/images/iris-report-compressed.png?raw=true"
 alt="example page">
-
-## License
-[MIT](https://opensource.org/licenses/MIT)
-<br>
