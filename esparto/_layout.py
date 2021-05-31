@@ -126,11 +126,10 @@ class Layout(ABC):
             else:
                 self.children.append(value)
             return None
-        elif isinstance(key, int):
-            if key < len(self.children):
-                value.title = getattr(self.children[key], "title", None)
-                self.children[key] = value
-                return None
+        elif isinstance(key, int) and key < len(self.children):
+            value.title = getattr(self.children[key], "title", None)
+            self.children[key] = value
+            return None
         raise KeyError(key)
 
     def __delitem__(self, key) -> None:
