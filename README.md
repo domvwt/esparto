@@ -114,5 +114,12 @@ page.save_pdf("my-page.pdf)
 
 
 ## Example Output
+
+[Iris Report - Data Analysis](https://github.com/domvwt/esparto/blob/main/docs/examples/iris-report.html)
+
+[Interactive Plots - Bokeh and Plotly](https://github.com/domvwt/esparto/blob/main/docs/examples/interactive-plots.html)
+
+<br>
+
 <img width=600  src="https://github.com/domvwt/esparto/blob/fdc0e787c0bc013d16667773e82e21c647b71d91/docs/images/iris-report-compressed.png?raw=true"
 alt="example page" style="border-radius:0.5%;">
