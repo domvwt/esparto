@@ -42,7 +42,7 @@ def responsive_svg_mpl(source: str, width: int = None, height: int = None) -> st
     regex_w = r"width=\S*"
     regex_h = r"height=\S*"
 
-    width_ = f"weight='{width}px'" if width else ""
+    width_ = f"width='{width}px'" if width else ""
     height_ = f"height='{height}px'" if height else ""
 
     source = re.sub(regex_w, width_, source, count=1)

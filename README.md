@@ -9,7 +9,7 @@ esparto
 
 ## Introduction
 
-`esparto` is a simple HTML and PDF document generator for Python. The API has been designed to emphasise
+`esparto` is a simple HTML and PDF document generator for Python. The API design emphasises
 productivity and reliability over flexibility or complexity - although you should find that it serves many
 use cases more than adequately. `esparto` is suitable for tasks such as:
 
@@ -84,10 +84,12 @@ page["Introduction"]["Part One"][""] = "Hello, Wolrd!"
 # Replace child at index - useful if no title given
 page["Introduction"]["Part One"][-1] = "Hello, World!"
 
-# Set content and return either content or layout
+# Set content and return input object
 # Useful in Jupyter Notebook as it will be displayed in cell output
 page["Methodology"]["Part One"]["Item A"] << "dolor sit amet"
 # >>> "dolor sit amet"
+
+# Set content and return new layout
 page["Methodology"]["Part Two"]["Item B"] >> "foobar"
 # >>> {'Item B': ['Markdown']}
 
