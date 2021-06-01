@@ -10,7 +10,7 @@
       
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.4">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.6">
     
     
       
@@ -18,10 +18,10 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.bde7dde4.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.875de78c.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ef6f36e2.min.css">
+        <link rel="stylesheet" href="assets/stylesheets/palette.f1a3b89f.min.css">
         
           
           
@@ -608,7 +608,7 @@
 <a href="https://codecov.io/gh/domvwt/esparto"><img alt="codecov" src="https://codecov.io/gh/domvwt/esparto/branch/main/graph/badge.svg?token=35J8NZCUYC" /></a>
 <a href="https://sonarcloud.io/dashboard?id=domvwt_esparto"><img alt="Quality Gate Status" src="https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&amp;metric=alert_status" /></a></p>
 <h2 id="introduction">Introduction</h2>
-<p><code>esparto</code> is a simple HTML and PDF document generator for Python. The API has been designed to emphasise
+<p><code>esparto</code> is a simple HTML and PDF document generator for Python. The API design emphasises
 productivity and reliability over flexibility or complexity - although you should find that it serves many
 use cases more than adequately. <code>esparto</code> is suitable for tasks such as:</p>
 <ul>
@@ -673,10 +673,12 @@ use cases more than adequately. <code>esparto</code> is suitable for tasks such 
 <span class="c1"># Replace child at index - useful if no title given</span>
 <span class="n">page</span><span class="p">[</span><span class="s2">&quot;Introduction&quot;</span><span class="p">][</span><span class="s2">&quot;Part One&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Hello, World!&quot;</span>
 
-<span class="c1"># Set content and return either content or layout</span>
+<span class="c1"># Set content and return input object</span>
 <span class="c1"># Useful in Jupyter Notebook as it will be displayed in cell output</span>
 <span class="n">page</span><span class="p">[</span><span class="s2">&quot;Methodology&quot;</span><span class="p">][</span><span class="s2">&quot;Part One&quot;</span><span class="p">][</span><span class="s2">&quot;Item A&quot;</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;dolor sit amet&quot;</span>
 <span class="c1"># &gt;&gt;&gt; &quot;dolor sit amet&quot;</span>
+
+<span class="c1"># Set content and return new layout</span>
 <span class="n">page</span><span class="p">[</span><span class="s2">&quot;Methodology&quot;</span><span class="p">][</span><span class="s2">&quot;Part Two&quot;</span><span class="p">][</span><span class="s2">&quot;Item B&quot;</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="s2">&quot;foobar&quot;</span>
 <span class="c1"># &gt;&gt;&gt; {&#39;Item B&#39;: [&#39;Markdown&#39;]}</span>
 
@@ -703,9 +705,10 @@ use cases more than adequately. <code>esparto</code> is suitable for tasks such 
 <span class="n">page</span><span class="o">.</span><span class="n">save_pdf</span><span class="p">(</span><span class="s2">&quot;my-page.pdf&quot;</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="example-output">Example Output</h2>
-<p><a href="https://domvwt.github.io/esparto/examples/iris-report.html">Iris Report - Data Analysis</a></p>
-<p><a href="https://domvwt.github.io/esparto/examples/interactive-plots.html">Interactive Plots - Bokeh and Plotly</a></p>
-<p><br></p>
+<p>Iris Report - <a href="https://domvwt.github.io/esparto/examples/iris-report.html">HTML</a> |
+<a href="https://domvwt.github.io/esparto/examples/iris-report.pdf">PDF</a></p>
+<p>Bokeh and Plotly - <a href="https://domvwt.github.io/esparto/examples/interactive-plots.html">HTML</a> |
+<a href="https://domvwt.github.io/esparto/examples/interactive-plots.pdf">PDF</a></p>
 <p><img width=600  src="https://github.com/domvwt/esparto/blob/fdc0e787c0bc013d16667773e82e21c647b71d91/docs/images/iris-report-compressed.png?raw=true"
 alt="example page" style="border-radius:0.5%;"></p>
                 
@@ -778,10 +781,10 @@ alt="example page" style="border-radius:0.5%;"></p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "assets/javascripts/workers/search.4fa0e4ee.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "assets/javascripts/workers/search.d351de03.min.js", "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.1d3bfcf1.min.js"></script>
+      <script src="assets/javascripts/bundle.34eae1b6.min.js"></script>
       
     
   </body>
