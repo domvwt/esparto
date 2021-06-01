@@ -7,7 +7,9 @@ esparto
 [![codecov](https://codecov.io/gh/domvwt/esparto/branch/main/graph/badge.svg?token=35J8NZCUYC)](https://codecov.io/gh/domvwt/esparto)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&metric=alert_status)](https://sonarcloud.io/dashboard?id=domvwt_esparto)
 
-`esparto` is a simple HTML and PDF document generator for Python. The API has been designed to emphasise
+## Introduction
+
+`esparto` is a simple HTML and PDF document generator for Python. The API design emphasises
 productivity and reliability over flexibility or complexity - although you should find that it serves many
 use cases more than adequately. `esparto` is suitable for tasks such as:
 
@@ -82,10 +84,12 @@ page["Introduction"]["Part One"][""] = "Hello, Wolrd!"
 # Replace child at index - useful if no title given
 page["Introduction"]["Part One"][-1] = "Hello, World!"
 
-# Set content and return either content or layout
+# Set content and return input object
 # Useful in Jupyter Notebook as it will be displayed in cell output
 page["Methodology"]["Part One"]["Item A"] << "dolor sit amet"
 # >>> "dolor sit amet"
+
+# Set content and return new layout
 page["Methodology"]["Part Two"]["Item B"] >> "foobar"
 # >>> {'Item B': ['Markdown']}
 
@@ -109,17 +113,17 @@ page.introduction.part_one.tree()
 
 # Save the document
 page.save_html("my-page.html")
-page.save_pdf("my-page.pdf)
+page.save_pdf("my-page.pdf")
 ```
 
 
 ## Example Output
 
-[Iris Report - Data Analysis](https://domvwt.github.io/esparto/examples/iris-report.html)
+Iris Report - [HTML](https://domvwt.github.io/esparto/examples/iris-report.html) |
+[PDF](https://domvwt.github.io/esparto/examples/iris-report.pdf)
 
-[Interactive Plots - Bokeh and Plotly](https://domvwt.github.io/esparto/examples/interactive-plots.html)
-
-<br>
+Bokeh and Plotly - [HTML](https://domvwt.github.io/esparto/examples/interactive-plots.html) |
+[PDF](https://domvwt.github.io/esparto/examples/interactive-plots.pdf)
 
 <img width=600  src="https://github.com/domvwt/esparto/blob/fdc0e787c0bc013d16667773e82e21c647b71d91/docs/images/iris-report-compressed.png?raw=true"
 alt="example page" style="border-radius:0.5%;">

@@ -9,6 +9,7 @@ theme:
     accent: 'cyan'
   features:
     - 'navigation.tabs'
+    - 'toc.integrate'
 
 repo_url: 'https://github.com/domvwt/esparto/'
 
@@ -17,7 +18,7 @@ markdown_extensions:
   - pymdownx.superfences
 
 nav:
-  - Welcome: 'index.md'
+  - Overview: 'index.md'
 #   - Getting Started:
 #         - 'Quickstart': '01-getting-started/quickstart.md'
 #         - 'Installation': '01-getting-started/installation.md'
@@ -50,3 +51,12 @@ plugins:
                           show_root_full_path: False
                     selection:
                           inherited_members: False
+
+extra:
+  social:
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/dominic-thorn/
+      name: LinkedIn
+    - icon: fontawesome/solid/address-card
+      link: https://domvwt.github.io/
+      name: domvwt | portfolio

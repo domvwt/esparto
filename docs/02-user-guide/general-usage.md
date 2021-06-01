@@ -66,7 +66,7 @@ has been retained in esparto should you have more luck with it.
 See the Bokeh documenation on [additional dependencies for exporting plots.](https://docs.bokeh.org/en/latest/docs/user_guide/export.html#additional-dependencies)
 
 Conversion should be handled by esparto, provided the Bokeh dependencies
-are satsified.
+are satisfied.
 
 ### Saving from a Browser
 Alternatively, it is possible to save any HTML page as a PDF through the print

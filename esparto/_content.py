@@ -287,7 +287,7 @@ class FigureMpl(Content):
                 temp_file.write_text(xml)
                 inner = (
                     "<object type='image/svg+xml' width='100%' height='100%' "
-                    f"class='svg-content-mpl' data='{temp_file.name}'></object>\n"
+                    f"data='{temp_file.name}'></object>\n"
                 )
             else:
                 xml = responsive_svg_mpl(xml)
@@ -344,7 +344,7 @@ class FigureBokeh(Content):
 
             temp_file = Path(options.pdf_temp_dir) / f"{uuid4()}.svg"
             export_svg(self.content, filename=str(temp_file))
-            html = f"<img src='{temp_file.name}'>\n"
+            html = f"<img src='{temp_file.name}' width='100%' height='auto'>\n"
             return html
 
         html, js = components(self.content)
@@ -382,7 +382,7 @@ class FigurePlotly(Content):
         if kwargs.get("pdf_mode"):
             temp_file = Path(options.pdf_temp_dir) / f"{uuid4()}.svg"
             self.content.write_image(str(temp_file))
-            html = f"<img src='{temp_file.name}'>\n"
+            html = f"<img src='{temp_file.name}' width='100%' height='auto'>\n"
 
         else:
             html = plotly_to_html(self.content, include_plotlyjs=False, full_html=False)

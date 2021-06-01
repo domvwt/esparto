@@ -26,7 +26,6 @@ Basic Usage
 
 import esparto as es
 
-
 # Instantiating a Page
 page = es.Page(title="Research")
 
@@ -44,12 +43,14 @@ page["Introduction"]["Part One"][""] = "Hello, Wolrd!"
 # Replace child at index - useful if no title given
 page["Introduction"]["Part One"][-1] = "Hello, World!"
 
-# Set content and return either content or layout
+# Set content and return input object
 # Useful in Jupyter Notebook as it will be displayed in cell output
 page["Methodology"]["Part One"]["Item A"] << "dolor sit amet"
 # >>> "dolor sit amet"
+
+# Set content and return new layout
 page["Methodology"]["Part Two"]["Item B"] >> "foobar"
-# >>> {'Item A': ['Markdown']}
+# >>> {'Item B': ['Markdown']}
 
 # Show document structure
 page.tree()
@@ -71,7 +72,7 @@ page.introduction.part_one.tree()
 
 # Save the document
 page.save_html("my-page.html")
-page.save_pdf("my-page.pdf)
+page.save_pdf("my-page.pdf")
 
 Documentation
 -------------
@@ -86,7 +87,7 @@ from typing import Set as _Set
 
 __author__ = """Dominic Thorn"""
 __email__ = "dominic.thorn@gmail.com"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 _MODULE_PATH: _Path = _Path(__file__).parent.absolute()
 
