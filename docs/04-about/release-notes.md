@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+1.0.1 (2021-06-01)
+------------------
+-   Update dependencies.
+-   Fix SVG rendering in PDF.
+-   Update docs and examples.
+
+
 1.0.0 (2021-05-31)
 ------------------
 
