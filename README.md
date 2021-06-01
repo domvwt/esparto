@@ -119,9 +119,13 @@ page.save_pdf("my-page.pdf")
 
 ## Example Output
 
-[Iris Report - Data Analysis](https://domvwt.github.io/esparto/examples/iris-report.html)
+### Data Analysis
+* [HTML](https://domvwt.github.io/esparto/examples/iris-report.html)
+* [PDF](https://domvwt.github.io/esparto/examples/iris-report.pdf)
 
-[Interactive Plots - Bokeh and Plotly](https://domvwt.github.io/esparto/examples/interactive-plots.html)
+### Interactive Plots
+* [HTML](https://domvwt.github.io/esparto/examples/interactive-plots.html)
+* [PDF](https://domvwt.github.io/esparto/examples/interactive-plots.pdf)
 
 <br>
 
