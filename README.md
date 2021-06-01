@@ -125,5 +125,7 @@ Iris Report - [HTML](https://domvwt.github.io/esparto/examples/iris-report.html)
 Bokeh and Plotly - [HTML](https://domvwt.github.io/esparto/examples/interactive-plots.html) |
 [PDF](https://domvwt.github.io/esparto/examples/interactive-plots.pdf)
 
+<br>
+
 <img width=600  src="https://github.com/domvwt/esparto/blob/fdc0e787c0bc013d16667773e82e21c647b71d91/docs/images/iris-report-compressed.png?raw=true"
 alt="example page" style="border-radius:0.5%;">
