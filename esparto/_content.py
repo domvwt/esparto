@@ -209,7 +209,7 @@ class DataFramePd(Content):
 
     Args:
       df (pd.DataFrame): A Pandas DataFrame
-      index (bool): If True, render the DataFrame index. (default = False)
+      index (bool): If True, render the DataFrame index. (default = True)
       col_space (str, int): Minimum column width in CSS units. Use int for pixels. (default = 0)
 
     """
@@ -217,7 +217,7 @@ class DataFramePd(Content):
     _dependencies = {"bootstrap"}
 
     def __init__(
-        self, df: "DataFrame", index: bool = False, col_space: Union[int, str] = 0
+        self, df: "DataFrame", index: bool = True, col_space: Union[int, str] = 0
     ):
 
         if not isinstance(df, DataFrame):
@@ -228,7 +228,7 @@ class DataFramePd(Content):
         self.col_space = col_space
 
     def to_html(self, **kwargs) -> str:
-        classes = "table table-sm table-striped table-hover table-bordered my-1"
+        classes = "table table-xs table-striped table-hover table-bordered my-1"
         html = self.content.to_html(
             index=self.index, border=0, col_space=self.col_space, classes=classes
         )

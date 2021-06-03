@@ -46,9 +46,12 @@ def publish_html(
     dependency_source = get_source_from_options(dependency_source)
     resolved_deps = resolve_deps(required_deps, source=dependency_source)
 
+    custom_css = Path(options.css_source).read_text()
+
     html_rendered: str = _BASE_TEMPLATE.render(
         org_name=document.org_name,
         doc_title=document.title,
+        custom_css=custom_css,
         content=document.to_html(**kwargs),
         head_deps=resolved_deps.head,
         tail_deps=resolved_deps.tail,
@@ -135,12 +138,14 @@ def nb_display(
     dependency_source = get_source_from_options(dependency_source)
 
     resolved_deps = resolve_deps(required_deps, source=dependency_source)
+    custom_css = Path(options.css_source).read_text()
     head_deps = "\n".join(resolved_deps.head)
     tail_deps = "\n".join(resolved_deps.tail)
     html = item.to_html(notebook_mode=True)
     render_html = (
-        f"<div class='container' style='width: 100%; height: 100%;'>\n{html}\n</div>"
+        f"<div class='container' style='width: 100%; height: 100%;'>\n{html}\n</div>\n"
     )
+    render_html += f"<style>\n{custom_css}\n</style>\n"
 
     render_html = (
         f"<!doctype html>\n<html>\n<head>{head_deps}</head>\n"

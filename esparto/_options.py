@@ -2,6 +2,8 @@
 
 from dataclasses import dataclass
 
+from esparto import _MODULE_PATH
+
 
 @dataclass
 class ConfigOptions:
@@ -11,6 +13,8 @@ class ConfigOptions:
 
     matplotlib_output_format: str = "svg"
     matplotlib_notebook_format: str = "png"
+
+    css_source: str = str(_MODULE_PATH / "resources/css/esparto.css")
 
     pdf_temp_dir: str = ".pdf-temp"
 
