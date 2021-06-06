@@ -243,7 +243,7 @@ class FigureMpl(Content):
       figure (plt.Figure): A Matplotlib figure.
       width (int): Width in pixels. (default = '100%')
       height (int): Height in pixels. (default = 'auto')
-      output_format (str): One of 'svg', 'png', or 'esparto.options'. (default = 'esparto.options')
+      output_format (str): One of 'svg', 'png', or 'esparto.options'. (default = 'options.matplotlib_output_format')
 
     """
 
@@ -254,7 +254,7 @@ class FigureMpl(Content):
         figure: "MplFigure",
         width: Union[str, int] = "100%",
         height: Union[str, int] = "auto",
-        output_format="esparto.options",
+        output_format=options.matplotlib_output_format,
     ):
 
         if not isinstance(figure, MplFigure):
@@ -268,8 +268,6 @@ class FigureMpl(Content):
     def to_html(self, **kwargs):
         if kwargs.get("notebook_mode"):
             output_format = options.matplotlib_notebook_format
-        elif self.output_format == "esparto.options":
-            output_format = options.matplotlib_output_format
         else:
             output_format = self.output_format
 

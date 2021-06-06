@@ -5,6 +5,7 @@ from abc import ABC
 from pprint import pformat
 from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Optional, Set, Type, Union
 
+from esparto._options import options
 from esparto._publish import nb_display, publish_html, publish_pdf
 from esparto._utils import clean_attr_name, clean_iterator, get_matching_titles
 
@@ -301,7 +302,7 @@ class Layout(ABC):
         def dep_finder(item):
             nonlocal deps
             for child in item.children:
-                deps = deps | set(getattr(child, "_dependencies", None))
+                deps = deps | set(getattr(child, "_dependencies", {}))
                 if hasattr(child, "children"):
                     dep_finder(child)
 
@@ -344,7 +345,7 @@ class Page(Layout):
         self,
         filepath: str = "./esparto-doc.html",
         return_html: bool = False,
-        dependency_source="esparto.options",
+        dependency_source=options.default,
     ) -> Optional[str]:
         """
         Save document to HTML file.
@@ -374,7 +375,7 @@ class Page(Layout):
         self,
         filepath: str = "./esparto-doc.html",
         return_html: bool = False,
-        dependency_source="esparto.options",
+        dependency_source=options.default,
     ) -> Optional[str]:
         """
         Save document to HTML file.

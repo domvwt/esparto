@@ -59,6 +59,11 @@ lint: ## check style with flake8
 mypy: ## check type hints
 	mypy esparto tests
 
+isort: ## sort imports
+	isort esparto tests
+
+cqa: format lint mypy isort## run all cqa tools
+
 test: ## run tests quickly with the default Python
 	pytest
 
