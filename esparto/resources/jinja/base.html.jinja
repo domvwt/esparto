@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>{{ doc_title | default("esparto-doc", true) }}</title>
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  {% if css_styles %}
+  <style>
+  {{ css_styles }}
+  </style>
+  {% endif %}
+
+  {% if head_deps is defined and head_deps|length %}
+  <!-- Required dependencies -->
+  {% for dep in head_deps %}
+  {{ dep }}
+  {% endfor %}
+  {% endif %}
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">{{ org_name }}</a>
+    </div>
+  </nav>
+  <!-- GENERATED CONTENT START -->
+  {{ content }}
+  <!-- GENERATED CONTENT END -->
+  {% if tail_deps is defined and tail_deps|length %}
+  <!-- Required JS dependencies -->
+  {% for dep in tail_deps %}
+  {{ dep }}
+  {% endfor %}
+  {% endif %}
+  <!-- Footer -->
+  <footer class="footer d-print-none">
+    <div class="container">
+      <div class="row justify-items-about">
+        <div class="col">
+          <a href="https://domvwt.github.io/esparto/">
+            <small class="text-muted font-italic">esparto</small>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

@@ -4,7 +4,7 @@ import time
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional, Union
 
-from jinja2 import Environment, PackageLoader  # type: ignore
+from jinja2 import Template  # type: ignore
 
 if TYPE_CHECKING:
     from esparto._layout import Page, Layout
@@ -12,20 +12,16 @@ if TYPE_CHECKING:
 
 from esparto import _INSTALLED_MODULES
 from esparto._contentdeps import resolve_deps
-from esparto._options import get_source_from_options, options
-
-_ENV = Environment(
-    loader=PackageLoader("esparto", "resources/jinja"),
-)
-
-_BASE_TEMPLATE = _ENV.get_template("base.html")
+from esparto._options import get_dep_source_from_options, options, resolve_config_option
 
 
 def publish_html(
     document: "Page",
     filepath: Optional[str] = "./esparto-doc.html",
     return_html: bool = False,
-    dependency_source="esparto.options",
+    dependency_source=options.default,
+    css_styles=options.default,
+    jinja_template=options.default,
     **kwargs,
 ) -> Optional[str]:
     """Save document to HTML.
@@ -34,7 +30,9 @@ def publish_html(
       document (Page): A Page object.
       filepath (str): Filepath to write to.
       return_html (bool): Returns HTML string if True.
-      dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'.
+      dependency_source (str): One of 'cdn' or 'inline' (default = 'esparto.options').
+      css_styles (str): Path to CSS stylesheet. (default = 'esparto.options').
+      jinja_template (str): Path to Jinja template. (default = 'esparto.options').
       **kwargs (Dict[str, Any]): Arguments passed to `document.to_html()`.
 
     Returns:
@@ -43,15 +41,18 @@ def publish_html(
     """
 
     required_deps = document._required_dependencies()
-    dependency_source = get_source_from_options(dependency_source)
+    dependency_source = get_dep_source_from_options(dependency_source)
     resolved_deps = resolve_deps(required_deps, source=dependency_source)
 
-    custom_css = Path(options.css_source).read_text()
+    css_styles = Path(resolve_config_option("css_styles", css_styles)).read_text()
+    jinja_template = Template(
+        Path(resolve_config_option("jinja_template", jinja_template)).read_text()
+    )
 
-    html_rendered: str = _BASE_TEMPLATE.render(
+    html_rendered: str = jinja_template.render(
         org_name=document.org_name,
         doc_title=document.title,
-        custom_css=custom_css,
+        css_styles=css_styles,
         content=document.to_html(**kwargs),
         head_deps=resolved_deps.head,
         tail_deps=resolved_deps.tail,
@@ -113,7 +114,7 @@ def publish_pdf(
 def nb_display(
     item: Union["Layout", "Content"],
     return_html: bool = False,
-    dependency_source="esparto.options",
+    dependency_source=options.default,
 ) -> Optional[str]:
     """Display Layout or Content to Jupyter Notebook cell.
 
@@ -135,17 +136,17 @@ def nb_display(
     else:
         required_deps = getattr(item, "_dependencies", set())
 
-    dependency_source = get_source_from_options(dependency_source)
+    dependency_source = get_dep_source_from_options(dependency_source)
 
     resolved_deps = resolve_deps(required_deps, source=dependency_source)
-    custom_css = Path(options.css_source).read_text()
+    css_styles = Path(options.css_styles).read_text()
     head_deps = "\n".join(resolved_deps.head)
     tail_deps = "\n".join(resolved_deps.tail)
     html = item.to_html(notebook_mode=True)
     render_html = (
         f"<div class='container' style='width: 100%; height: 100%;'>\n{html}\n</div>\n"
     )
-    render_html += f"<style>\n{custom_css}\n</style>\n"
+    render_html += f"<style>\n{css_styles}\n</style>\n"
 
     render_html = (
         f"<!doctype html>\n<html>\n<head>{head_deps}</head>\n"
