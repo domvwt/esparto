@@ -62,7 +62,7 @@ mypy: ## check type hints
 isort: ## sort imports
 	isort esparto tests
 
-cqa: format lint mypy isort## run all cqa tools
+cqa: format isort lint mypy ## run all cqa tools
 
 test: ## run tests quickly with the default Python
 	pytest

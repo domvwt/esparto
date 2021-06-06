@@ -83,6 +83,16 @@ class Content(ABC):
         return not self.__eq__(other)
 
 
+class RawHTML(Content):
+    _dependencies: Set[Any] = set()
+
+    def __init__(self, html):
+        self.content = html
+
+    def to_html(self, **kwargs) -> str:
+        return self.content
+
+
 class Markdown(Content):
     """Markdown text content.
 

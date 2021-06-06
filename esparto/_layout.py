@@ -486,3 +486,17 @@ class Column(Layout):
     @property
     def _child_class(self):
         raise NotImplementedError
+
+
+class Spacer(Column):
+    def __init__(self):
+        super().__init__()
+
+
+class PageBreak(Column):
+    def __init__(self):
+        from esparto._content import RawHTML
+
+        super().__init__(
+            children=RawHTML(html="<p style='page-break-after: always;'></p>")
+        )
