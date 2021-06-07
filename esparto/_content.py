@@ -288,8 +288,9 @@ class FigureMpl(Content):
             buffer.seek(0)
             xml = buffer.read()
 
+            width, height = self.content.get_size_inches() * 96
+
             if kwargs.get("pdf_mode"):
-                width, height = self.content.get_size_inches() * 96
                 xml = responsive_svg_mpl(xml, width=int(width), height=int(height))
                 temp_file = Path(options.pdf_temp_dir) / f"{uuid4()}.svg"
                 temp_file.write_text(xml)
@@ -302,7 +303,8 @@ class FigureMpl(Content):
                 inner = xml
 
             html = (
-                f"<div class='svg-container-mpl' style='max-width: {self.width}; height: {self.height};'>\n"
+                "<div class='svg-container-mpl' "
+                + f"style='width: {self.width}; max-width: {int(width)}px; height: auto;'>\n"
                 + f"{inner}\n</div>\n"
             )
 
