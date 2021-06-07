@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "esparto"
-version = "1.0.1"
+version = "1.1.0.dev2"
 description = "Simple HTML and PDF document generator for Python."
 authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
 license = "MIT"
@@ -51,6 +51,8 @@ plotly = "^4.14.3"
 pandas-bokeh = "^0.5.5"
 weasyprint = "^52.5"
 kaleido = "^0.2.1,!=0.2.1.post1"
+sklearn = "^0.0"
+shap = "^0.39.0"
 
 [tool.poetry.extras]
 extras = ["beautifulsoup4", "weasyprint"]

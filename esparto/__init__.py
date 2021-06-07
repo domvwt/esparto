@@ -87,7 +87,7 @@ from typing import Set as _Set
 
 __author__ = """Dominic Thorn"""
 __email__ = "dominic.thorn@gmail.com"
-__version__ = "1.0.1"
+__version__ = "1.1.0.dev2"
 
 _MODULE_PATH: _Path = _Path(__file__).parent.absolute()
 
@@ -113,6 +113,7 @@ from esparto._content import (
     FigurePlotly,
     Image,
     Markdown,
+    RawHTML,
 )
-from esparto._layout import Column, Page, Row, Section
+from esparto._layout import Column, Page, PageBreak, Row, Section, Spacer
 from esparto._options import options
