@@ -98,13 +98,13 @@ class Layout(ABC):
     def __getitem__(self, key: Union[str, int]):
         if isinstance(key, str):
             indexes = get_matching_titles(key, self.children)
-            if len(indexes):
+            if len(indexes) and key:
                 return self.children[indexes[0]]
             value = self._child_class(title=key)
             self.children.append(value)
             if key:
                 self._add_child_id(key)
-            return self[key]
+            return self.children[-1]
 
         elif isinstance(key, int) and key < len(self.children):
             return self.children[key]
@@ -193,9 +193,12 @@ class Layout(ABC):
 
         """
         children_rendered = " ".join([c.to_html(**kwargs) for c in self.children])
-        title_rendered = self._title_tags.format(self.title) if self.title else ""
+        title_rendered = self._title_tags.format(title=self.title) if self.title else ""
 
-        html = self._body_tags.format(f"{title_rendered}\n{children_rendered}\n")
+        html = self._body_tags.format(
+            identifier=clean_attr_name(str(self.title)),
+            children=f"{title_rendered}\n{children_rendered}\n",
+        )
         return html
 
     def tree(self) -> None:
@@ -422,8 +425,8 @@ class Page(Layout):
             return html
         return None
 
-    _title_tags = "<h1 class='display-4 my-3'>{}</h1>"
-    _body_tags = "<main class='container px-2'>{}</main>"
+    _title_tags = "<h1 class='display-4 my-3'>{title}</h1>"
+    _body_tags = "<main class='container px-2' id='{identifier}'>{children}</main>"
 
     @property
     def _parent_class(self):
@@ -443,8 +446,8 @@ class Section(Layout):
 
     """
 
-    _title_tags = "<h3 class='mb-3'>{}</h3>"
-    _body_tags = "<div class='px-1 mb-5'>{}</div>"
+    _title_tags = "<h3 class='mb-3'>{title}</h3>"
+    _body_tags = "<div class='px-1 mb-3' id='{identifier}'>{children}</div>"
     _parent_class = Page
 
     @property
@@ -461,8 +464,8 @@ class Row(Layout):
 
     """
 
-    _title_tags = "<div class='col-12'><h5 class='px-1 mb-3'>{}</h5></div>"
-    _body_tags = "<div class='row'>{}</div>"
+    _title_tags = "<div class='col-12'><h5 class='px-1 mb-3'>{title}</h5></div>"
+    _body_tags = "<div class='row mb-3' id='{identifier}'>{children}</div>"
     _parent_class = Section
 
     @property
@@ -479,8 +482,8 @@ class Column(Layout):
 
     """
 
-    _title_tags = "<h5 class='px-1 mb-3'>{}</h5>"
-    _body_tags = "<div class='col-lg mb-3'>{}</div>"
+    _title_tags = "<h5 class='px-1 mb-3'>{title}</h5>"
+    _body_tags = "<div class='col-lg mb-3' id='{identifier}'>{children}</div>"
     _parent_class = Row
 
     @property
@@ -493,10 +496,7 @@ class Spacer(Column):
         super().__init__()
 
 
-class PageBreak(Column):
-    def __init__(self):
-        from esparto._content import RawHTML
+class PageBreak(Section):
 
-        super().__init__(
-            children=RawHTML(html="<p style='page-break-after: always;'></p>")
-        )
+    _title_tags = ""
+    _body_tags = "<div id='page-break' style='page-break-after: always;'></div>"
