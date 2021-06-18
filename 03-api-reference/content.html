@@ -584,6 +584,26 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#esparto._content.RawHTML" class="md-nav__link">
+    RawHTML
+  </a>
+  
+    <nav class="md-nav" aria-label="RawHTML">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#esparto._content.RawHTML.to_html" class="md-nav__link">
+    to_html()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1789,6 +1809,105 @@ If more than one is populated, the values will be prioritised in the order:
         <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">html</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="esparto._content.RawHTML" class="doc doc-heading">
+        <code>RawHTML</code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+      <p>Raw HTML content.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>html</code></td>
+        <td><code>str</code></td>
+        <td><p>HTML code.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="esparto._content.RawHTML.to_html" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Convert content to HTML code.</p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>str</code></td>
+      <td><p>str: HTML code.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>esparto/_content.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span>
 </code></pre></div>
         </details>
     </div>
