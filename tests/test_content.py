@@ -18,7 +18,10 @@ if _EXTRAS:
         assert not missing, missing
 
     def test_all_content_classes_have_deps(content_list_fn):
-        deps = [c._dependencies for c in content_list_fn]
+        # RawHTML has no dependencies
+        deps = [
+            c._dependencies for c in content_list_fn if not isinstance(c, co.RawHTML)
+        ]
         assert all(deps)
 
 

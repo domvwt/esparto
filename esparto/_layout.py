@@ -492,11 +492,14 @@ class Column(Layout):
 
 
 class Spacer(Column):
+    """Empty Column for making space within a Row."""
+
     def __init__(self):
         super().__init__()
 
 
 class PageBreak(Section):
+    """Add a page break when printing or saving to PDF."""
 
     _title_tags = ""
     _body_tags = "<div id='page-break' style='page-break-after: always;'></div>"

@@ -36,6 +36,7 @@ class Content(ABC):
 
     Attributes:
       content (Any): Item to be included in the page - should match the encompassing Content class.
+
     """
 
     content: Any
@@ -84,9 +85,20 @@ class Content(ABC):
 
 
 class RawHTML(Content):
-    _dependencies: Set[Any] = set()
+    """Raw HTML content.
+
+    Args:
+      html (str): HTML code.
+
+    """
+
+    _dependencies: Set[Any] = set("")
 
     def __init__(self, html):
+
+        if not isinstance(html, str):
+            raise TypeError(r"HTML must be str")
+
         self.content = html
 
     def to_html(self, **kwargs) -> str:
@@ -303,9 +315,10 @@ class FigureMpl(Content):
                 inner = xml
 
             html = (
-                "<div class='svg-container-mpl' "
-                + f"style='width: {self.width}; max-width: {int(width)}px; height: auto;'>\n"
-                + f"{inner}\n</div>\n"
+                "<div class='row justify-content-center p-0 m-0' "
+                + "style='width: 100%; height: auto;'>\n"
+                + f"<div class='col p-0 m-0' style='width: {self.width}; max-width: {int(width)}px; height: auto;'>"
+                + f"{inner}\n</div>\n</div>\n"
             )
 
             return html
@@ -423,6 +436,7 @@ def _image_to_base64(image: PILImage) -> str:
 
     Returns:
       str: Image encoded as a base64 utf-8 string.
+
     """
     buffer = BytesIO()
     image.save(buffer, format="png")

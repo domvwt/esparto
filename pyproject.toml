@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "esparto"
-version = "1.1.0.dev2"
+version = "1.1.0"
 description = "Simple HTML and PDF document generator for Python."
 authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
 license = "MIT"

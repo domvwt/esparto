@@ -56,15 +56,6 @@ body {
 
 
 /* Responsive SVG */
-.svg-container-mpl {
-    display: inline-flex;
-    position: relative;
-    width: 100%;
-    padding-bottom: 0;
-    vertical-align: middle;
-    overflow: hidden;
-}
-
 .svg-content-mpl {
     width: 100%;
     height: 100%;
