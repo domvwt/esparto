@@ -27,4 +27,6 @@
 
 ## ::: esparto._content.FigurePlotly
 
+## ::: esparto._content.RawHTML
+
 <br>

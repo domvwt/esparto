@@ -22,4 +22,8 @@
 
 ## ::: esparto._layout.Column
 
+## ::: esparto._layout.Spacer
+
+## ::: esparto._layout.PageBreak
+
 <br>
