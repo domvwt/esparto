@@ -20,6 +20,7 @@ with Path(_irises_path).open("rb") as f:
 content_list = [
     (co.Markdown("this _is_ some **markdown**")),
     (co.Image(_irises_path)),
+    (co.RawHTML("<p>Raw HTML</p>")),
 ]
 
 # Add new layout classes here
@@ -28,6 +29,8 @@ layout_list = [
     (la.Section(children=[*content_list])),
     (la.Row(children=[*content_list])),
     (la.Column(children=[*content_list])),
+    (la.Spacer()),
+    (la.PageBreak()),
 ]
 
 # Add new adaptor types here

@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import List, Set
 
 from esparto import _INSTALLED_MODULES, _MODULE_PATH
-from esparto._options import get_source_from_options
+from esparto._options import get_dep_source_from_options, options
 
 
 @dataclass
@@ -71,11 +71,11 @@ def lazy_content_dependency_dict() -> ContentDependencyDict:
 
 
 def resolve_deps(
-    required_deps: Set[str], source: str = "esparto.options"
+    required_deps: Set[str], source: str = options.default
 ) -> ResolvedDeps:
     resolved_deps = ResolvedDeps()
 
-    source = get_source_from_options(source)
+    source = str(get_dep_source_from_options(source))
 
     for dep in required_deps:
         dep_details: ContentDependency = lazy_content_dependency_dict()[dep]

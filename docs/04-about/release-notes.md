@@ -1,6 +1,28 @@
 Release Notes
 =============
 
+1.1.0 (2021-06-18)
+------------------
+-   New Layout classes
+    -   Spacer: make an empty column within a Row
+    -   PageBreak: enforce a page break in printed / PDF documents
+-   New Content class
+    -   RawHTML: place raw HTML code in the page
+-   Updated Content classes
+    -   DataFramePD: add new CSS style to minimise row height
+    -   FigureMpl: SVG rendered plots are now responsive and horizontally centred
+-   New publishing features
+    -   CSS stylesheet path can be passed to options.css_styles
+    -   Jinja template path can be passed to options.jinja_template
+
+
+1.0.1 (2021-06-01)
+------------------
+-   Update dependencies.
+-   Fix SVG rendering in PDF.
+-   Update docs and examples.
+
+
 1.0.0 (2021-05-31)
 ------------------
 

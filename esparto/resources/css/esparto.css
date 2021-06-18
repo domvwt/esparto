@@ -1,0 +1,65 @@
+/* Print friendly page formatting */
+@page {
+    size: auto;
+    margin: 15mm 20mm;
+}
+
+@media print {
+    html,
+    body,
+    main {
+        border: 1px solid white;
+        width: 90%;
+        height: auto;
+    }
+    .row {
+        page-break-inside: avoid;
+        page-break-after: auto;
+        page-break-before: auto;
+    }
+    .col-lg {
+        flex: 1 !important;
+    }
+}
+
+
+/* Extra Small tables */
+.table-xs td, th {
+    padding: .1rem !important;
+    padding-left: .3rem !important;
+    padding-right: .3rem !important;
+}
+
+
+/* Sticky footer styles */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 35px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    line-height: 35px;
+    background-color: #f5f5f5;
+}
+
+.footer p {
+    margin-bottom: 0;
+}
+
+
+/* Responsive SVG */
+.svg-content-mpl {
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    bottom: 0px;
+    margin: auto;
+}

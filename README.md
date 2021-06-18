@@ -9,14 +9,15 @@ esparto
 
 ## Introduction
 
-`esparto` is a simple HTML and PDF document generator for Python. The API design emphasises
-productivity and reliability over flexibility or complexity - although you should find that it serves many
-use cases more than adequately. `esparto` is suitable for tasks such as:
+`esparto` is a simple HTML and PDF document generator for Python.
+The library takes a fully Pythonic approach to defining documents,
+allowing iterative building and modification of the page and its contents.
+`esparto` is especially good at:
 
-* Designing simple web pages
 * Automated MI reporting
-* Collating and sharing data graphics
+* Collating and sharing data visualisation
 * ML model performance and evaluation documents
+* Designing simple web pages
 
 
 ## Main Features

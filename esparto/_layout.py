@@ -5,6 +5,7 @@ from abc import ABC
 from pprint import pformat
 from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Optional, Set, Type, Union
 
+from esparto._options import options
 from esparto._publish import nb_display, publish_html, publish_pdf
 from esparto._utils import clean_attr_name, clean_iterator, get_matching_titles
 
@@ -97,13 +98,13 @@ class Layout(ABC):
     def __getitem__(self, key: Union[str, int]):
         if isinstance(key, str):
             indexes = get_matching_titles(key, self.children)
-            if len(indexes):
+            if len(indexes) and key:
                 return self.children[indexes[0]]
             value = self._child_class(title=key)
             self.children.append(value)
             if key:
                 self._add_child_id(key)
-            return self[key]
+            return self.children[-1]
 
         elif isinstance(key, int) and key < len(self.children):
             return self.children[key]
@@ -192,9 +193,12 @@ class Layout(ABC):
 
         """
         children_rendered = " ".join([c.to_html(**kwargs) for c in self.children])
-        title_rendered = self._title_tags.format(self.title) if self.title else ""
+        title_rendered = self._title_tags.format(title=self.title) if self.title else ""
 
-        html = self._body_tags.format(f"{title_rendered}\n{children_rendered}\n")
+        html = self._body_tags.format(
+            identifier=clean_attr_name(str(self.title)),
+            children=f"{title_rendered}\n{children_rendered}\n",
+        )
         return html
 
     def tree(self) -> None:
@@ -301,7 +305,7 @@ class Layout(ABC):
         def dep_finder(item):
             nonlocal deps
             for child in item.children:
-                deps = deps | set(getattr(child, "_dependencies", None))
+                deps = deps | set(getattr(child, "_dependencies", {}))
                 if hasattr(child, "children"):
                     dep_finder(child)
 
@@ -344,7 +348,7 @@ class Page(Layout):
         self,
         filepath: str = "./esparto-doc.html",
         return_html: bool = False,
-        dependency_source="esparto.options",
+        dependency_source=options.default,
     ) -> Optional[str]:
         """
         Save document to HTML file.
@@ -374,7 +378,7 @@ class Page(Layout):
         self,
         filepath: str = "./esparto-doc.html",
         return_html: bool = False,
-        dependency_source="esparto.options",
+        dependency_source=options.default,
     ) -> Optional[str]:
         """
         Save document to HTML file.
@@ -421,8 +425,8 @@ class Page(Layout):
             return html
         return None
 
-    _title_tags = "<h1 class='display-4 my-3'>{}</h1>"
-    _body_tags = "<main class='container px-2'>{}</main>"
+    _title_tags = "<h1 class='display-4 my-3'>{title}</h1>"
+    _body_tags = "<main class='container px-2' id='{identifier}'>{children}</main>"
 
     @property
     def _parent_class(self):
@@ -442,8 +446,8 @@ class Section(Layout):
 
     """
 
-    _title_tags = "<h3 class='mb-3'>{}</h3>"
-    _body_tags = "<div class='px-1 mb-5'>{}</div>"
+    _title_tags = "<h3 class='mb-3'>{title}</h3>"
+    _body_tags = "<div class='px-1 mb-3' id='{identifier}'>{children}</div>"
     _parent_class = Page
 
     @property
@@ -460,8 +464,8 @@ class Row(Layout):
 
     """
 
-    _title_tags = "<div class='col-12'><h5 class='px-1 mb-3'>{}</h5></div>"
-    _body_tags = "<div class='row'>{}</div>"
+    _title_tags = "<div class='col-12'><h5 class='px-1 mb-3'>{title}</h5></div>"
+    _body_tags = "<div class='row mb-3' id='{identifier}'>{children}</div>"
     _parent_class = Section
 
     @property
@@ -478,10 +482,24 @@ class Column(Layout):
 
     """
 
-    _title_tags = "<h5 class='px-1 mb-3'>{}</h5>"
-    _body_tags = "<div class='col-lg mb-3'>{}</div>"
+    _title_tags = "<h5 class='px-1 mb-3'>{title}</h5>"
+    _body_tags = "<div class='col-lg mb-3' id='{identifier}'>{children}</div>"
     _parent_class = Row
 
     @property
     def _child_class(self):
         raise NotImplementedError
+
+
+class Spacer(Column):
+    """Empty Column for making space within a Row."""
+
+    def __init__(self):
+        super().__init__()
+
+
+class PageBreak(Section):
+    """Add a page break when printing or saving to PDF."""
+
+    _title_tags = ""
+    _body_tags = "<div id='page-break' style='page-break-after: always;'></div>"

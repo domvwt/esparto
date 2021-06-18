@@ -36,6 +36,7 @@ class Content(ABC):
 
     Attributes:
       content (Any): Item to be included in the page - should match the encompassing Content class.
+
     """
 
     content: Any
@@ -81,6 +82,27 @@ class Content(ABC):
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+
+class RawHTML(Content):
+    """Raw HTML content.
+
+    Args:
+      html (str): HTML code.
+
+    """
+
+    _dependencies: Set[Any] = set("")
+
+    def __init__(self, html):
+
+        if not isinstance(html, str):
+            raise TypeError(r"HTML must be str")
+
+        self.content = html
+
+    def to_html(self, **kwargs) -> str:
+        return self.content
 
 
 class Markdown(Content):
@@ -209,7 +231,7 @@ class DataFramePd(Content):
 
     Args:
       df (pd.DataFrame): A Pandas DataFrame
-      index (bool): If True, render the DataFrame index. (default = False)
+      index (bool): If True, render the DataFrame index. (default = True)
       col_space (str, int): Minimum column width in CSS units. Use int for pixels. (default = 0)
 
     """
@@ -217,7 +239,7 @@ class DataFramePd(Content):
     _dependencies = {"bootstrap"}
 
     def __init__(
-        self, df: "DataFrame", index: bool = False, col_space: Union[int, str] = 0
+        self, df: "DataFrame", index: bool = True, col_space: Union[int, str] = 0
     ):
 
         if not isinstance(df, DataFrame):
@@ -228,7 +250,7 @@ class DataFramePd(Content):
         self.col_space = col_space
 
     def to_html(self, **kwargs) -> str:
-        classes = "table table-sm table-striped table-hover table-bordered my-1"
+        classes = "table table-xs table-striped table-hover table-bordered my-1"
         html = self.content.to_html(
             index=self.index, border=0, col_space=self.col_space, classes=classes
         )
@@ -243,7 +265,7 @@ class FigureMpl(Content):
       figure (plt.Figure): A Matplotlib figure.
       width (int): Width in pixels. (default = '100%')
       height (int): Height in pixels. (default = 'auto')
-      output_format (str): One of 'svg', 'png', or 'esparto.options'. (default = 'esparto.options')
+      output_format (str): One of 'svg', 'png', or 'esparto.options'. (default = 'options.matplotlib_output_format')
 
     """
 
@@ -254,7 +276,7 @@ class FigureMpl(Content):
         figure: "MplFigure",
         width: Union[str, int] = "100%",
         height: Union[str, int] = "auto",
-        output_format="esparto.options",
+        output_format=options.matplotlib_output_format,
     ):
 
         if not isinstance(figure, MplFigure):
@@ -268,8 +290,6 @@ class FigureMpl(Content):
     def to_html(self, **kwargs):
         if kwargs.get("notebook_mode"):
             output_format = options.matplotlib_notebook_format
-        elif self.output_format == "esparto.options":
-            output_format = options.matplotlib_output_format
         else:
             output_format = self.output_format
 
@@ -280,8 +300,9 @@ class FigureMpl(Content):
             buffer.seek(0)
             xml = buffer.read()
 
+            width, height = self.content.get_size_inches() * 96
+
             if kwargs.get("pdf_mode"):
-                width, height = self.content.get_size_inches() * 96
                 xml = responsive_svg_mpl(xml, width=int(width), height=int(height))
                 temp_file = Path(options.pdf_temp_dir) / f"{uuid4()}.svg"
                 temp_file.write_text(xml)
@@ -294,8 +315,10 @@ class FigureMpl(Content):
                 inner = xml
 
             html = (
-                f"<div class='svg-container-mpl' style='max-width: {self.width}; height: {self.height};'>\n"
-                + f"{inner}\n</div>\n"
+                "<div class='row justify-content-center p-0 m-0' "
+                + "style='width: 100%; height: auto;'>\n"
+                + f"<div class='col p-0 m-0' style='width: {self.width}; max-width: {int(width)}px; height: auto;'>"
+                + f"{inner}\n</div>\n</div>\n"
             )
 
             return html
@@ -413,6 +436,7 @@ def _image_to_base64(image: PILImage) -> str:
 
     Returns:
       str: Image encoded as a base64 utf-8 string.
+
     """
     buffer = BytesIO()
     image.save(buffer, format="png")
