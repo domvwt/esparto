@@ -9,7 +9,7 @@ Release Notes
 -   New Content class
     -   RawHTML: place raw HTML code in the page
 -   Updated Content classes
-    -   DataFramePD: add new CSS style to minimise row height
+    -   DataFramePd: add new CSS style to minimise row height
     -   FigureMpl: SVG rendered plots are now responsive and horizontally centred
 -   New publishing features
     -   CSS stylesheet path can be passed to options.css_styles
