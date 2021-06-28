@@ -12,10 +12,11 @@ esparto
 `esparto` is a simple HTML and PDF document generator for Python.
 The library takes a fully Pythonic approach to defining documents,
 allowing iterative building and modification of the page and its contents.
-`esparto` is especially good at:
+
+### Example Use Cases
 
 * Automated MI reporting
-* Collating and sharing data visualisation
+* Collating and sharing data visualisations
 * ML model performance and evaluation documents
 * Designing simple web pages
 
@@ -26,7 +27,7 @@ allowing iterative building and modification of the page and its contents.
 * Output self-contained HTML and PDF files
 * Responsive layout from [Bootstrap](https://getbootstrap.com/)
 * No CSS or HTML required
-* Automatic conversion for:
+* Implicit conversion for:
     * Markdown
     * Images
     * Pandas DataFrames
@@ -76,7 +77,7 @@ page = es.Page(title="Research")
 
 # Add or update content
 # Keys are used as titles
-page["Introduction"]["Part One"]["Item A"] = "lorem ipsum"
+page["Introduction"]["Part One"]["Item A"] = "./text/content.md"
 page["Introduction"]["Part One"]["Item B"] = "./pictures/image1.jpg"
 
 # Add content without a title

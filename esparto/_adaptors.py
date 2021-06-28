@@ -1,5 +1,6 @@
 from functools import singledispatch
 from mimetypes import guess_type
+from pathlib import Path
 
 from esparto import _INSTALLED_MODULES
 from esparto._content import (
@@ -22,7 +23,7 @@ def content_adaptor(content: Content) -> Content:
       content (Any): Any content to be added to the document.
 
     Returns:
-      Content: Approriately wrapped content.
+      Content: Appropriately wrapped content.
 
     """
     if not issubclass(type(content), Content):
@@ -32,11 +33,22 @@ def content_adaptor(content: Content) -> Content:
 
 @content_adaptor.register(str)
 def content_adaptor_core(content: str) -> Content:
-    """Convert markdown or image to Markdown or Image content."""
+    """Convert text or image to Markdown or Image content."""
     guess = guess_type(content)
-    if guess and "image" in str(guess[0]):
-        return Image(content)
+    if guess and isinstance(guess[0], str):
+        file_type = guess[0].split("/")[0]
+        if file_type == "image":
+            return Image(content)
+        elif file_type == "text":
+            content = Path(content).read_text()
     return Markdown(content)
+
+
+@content_adaptor.register(Path)
+def content_adaptor_path(content: Path) -> Content:
+    """Convert text or image path to Markdown or Image content."""
+    content_str = str(content)
+    return content_adaptor_core(content_str)
 
 
 # Function only available if Pandas is installed.

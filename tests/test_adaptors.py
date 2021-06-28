@@ -1,9 +1,10 @@
 from inspect import getmembers, isfunction, signature
+from pathlib import Path, PosixPath
 
 import pytest
 
 import esparto._adaptors as ad
-from esparto._content import Content
+from esparto._content import Content, Markdown
 from tests.conftest import _EXTRAS, adaptor_list
 
 
@@ -20,6 +21,9 @@ def test_all_adaptors_covered(adaptor_list_fn):
     adaptor_types.remove(Content)  # Can't use abstract base class in a test
     if _EXTRAS:
         adaptor_types.remove(ad.BokehObject)  # Can't use abstract base class in a test
+    if PosixPath in test_classes:
+        test_classes.remove(PosixPath)
+        test_classes = adaptor_types | {Path}
     adaptor_types.remove(None)
     missing = adaptor_types.difference(test_classes)
     assert not missing, missing
@@ -29,6 +33,16 @@ def test_all_adaptors_covered(adaptor_list_fn):
 def test_adaptor_text(input_, expected):
     output = ad.content_adaptor(input_)
     assert isinstance(output, expected)
+
+
+def test_adapator_textfile(tmp_path):
+    d = tmp_path / "sub"
+    d.mkdir()
+    p = d / "hello.txt"
+    CONTENT = "# This is some Markdown content"
+    p.write_text(CONTENT)
+    assert ad.content_adaptor(Path(p)) == Markdown(CONTENT)
+    assert ad.content_adaptor(str(p)) == Markdown(CONTENT)
 
 
 def test_incorrect_content_rejected():
