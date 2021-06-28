@@ -7,14 +7,14 @@ esparto
 [![codecov](https://codecov.io/gh/domvwt/esparto/branch/main/graph/badge.svg?token=35J8NZCUYC)](https://codecov.io/gh/domvwt/esparto)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&metric=alert_status)](https://sonarcloud.io/dashboard?id=domvwt_esparto)
 
-## Introduction
 
+## Introduction
 `esparto` is a simple HTML and PDF document generator for Python.
 The library takes a fully Pythonic approach to defining documents,
 allowing iterative building and modification of the page and its contents.
 
-### Example Use Cases
 
+### Example Use Cases
 * Automated MI reporting
 * Collating and sharing data visualisations
 * ML model performance and evaluation documents
@@ -49,7 +49,6 @@ pip install weasyprint
 
 
 ## Dependencies
-
 *   [python](https://python.org/) >= 3.6
 *   [jinja2](https://palletsprojects.com/p/jinja/)
 *   [markdown](https://python-markdown.github.io/)
@@ -120,7 +119,6 @@ page.save_pdf("my-page.pdf")
 
 
 ## Example Output
-
 Iris Report - [HTML](https://domvwt.github.io/esparto/examples/iris-report.html) |
 [PDF](https://domvwt.github.io/esparto/examples/iris-report.pdf)
 
