@@ -317,6 +317,19 @@
     Introduction
   </a>
   
+    <nav class="md-nav" aria-label="Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-use-cases" class="md-nav__link">
+    Example Use Cases
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -612,11 +625,11 @@
 <h2 id="introduction">Introduction</h2>
 <p><code>esparto</code> is a simple HTML and PDF document generator for Python.
 The library takes a fully Pythonic approach to defining documents,
-allowing iterative building and modification of the page and its contents.
-<code>esparto</code> is especially good at:</p>
+allowing iterative building and modification of the page and its contents.</p>
+<h3 id="example-use-cases">Example Use Cases</h3>
 <ul>
 <li>Automated MI reporting</li>
-<li>Collating and sharing data visualisation</li>
+<li>Collating and sharing data visualisations</li>
 <li>ML model performance and evaluation documents</li>
 <li>Designing simple web pages</li>
 </ul>
@@ -627,7 +640,7 @@ allowing iterative building and modification of the page and its contents.
 <li>Output self-contained HTML and PDF files</li>
 <li>Responsive layout from <a href="https://getbootstrap.com/">Bootstrap</a></li>
 <li>No CSS or HTML required</li>
-<li>Automatic conversion for:<ul>
+<li>Implicit conversion for:<ul>
 <li>Markdown</li>
 <li>Images</li>
 <li>Pandas DataFrames</li>
@@ -667,7 +680,7 @@ allowing iterative building and modification of the page and its contents.
 
 <span class="c1"># Add or update content</span>
 <span class="c1"># Keys are used as titles</span>
-<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Introduction&quot;</span><span class="p">][</span><span class="s2">&quot;Part One&quot;</span><span class="p">][</span><span class="s2">&quot;Item A&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;lorem ipsum&quot;</span>
+<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Introduction&quot;</span><span class="p">][</span><span class="s2">&quot;Part One&quot;</span><span class="p">][</span><span class="s2">&quot;Item A&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;./text/content.md&quot;</span>
 <span class="n">page</span><span class="p">[</span><span class="s2">&quot;Introduction&quot;</span><span class="p">][</span><span class="s2">&quot;Part One&quot;</span><span class="p">][</span><span class="s2">&quot;Item B&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;./pictures/image1.jpg&quot;</span>
 
 <span class="c1"># Add content without a title</span>

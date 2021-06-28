@@ -484,6 +484,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#esparto._adaptors.content_adaptor_path" class="md-nav__link">
+    content_adaptor_path()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#esparto._adaptors.content_adaptor_plotly" class="md-nav__link">
     content_adaptor_plotly()
   </a>
@@ -693,7 +700,7 @@
   <tbody>
     <tr>
       <td><code>Content</code></td>
-      <td><p>Content: Approriately wrapped content.</p></td>
+      <td><p>Content: Appropriately wrapped content.</p></td>
     </tr>
   </tbody>
 </table>
@@ -708,7 +715,7 @@
 <span class="sd">      content (Any): Any content to be added to the document.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">      Content: Approriately wrapped content.</span>
+<span class="sd">      Content: Appropriately wrapped content.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">content</span><span class="p">),</span> <span class="n">Content</span><span class="p">):</span>
@@ -762,16 +769,22 @@
 
     <div class="doc doc-contents ">
 
-      <p>Convert markdown or image to Markdown or Image content.</p>
+      <p>Convert text or image to Markdown or Image content.</p>
 
         <details class="quote">
           <summary>Source code in <code>esparto/_adaptors.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@content_adaptor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">content_adaptor_core</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Content</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Convert markdown or image to Markdown or Image content.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Convert text or image to Markdown or Image content.&quot;&quot;&quot;</span>
     <span class="n">guess</span> <span class="o">=</span> <span class="n">guess_type</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">guess</span> <span class="ow">and</span> <span class="s2">&quot;image&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">guess</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-        <span class="k">return</span> <span class="n">Image</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">guess</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">guess</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">file_type</span> <span class="o">=</span> <span class="n">guess</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">file_type</span> <span class="o">==</span> <span class="s2">&quot;image&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Image</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">file_type</span> <span class="o">==</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">content</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">file_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">Markdown</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
 </code></pre></div>
         </details>
@@ -829,6 +842,35 @@
 <span class="k">def</span> <span class="nf">content_adaptor_mpl</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Figure</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FigureMpl</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Convert Matplotlib Figure to FigureMpl content.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">FigureMpl</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h3 id="esparto._adaptors.content_adaptor_path" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">content_adaptor_path</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Convert text or image path to Markdown or Image content.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>esparto/_adaptors.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="nd">@content_adaptor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Path</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">content_adaptor_path</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Content</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Convert text or image path to Markdown or Image content.&quot;&quot;&quot;</span>
+    <span class="n">content_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">content_adaptor_core</span><span class="p">(</span><span class="n">content_str</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
