@@ -37,6 +37,7 @@ layout_list = [
 adaptor_list = [
     ("this is markdown", co.Markdown),
     (_irises_path, co.Image),
+    (Path(_irises_path), co.Image),
 ]
 
 if _EXTRAS:

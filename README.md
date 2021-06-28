@@ -7,15 +7,16 @@ esparto
 [![codecov](https://codecov.io/gh/domvwt/esparto/branch/main/graph/badge.svg?token=35J8NZCUYC)](https://codecov.io/gh/domvwt/esparto)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&metric=alert_status)](https://sonarcloud.io/dashboard?id=domvwt_esparto)
 
-## Introduction
 
+## Introduction
 `esparto` is a simple HTML and PDF document generator for Python.
 The library takes a fully Pythonic approach to defining documents,
 allowing iterative building and modification of the page and its contents.
-`esparto` is especially good at:
 
+
+### Example Use Cases
 * Automated MI reporting
-* Collating and sharing data visualisation
+* Collating and sharing data visualisations
 * ML model performance and evaluation documents
 * Designing simple web pages
 
@@ -26,7 +27,7 @@ allowing iterative building and modification of the page and its contents.
 * Output self-contained HTML and PDF files
 * Responsive layout from [Bootstrap](https://getbootstrap.com/)
 * No CSS or HTML required
-* Automatic conversion for:
+* Implicit conversion for:
     * Markdown
     * Images
     * Pandas DataFrames
@@ -48,7 +49,6 @@ pip install weasyprint
 
 
 ## Dependencies
-
 *   [python](https://python.org/) >= 3.6
 *   [jinja2](https://palletsprojects.com/p/jinja/)
 *   [markdown](https://python-markdown.github.io/)
@@ -76,7 +76,7 @@ page = es.Page(title="Research")
 
 # Add or update content
 # Keys are used as titles
-page["Introduction"]["Part One"]["Item A"] = "lorem ipsum"
+page["Introduction"]["Part One"]["Item A"] = "./text/content.md"
 page["Introduction"]["Part One"]["Item B"] = "./pictures/image1.jpg"
 
 # Add content without a title
@@ -119,7 +119,6 @@ page.save_pdf("my-page.pdf")
 
 
 ## Example Output
-
 Iris Report - [HTML](https://domvwt.github.io/esparto/examples/iris-report.html) |
 [PDF](https://domvwt.github.io/esparto/examples/iris-report.pdf)
 

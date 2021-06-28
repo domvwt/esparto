@@ -1342,6 +1342,14 @@ python-versions = "*"
 version = "1.4.3"
 
 [[package]]
+category = "dev"
+description = "Typing stubs for Markdown"
+name = "types-markdown"
+optional = false
+python-versions = "*"
+version = "3.3.0"
+
+[[package]]
 category = "main"
 description = "Backported and Experimental Type Hints for Python 3.5+"
 name = "typing-extensions"
@@ -1462,7 +1470,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 extras = ["beautifulsoup4", "weasyprint"]
 
 [metadata]
-content-hash = "cebec711df35d7291b2113bc8e47db30f869bc53f7116b0f058fac7fd4079e85"
+content-hash = "951f1e62f2f8a2429593176babc59392c3b4153e9205ea2c472fb9a6e40ec562"
 lock-version = "1.0"
 python-versions = ">=3.6.1,<4.0"
 
@@ -2413,6 +2421,10 @@ typed-ast = [
     {file = "typed_ast-1.4.3-cp39-cp39-win32.whl", hash = "sha256:209596a4ec71d990d71d5e0d312ac935d86930e6eecff6ccc7007fe54d703808"},
     {file = "typed_ast-1.4.3-cp39-cp39-win_amd64.whl", hash = "sha256:9c6d1a54552b5330bc657b7ef0eae25d00ba7ffe85d9ea8ae6540d2197a3788c"},
     {file = "typed_ast-1.4.3.tar.gz", hash = "sha256:fb1bbeac803adea29cedd70781399c99138358c26d05fcbd23c13016b7f5ec65"},
+]
+types-markdown = [
+    {file = "types-Markdown-3.3.0.tar.gz", hash = "sha256:b7bf9ce52a9f712c6a59b75350ed435d6fc1f1d5eafed44a321472bf96cf77db"},
+    {file = "types_Markdown-3.3.0-py3-none-any.whl", hash = "sha256:cc18cc0fcc2ba8ab3f5233b2945db33e2e68ddad179708b2d2f08da08d33bc4e"},
 ]
 typing-extensions = [
     {file = "typing_extensions-3.10.0.0-py2-none-any.whl", hash = "sha256:0ac0f89795dd19de6b97debb0c6af1c70987fd80a2d62d1958f7e56fcc31b497"},

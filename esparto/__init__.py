@@ -34,7 +34,7 @@ page = es.Page(title="Research")
 
 # Add or update content
 # Keys are used as titles
-page["Introduction"]["Part One"]["Item A"] = "lorem ipsum"
+page["Introduction"]["Part One"]["Item A"] = "./text/content.md"
 page["Introduction"]["Part One"]["Item B"] = "./pictures/image1.jpg"
 
 # Add content without a title
@@ -87,7 +87,7 @@ from typing import Set as _Set
 
 __author__ = """Dominic Thorn"""
 __email__ = "dominic.thorn@gmail.com"
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 
 _MODULE_PATH: _Path = _Path(__file__).parent.absolute()
 
