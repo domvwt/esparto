@@ -38,6 +38,16 @@ def test_adaptor_text(input_, expected):
 def test_adapator_textfile(tmp_path):
     d = tmp_path / "sub"
     d.mkdir()
+    p = d / "hello.exe"
+    CONTENT = "# This is some Markdown content"
+    p.write_text(CONTENT)
+    with pytest.raises(TypeError):
+        ad.content_adaptor(Path(p))
+
+
+def test_adapator_bad_file(tmp_path):
+    d = tmp_path / "sub"
+    d.mkdir()
     p = d / "hello.txt"
     CONTENT = "# This is some Markdown content"
     p.write_text(CONTENT)

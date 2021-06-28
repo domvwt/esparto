@@ -41,6 +41,8 @@ def content_adaptor_core(content: str) -> Content:
             return Image(content)
         elif file_type == "text":
             content = Path(content).read_text()
+        else:
+            raise TypeError(f"{content}: {file_type}")
     return Markdown(content)
 
 
