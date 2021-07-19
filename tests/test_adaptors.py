@@ -5,6 +5,7 @@ import pytest
 
 import esparto._adaptors as ad
 from esparto._content import Content, Markdown
+from esparto._layout import Column
 from tests.conftest import _EXTRAS, adaptor_list
 
 
@@ -33,6 +34,12 @@ def test_all_adaptors_covered(adaptor_list_fn):
 def test_adaptor_text(input_, expected):
     output = ad.content_adaptor(input_)
     assert isinstance(output, expected)
+
+
+def test_adaptor_layout():
+    input_col = Column(title="title", children=["a", "b"])
+    output_col = ad.content_adaptor(input_col)
+    assert input_col == output_col
 
 
 def test_adapator_textfile(tmp_path):
