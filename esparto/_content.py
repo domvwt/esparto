@@ -212,10 +212,9 @@ class Image(Content):
         image_encoded = _image_to_base64(image)
         html = (
             "<figure class='text-center p-3'>"
-            + "<img class='img-fluid figure-img rounded' "
-            + f"alt='{self.alt_text}' "
-            + f"src='data:image/png;base64,{image_encoded}' "
-            + ">"
+            "<img class='img-fluid figure-img rounded' "
+            f"alt='{self.alt_text}' "
+            f"src='data:image/png;base64,{image_encoded}'>"
         )
 
         if self.caption:
@@ -265,7 +264,7 @@ class FigureMpl(Content):
       figure (plt.Figure): A Matplotlib figure.
       width (int): Width in pixels. (default = '100%')
       height (int): Height in pixels. (default = 'auto')
-      output_format (str): One of 'svg', 'png', or 'esparto.options'. (default = 'options.matplotlib_output_format')
+      output_format (str): 'svg' or 'png'. (default = None)
 
     """
 
@@ -314,11 +313,12 @@ class FigureMpl(Content):
                 xml = responsive_svg_mpl(xml)
                 inner = xml
 
+            max_scale_up = 1.5
             html = (
                 "<div class='row justify-content-center p-0 m-0' "
-                + "style='width: 100%; height: auto;'>\n"
-                + f"<div class='col p-0 m-0' style='width: {self.width}; max-width: {int(width)}px; height: auto;'>"
-                + f"{inner}\n</div>\n</div>\n"
+                "style='width: 100%; height: auto;'>\n"
+                f"<div class='col p-0 m-0' style='max-width: {int(width * max_scale_up)}px; height: auto;'>"
+                f"{inner}\n</div>\n</div>\n"
             )
 
             return html

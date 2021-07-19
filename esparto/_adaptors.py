@@ -1,6 +1,7 @@
 from functools import singledispatch
 from mimetypes import guess_type
 from pathlib import Path
+from typing import Union
 
 from esparto import _INSTALLED_MODULES
 from esparto._content import (
@@ -12,12 +13,13 @@ from esparto._content import (
     Image,
     Markdown,
 )
+from esparto._layout import Layout
 
 
 @singledispatch
-def content_adaptor(content: Content) -> Content:
+def content_adaptor(content: Content) -> Union[Content, Layout]:
     """
-    Wrap content in the required class.
+    Wrap content in the required class. If Layout object is passed, return unchanged.
 
     Args:
       content (Any): Any content to be added to the document.
@@ -46,8 +48,14 @@ def content_adaptor_core(content: str) -> Content:
     return Markdown(content)
 
 
+@content_adaptor.register(Layout)
+def content_adaptor_layout(content: Layout) -> Layout:
+    """If Layout object is passed, return unchanged."""
+    return content
+
+
 @content_adaptor.register(Path)
-def content_adaptor_path(content: Path) -> Content:
+def content_adaptor_path(content: Path) -> Union[Content, Layout]:
     """Convert text or image path to Markdown or Image content."""
     content_str = str(content)
     return content_adaptor_core(content_str)
