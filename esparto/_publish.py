@@ -19,9 +19,9 @@ def publish_html(
     document: "Page",
     filepath: Optional[str] = "./esparto-doc.html",
     return_html: bool = False,
-    dependency_source=options.default,
-    css_styles=options.default,
-    jinja_template=options.default,
+    dependency_source: str = None,
+    css_styles: str = None,
+    jinja_template: str = None,
     **kwargs,
 ) -> Optional[str]:
     """Save document to HTML.
@@ -30,9 +30,9 @@ def publish_html(
       document (Page): A Page object.
       filepath (str): Filepath to write to.
       return_html (bool): Returns HTML string if True.
-      dependency_source (str): One of 'cdn' or 'inline' (default = 'esparto.options').
-      css_styles (str): Path to CSS stylesheet. (default = 'esparto.options').
-      jinja_template (str): Path to Jinja template. (default = 'esparto.options').
+      dependency_source (str): One of 'cdn' or 'inline' (default = None).
+      css_styles (str): Path to CSS stylesheet. (default = None).
+      jinja_template (str): Path to Jinja template. (default = None).
       **kwargs (Dict[str, Any]): Arguments passed to `document.to_html()`.
 
     Returns:
@@ -45,11 +45,11 @@ def publish_html(
     resolved_deps = resolve_deps(required_deps, source=dependency_source)
 
     css_styles = Path(resolve_config_option("css_styles", css_styles)).read_text()
-    jinja_template = Template(
+    jinja_template_loaded = Template(
         Path(resolve_config_option("jinja_template", jinja_template)).read_text()
     )
 
-    html_rendered: str = jinja_template.render(
+    html_rendered: str = jinja_template_loaded.render(
         org_name=document.org_name,
         doc_title=document.title,
         css_styles=css_styles,
@@ -114,7 +114,7 @@ def publish_pdf(
 def nb_display(
     item: Union["Layout", "Content"],
     return_html: bool = False,
-    dependency_source=options.default,
+    dependency_source: str = None,
 ) -> Optional[str]:
     """Display Layout or Content to Jupyter Notebook cell.
 

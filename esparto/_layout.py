@@ -5,7 +5,6 @@ from abc import ABC
 from pprint import pformat
 from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Optional, Set, Type, Union
 
-from esparto._options import options
 from esparto._publish import nb_display, publish_html, publish_pdf
 from esparto._utils import clean_attr_name, clean_iterator, get_matching_titles
 
@@ -348,7 +347,7 @@ class Page(Layout):
         self,
         filepath: str = "./esparto-doc.html",
         return_html: bool = False,
-        dependency_source=options.default,
+        dependency_source: str = None,
     ) -> Optional[str]:
         """
         Save document to HTML file.
@@ -358,7 +357,7 @@ class Page(Layout):
         Args:
           filepath (str): Destination filepath.
           return_html (bool): If True, return HTML as a string.
-          dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'.
+          dependency_source (str): 'cdn' or 'inline'.
 
         Returns:
           Document rendered as HTML. (If `return_html` is True)
@@ -378,7 +377,7 @@ class Page(Layout):
         self,
         filepath: str = "./esparto-doc.html",
         return_html: bool = False,
-        dependency_source=options.default,
+        dependency_source: str = None,
     ) -> Optional[str]:
         """
         Save document to HTML file.
@@ -386,7 +385,7 @@ class Page(Layout):
         Args:
           filepath (str): Destination filepath.
           return_html (bool): If True, return HTML as a string.
-          dependency_source (str): One of 'cdn', 'inline', or 'esparto.options'.
+          dependency_source (str): 'cdn' or 'inline'.
 
         Returns:
           Document rendered as HTML. (If `return_html` is True)
@@ -465,7 +464,7 @@ class Row(Layout):
     """
 
     _title_tags = "<div class='col-12'><h5 class='px-1 mb-3'>{title}</h5></div>"
-    _body_tags = "<div class='row mb-3' id='{identifier}'>{children}</div>"
+    _body_tags = "<div class='row mb-3' style='align-items: flex-start;' id='{identifier}'>{children}</div>"
     _parent_class = Section
 
     @property

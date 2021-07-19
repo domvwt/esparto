@@ -3,10 +3,10 @@
 from collections import UserDict
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Set
+from typing import List, Optional, Set
 
 from esparto import _INSTALLED_MODULES, _MODULE_PATH
-from esparto._options import get_dep_source_from_options, options
+from esparto._options import get_dep_source_from_options
 
 
 @dataclass
@@ -70,9 +70,7 @@ def lazy_content_dependency_dict() -> ContentDependencyDict:
     return content_dependency_dict
 
 
-def resolve_deps(
-    required_deps: Set[str], source: str = options.default
-) -> ResolvedDeps:
+def resolve_deps(required_deps: Set[str], source: Optional[str]) -> ResolvedDeps:
     resolved_deps = ResolvedDeps()
 
     source = str(get_dep_source_from_options(source))
