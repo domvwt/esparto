@@ -490,6 +490,25 @@ class Column(Layout):
         raise NotImplementedError
 
 
+class Card(Column):
+    """A Card can be used in place of a Column for grouping related items.
+    Child items will be vertically stacked by defualt. Horizontal distribution
+    can be achieved by nesting content inside a Row.
+
+    Args:
+        title (str): Used as a title within the document and as a key value.
+        children (list): Child items defining layout and content.
+
+    """
+
+    _title_tags = "<h5 class='card-title'>{title}</h5>"
+    _body_tags = (
+        "<div class='col-lg mx-2 mb-3 border rounded' style='padding: 1rem;' id='{identifier}'>"
+        "{children}"
+        "</div>"
+    )
+
+
 class Spacer(Column):
     """Empty Column for making space within a Row."""
 
