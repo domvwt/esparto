@@ -425,7 +425,7 @@ class Page(Layout):
             return html
         return None
 
-    _title_tags = "<h1 class='display-4 my-3'>{title}</h1>"
+    _title_tags = "<h1 class='display-4 mb-3'>{title}</h1>"
     _body_tags = "<main class='container px-2' id='{identifier}'>{children}</main>"
 
     @property
