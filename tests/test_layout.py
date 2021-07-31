@@ -245,3 +245,50 @@ def test_rshift(page_basic_layout):
     passthrough = page["Section One"]["Row One"] >> content
     assert passthrough == page_basic_layout["Section One"]["Row One"]
     assert page == page_basic_layout
+
+
+def test_table_of_contents():
+    input_page = la.Page(title="My Page")
+    input_page["Section One"]["Item A"] = "some text"
+    input_page["Section One"]["Item B"] = "more text"
+    input_page["Section Two"]["Item C"]["Item D"] = "and more text"
+    input_page["Section Two"]["Item C"]["Item E"] = "even more text"
+
+    output_toc = la.table_of_contents(input_page, numbered=False)
+    expected_toc = co.Markdown(
+        " * [Section One](#section_one-title)\n\t"
+        " * [Item A](#item_a-title)\n\t"
+        " * [Item B](#item_b-title)\n"
+        " * [Section Two](#section_two-title)\n\t"
+        " * [Item C](#item_c-title)\n\t\t"
+        " * [Item D](#item_d-title)\n\t\t"
+        " * [Item E](#item_e-title)"
+    )
+    assert output_toc == expected_toc
+
+
+def test_table_of_contents_numbered():
+    input_page = la.Page(title="My Page")
+    input_page["Section One"]["Item A"] = "some text"
+    input_page["Section One"]["Item B"] = "more text"
+    input_page["Section Two"]["Item C"]["Item D"] = "and more text"
+    input_page["Section Two"]["Item C"]["Item E"] = "even more text"
+
+    output_toc = la.table_of_contents(input_page, numbered=True)
+    expected_toc = co.Markdown(
+        " 1. [Section One](#section_one-title)\n\t"
+        " 1. [Item A](#item_a-title)\n\t"
+        " 1. [Item B](#item_b-title)\n"
+        " 1. [Section Two](#section_two-title)\n\t"
+        " 1. [Item C](#item_c-title)\n\t\t"
+        " 1. [Item D](#item_d-title)\n\t\t"
+        " 1. [Item E](#item_e-title)"
+    )
+    assert output_toc == expected_toc
+
+
+def test_cardgrid():
+    page = la.Page()
+    content = ["a" for _ in range(12)]
+    page["Section One"] = la.CardGrid(children=content)
+    assert False

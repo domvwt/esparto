@@ -60,16 +60,16 @@ def test_saved_html_valid_inline(page_layout: es.Page, tmp_path):
     assert html_is_valid(html)
 
 
-def test_saved_html_valid_online(page_layout: es.Page, tmp_path, monkeypatch):
-    monkeypatch.setattr(es.options, "offline_mode", False)
+def test_saved_html_valid_options_cdn(page_layout: es.Page, tmp_path, monkeypatch):
+    monkeypatch.setattr(es.options, "dependency_source", "cdn")
     path: Path = tmp_path / "my_page.html"
     page_layout.save_html(str(path))
     html = path.read_text()
     assert html_is_valid(html)
 
 
-def test_saved_html_valid_offline(page_layout: es.Page, tmp_path, monkeypatch):
-    monkeypatch.setattr(es.options, "offline_mode", True)
+def test_saved_html_valid_options_inline(page_layout: es.Page, tmp_path, monkeypatch):
+    monkeypatch.setattr(es.options, "dependency_source", "inline")
     path: Path = tmp_path / "my_page.html"
     page_layout.save_html(str(path))
     html = path.read_text()
@@ -80,6 +80,21 @@ def test_saved_html_valid_bad_source(page_layout: es.Page, tmp_path):
     path: Path = tmp_path / "my_page.html"
     with pytest.raises(ValueError):
         page_layout.save_html(str(path), dependency_source="flapjack")
+
+
+def test_rendered_html_valid_toc(page_layout: es.Page, tmp_path):
+    path = str(tmp_path / "my_page.html")
+    page_layout.table_of_contents = True
+    html = pu.publish_html(page_layout, path, return_html=True, dependency_source="cdn")
+    assert html_is_valid(html)
+
+
+def test_saved_html_valid_toc(page_layout: es.Page, tmp_path):
+    path: Path = tmp_path / "my_page.html"
+    page_layout.table_of_contents = True
+    page_layout.save_html(str(path), dependency_source="cdn")
+    html = path.read_text()
+    assert html_is_valid(html)
 
 
 if _EXTRAS:
@@ -93,13 +108,13 @@ if _EXTRAS:
         html = pu.nb_display(page_layout, return_html=True, dependency_source="inline")
         assert html_is_valid(html)
 
-    def test_notebook_html_valid_offline(page_layout, monkeypatch):
-        monkeypatch.setattr(es.options, "offline_mode", True)
+    def test_notebook_html_valid_options_cdn(page_layout, monkeypatch):
+        monkeypatch.setattr(es.options, "dependency_source", "cdn")
         html = pu.nb_display(page_layout, return_html=True)
         assert html_is_valid(html)
 
     def test_notebook_html_valid_online(page_layout, monkeypatch):
-        monkeypatch.setattr(es.options, "offline_mode", False)
+        monkeypatch.setattr(es.options, "dependency_source", "inline")
         html = pu.nb_display(page_layout, return_html=True)
         assert html_is_valid(html)
 

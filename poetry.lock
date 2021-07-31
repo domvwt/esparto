@@ -1081,7 +1081,7 @@ python-versions = "*"
 version = "2021.1"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "YAML parser and emitter for Python"
 name = "pyyaml"
 optional = false
@@ -1470,7 +1470,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 extras = ["beautifulsoup4", "weasyprint"]
 
 [metadata]
-content-hash = "951f1e62f2f8a2429593176babc59392c3b4153e9205ea2c472fb9a6e40ec562"
+content-hash = "6c5e405756f5670439c19ed78c65c3cbab0b595f882a6e20b54d735a713df390"
 lock-version = "1.0"
 python-versions = ">=3.6.1,<4.0"
 

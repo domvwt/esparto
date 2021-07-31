@@ -1,4 +1,4 @@
-"""Functions for rendering and saving documents and content."""
+"""Functions that render and save documents."""
 
 import time
 from pathlib import Path
@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 from esparto import _INSTALLED_MODULES
 from esparto._contentdeps import resolve_deps
-from esparto._options import get_dep_source_from_options, options, resolve_config_option
+from esparto._options import options, resolve_config_option
 
 
 def publish_html(
@@ -20,7 +20,7 @@ def publish_html(
     filepath: Optional[str] = "./esparto-doc.html",
     return_html: bool = False,
     dependency_source: str = None,
-    css_styles: str = None,
+    esparto_css: str = None,
     jinja_template: str = None,
     **kwargs,
 ) -> Optional[str]:
@@ -31,7 +31,7 @@ def publish_html(
       filepath (str): Filepath to write to.
       return_html (bool): Returns HTML string if True.
       dependency_source (str): One of 'cdn' or 'inline' (default = None).
-      css_styles (str): Path to CSS stylesheet. (default = None).
+      esparto_css (str): Path to CSS stylesheet. (default = None).
       jinja_template (str): Path to Jinja template. (default = None).
       **kwargs (Dict[str, Any]): Arguments passed to `document.to_html()`.
 
@@ -41,18 +41,18 @@ def publish_html(
     """
 
     required_deps = document._required_dependencies()
-    dependency_source = get_dep_source_from_options(dependency_source)
+    dependency_source = dependency_source or options.dependency_source
     resolved_deps = resolve_deps(required_deps, source=dependency_source)
 
-    css_styles = Path(resolve_config_option("css_styles", css_styles)).read_text()
+    esparto_css = Path(resolve_config_option("esparto_css", esparto_css)).read_text()
     jinja_template_loaded = Template(
         Path(resolve_config_option("jinja_template", jinja_template)).read_text()
     )
 
     html_rendered: str = jinja_template_loaded.render(
-        org_name=document.org_name,
+        navbrand=document.navbrand,
         doc_title=document.title,
-        css_styles=css_styles,
+        esparto_css=esparto_css,
         content=document.to_html(**kwargs),
         head_deps=resolved_deps.head,
         tail_deps=resolved_deps.tail,
@@ -86,7 +86,7 @@ def publish_pdf(
         raise ModuleNotFoundError("Install weasyprint for PDF support")
     import weasyprint as weasy  # type: ignore
 
-    temp_dir = Path(options.pdf_temp_dir)
+    temp_dir = Path(options._pdf_temp_dir)
     temp_dir.mkdir(parents=True, exist_ok=True)
 
     html_rendered = publish_html(
@@ -96,7 +96,7 @@ def publish_pdf(
         dependency_source="inline",
         pdf_mode=True,
     )
-    pdf_doc = weasy.HTML(string=html_rendered, base_url=options.pdf_temp_dir).render()
+    pdf_doc = weasy.HTML(string=html_rendered, base_url=options._pdf_temp_dir).render()
     pdf_doc.metadata.title = document.title
     pdf_doc.write_pdf(filepath)
 
@@ -136,17 +136,16 @@ def nb_display(
     else:
         required_deps = getattr(item, "_dependencies", set())
 
-    dependency_source = get_dep_source_from_options(dependency_source)
-
+    dependency_source = options.dependency_source
     resolved_deps = resolve_deps(required_deps, source=dependency_source)
-    css_styles = Path(options.css_styles).read_text()
+    esparto_css = Path(options.esparto_css).read_text()
     head_deps = "\n".join(resolved_deps.head)
     tail_deps = "\n".join(resolved_deps.tail)
     html = item.to_html(notebook_mode=True)
     render_html = (
         f"<div class='container' style='width: 100%; height: 100%;'>\n{html}\n</div>\n"
     )
-    render_html += f"<style>\n{css_styles}\n</style>\n"
+    render_html += f"<style>\n{esparto_css}\n</style>\n"
 
     render_html = (
         f"<!doctype html>\n<html>\n<head>{head_deps}</head>\n"
@@ -176,6 +175,7 @@ def _prettify_html(html: Optional[str]) -> str:
     if "bs4" in _INSTALLED_MODULES:
         from bs4 import BeautifulSoup  # type: ignore
 
+        html = html or ""
         html = str(BeautifulSoup(html, features="html.parser").prettify())
 
     return html or ""

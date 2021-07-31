@@ -72,7 +72,7 @@ test-all: ## run tests on every Python version with tox
 	python -m tests.check_package_version
 
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source esparto -m pytest
+	-coverage run --source esparto -m pytest
 	coverage report -m
 	coverage html
 	# $(BROWSER) htmlcov/index.html

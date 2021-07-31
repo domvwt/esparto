@@ -1,4 +1,4 @@
-"""Content classes for rendering common objects and markdown text to HTML."""
+"""Content classes render objects and markdown text to HTML."""
 
 import base64
 from abc import ABC, abstractmethod
@@ -152,7 +152,7 @@ class Image(Content):
 
     def __init__(
         self,
-        image: Union[str, PILImage, BytesIO],
+        image: Union[str, Path, PILImage, BytesIO],
         alt_text: str = "Image",
         caption: str = "",
         scale: float = None,
@@ -160,8 +160,8 @@ class Image(Content):
         set_height: int = None,
     ):
 
-        if not isinstance(image, (str, PILImage, BytesIO)):
-            raise TypeError(r"image must be one of {str, PIL.Image, BytesIO}")
+        if not isinstance(image, (str, Path, PILImage, BytesIO)):
+            raise TypeError(r"image must be one of {str, Path, PIL.Image, BytesIO}")
 
         self.content = image
         self.alt_text = alt_text
@@ -210,9 +210,16 @@ class Image(Content):
             image = _rescale_image(image, self._width, self._height, self._scale)
 
         image_encoded = _image_to_base64(image)
+
+        width, height = image.size
+        max_scale_up = 1.2
+        max_scale_down = 0.5
+
         html = (
-            "<figure class='text-center p-3'>"
+            "<figure class='text-center m-0 p-2 pb-3'>"
             "<img class='img-fluid figure-img rounded' "
+            f"style='min-width: {int(width * max_scale_down)}px; "
+            f"max-width: min({int(width * max_scale_up)}px, 100%);' "
             f"alt='{self.alt_text}' "
             f"src='data:image/png;base64,{image_encoded}'>"
         )
@@ -233,6 +240,9 @@ class DataFramePd(Content):
       index (bool): If True, render the DataFrame index. (default = True)
       col_space (str, int): Minimum column width in CSS units. Use int for pixels. (default = 0)
 
+    Attributes:
+      classes (List[str]): CSS classes applied to the HTML output.
+
     """
 
     _dependencies = {"bootstrap"}
@@ -247,11 +257,21 @@ class DataFramePd(Content):
         self.content: "DataFrame" = df
         self.index = index
         self.col_space = col_space
+        self.css_classes = [
+            "table",
+            "table-xs",
+            "table-striped",
+            "table-hover",
+            "table-bordered",
+            "my-1",
+        ]
 
     def to_html(self, **kwargs) -> str:
-        classes = "table table-xs table-striped table-hover table-bordered my-1"
         html = self.content.to_html(
-            index=self.index, border=0, col_space=self.col_space, classes=classes
+            index=self.index,
+            border=0,
+            col_space=self.col_space,
+            classes=self.css_classes,
         )
         html = f"<div class='table-responsive'>{html}</div>"
         return html
@@ -265,6 +285,8 @@ class FigureMpl(Content):
       width (int): Width in pixels. (default = '100%')
       height (int): Height in pixels. (default = 'auto')
       output_format (str): 'svg' or 'png'. (default = None)
+      pdf_figsize (tuple, float): Set figure size for PDF output. (default = None)
+        Accepts tuple of (height, width) or float to use as scale factor.
 
     """
 
@@ -275,7 +297,8 @@ class FigureMpl(Content):
         figure: "MplFigure",
         width: Union[str, int] = "100%",
         height: Union[str, int] = "auto",
-        output_format=options.matplotlib_output_format,
+        output_format: str = None,
+        pdf_figsize: Union[Tuple[int, int], float] = None,
     ):
 
         if not isinstance(figure, MplFigure):
@@ -284,13 +307,27 @@ class FigureMpl(Content):
         self.content: MplFigure = figure
         self.width = html_dim(width)
         self.height = html_dim(height)
-        self.output_format = output_format
+        self.output_format = output_format or options.matplotlib_output_format
+        self.pdf_figsize = pdf_figsize or options.matplotlib_pdf_figsize
+
+        self._orig_figsize = figure.get_size_inches()
 
     def to_html(self, **kwargs):
+        # Reset figsize in case it's been changed
+        self.content.set_size_inches(*self._orig_figsize)
+
         if kwargs.get("notebook_mode"):
             output_format = options.matplotlib_notebook_format
         else:
             output_format = self.output_format
+
+        if kwargs.get("pdf_mode") and self.pdf_figsize:
+            if isinstance(self.pdf_figsize, float):
+                figsize = self.pdf_figsize * self._orig_figsize
+            else:
+                figsize = self.pdf_figsize
+            self.content.set_size_inches(*figsize)
+            self.content.tight_layout()
 
         if output_format == "svg":
 
@@ -303,7 +340,7 @@ class FigureMpl(Content):
 
             if kwargs.get("pdf_mode"):
                 xml = responsive_svg_mpl(xml, width=int(width), height=int(height))
-                temp_file = Path(options.pdf_temp_dir) / f"{uuid4()}.svg"
+                temp_file = Path(options._pdf_temp_dir) / f"{uuid4()}.svg"
                 temp_file.write_text(xml)
                 inner = (
                     "<object type='image/svg+xml' width='100%' height='100%' "
@@ -313,11 +350,13 @@ class FigureMpl(Content):
                 xml = responsive_svg_mpl(xml)
                 inner = xml
 
-            max_scale_up = 1.5
+            max_scale_up = 1
+            max_scale_down = 0.5
             html = (
                 "<div class='row justify-content-center p-0 m-0' "
                 "style='width: 100%; height: auto;'>\n"
-                f"<div class='col p-0 m-0' style='max-width: {int(width * max_scale_up)}px; height: auto;'>"
+                f"<div class='col p-0 m-0' style='max-width: min({int(width * max_scale_up)}px, 100%); "
+                f"min-width: {int(width * max_scale_down)}px; height: auto;'>"
                 f"{inner}\n</div>\n</div>\n"
             )
 
@@ -365,7 +404,7 @@ class FigureBokeh(Content):
         if kwargs.get("pdf_mode"):  # pragma: no cover
             from bokeh.io import export_svg  # type: ignore
 
-            temp_file = Path(options.pdf_temp_dir) / f"{uuid4()}.svg"
+            temp_file = Path(options._pdf_temp_dir) / f"{uuid4()}.svg"
             export_svg(self.content, filename=str(temp_file))
             html = f"<img src='{temp_file.name}' width='100%' height='auto'>\n"
             return html
@@ -403,7 +442,7 @@ class FigurePlotly(Content):
     def to_html(self, **kwargs) -> str:
 
         if kwargs.get("pdf_mode"):
-            temp_file = Path(options.pdf_temp_dir) / f"{uuid4()}.svg"
+            temp_file = Path(options._pdf_temp_dir) / f"{uuid4()}.svg"
             self.content.write_image(str(temp_file))
             html = f"<img src='{temp_file.name}' width='100%' height='auto'>\n"
 

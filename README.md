@@ -1,5 +1,5 @@
-esparto
-=======
+<h1 style="color: #036666; font-size: 5rem; font-style: italic;
+ text-shadow: 2px 2px #248277"> esparto</h1>
 
 [![image](https://img.shields.io/pypi/v/esparto.svg)](https://pypi.python.org/pypi/esparto)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/esparto.svg)](https://pypi.python.org/pypi/esparto/)
@@ -10,31 +10,32 @@ esparto
 
 
 ## Introduction
-`esparto` is a simple HTML and PDF document generator for Python.
-The library takes a fully Pythonic approach to defining documents,
-allowing iterative building and modification of the page and its contents.
+`esparto` is a Python library for building shareable
+reports with markdown, images, and objects from popular data analysis libraries.
 
+Reports produced by `esparto` support interactivity by incorporating
+dependencies inline, or linking to a CDN as needed.
+No backend server is required - files can be shared by email, served
+on a webserver, or hosted as a static site on cloud storage as-is.
 
-### Example Use Cases
-* Automated MI reporting
-* Collating and sharing data visualisations
-* ML model performance and evaluation documents
-* Designing simple web pages
+We rely on [Bootstrap 4][Bootstrap] for defining the page structure,
+ensuring that pages are responsive and readable on any device.
+A wide array of themes and extensions are available for Boostrap
+courtesy of the open source community. It's easy to customise the look and feel of your reports by supplying a CSS file, Jinja template, or using the options available in the `esparto` API.
 
 
 ## Main Features
 * Lightweight API
-* Jupyter Notebook support
-* Output self-contained HTML and PDF files
-* Responsive layout from [Bootstrap](https://getbootstrap.com/)
-* No CSS or HTML required
-* Implicit conversion for:
-    * Markdown
-    * Images
-    * Pandas DataFrames
-    * Matplotlib
-    * Bokeh
-    * Plotly
+* Jupyter Notebook compatible
+* Output to HTML or PDF
+* Responsive Bootstrap layout
+* Built in adaptors for:
+  * Markdown
+  * Images
+  * [Pandas DataFrames][Pandas]
+  * [Matplotlib][Matplotlib]
+  * [Bokeh][Bokeh]
+  * [Plotly][Plotly]
 
 
 ## Installation
@@ -54,6 +55,7 @@ pip install weasyprint
 *   [jinja2](https://palletsprojects.com/p/jinja/)
 *   [markdown](https://python-markdown.github.io/)
 *   [Pillow](https://python-pillow.org/)
+*   [PyYAML](https://pyyaml.org/)
 *   [weasyprint](https://weasyprint.org/) _(optional - for PDF output)_
 
 
@@ -65,61 +67,7 @@ pip install weasyprint
 Full documentation and examples are available at [domvwt.github.io/esparto/](https://domvwt.github.io/esparto/).
 
 
-## Basic Usage
-```python
-import esparto as es
-
-# Instantiating a Page
-page = es.Page(title="Research")
-
-# Page layout hierarchy:
-# Page -> Section -> Row -> Column -> Content
-
-# Add or update content
-# Keys are used as titles
-page["Introduction"]["Part One"]["Item A"] = "./text/content.md"
-page["Introduction"]["Part One"]["Item B"] = "./pictures/image1.jpg"
-
-# Add content without a title
-page["Introduction"]["Part One"][""] = "Hello, Wolrd!"
-
-# Replace child at index - useful if no title given
-page["Introduction"]["Part One"][-1] = "Hello, World!"
-
-# Set content and return input object
-# Useful in Jupyter Notebook as it will be displayed in cell output
-page["Methodology"]["Part One"]["Item A"] << "dolor sit amet"
-# >>> "dolor sit amet"
-
-# Set content and return new layout
-page["Methodology"]["Part Two"]["Item B"] >> "foobar"
-# >>> {'Item B': ['Markdown']}
-
-# Show document structure
-page.tree()
-# >>> {'Research': [{'Introduction': [{'Part One': [{'Item A': ['Markdown']},
-#                                                   {'Item B': ['Image']}]}]},
-#                   {'Methodology': [{'Part One': [{'Item A': ['Markdown']}]},
-#                                    {'Part Two': [{'Item A': ['Markdown']}]}]}]}
-
-# Remove content
-del page["Methodology"]["Part One"]["Item A"]
-del page.methodology.part_two.item_b
-
-# Access existing content as an attribute
-page.introduction.part_one.item_a = "./pictures/image2.jpg"
-page.introduction.part_one.tree()
-# >>> {'Part One': [{'Item A': ['Image']},
-#                   {'Item B': ['Image']},
-#                   {'Column 2': ['Markdown']}]}
-
-# Save the document
-page.save_html("my-page.html")
-page.save_pdf("my-page.pdf")
-```
-
-
-## Example Output
+## Examples
 Iris Report - [HTML](https://domvwt.github.io/esparto/examples/iris-report.html) |
 [PDF](https://domvwt.github.io/esparto/examples/iris-report.pdf)
 
@@ -130,3 +78,10 @@ Bokeh and Plotly - [HTML](https://domvwt.github.io/esparto/examples/interactive-
 
 <img width=600  src="https://github.com/domvwt/esparto/blob/fdc0e787c0bc013d16667773e82e21c647b71d91/docs/images/iris-report-compressed.png?raw=true"
 alt="example page" style="border-radius:0.5%;">
+
+<!-- Links -->
+[Bootstrap]: https://getbootstrap.com/docs/4.6/getting-started/introduction/
+[Pandas]: https://pandas.pydata.org/
+[Matplotlib]: https://matplotlib.org/
+[Bokeh]: https://docs.bokeh.org/en/latest/index.html
+[Plotly]: https://plotly.com/
