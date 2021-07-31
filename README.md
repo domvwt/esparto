@@ -1,5 +1,5 @@
-<h1 style="color: #036666; font-size: 5rem; font-style: italic;
- text-shadow: 2px 2px #248277"> esparto</h1>
+<div style="color: #036666; font-size: 5rem; font-style: italic;
+ text-shadow: 2px 2px #248277"> esparto</div>
 
 [![image](https://img.shields.io/pypi/v/esparto.svg)](https://pypi.python.org/pypi/esparto)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/esparto.svg)](https://pypi.python.org/pypi/esparto/)
@@ -11,7 +11,7 @@
 
 ## Introduction
 `esparto` is a Python library for building shareable
-reports with markdown, images, and objects from popular data analysis libraries.
+reports with content from popular data analysis libraries.
 
 Reports produced by `esparto` support interactivity by incorporating
 dependencies inline, or linking to a CDN as needed.
@@ -21,7 +21,9 @@ on a webserver, or hosted as a static site on cloud storage as-is.
 We rely on [Bootstrap 4][Bootstrap] for defining the page structure,
 ensuring that pages are responsive and readable on any device.
 A wide array of themes and extensions are available for Boostrap
-courtesy of the open source community. It's easy to customise the look and feel of your reports by supplying a CSS file, Jinja template, or using the options available in the `esparto` API.
+courtesy of the open source community. It's easy to customise the look
+and feel of your reports by supplying a CSS file, Jinja template, or
+using the options available in the library API.
 
 
 ## Main Features
