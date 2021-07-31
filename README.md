@@ -1,5 +1,5 @@
-<div style="color: #036666; font-size: 5rem; font-style: italic;
- text-shadow: 2px 2px #248277"> esparto</div>
+esparto
+=======
 
 [![image](https://img.shields.io/pypi/v/esparto.svg)](https://pypi.python.org/pypi/esparto)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/esparto.svg)](https://pypi.python.org/pypi/esparto/)
