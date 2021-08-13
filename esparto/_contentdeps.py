@@ -33,7 +33,7 @@ JS_DEPS = {"bokeh", "plotly"}
 
 
 def lazy_content_dependency_dict() -> ContentDependencyDict:
-    bootstrap_inline = Path(options.bootstrap_inline).read_text()
+    bootstrap_inline = Path(options.bootstrap_css).read_text()
     bootstrap_inline = f"<style>\n{bootstrap_inline}\n</style>"
 
     content_dependency_dict = ContentDependencyDict()

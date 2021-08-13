@@ -10,27 +10,32 @@ esparto
 
 
 ## Introduction
-`esparto` is a Python library for building shareable
-reports with content from popular data analysis libraries.
+**esparto** is a Python package for building shareable reports with content
+from popular data analysis libraries.
+With just a few lines of code, **esparto** turns DataFrames, plots, and
+markdown into an interactive HTML document or PDF.
 
-Reports produced by `esparto` support interactivity by incorporating
-dependencies inline, or linking to a CDN as needed.
-No backend server is required - files can be shared by email, served
-on a webserver, or hosted as a static site on cloud storage as-is.
+Documents produced by **esparto** are completely portable - no backend server
+is required - and entirely customisable using CSS and Jinja templating.
+All content dependencies are declared inline or loaded via a CDN, meaning your
+reports can be shared by email, hosted on a standard http server, or made
+available as static pages on cloud storage as-is.
 
-We rely on [Bootstrap 4][Bootstrap] for defining the page structure,
-ensuring that pages are responsive and readable on any device.
-A wide array of themes and extensions are available for Boostrap
-courtesy of the open source community. It's easy to customise the look
-and feel of your reports by supplying a CSS file, Jinja template, or
-using the options available in the library API.
+
+## Basic Usage
+```python
+import esparto as es
+page = es.Page(title="My Report")
+page["Data Analysis"] = (pandas_dataframe, plotly_figure)
+page.save_html("my-report.html")
+```
 
 
 ## Main Features
-* Lightweight API
+* Simple API
 * Jupyter Notebook compatible
 * Output to HTML or PDF
-* Responsive Bootstrap layout
+* Customise with CSS or Jinja
 * Built in adaptors for:
   * Markdown
   * Images
@@ -41,7 +46,7 @@ using the options available in the library API.
 
 
 ## Installation
-`esparto` is available from PyPI:
+**esparto** is available from PyPI:
 ```bash
 pip install esparto
 ```

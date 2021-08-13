@@ -17,7 +17,7 @@
         page-break-after: auto;
         page-break-before: auto;
     }
-    .col-lg {
+    .es-column-body, .es-card {
         flex: 1 !important;
     }
 }
@@ -25,7 +25,7 @@
 
 /* Extra Small tables */
 .table-xs td, th {
-    padding: .1rem !important;
+    padding: 0 !important;
     padding-left: .3rem !important;
     padding-right: .3rem !important;
 }

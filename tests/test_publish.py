@@ -100,20 +100,24 @@ def test_saved_html_valid_toc(page_layout: es.Page, tmp_path):
 if _EXTRAS:
     from tests.conftest import content_pdf
 
-    def test_notebook_html_valid_cdn(page_layout):
+    def test_notebook_html_valid_cdn(page_layout, monkeypatch):
+        monkeypatch.setattr(es.options.matplotlib, "notebook_format", "png")
         html = pu.nb_display(page_layout, return_html=True, dependency_source="cdn")
         assert html_is_valid(html)
 
-    def test_notebook_html_valid_inline(page_layout):
+    def test_notebook_html_valid_inline(page_layout, monkeypatch):
+        monkeypatch.setattr(es.options.matplotlib, "notebook_format", "png")
         html = pu.nb_display(page_layout, return_html=True, dependency_source="inline")
         assert html_is_valid(html)
 
     def test_notebook_html_valid_options_cdn(page_layout, monkeypatch):
+        monkeypatch.setattr(es.options.matplotlib, "notebook_format", "png")
         monkeypatch.setattr(es.options, "dependency_source", "cdn")
         html = pu.nb_display(page_layout, return_html=True)
         assert html_is_valid(html)
 
     def test_notebook_html_valid_online(page_layout, monkeypatch):
+        monkeypatch.setattr(es.options.matplotlib, "notebook_format", "png")
         monkeypatch.setattr(es.options, "dependency_source", "inline")
         html = pu.nb_display(page_layout, return_html=True)
         assert html_is_valid(html)

@@ -127,7 +127,7 @@ def nb_display(
       str: HTML string if return_html is True.
 
     """
-    from IPython.display import HTML, Javascript, display  # type: ignore
+    from IPython.display import HTML, display  # type: ignore
 
     from esparto._layout import Layout
 
@@ -158,12 +158,14 @@ def nb_display(
         display(HTML(f"<head>\n{head_deps}\n</head>\n"), metadata=dict(isolated=True))
         time.sleep(2)
 
-    display(HTML(render_html), metadata=dict(isolated=True))
-    print()
+    # Temporary solution to prevent Jupyter Notebook cell fully collapsing before content renders
+    if "bokeh" in required_deps:
+        extra_css = "<style>.container { min-height: 30em !important; }</style>"
+    else:
+        extra_css = ""
 
-    # Prevent output scrolling
-    js = "$('.output_scroll').removeClass('output_scroll')"
-    display(Javascript(js))
+    display(HTML(extra_css + render_html), metadata=dict(isolated=True))
+    print()
 
     if return_html:
         return render_html

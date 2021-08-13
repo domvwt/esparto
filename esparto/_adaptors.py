@@ -17,7 +17,7 @@ from esparto._layout import Layout
 
 
 @singledispatch
-def content_adaptor(content: Content) -> Union[Content, Layout]:
+def content_adaptor(content: Content) -> Union[Content, Layout, dict]:
     """
     Wrap content in the required class. If Layout object is passed, return unchanged.
 
@@ -55,10 +55,18 @@ def content_adaptor_layout(content: Layout) -> Layout:
 
 
 @content_adaptor.register(Path)
-def content_adaptor_path(content: Path) -> Union[Content, Layout]:
+def content_adaptor_path(content: Path) -> Union[Content, Layout, dict]:
     """Convert text or image path to Markdown or Image content."""
     content_str = str(content)
     return content_adaptor_core(content_str)
+
+
+@content_adaptor.register(dict)
+def content_adaptor_dict(content: dict) -> dict:
+    """Pass through dict of {"title": content}."""
+    if not (len(content) == 1 and isinstance(list(content.keys())[0], str)):
+        raise ValueError("Content dict must be passed as {'title': content}")
+    return content
 
 
 # Function only available if Pandas is installed.

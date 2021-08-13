@@ -30,6 +30,8 @@ layout_list = [
     (la.Row(children=[*content_list])),
     (la.Column(children=[*content_list])),
     (la.Card(children=[*content_list])),
+    (la.CardSection(children=[*content_list])),
+    (la.CardRow(children=[*content_list])),
     (la.Spacer()),
     (la.PageBreak()),
 ]
