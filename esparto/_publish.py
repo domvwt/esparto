@@ -16,7 +16,7 @@ from esparto._options import options, resolve_config_option
 
 
 def publish_html(
-    document: "Page",
+    page: "Page",
     filepath: Optional[str] = "./esparto-doc.html",
     return_html: bool = False,
     dependency_source: str = None,
@@ -24,23 +24,23 @@ def publish_html(
     jinja_template: str = None,
     **kwargs,
 ) -> Optional[str]:
-    """Save document to HTML.
+    """Save page to HTML.
 
     Args:
-      document (Page): A Page object.
+      page (Page): A Page object.
       filepath (str): Filepath to write to.
       return_html (bool): Returns HTML string if True.
       dependency_source (str): One of 'cdn' or 'inline' (default = None).
       esparto_css (str): Path to CSS stylesheet. (default = None).
       jinja_template (str): Path to Jinja template. (default = None).
-      **kwargs (Dict[str, Any]): Arguments passed to `document.to_html()`.
+      **kwargs (Dict[str, Any]): Arguments passed to `page.to_html()`.
 
     Returns:
       str: HTML string if return_html is True.
 
     """
 
-    required_deps = document._required_dependencies()
+    required_deps = page._required_dependencies()
     dependency_source = dependency_source or options.dependency_source
     resolved_deps = resolve_deps(required_deps, source=dependency_source)
 
@@ -50,10 +50,10 @@ def publish_html(
     )
 
     html_rendered: str = jinja_template_loaded.render(
-        navbrand=document.navbrand,
-        doc_title=document.title,
+        navbrand=page.navbrand,
+        doc_title=page.title,
         esparto_css=esparto_css,
-        content=document.to_html(**kwargs),
+        content=page.to_html(**kwargs),
         head_deps=resolved_deps.head,
         tail_deps=resolved_deps.tail,
     )
@@ -69,12 +69,12 @@ def publish_html(
 
 
 def publish_pdf(
-    document: "Page", filepath: str = "./esparto-doc.pdf", return_html: bool = False
+    page: "Page", filepath: str = "./esparto-doc.pdf", return_html: bool = False
 ) -> Optional[str]:
-    """Save document to PDF.
+    """Save page to PDF.
 
     Args:
-      document (Layout): A Page object.
+      page (Layout): A Page object.
       filepath (str): Filepath to write to.
       return_html (bool): Returns HTML string if True.
 
@@ -90,14 +90,14 @@ def publish_pdf(
     temp_dir.mkdir(parents=True, exist_ok=True)
 
     html_rendered = publish_html(
-        document=document,
+        page=page,
         filepath=None,
         return_html=True,
         dependency_source="inline",
         pdf_mode=True,
     )
     pdf_doc = weasy.HTML(string=html_rendered, base_url=options._pdf_temp_dir).render()
-    pdf_doc.metadata.title = document.title
+    pdf_doc.metadata.title = page.title
     pdf_doc.write_pdf(filepath)
 
     for f in temp_dir.iterdir():

@@ -32,7 +32,7 @@ if "plotly" in _INSTALLED_MODULES:
 
 
 class Content(ABC):
-    """Template for Content elements. All Content classes come with these methods and attributes.
+    """Template for Content elements.
 
     Attributes:
         content (Any): Item to be included in the page - should match the encompassing Content class.
@@ -171,7 +171,7 @@ class Image(Content):
         self._height = set_height
 
     def set_width(self, width) -> None:
-        """Set width of image prior to rendering.
+        """Set width of image.
 
         Args:
             width (int): New width in pixels.
@@ -180,7 +180,7 @@ class Image(Content):
         self._width = width
 
     def set_height(self, height) -> None:
-        """Set height of image prior to rendering.
+        """Set height of image.
 
         Args:
             height (int): New height in pixels.
@@ -189,7 +189,7 @@ class Image(Content):
         self._height = height
 
     def rescale(self, scale) -> None:
-        """Rescale the image proportionately prior to rendering.
+        """Resize the image by a scaling factor prior to rendering.
 
         Note:
             Images can be scaled down only.
@@ -241,7 +241,7 @@ class DataFramePd(Content):
         col_space (str, int): Minimum column width in CSS units. Use int for pixels. (default = 0)
 
     Attributes:
-        classes (List[str]): CSS classes applied to the HTML output.
+        css_classes (List[str]): CSS classes applied to the HTML output.
 
     """
 
@@ -282,11 +282,11 @@ class FigureMpl(Content):
 
     Args:
         figure (plt.Figure): A Matplotlib figure.
-        width (int): Width in pixels. (default = '100%')
-        height (int): Height in pixels. (default = 'auto')
+        width (int, str): Image width. (default = '100%')
+        height (int, str): Image height. (default = 'auto')
         output_format (str): 'svg' or 'png'. (default = None)
         pdf_figsize (tuple, float): Set figure size for PDF output. (default = None)
-            Accepts tuple of (height, width) or float to use as scale factor.
+            Accepts a tuple of (height, width) or a float to use as scale factor.
 
     """
 
@@ -305,8 +305,8 @@ class FigureMpl(Content):
             raise TypeError(r"figure must be a Matplotlib Figure")
 
         self.content: MplFigure = figure
-        self.width = html_dim(width)
-        self.height = html_dim(height)
+        self.width = _html_dim(width)
+        self.height = _html_dim(height)
         self.output_format = output_format or options.matplotlib.html_output_format
         self.pdf_figsize = pdf_figsize or options.matplotlib.pdf_figsize
 
@@ -376,9 +376,9 @@ class FigureBokeh(Content):
 
     Args:
         figure (bokeh.layouts.LayoutDOM): A Bokeh object.
-        width (int): Width in pixels. (default = figure.width or '100%')
-        height (int): Height in pixels. (default = figure.height or 'auto')
-        layout_attributes (dict): Attributes for figure layout. (default = None)
+        width (int, str): Figure width. (default = figure.width or '100%')
+        height (int, str): Figure height. (default = figure.height or 'auto')
+        layout_attributes (dict): Attributes set on `figure`. (default = None)
 
     """
 
@@ -399,8 +399,8 @@ class FigureBokeh(Content):
         fig_width = figure.properties_with_values().get("width")
         fig_height = figure.properties_with_values().get("height")
 
-        self.width = html_dim(width or fig_width or "100%")
-        self.height = html_dim(height or fig_height or "auto")
+        self.width = _html_dim(width or fig_width or "100%")
+        self.height = _html_dim(height or fig_height or "auto")
 
         self.layout_attributes = layout_attributes or options.bokeh.layout_attributes
 
@@ -436,9 +436,9 @@ class FigurePlotly(Content):
 
     Args:
         figure (plotly.graph_objs._figure.Figure): A Plotly figure.
-        width (int): Width in pixels. (default = '100%')
-        height (int): Height in pixels. (default = 500)
-        layout_args (dict): Args passed to Figure.update_layout(). (default = None)
+        width (int): Figure width. (default = '100%')
+        height (int): Figure height. (default = 500)
+        layout_args (dict): Args passed to `figure.update_layout()`. (default = None)
 
     """
 
@@ -455,8 +455,8 @@ class FigurePlotly(Content):
         if not isinstance(figure, PlotlyFigure):
             raise TypeError(r"figure must be a Plotly Figure")
 
-        self.width = html_dim(width or int(figure.layout["width"] or 0) or "100%")  # type: ignore
-        self.height = html_dim(height or int(figure.layout["height"] or 0) or 500)  # type: ignore
+        self.width = _html_dim(width or int(figure.layout["width"] or 0) or "100%")  # type: ignore
+        self.height = _html_dim(height or int(figure.layout["height"] or 0) or 500)  # type: ignore
         self.layout_args = layout_args or options.plotly.layout_args
 
         self.content: PlotlyFigure = figure
@@ -479,7 +479,7 @@ class FigurePlotly(Content):
             html = _remove_outer_div(html)
             html = (
                 "<div class='responsive-plot mb-3' "
-                + f"style='max-width: {self.width}; height: {self.height}; margin: auto;'>{html}\n</div>"
+                f"style='max-width: {self.width}; height: {self.height}; margin: auto;'>{html}\n</div>"
             )
 
         # Reset layout in case it was changed
@@ -542,7 +542,7 @@ def _rescale_dims(
     return new_size
 
 
-def html_dim(size: Union[int, str]) -> str:
+def _html_dim(size: Union[int, str]) -> str:
     if isinstance(size, int):
         return f"{size}px"
     elif isinstance(size, str):

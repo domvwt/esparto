@@ -111,7 +111,7 @@ def test_image_scale_missing(image_content):
 
 def test_html_dim_wrong_type():
     with pytest.raises(TypeError):
-        _ = co.html_dim([1, 2, 3])  # type: ignore
+        _ = co._html_dim([1, 2, 3])  # type: ignore
 
 
 @pytest.mark.parametrize("a", content_list)

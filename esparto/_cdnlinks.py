@@ -2,6 +2,14 @@ from types import SimpleNamespace
 
 
 class BootstrapThemeCDNPicker(SimpleNamespace):
+    """
+    Links to Bootstrap theme CDNs that can be passed to `es.options.bootrap_cdn`.
+
+    These themes are provided for free by Bootswatch.
+    Visit https://bootswatch.com/4/ for example pages.
+
+    """
+
     CERULEAN: str = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/cerulean/bootstrap.min.css" integrity="sha384-3fdgwJw17Bi87e1QQ4fsLn4rUFqWw//KU0g8TvV6quvahISRewev6/EocKNuJmEw" crossorigin="anonymous">'
     COSMO: str = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/cosmo/bootstrap.min.css" integrity="sha384-5QFXyVb+lrCzdN228VS3HmzpiE7ZVwLQtkt+0d9W43LQMzz4HBnnqvVxKg6O+04d" crossorigin="anonymous">'
     CYBORG: str = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/cyborg/bootstrap.min.css" integrity="sha384-nEnU7Ae+3lD52AK+RGNzgieBWMnEfgTbRHIwEvp1XXPdqdO6uLTd/NwXbzboqjc2" crossorigin="anonymous">'

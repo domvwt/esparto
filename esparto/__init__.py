@@ -3,7 +3,7 @@
 esparto
 =======
 
-Simple HTML and PDF document generator for Python.
+Simple HTML page and PDF generator for Python.
 
 Please visit https://domvwt.github.io/esparto/ for documentation and examples.
 

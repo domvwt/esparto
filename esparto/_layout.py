@@ -19,14 +19,14 @@ if TYPE_CHECKING:
 
 
 class Layout(ABC):
-    """Class Template for Layout elements. All Layout classes come with these methods and attributes.
+    """Class Template for Layout elements.
 
     Layout class hierarchy:
         `Page -> Section -> Row -> Column -> Content`
 
     Attributes:
-        title (str): Object title. Used as a title within the document and as a key value.
-        children (list): Child items defining the document layout and content.
+        title (str): Object title. Used as a title within the page and as a key value.
+        children (list): Child items defining the page layout and content.
         title_classes (list): Additional CSS classes to apply to title.
         title_styles (dict): Additional CSS styles to apply to title.
         body_classes (list): Additional CSS classes to apply to body.
@@ -235,24 +235,24 @@ class Layout(ABC):
     # ------------------------------------------------------------------------+
 
     def display(self) -> None:
-        """Display rendered document in a Notebook environment."""
+        """Render content in a Notebook environment."""
         nb_display(self)
 
     def get_identifier(self):
-        """Get the HTML ID of the main element."""
+        """Get the HTML element ID for the current object."""
         return clean_attr_name(str(self.title)) if self.title else self._default_id
 
     def get_title_identifier(self):
-        """Get the HTML ID of the title element."""
+        """Get the HTML element ID for the current object title."""
         return f"{self.get_identifier()}-title"
 
     def set_children(self, other: Union["Layout", "Content", Any]):
-        """Set children as other."""
+        """Set children as `other`."""
         other = copy.copy(other)
         self.children = [*self._smart_wrap(other)]
 
     def to_html(self, **kwargs) -> str:
-        """Convert document to HTML code.
+        """Render object as HTML code.
 
         Returns:
             html (str): HTML code.
@@ -280,7 +280,7 @@ class Layout(ABC):
         return html
 
     def tree(self) -> None:
-        """Display document tree."""
+        """Display page tree."""
         print(self._tree())
 
     # ------------------------------------------------------------------------+
@@ -414,7 +414,7 @@ class Page(Layout):
     """Layout class that defines a Page.
 
     Args:
-        title (str): Used as a title within the document and as a key value.
+        title (str): Used as a title within the page and as a key value.
         navbrand (str): Brand name. Displayed in the page navbar if provided.
         table_of_contents (bool, int): Add a Table of Contents to the top of page.
             Passing an `int` will define the maximum depth.
@@ -452,7 +452,7 @@ class Page(Layout):
         dependency_source: str = None,
     ) -> Optional[str]:
         """
-        Save document to HTML file.
+        Save page to HTML file.
 
         Note: Alias for `self.save_html()`.
 
@@ -482,7 +482,7 @@ class Page(Layout):
         dependency_source: str = None,
     ) -> Optional[str]:
         """
-        Save document to HTML file.
+        Save page to HTML file.
 
         Args:
             filepath (str): Destination filepath.
@@ -508,7 +508,7 @@ class Page(Layout):
         self, filepath: str = "./esparto-doc.pdf", return_html: bool = False
     ) -> Optional[str]:
         """
-        Save document to PDF file.
+        Save page to PDF file.
 
         Note: Requires optional module `weasyprint`.
 
@@ -568,7 +568,7 @@ class Section(Layout):
     """Layout class that defines a Section.
 
     Args:
-        title (str): Used as a title within the document and as a key value.
+        title (str): Used as a title within the page and as a key value.
         children (list): Child items defining layout and content.
         title_classes (list): Additional CSS classes to apply to title.
         title_styles (dict): Additional CSS styles to apply to title.
@@ -597,7 +597,7 @@ class CardSection(Section):
     """Layout class that defines a CardSection. CardSections wrap content in Cards by default.
 
     Args:
-        title (str): Used as a title within the document and as a key value.
+        title (str): Used as a title within the page and as a key value.
         children (list): Child items defining layout and content.
         cards_equal (bool): Cards in the same Row are stretched vertically if True.
         title_classes (list): Additional CSS classes to apply to title.
@@ -642,7 +642,7 @@ class Row(Layout):
     """Layout class that defines a Row.
 
     Args:
-        title (str): Used as a title within the document and as a key value.
+        title (str): Used as a title within the page and as a key value.
         children (list): Child items defining layout and content.
         title_classes (list): Additional CSS classes to apply to title.
         title_styles (dict): Additional CSS styles to apply to title.
@@ -671,7 +671,7 @@ class Column(Layout):
     """Layout class that defines a Column.
 
     Args:
-        title (str): Used as a title within the document and as a key value.
+        title (str): Used as a title within the page and as a key value.
         children (list): Child items defining layout and content.
         col_width (int): Fix column width - must be between 1 and 12.
         title_classes (list): Additional CSS classes to apply to title.
@@ -732,7 +732,7 @@ class CardRow(Row):
     """Layout class that defines a CardRow. CardRows wrap content in Cards by default.
 
     Args:
-        title (str): Used as a title within the document and as a key value.
+        title (str): Used as a title within the page and as a key value.
         children (list): Child items defining layout and content.
         title_classes (list): Additional CSS classes to apply to title.
         title_styles (dict): Additional CSS styles to apply to title.
@@ -750,7 +750,7 @@ class CardRowEqual(CardRow):
     """Layout class that defines a CardRow with Cards of equal height.
 
     Args:
-        title (str): Used as a title within the document and as a key value.
+        title (str): Used as a title within the page and as a key value.
         children (list): Child items defining layout and content.
         title_classes (list): Additional CSS classes to apply to title.
         title_styles (dict): Additional CSS styles to apply to title.
@@ -771,7 +771,7 @@ class Card(Column):
     Horizontal arrangement is achieved by nesting content inside a Row.
 
     Args:
-        title (str): Used as a title within the document and as a key value.
+        title (str): Used as a title within the page and as a key value.
         children (list): Child items defining layout and content.
         col_width (int): Fix column width - must be between 1 and 12.
         title_classes (list): Additional CSS classes to apply to title.
@@ -820,7 +820,7 @@ class Card(Column):
         self.body_styles = {}
 
     def to_html(self, **kwargs) -> str:
-        """Convert document to HTML code.
+        """Render content to HTML code.
 
         Returns:
             html (str): HTML code.
