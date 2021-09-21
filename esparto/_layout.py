@@ -145,31 +145,34 @@ class Layout(ABC):
 
     def __setitem__(self, key: Union[str, int], value: Any):
         value = copy.copy(value)
+        title = (
+            getattr(value, "title", None) if issubclass(type(value), Layout) else None
+        )
         if not isinstance(value, self._child_class):
             if issubclass(self._child_class, Column):
-                value = self._child_class(children=[value])
+                value = self._child_class(title=title, children=[value])
             else:
                 value = self._smart_wrap(value)
                 value = value[0]
         if isinstance(key, str):
             if key:
-                value.title = key
+                value.title = title or key
                 indexes = get_matching_titles(key, self.children)
                 if indexes:
                     self.children[indexes[0]] = value
                 else:
                     self.children.append(value)
-                self._add_child_id(key)
+                self._add_child_id(value.title)
             else:
                 self.children.append(value)
-            return None
+            return
         elif isinstance(key, int):
             if key < len(self.children):
-                value.title = getattr(self.children[key], "title", None)
+                value.title = title or getattr(self.children[key], "title", None)
                 self.children[key] = value
-                return None
+                return
             self.children.append(value)
-            return None
+            return
 
         raise KeyError(key)
 
@@ -250,6 +253,10 @@ class Layout(ABC):
         """Set children as `other`."""
         other = copy.copy(other)
         self.children = [*self._smart_wrap(other)]
+        for child in self.children:
+            title = getattr(child, "title", None)
+            if title:
+                self._add_child_id(title)
 
     def to_html(self, **kwargs) -> str:
         """Render object as HTML code.

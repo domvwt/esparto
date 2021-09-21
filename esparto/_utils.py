@@ -12,8 +12,11 @@ def get_matching_titles(title: str, children: list) -> List[int]:
     return get_index_where(lambda x: getattr(x, "title", None) == title, children)
 
 
-def clean_attr_name(attr_name: str):
+def clean_attr_name(attr_name: str) -> str:
     """Remove invalid characters from the attribute name."""
+    if not attr_name:
+        return ""
+
     # Remove leading and trailing spaces
     attr_name = attr_name.strip().replace(" ", "_").lower()
 

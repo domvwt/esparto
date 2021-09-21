@@ -161,7 +161,7 @@ def test_set_item_new_str(page_basic_layout):
     assert page == page_basic_layout
 
 
-def test_set_column_extra_children(page_basic_layout):
+def test_set_column_extra_children():
     expected = la.Page(
         children=la.Section(
             children=la.Row(

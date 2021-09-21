@@ -31,7 +31,7 @@ class ConfigMixin(object):
 
 
 @dataclass(repr=False)
-class MatplotLibOptions(ConfigMixin):
+class MatplotlibOptions(ConfigMixin):
     """Options for Matplotlib output.
 
     Attributes:
@@ -90,17 +90,15 @@ class BokehOptions(ConfigMixin):
 class ConfigOptions(ConfigMixin):
     """Options for configuring esparto behaviour and output.
 
-    Config options will automatically be loaded if a yaml file is found in
-    one of the following locations:
-        './esparto-config.yaml'
-        'esparto-data/esparto-config.yaml'
+    Config options will automatically be loaded if a yaml file is found at
+    either './esparto-config.yaml' or '~/esparto-data/esparto-config.yaml'.
 
     Attributes:
         dependency_source (str):
-            How dependencies are provisioned in HTML pages: 'cdn' or 'inline'.
+            How dependencies should be provisioned: 'cdn' or 'inline'.
         bootstrap_cdn (str):
             Link to Bootstrap CDN. Used if dependency source is 'cdn'.
-            Alternative links are available via es.bootstrap_cdn_themes.
+            Alternative links are available via esparto.bootstrap_cdn_themes.
         bootstrap_css (str):
             Path to Bootstrap CSS file. Used if dependency source is 'inline'.
         esparto_css (str):
@@ -111,10 +109,6 @@ class ConfigOptions(ConfigMixin):
         matplotlib: Additional config options for Matplotlib.
         plotly: Additional config options for Plotly.
         bokeh: Additional config options for Bokeh.
-
-    Methods:
-        save(path: str): Save config options to yaml file.
-        load(path: str): Load config options from yaml file.
 
     """
 
@@ -127,7 +121,7 @@ class ConfigOptions(ConfigMixin):
     esparto_css: str = str(_MODULE_PATH / "resources/css/esparto.css")
     jinja_template: str = str(_MODULE_PATH / "resources/jinja/base.html.jinja")
 
-    matplotlib: MatplotLibOptions = MatplotLibOptions()
+    matplotlib: MatplotlibOptions = MatplotlibOptions()
     bokeh: BokehOptions = BokehOptions()
     plotly: PlotlyOptions = PlotlyOptions()
 

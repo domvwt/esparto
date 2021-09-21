@@ -47,6 +47,7 @@ from esparto._content import (
 from esparto._layout import (
     Card,
     CardRow,
+    CardRowEqual,
     CardSection,
     Column,
     Page,

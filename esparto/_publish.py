@@ -153,7 +153,7 @@ def nb_display(
     )
 
     print()
-    # This allows time to download plotly.js from the CDN - otherwise cell renders empty
+    # This allows time to download plotly.js from the CDN - otherwise cell can render empty
     if "plotly" in required_deps and dependency_source == "cdn":
         display(HTML(f"<head>\n{head_deps}\n</head>\n"), metadata=dict(isolated=True))
         time.sleep(2)
