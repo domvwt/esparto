@@ -9,6 +9,7 @@ theme:
     accent: 'cyan'
   features:
     - 'navigation.tabs'
+    - 'navigation.sections'
     - 'toc.integrate'
 
 repo_url: 'https://github.com/domvwt/esparto/'
@@ -16,18 +17,18 @@ repo_url: 'https://github.com/domvwt/esparto/'
 markdown_extensions:
   - admonition
   - pymdownx.superfences
+  - toc:
+      toc_depth: 2
 
 nav:
   - Overview: 'index.md'
-#   - Getting Started:
-#         - 'Quickstart': '01-getting-started/quickstart.md'
-#         - 'Installation': '01-getting-started/installation.md'
-  - User Guide:
-        - 'Examples': '02-user-guide/examples.md'
-        - 'General Usage': '02-user-guide/general-usage.md'
+  - User Guides:
+        - 'Quick Reference': '02-user-guide/quick-reference.md'
+        - 'Example Notebooks': '02-user-guide/examples.md'
   - API Reference:
         - 'Layout': '03-api-reference/layout.md'
         - 'Content': '03-api-reference/content.md'
+        - 'Options': '03-api-reference/options.md'
         - 'Publish': '03-api-reference/publish.md'
         - 'Adaptors': '03-api-reference/adaptors.md'
   - About:

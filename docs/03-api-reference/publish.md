@@ -9,7 +9,7 @@
     # Create a new Page
     page = es.Page(title="My New Page")
 
-    # Publish the document to an HTML file:
+    # Publish the page to an HTML file:
     page.save_html("my-page.html")
 
     # Or as a PDF:
@@ -17,10 +17,10 @@
 
     ```
 
-### ::: esparto._publish.publish_html
+## ::: esparto._publish.publish_html
 
-### ::: esparto._publish.publish_pdf
+## ::: esparto._publish.publish_pdf
 
-### ::: esparto._publish.nb_display
+## ::: esparto._publish.nb_display
 
 <br>

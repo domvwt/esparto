@@ -18,9 +18,17 @@
 
 ## ::: esparto._layout.Section
 
+## ::: esparto._layout.CardSection
+
 ## ::: esparto._layout.Row
 
+## ::: esparto._layout.CardRow
+
+## ::: esparto._layout.CardRowEqual
+
 ## ::: esparto._layout.Column
+
+## ::: esparto._layout.Card
 
 ## ::: esparto._layout.Spacer
 

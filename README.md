@@ -13,13 +13,13 @@ esparto
 **esparto** is a Python package for building shareable reports with content
 from popular data analysis libraries.
 With just a few lines of code, **esparto** turns DataFrames, plots, and
-markdown into an interactive HTML document or PDF.
+Markdown into an interactive HTML page or PDF.
 
 Documents produced by **esparto** are completely portable - no backend server
 is required - and entirely customisable using CSS and Jinja templating.
 All content dependencies are declared inline or loaded via a CDN, meaning your
 reports can be shared by email, hosted on a standard http server, or made
-available as static pages on cloud storage as-is.
+available as static pages as-is.
 
 
 ## Basic Usage
@@ -32,17 +32,17 @@ page.save_html("my-report.html")
 
 
 ## Main Features
-* Simple API
-* Jupyter Notebook compatible
-* Output to HTML or PDF
-* Customise with CSS or Jinja
-* Built in adaptors for:
-  * Markdown
-  * Images
-  * [Pandas DataFrames][Pandas]
-  * [Matplotlib][Matplotlib]
-  * [Bokeh][Bokeh]
-  * [Plotly][Plotly]
+* Automatic and adaptive layout
+* Customisable with CSS or Jinja
+* Jupyter Notebook friendly
+* Output as HTML or PDF
+* Built-in adaptors for:
+    * Markdown
+    * Images
+    * [Pandas DataFrames][Pandas]
+    * [Matplotlib][Matplotlib]
+    * [Bokeh][Bokeh]
+    * [Plotly][Plotly]
 
 
 ## Installation
@@ -63,7 +63,7 @@ pip install weasyprint
 *   [markdown](https://python-markdown.github.io/)
 *   [Pillow](https://python-pillow.org/)
 *   [PyYAML](https://pyyaml.org/)
-*   [weasyprint](https://weasyprint.org/) _(optional - for PDF output)_
+*   [weasyprint](https://weasyprint.org/) _(optional - required for PDF output)_
 
 
 ## License
@@ -72,6 +72,9 @@ pip install weasyprint
 
 ## Documentation
 Full documentation and examples are available at [domvwt.github.io/esparto/](https://domvwt.github.io/esparto/).
+
+## Contributions, Issues, and Requests
+All feedback and contributions are welcome - please raise an issue or pull request on [GitHub][GitHub].
 
 
 ## Examples
@@ -83,8 +86,9 @@ Bokeh and Plotly - [HTML](https://domvwt.github.io/esparto/examples/interactive-
 
 <br>
 
-<img width=600  src="https://github.com/domvwt/esparto/blob/fdc0e787c0bc013d16667773e82e21c647b71d91/docs/images/iris-report-compressed.png?raw=true"
-alt="example page" style="border-radius:0.5%;">
+<p width=100%>
+<img width=80%  src="https://github.com/domvwt/esparto/blob/fdc0e787c0bc013d16667773e82e21c647b71d91/docs/images/iris-report-compressed.png?raw=true" alt="example page" style="border-radius:0.5%;">
+</p>
 
 <!-- Links -->
 [Bootstrap]: https://getbootstrap.com/docs/4.6/getting-started/introduction/
@@ -92,3 +96,4 @@ alt="example page" style="border-radius:0.5%;">
 [Matplotlib]: https://matplotlib.org/
 [Bokeh]: https://docs.bokeh.org/en/latest/index.html
 [Plotly]: https://plotly.com/
+[GitHub]: https://github.com/domvwt/esparto
