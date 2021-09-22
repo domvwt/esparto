@@ -14,7 +14,7 @@
     
     
       
-        <title>Contributing - esparto</title>
+        <title>Quick Start - esparto</title>
       
     
     
@@ -69,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#contributing" class="md-skip">
+        <a href="#quick-start" class="md-skip">
           Skip to content
         </a>
       
@@ -99,7 +99,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Contributing
+              Quick Start
             
           </span>
         </div>
@@ -179,14 +179,16 @@
         
   
   
+    
+  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../02-user-guide/quick-reference.html" class="md-tabs__link">
-        User Guides
+      <a href="quick-start.html" class="md-tabs__link md-tabs__link--active">
+        User Guide
       </a>
     </li>
   
@@ -217,7 +219,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="authors.html" class="md-tabs__link">
+      <a href="../04-about/authors.html" class="md-tabs__link">
         About
       </a>
     </li>
@@ -291,32 +293,102 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
       
       <label class="md-nav__link" for="__nav_2">
-        User Guides
+        User Guide
         <span class="md-nav__icon md-icon"></span>
       </label>
-      <nav class="md-nav" aria-label="User Guides" data-md-level="1">
+      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
-          User Guides
+          User Guide
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../02-user-guide/quick-reference.html" class="md-nav__link">
-        Quick Reference
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Quick Start
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="quick-start.html" class="md-nav__link md-nav__link--active">
+        Quick Start
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-page" class="md-nav__link">
+    Create a Page
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-content" class="md-nav__link">
+    Add Content
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-content" class="md-nav__link">
+    Update Content
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#delete-content" class="md-nav__link">
+    Delete Content
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#save-the-document" class="md-nav__link">
+    Save the Document
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -326,8 +398,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../02-user-guide/examples.html" class="md-nav__link">
-        Example Notebooks
+      <a href="tutorial-notebooks.html" class="md-nav__link">
+        Tutorial Notebooks
       </a>
     </li>
   
@@ -458,7 +530,7 @@
   
   
     <li class="md-nav__item">
-      <a href="authors.html" class="md-nav__link">
+      <a href="../04-about/authors.html" class="md-nav__link">
         Authors
       </a>
     </li>
@@ -470,7 +542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="release-notes.html" class="md-nav__link">
+      <a href="../04-about/release-notes.html" class="md-nav__link">
         Release Notes
       </a>
     </li>
@@ -482,19 +554,7 @@
   
   
     <li class="md-nav__item">
-      <a href="roadmap.html" class="md-nav__link">
-        Roadmap
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="license.html" class="md-nav__link">
+      <a href="../04-about/license.html" class="md-nav__link">
         License
       </a>
     </li>
@@ -519,114 +579,69 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/domvwt/esparto/edit/master/docs/04-about/contributing.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/domvwt/esparto/edit/master/docs/02-user-guide/quick-start.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="contributing">Contributing</h1>
-<p>Contributions are welcome, and they are greatly appreciated! Every
-little bit helps, and credit will always be given.</p>
-<p>You can contribute in many ways:</p>
-<h2 id="types-of-contributions">Types of Contributions</h2>
-<h3 id="report-bugs">Report Bugs</h3>
-<p>Report bugs at <a href="https://github.com/domvwt/esparto/issues">https://github.com/domvwt/esparto/issues</a>.</p>
-<p>If you are reporting a bug, please include:</p>
-<ul>
-<li>Your operating system name and version.</li>
-<li>Any details about your local setup that might be helpful in
-    troubleshooting.</li>
-<li>Detailed steps to reproduce the bug.</li>
-</ul>
-<h3 id="fix-bugs">Fix Bugs</h3>
-<p>Look through the GitHub issues for bugs. Anything tagged with "bug" and
-"help wanted" is open to whoever wants to implement it.</p>
-<h3 id="implement-features">Implement Features</h3>
-<p>Look through the GitHub issues for features. Anything tagged with
-"enhancement" and "help wanted" is open to whoever wants to implement
-it.</p>
-<h3 id="write-documentation">Write Documentation</h3>
-<p>esparto could always use more documentation, whether as part of the
-official esparto docs, in docstrings, or even on the web in blog posts,
-articles, and such.</p>
-<h3 id="submit-feedback">Submit Feedback</h3>
-<p>The best way to send feedback is to file an issue at
-<a href="https://github.com/domvwt/esparto/issues">https://github.com/domvwt/esparto/issues</a>.</p>
-<p>If you are proposing a feature:</p>
-<ul>
-<li>Explain in detail how it would work.</li>
-<li>Keep the scope as narrow as possible, to make it easier to
-    implement.</li>
-<li>Remember that this is a volunteer-driven project, and that
-    contributions are welcome :)</li>
-</ul>
-<h2 id="get-started">Get Started!</h2>
-<p>Ready to contribute? Here's how to set up esparto for local development.</p>
-<ol>
-<li>Fork the esparto repo on GitHub.</li>
-<li>
-<p>Clone your fork locally:</p>
-<pre><code>$ git clone git@github.com:your_name_here/esparto.git
-</code></pre>
-</li>
-<li>
-<p>Install your local copy into a virtualenv. Assuming you have
-    virtualenvwrapper installed, this is how you set up your fork for
-    local development:</p>
-<pre><code>$ mkvirtualenv esparto
-$ cd esparto/
-$ python setup.py develop
-</code></pre>
-</li>
-<li>
-<p>Create a branch for local development:</p>
-<pre><code>$ git checkout -b name-of-your-bugfix-or-feature
-</code></pre>
-<p>Now you can make your changes locally.</p>
-</li>
-<li>
-<p>When you're done making changes, check that your changes pass flake8
-    and the tests, including testing other Python versions with tox:</p>
-<pre><code>$ make format lint mypy test
-$ make test-all
-</code></pre>
-<p>To get flake8 and tox, just pip install them into your virtualenv.</p>
-</li>
-<li>
-<p>Commit your changes and push your branch to GitHub:</p>
-<pre><code>$ git add .
-$ git commit -m "Your detailed description of your changes."
-$ git push origin name-of-your-bugfix-or-feature
-</code></pre>
-</li>
-<li>
-<p>Submit a pull request through the GitHub website.</p>
-</li>
-</ol>
-<h2 id="pull-request-guidelines">Pull Request Guidelines</h2>
-<p>Before you submit a pull request, check that it meets these guidelines:</p>
-<ol>
-<li>The pull request should include tests.</li>
-<li>If the pull request adds functionality, the docs should be updated.
-    Put your new functionality into a function with a docstring, and add
-    the feature to the list in README.rst.</li>
-<li>The pull request should work for Python 3.6, 3.7, 3.8, and 3.9.
-    Check
-    <a href="https://travis-ci.org/domvwt/esparto/pull_requests">https://travis-ci.org/domvwt/esparto/pull_requests</a> and make sure
-    that the tests pass for all supported Python versions.</li>
-</ol>
-<h2 id="tips">Tips</h2>
-<p>To run a subset of tests:</p>
-<pre><code>$ pytest tests.test_esparto
-</code></pre>
-<h2 id="deploying">Deploying</h2>
-<p>A reminder for the maintainers on how to deploy. Make sure all your
-changes are committed (including an entry in HISTORY.rst). Then run:</p>
-<pre><code>$ bump2version patch # possible: major / minor / patch
-$ git push
-$ git push --tags
-</code></pre>
-<p>Travis will then deploy to PyPI if tests pass.</p>
+                <h1 id="quick-start">Quick Start</h1>
+<h2 id="create-a-page">Create a Page</h2>
+<p><div class="highlight"><pre><span></span><code><span class="n">page</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Page</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Page Title&quot;</span><span class="p">)</span>
+<span class="n">page</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Page Content&quot;</span>
+<span class="n">page</span><span class="o">.</span><span class="n">tree</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>{&#39;Page Title&#39;: [{&#39;Section 0&#39;: [{&#39;Row 0&#39;: [{&#39;Column 0&#39;: [&#39;Markdown&#39;]}]}]}]}
+</code></pre></div></p>
+<h2 id="add-content">Add Content</h2>
+<h3 id="define-rows-and-columns">Define Rows and Columns</h3>
+<p><div class="highlight"><pre><span></span><code><span class="n">page</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Page</span><span class="p">(</span><span class="s2">&quot;Page Title&quot;</span><span class="p">)</span>
+<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Section One&quot;</span><span class="p">][</span><span class="s2">&quot;Row One&quot;</span><span class="p">][</span><span class="s2">&quot;Column One&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Some content&quot;</span>
+<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Section One&quot;</span><span class="p">][</span><span class="s2">&quot;Row One&quot;</span><span class="p">][</span><span class="s2">&quot;Column Two&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;More content&quot;</span>
+<span class="n">page</span><span class="o">.</span><span class="n">tree</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>{&#39;Page Title&#39;: [{&#39;Section One&#39;: [{&#39;Row One&#39;: [{&#39;Column One&#39;: [&#39;Markdown&#39;]},
+                                              {&#39;Column Two&#39;: [&#39;Markdown&#39;]}]}]}]}
+</code></pre></div></p>
+<h3 id="define-multiple-columns-as-a-tuple-of-dicts">Define multiple Columns as a tuple of dicts</h3>
+<p><div class="highlight"><pre><span></span><code><span class="n">page</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Page</span><span class="p">(</span><span class="s2">&quot;Page Title&quot;</span><span class="p">)</span>
+<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Section One&quot;</span><span class="p">][</span><span class="s2">&quot;Row One&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;Column One&quot;</span><span class="p">:</span> <span class="s2">&quot;Some content&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;Column Two&quot;</span><span class="p">:</span> <span class="s2">&quot;More content&quot;</span><span class="p">}</span>
+<span class="p">)</span>
+<span class="n">page</span><span class="o">.</span><span class="n">tree</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>{&#39;Page Title&#39;: [{&#39;Section One&#39;: [{&#39;Row One&#39;: [{&#39;Column One&#39;: [&#39;Markdown&#39;]},
+                                              {&#39;Column Two&#39;: [&#39;Markdown&#39;]}]}]}]}
+</code></pre></div></p>
+<h2 id="update-content">Update Content</h2>
+<h3 id="access-existing-content-via-indexing-or-as-attributes">Access existing content via Indexing or as Attributes</h3>
+<p><div class="highlight"><pre><span></span><code><span class="n">page</span><span class="p">[</span><span class="s2">&quot;Section One&quot;</span><span class="p">][</span><span class="s2">&quot;Row One&quot;</span><span class="p">][</span><span class="s2">&quot;Column One&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">image_01</span>
+<span class="n">page</span><span class="o">.</span><span class="n">section_one</span><span class="o">.</span><span class="n">row_one</span><span class="o">.</span><span class="n">column_two</span> <span class="o">=</span> <span class="n">image_02</span>
+<span class="n">page</span><span class="o">.</span><span class="n">section_one</span><span class="o">.</span><span class="n">tree</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>{&#39;Page Title&#39;: [{&#39;Section One&#39;: [{&#39;Row One&#39;: [{&#39;Column One&#39;: [&#39;Image&#39;]},
+                                              {&#39;Column Two&#39;: [&#39;Image&#39;]}]}]}]}
+</code></pre></div></p>
+<h2 id="delete-content">Delete Content</h2>
+<h3 id="delete-the-last-column">Delete the last Column</h3>
+<p><div class="highlight"><pre><span></span><code><span class="k">del</span> <span class="n">page</span><span class="o">.</span><span class="n">section_one</span><span class="o">.</span><span class="n">row_one</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>{&#39;Page Title&#39;: [{&#39;Section One&#39;: [{&#39;Row One&#39;: [{&#39;Column One&#39;: [&#39;Image&#39;]}]}]}]}
+</code></pre></div></p>
+<h3 id="delete-a-named-column">Delete a named Column</h3>
+<p><div class="highlight"><pre><span></span><code><span class="k">del</span> <span class="n">page</span><span class="o">.</span><span class="n">section_one</span><span class="o">.</span><span class="n">row_one</span><span class="o">.</span><span class="n">column_two</span>
+<span class="n">page</span><span class="o">.</span><span class="n">tree</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>{&#39;Page Title&#39;: [{&#39;Section One&#39;: [{&#39;Row One&#39;: [{&#39;Column One&#39;: [&#39;Image&#39;]}]}]}]}
+</code></pre></div></p>
+<h2 id="save-the-document">Save the Document</h2>
+<h3 id="as-a-webpage">As a webpage</h3>
+<div class="highlight"><pre><span></span><code><span class="n">my_page</span><span class="o">.</span><span class="n">save_html</span><span class="p">(</span><span class="s2">&quot;my-esparto-doc.html&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="as-a-pdf">As a PDF</h3>
+<div class="highlight"><pre><span></span><code><span class="n">my_page</span><span class="o">.</span><span class="n">save_pdf</span><span class="p">(</span><span class="s2">&quot;my-esparto-doc.pdf&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p><br></p>
                 
               
               
@@ -642,6 +657,41 @@ $ git push --tags
       
         
 <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../index.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Overview" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Overview
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="tutorial-notebooks.html" class="md-footer__link md-footer__link--next" aria-label="Next: Tutorial Notebooks" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Tutorial Notebooks
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
