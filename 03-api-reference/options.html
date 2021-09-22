@@ -14,7 +14,7 @@
     
     
       
-        <title>Introduction - esparto</title>
+        <title>Options - esparto</title>
       
     
     
@@ -68,6 +68,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#esparto_options" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -94,7 +99,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Introduction
+              Options
             
           </span>
         </div>
@@ -180,8 +185,8 @@
   
   
     <li class="md-tabs__item">
-      <a href="../02-user-guide/examples.html" class="md-tabs__link">
-        User Guide
+      <a href="../02-user-guide/quick-reference.html" class="md-tabs__link">
+        User Guides
       </a>
     </li>
   
@@ -190,13 +195,15 @@
         
   
   
+    
+  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../03-api-reference/layout.html" class="md-tabs__link">
+      <a href="layout.html" class="md-tabs__link md-tabs__link--active">
         API Reference
       </a>
     </li>
@@ -294,13 +301,13 @@
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
       <label class="md-nav__link" for="__nav_2">
-        User Guide
+        User Guides
         <span class="md-nav__icon md-icon"></span>
       </label>
-      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
+      <nav class="md-nav" aria-label="User Guides" data-md-level="1">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
-          User Guide
+          User Guides
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -309,8 +316,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../02-user-guide/examples.html" class="md-nav__link">
-        Examples
+      <a href="../02-user-guide/quick-reference.html" class="md-nav__link">
+        Quick Reference
       </a>
     </li>
   
@@ -321,8 +328,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../02-user-guide/general-usage.html" class="md-nav__link">
-        General Usage
+      <a href="../02-user-guide/examples.html" class="md-nav__link">
+        Example Notebooks
       </a>
     </li>
   
@@ -340,12 +347,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
       <label class="md-nav__link" for="__nav_3">
         API Reference
@@ -363,7 +372,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../03-api-reference/layout.html" class="md-nav__link">
+      <a href="layout.html" class="md-nav__link">
         Layout
       </a>
     </li>
@@ -375,7 +384,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../03-api-reference/content.html" class="md-nav__link">
+      <a href="content.html" class="md-nav__link">
         Content
       </a>
     </li>
@@ -385,9 +394,82 @@
             
   
   
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Options
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="options.html" class="md-nav__link md-nav__link--active">
+        Options
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#esparto._options.ConfigOptions" class="md-nav__link">
+    ConfigOptions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esparto._options.MatplotlibOptions" class="md-nav__link">
+    MatplotlibOptions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esparto._options.PlotlyOptions" class="md-nav__link">
+    PlotlyOptions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esparto._options.BokehOptions" class="md-nav__link">
+    BokehOptions
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
   
     <li class="md-nav__item">
-      <a href="../03-api-reference/publish.html" class="md-nav__link">
+      <a href="publish.html" class="md-nav__link">
         Publish
       </a>
     </li>
@@ -399,7 +481,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../03-api-reference/adaptors.html" class="md-nav__link">
+      <a href="adaptors.html" class="md-nav__link">
         Adaptors
       </a>
     </li>
@@ -502,15 +584,388 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/domvwt/esparto/edit/master/docs/examples/introduction.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/domvwt/esparto/edit/master/docs/03-api-reference/options.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                  <h1>Introduction</h1>
-                
-                <p>This dataset contains information collected by the U.S Census Service concerning housing in the area of Boston Mass. It was obtained from the <a href="http://lib.stat.cmu.edu/datasets/boston">StatLib archive</a>, and has been used extensively throughout the literature to benchmark algorithms. However, these comparisons were primarily done outside of Delve and are thus somewhat suspect. The dataset is small in size with only 506 cases.</p>
-<p>The data was originally published by Harrison, D. and Rubinfeld, D.L. `Hedonic prices and the demand for clean air', J. Environ. Economics &amp; Management, vol.5, 81-102, 1978.</p>
+                <h1 id="esparto_options">esparto._options</h1>
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="esparto._options.ConfigOptions" class="doc doc-heading">
+        <code>ConfigOptions</code>
+
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+      <p>Options for configuring esparto behaviour and output.</p>
+<p>Config options will automatically be loaded if a yaml file is found at
+either './esparto-config.yaml' or '~/esparto-data/esparto-config.yaml'.</p>
+
+<p><strong>Attributes:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>dependency_source</code></td>
+        <td><code>str</code></td>
+        <td><p>How dependencies should be provisioned: 'cdn' or 'inline'.</p></td>
+      </tr>
+      <tr>
+        <td><code>bootstrap_cdn</code></td>
+        <td><code>str</code></td>
+        <td><p>Link to Bootstrap CDN. Used if dependency source is 'cdn'.
+Alternative links are available via esparto.bootstrap_cdn_themes.</p></td>
+      </tr>
+      <tr>
+        <td><code>bootstrap_css</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to Bootstrap CSS file. Used if dependency source is 'inline'.</p></td>
+      </tr>
+      <tr>
+        <td><code>esparto_css</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to additional CSS file with esparto specific styles.</p></td>
+      </tr>
+      <tr>
+        <td><code>jinja_template</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to Jinja HTML page template.</p></td>
+      </tr>
+      <tr>
+        <td><code>matplotlib</code></td>
+        <td><code>MatplotlibOptions</code></td>
+        <td><p>Additional config options for Matplotlib.</p></td>
+      </tr>
+      <tr>
+        <td><code>plotly</code></td>
+        <td><code>PlotlyOptions</code></td>
+        <td><p>Additional config options for Plotly.</p></td>
+      </tr>
+      <tr>
+        <td><code>bokeh</code></td>
+        <td><code>BokehOptions</code></td>
+        <td><p>Additional config options for Bokeh.</p></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="esparto._options.ConfigOptions.load" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Load config from yaml file at <code>path</code>.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>esparto/_options.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Load config from yaml file at `path`.&quot;&quot;&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">yaml_str</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+    <span class="bp">self</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">unsafe_load</span><span class="p">(</span><span class="n">yaml_str</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_options_source</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="esparto._options.ConfigOptions.save" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;./esparto-config.yaml&#39;</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Save config to yaml file at <code>path</code>.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>esparto/_options.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;./esparto-config.yaml&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Save config to yaml file at `path`.&quot;&quot;&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">self_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="k">del</span> <span class="n">self_copy</span><span class="o">.</span><span class="n">_options_source</span>
+    <span class="n">yaml_str</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">self_copy</span><span class="p">)</span>
+    <span class="n">path</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">yaml_str</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="esparto._options.MatplotlibOptions" class="doc doc-heading">
+        <code>MatplotlibOptions</code>
+
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+      <p>Options for Matplotlib output.</p>
+
+<p><strong>Attributes:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>html_output_format</code></td>
+        <td><code>str</code></td>
+        <td><p>How plots are rendered in HTML: 'png' or 'svg'.</p></td>
+      </tr>
+      <tr>
+        <td><code>notebook_format</code></td>
+        <td><code>str</code></td>
+        <td><p>How plots are rendedered in Jupyter Notebooks: 'png' or 'svg'.</p></td>
+      </tr>
+      <tr>
+        <td><code>pdf_figsize</code></td>
+        <td><code>tuple or int</code></td>
+        <td><p>Specify size of Matplotlib figures in PDF output.
+An integer tuple can be passed as: (height, width).
+A float can be passed as a scaling factor.</p></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="esparto._options.PlotlyOptions" class="doc doc-heading">
+        <code>PlotlyOptions</code>
+
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+      <p>Options for Plotly output.</p>
+
+<p><strong>Attributes:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>layout_args</code></td>
+        <td><code>dict</code></td>
+        <td><p>Arguments passed to figure.update_layout() at rendering time.</p></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="esparto._options.BokehOptions" class="doc doc-heading">
+        <code>BokehOptions</code>
+
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+      <p>Options for Bokeh output.</p>
+
+<p><strong>Attributes:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>layout_attributes</code></td>
+        <td><code>dict</code></td>
+        <td><p>Bokeh layout object attributes to set at rendering time.</p></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+<p><br></p>
                 
               
               
@@ -526,6 +981,41 @@
       
         
 <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="content.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Content" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Content
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="publish.html" class="md-footer__link md-footer__link--next" aria-label="Next: Publish" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Publish
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -562,7 +1052,7 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.76f349be.min.js"></script>

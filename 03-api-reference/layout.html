@@ -185,8 +185,8 @@
   
   
     <li class="md-tabs__item">
-      <a href="../02-user-guide/examples.html" class="md-tabs__link">
-        User Guide
+      <a href="../02-user-guide/quick-reference.html" class="md-tabs__link">
+        User Guides
       </a>
     </li>
   
@@ -301,13 +301,13 @@
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
       <label class="md-nav__link" for="__nav_2">
-        User Guide
+        User Guides
         <span class="md-nav__icon md-icon"></span>
       </label>
-      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
+      <nav class="md-nav" aria-label="User Guides" data-md-level="1">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
-          User Guide
+          User Guides
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -316,8 +316,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../02-user-guide/examples.html" class="md-nav__link">
-        Examples
+      <a href="../02-user-guide/quick-reference.html" class="md-nav__link">
+        Quick Reference
       </a>
     </li>
   
@@ -328,8 +328,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../02-user-guide/general-usage.html" class="md-nav__link">
-        General Usage
+      <a href="../02-user-guide/examples.html" class="md-nav__link">
+        Example Notebooks
       </a>
     </li>
   
@@ -409,40 +409,6 @@
     Layout
   </a>
   
-    <nav class="md-nav" aria-label="Layout">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#esparto._layout.Layout.display" class="md-nav__link">
-    display()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#esparto._layout.Layout.set_children" class="md-nav__link">
-    set_children()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#esparto._layout.Layout.to_html" class="md-nav__link">
-    to_html()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#esparto._layout.Layout.tree" class="md-nav__link">
-    tree()
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -450,38 +416,18 @@
     Page
   </a>
   
-    <nav class="md-nav" aria-label="Page">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#esparto._layout.Page.save" class="md-nav__link">
-    save()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#esparto._layout.Page.save_html" class="md-nav__link">
-    save_html()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#esparto._layout.Page.save_pdf" class="md-nav__link">
-    save_pdf()
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
   <a href="#esparto._layout.Section" class="md-nav__link">
     Section
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esparto._layout.CardSection" class="md-nav__link">
+    CardSection
   </a>
   
 </li>
@@ -494,8 +440,29 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#esparto._layout.CardRow" class="md-nav__link">
+    CardRow
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esparto._layout.CardRowEqual" class="md-nav__link">
+    CardRowEqual
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#esparto._layout.Column" class="md-nav__link">
     Column
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esparto._layout.Card" class="md-nav__link">
+    Card
   </a>
   
 </li>
@@ -529,6 +496,18 @@
     <li class="md-nav__item">
       <a href="content.html" class="md-nav__link">
         Content
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="options.html" class="md-nav__link">
+        Options
       </a>
     </li>
   
@@ -684,7 +663,7 @@
 
     <div class="doc doc-contents first">
 
-      <p>Template for Layout elements. All Layout classes come with these methods and attributes.</p>
+      <p>Class Template for Layout elements.</p>
 <p>Layout class hierarchy:
     <code>Page -&gt; Section -&gt; Row -&gt; Column -&gt; Content</code></p>
 
@@ -701,12 +680,32 @@
       <tr>
         <td><code>title</code></td>
         <td><code>str</code></td>
-        <td><p>Object title. Used as a title within the document and as a key value.</p></td>
+        <td><p>Object title. Used as a title within the page and as a key value.</p></td>
       </tr>
       <tr>
         <td><code>children</code></td>
         <td><code>list</code></td>
-        <td><p>Child items defining the document layout and content.</p></td>
+        <td><p>Child items defining the page layout and content.</p></td>
+      </tr>
+      <tr>
+        <td><code>title_classes</code></td>
+        <td><code>list</code></td>
+        <td><p>Additional CSS classes to apply to title.</p></td>
+      </tr>
+      <tr>
+        <td><code>title_styles</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional CSS styles to apply to title.</p></td>
+      </tr>
+      <tr>
+        <td><code>body_classes</code></td>
+        <td><code>list</code></td>
+        <td><p>Additional CSS classes to apply to body.</p></td>
+      </tr>
+      <tr>
+        <td><code>body_styles</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional CSS styles to apply to body.</p></td>
       </tr>
   </tbody>
 </table>
@@ -714,6 +713,8 @@
 
 
   <div class="doc doc-children">
+
+
 
 
 
@@ -751,13 +752,67 @@
 
     <div class="doc doc-contents ">
 
-      <p>Display rendered document in a Notebook environment.</p>
+      <p>Render content in a Notebook environment.</p>
 
         <details class="quote">
           <summary>Source code in <code>esparto/_layout.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Display rendered document in a Notebook environment.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Render content in a Notebook environment.&quot;&quot;&quot;</span>
     <span class="n">nb_display</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="esparto._layout.Layout.get_identifier" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">get_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Get the HTML element ID for the current object.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>esparto/_layout.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the HTML element ID for the current object.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">clean_attr_name</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">))</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_id</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="esparto._layout.Layout.get_title_identifier" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">get_title_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Get the HTML element ID for the current object title.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>esparto/_layout.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_title_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the HTML element ID for the current object title.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_identifier</span><span class="p">()</span><span class="si">}</span><span class="s2">-title&quot;</span>
 </code></pre></div>
         </details>
     </div>
@@ -778,14 +833,18 @@
 
     <div class="doc doc-contents ">
 
-      <p>Set children as other.</p>
+      <p>Set children as <code>other</code>.</p>
 
         <details class="quote">
           <summary>Source code in <code>esparto/_layout.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_children</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;Layout&quot;</span><span class="p">,</span> <span class="s2">&quot;Content&quot;</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
-    <span class="sd">&quot;&quot;&quot;Set children as other.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Set children as `other`.&quot;&quot;&quot;</span>
     <span class="n">other</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_smart_wrap</span><span class="p">(</span><span class="n">other</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_child_id</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -806,7 +865,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Convert document to HTML code.</p>
+      <p>Render object as HTML code.</p>
 
 <p><strong>Returns:</strong></p>
 <table>
@@ -819,25 +878,37 @@
   <tbody>
     <tr>
       <td><code>str</code></td>
-      <td><p>str: HTML code.</p></td>
+      <td><p>html (str): HTML code.</p></td>
     </tr>
   </tbody>
 </table>
         <details class="quote">
           <summary>Source code in <code>esparto/_layout.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Convert document to HTML code.</span>
+    <span class="sd">&quot;&quot;&quot;Render object as HTML code.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">      str: HTML code.</span>
+<span class="sd">        html (str): HTML code.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">children_rendered</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">c</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">])</span>
-    <span class="n">title_rendered</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_title_tags</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-
-    <span class="n">html</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_body_tags</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-        <span class="n">identifier</span><span class="o">=</span><span class="n">clean_attr_name</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">)),</span>
-        <span class="n">children</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title_rendered</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">children_rendered</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">title_rendered</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">render_html</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">title_html_tag</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">title_classes</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">title_styles</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_title_identifier</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+        <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+    <span class="p">)</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">render_html</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">body_html_tag</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">body_classes</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">body_styles</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title_rendered</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">children_rendered</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_identifier</span><span class="p">(),</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">html</span>
 </code></pre></div>
@@ -860,12 +931,12 @@
 
     <div class="doc doc-contents ">
 
-      <p>Display document tree.</p>
+      <p>Display page tree.</p>
 
         <details class="quote">
           <summary>Source code in <code>esparto/_layout.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">tree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Display document tree.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Display page tree.&quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tree</span><span class="p">())</span>
 </code></pre></div>
         </details>
@@ -899,7 +970,7 @@
 
     <div class="doc doc-contents first">
 
-      <p>Defines the top level of a document.</p>
+      <p>Layout class that defines a Page.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -915,7 +986,7 @@
       <tr>
         <td><code>title</code></td>
         <td><code>str</code></td>
-        <td><p>Used as a title within the document and as a key value.</p></td>
+        <td><p>Used as a title within the page and as a key value.</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
@@ -925,9 +996,40 @@
         <td><em>required</em></td>
       </tr>
       <tr>
+        <td><code>table_of_contents</code></td>
+        <td><code>bool, int</code></td>
+        <td><p>Add a Table of Contents to the top of page.
+Passing an <code>int</code> will define the maximum depth.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
         <td><code>children</code></td>
         <td><code>list</code></td>
         <td><p>Child items defining layout and content.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>title_classes</code></td>
+        <td><code>list</code></td>
+        <td><p>Additional CSS classes to apply to title.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>title_styles</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional CSS styles to apply to title.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>body_classes</code></td>
+        <td><code>list</code></td>
+        <td><p>Additional CSS classes to apply to body.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>body_styles</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional CSS styles to apply to body.</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -946,19 +1048,20 @@
 
 
 
+
   <div class="doc doc-object doc-method">
 
 
 
 <h3 id="esparto._layout.Page.save" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;./esparto-doc.html&#39;</span><span class="p">,</span> <span class="n">return_html</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dependency_source</span><span class="o">=</span><span class="s1">&#39;esparto.options&#39;</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;./esparto-doc.html&#39;</span><span class="p">,</span> <span class="n">return_html</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dependency_source</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 
 </h3>
 
     <div class="doc doc-contents ">
 
-      <p>Save document to HTML file.</p>
+      <p>Save page to HTML file.</p>
 <p>Note: Alias for <code>self.save_html()</code>.</p>
 
 <p><strong>Parameters:</strong></p>
@@ -987,8 +1090,8 @@
       <tr>
         <td><code>dependency_source</code></td>
         <td><code>str</code></td>
-        <td><p>One of 'cdn', 'inline', or 'esparto.options'.</p></td>
-        <td><code>&#39;esparto.options&#39;</code></td>
+        <td><p>'cdn' or 'inline'.</p></td>
+        <td><code>None</code></td>
       </tr>
   </tbody>
 </table>
@@ -1003,7 +1106,7 @@
   <tbody>
     <tr>
       <td><code>Optional[str]</code></td>
-      <td><p>Document rendered as HTML. (If <code>return_html</code> is True)</p></td>
+      <td><p>html (str): Document rendered as HTML. (If <code>return_html</code> is True)</p></td>
     </tr>
   </tbody>
 </table>
@@ -1013,20 +1116,20 @@
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;./esparto-doc.html&quot;</span><span class="p">,</span>
     <span class="n">return_html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">dependency_source</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">default</span><span class="p">,</span>
+    <span class="n">dependency_source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Save document to HTML file.</span>
+<span class="sd">    Save page to HTML file.</span>
 
 <span class="sd">    Note: Alias for `self.save_html()`.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">      filepath (str): Destination filepath.</span>
-<span class="sd">      return_html (bool): If True, return HTML as a string.</span>
-<span class="sd">      dependency_source (str): One of &#39;cdn&#39;, &#39;inline&#39;, or &#39;esparto.options&#39;.</span>
+<span class="sd">        filepath (str): Destination filepath.</span>
+<span class="sd">        return_html (bool): If True, return HTML as a string.</span>
+<span class="sd">        dependency_source (str): &#39;cdn&#39; or &#39;inline&#39;.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">      Document rendered as HTML. (If `return_html` is True)</span>
+<span class="sd">        html (str): Document rendered as HTML. (If `return_html` is True)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">html</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_html</span><span class="p">(</span>
@@ -1051,14 +1154,14 @@
 
 
 <h3 id="esparto._layout.Page.save_html" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">save_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;./esparto-doc.html&#39;</span><span class="p">,</span> <span class="n">return_html</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dependency_source</span><span class="o">=</span><span class="s1">&#39;esparto.options&#39;</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">save_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;./esparto-doc.html&#39;</span><span class="p">,</span> <span class="n">return_html</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dependency_source</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 
 </h3>
 
     <div class="doc doc-contents ">
 
-      <p>Save document to HTML file.</p>
+      <p>Save page to HTML file.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1086,8 +1189,8 @@
       <tr>
         <td><code>dependency_source</code></td>
         <td><code>str</code></td>
-        <td><p>One of 'cdn', 'inline', or 'esparto.options'.</p></td>
-        <td><code>&#39;esparto.options&#39;</code></td>
+        <td><p>'cdn' or 'inline'.</p></td>
+        <td><code>None</code></td>
       </tr>
   </tbody>
 </table>
@@ -1102,7 +1205,7 @@
   <tbody>
     <tr>
       <td><code>Optional[str]</code></td>
-      <td><p>Document rendered as HTML. (If <code>return_html</code> is True)</p></td>
+      <td><p>html (str): Document rendered as HTML. (If <code>return_html</code> is True)</p></td>
     </tr>
   </tbody>
 </table>
@@ -1112,18 +1215,18 @@
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;./esparto-doc.html&quot;</span><span class="p">,</span>
     <span class="n">return_html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">dependency_source</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">default</span><span class="p">,</span>
+    <span class="n">dependency_source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Save document to HTML file.</span>
+<span class="sd">    Save page to HTML file.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">      filepath (str): Destination filepath.</span>
-<span class="sd">      return_html (bool): If True, return HTML as a string.</span>
-<span class="sd">      dependency_source (str): One of &#39;cdn&#39;, &#39;inline&#39;, or &#39;esparto.options&#39;.</span>
+<span class="sd">        filepath (str): Destination filepath.</span>
+<span class="sd">        return_html (bool): If True, return HTML as a string.</span>
+<span class="sd">        dependency_source (str): &#39;cdn&#39; or &#39;inline&#39;.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">      Document rendered as HTML. (If `return_html` is True)</span>
+<span class="sd">        html (str): Document rendered as HTML. (If `return_html` is True)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">html</span> <span class="o">=</span> <span class="n">publish_html</span><span class="p">(</span>
@@ -1156,7 +1259,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Save document to PDF file.</p>
+      <p>Save page to PDF file.</p>
 <p>Note: Requires optional module <code>weasyprint</code>.</p>
 
 <p><strong>Parameters:</strong></p>
@@ -1195,7 +1298,7 @@
   <tbody>
     <tr>
       <td><code>Optional[str]</code></td>
-      <td><p>Document rendered as HTML. (If <code>return_html</code> is True)</p></td>
+      <td><p>html (str): Document rendered as HTML. (If <code>return_html</code> is True)</p></td>
     </tr>
   </tbody>
 </table>
@@ -1205,16 +1308,16 @@
     <span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;./esparto-doc.pdf&quot;</span><span class="p">,</span> <span class="n">return_html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Save document to PDF file.</span>
+<span class="sd">    Save page to PDF file.</span>
 
 <span class="sd">    Note: Requires optional module `weasyprint`.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">      filepath (str): Destination filepath.</span>
-<span class="sd">      return_html (bool): If True, return intermediate HTML representation as a string.</span>
+<span class="sd">        filepath (str): Destination filepath.</span>
+<span class="sd">        return_html (bool): If True, return intermediate HTML representation as a string.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">      Document rendered as HTML. (If `return_html` is True)</span>
+<span class="sd">        html (str): Document rendered as HTML. (If `return_html` is True)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">html</span> <span class="o">=</span> <span class="n">publish_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">return_html</span><span class="o">=</span><span class="n">return_html</span><span class="p">)</span>
@@ -1222,6 +1325,64 @@
     <span class="k">if</span> <span class="n">return_html</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">html</span>
     <span class="k">return</span> <span class="kc">None</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="esparto._layout.Page.to_html" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Render object as HTML code.</p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>html (str)</code></td>
+      <td><p>HTML code.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>esparto/_layout.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_of_contents</span><span class="p">:</span>
+        <span class="c1"># Create a copy of the page and dynamically generate the TOC.</span>
+        <span class="c1"># Copy is required so that TOC is not added multiple times and</span>
+        <span class="c1"># always reflects the current content.</span>
+        <span class="n">max_depth</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="kc">None</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_of_contents</span> <span class="ow">is</span> <span class="kc">True</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_of_contents</span>
+        <span class="p">)</span>
+        <span class="n">page_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">toc</span> <span class="o">=</span> <span class="n">table_of_contents</span><span class="p">(</span><span class="n">page_copy</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">)</span>
+        <span class="n">page_copy</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
+            <span class="mi">0</span><span class="p">,</span>
+            <span class="n">page_copy</span><span class="o">.</span><span class="n">_child_class</span><span class="p">(</span>
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Contents&quot;</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">toc</span><span class="p">],</span> <span class="n">title_classes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;h4&quot;</span><span class="p">]</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">page_copy</span><span class="o">.</span><span class="n">table_of_contents</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="n">page_copy</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -1253,7 +1414,7 @@
 
     <div class="doc doc-contents first">
 
-      <p>Sections define thematically distinct groups of content within a Page.</p>
+      <p>Layout class that defines a Section.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1269,7 +1430,7 @@
       <tr>
         <td><code>title</code></td>
         <td><code>str</code></td>
-        <td><p>Used as a title within the document and as a key value.</p></td>
+        <td><p>Used as a title within the page and as a key value.</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
@@ -1278,127 +1439,32 @@
         <td><p>Child items defining layout and content.</p></td>
         <td><em>required</em></td>
       </tr>
-  </tbody>
-</table>
-
-
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-class">
-
-
-
-<h2 id="esparto._layout.Row" class="doc doc-heading">
-        <code>Row</code>
-
-
-
-</h2>
-
-    <div class="doc doc-contents first">
-
-      <p>Rows are used in combination with Columns to define the grid layout within a section.</p>
-
-<p><strong>Parameters:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-      <th>Default</th>
-    </tr>
-  </thead>
-  <tbody>
       <tr>
-        <td><code>title</code></td>
-        <td><code>str</code></td>
-        <td><p>Used as a title within the document and as a key value.</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>children</code></td>
+        <td><code>title_classes</code></td>
         <td><code>list</code></td>
-        <td><p>Child items defining layout and content.</p></td>
-        <td><em>required</em></td>
-      </tr>
-  </tbody>
-</table>
-
-
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-class">
-
-
-
-<h2 id="esparto._layout.Column" class="doc doc-heading">
-        <code>Column</code>
-
-
-
-</h2>
-
-    <div class="doc doc-contents first">
-
-      <p>Columns sit within Rows and act as content holders.</p>
-
-<p><strong>Parameters:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-      <th>Default</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr>
-        <td><code>title</code></td>
-        <td><code>str</code></td>
-        <td><p>Used as a title within the document and as a key value.</p></td>
+        <td><p>Additional CSS classes to apply to title.</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
-        <td><code>children</code></td>
+        <td><code>title_styles</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional CSS styles to apply to title.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>body_classes</code></td>
         <td><code>list</code></td>
-        <td><p>Child items defining layout and content.</p></td>
+        <td><p>Additional CSS classes to apply to body.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>body_styles</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional CSS styles to apply to body.</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
 </table>
-
-
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-class">
-
-
-
-<h2 id="esparto._layout.Spacer" class="doc doc-heading">
-        <code>Spacer</code>
-
-
-
-</h2>
-
-    <div class="doc doc-contents first">
-
-      <p>Empty Column for making space within a Row.</p>
-
 
 
 
@@ -1427,6 +1493,639 @@
 
 
 
+<h2 id="esparto._layout.CardSection" class="doc doc-heading">
+        <code>CardSection</code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+      <p>Layout class that defines a CardSection. CardSections wrap content in Cards by default.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>title</code></td>
+        <td><code>str</code></td>
+        <td><p>Used as a title within the page and as a key value.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>children</code></td>
+        <td><code>list</code></td>
+        <td><p>Child items defining layout and content.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>cards_equal</code></td>
+        <td><code>bool</code></td>
+        <td><p>Cards in the same Row are stretched vertically if True.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>title_classes</code></td>
+        <td><code>list</code></td>
+        <td><p>Additional CSS classes to apply to title.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>title_styles</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional CSS styles to apply to title.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>body_classes</code></td>
+        <td><code>list</code></td>
+        <td><p>Additional CSS classes to apply to body.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>body_styles</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional CSS styles to apply to body.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="esparto._layout.Row" class="doc doc-heading">
+        <code>Row</code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+      <p>Layout class that defines a Row.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>title</code></td>
+        <td><code>str</code></td>
+        <td><p>Used as a title within the page and as a key value.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>children</code></td>
+        <td><code>list</code></td>
+        <td><p>Child items defining layout and content.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>title_classes</code></td>
+        <td><code>list</code></td>
+        <td><p>Additional CSS classes to apply to title.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>title_styles</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional CSS styles to apply to title.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>body_classes</code></td>
+        <td><code>list</code></td>
+        <td><p>Additional CSS classes to apply to body.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>body_styles</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional CSS styles to apply to body.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="esparto._layout.CardRow" class="doc doc-heading">
+        <code>CardRow</code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+      <p>Layout class that defines a CardRow. CardRows wrap content in Cards by default.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>title</code></td>
+        <td><code>str</code></td>
+        <td><p>Used as a title within the page and as a key value.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>children</code></td>
+        <td><code>list</code></td>
+        <td><p>Child items defining layout and content.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>title_classes</code></td>
+        <td><code>list</code></td>
+        <td><p>Additional CSS classes to apply to title.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>title_styles</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional CSS styles to apply to title.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>body_classes</code></td>
+        <td><code>list</code></td>
+        <td><p>Additional CSS classes to apply to body.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>body_styles</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional CSS styles to apply to body.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="esparto._layout.CardRowEqual" class="doc doc-heading">
+        <code>CardRowEqual</code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+      <p>Layout class that defines a CardRow with Cards of equal height.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>title</code></td>
+        <td><code>str</code></td>
+        <td><p>Used as a title within the page and as a key value.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>children</code></td>
+        <td><code>list</code></td>
+        <td><p>Child items defining layout and content.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>title_classes</code></td>
+        <td><code>list</code></td>
+        <td><p>Additional CSS classes to apply to title.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>title_styles</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional CSS styles to apply to title.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>body_classes</code></td>
+        <td><code>list</code></td>
+        <td><p>Additional CSS classes to apply to body.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>body_styles</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional CSS styles to apply to body.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="esparto._layout.Column" class="doc doc-heading">
+        <code>Column</code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+      <p>Layout class that defines a Column.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>title</code></td>
+        <td><code>str</code></td>
+        <td><p>Used as a title within the page and as a key value.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>children</code></td>
+        <td><code>list</code></td>
+        <td><p>Child items defining layout and content.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>col_width</code></td>
+        <td><code>int</code></td>
+        <td><p>Fix column width - must be between 1 and 12.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>title_classes</code></td>
+        <td><code>list</code></td>
+        <td><p>Additional CSS classes to apply to title.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>title_styles</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional CSS styles to apply to title.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>body_classes</code></td>
+        <td><code>list</code></td>
+        <td><p>Additional CSS classes to apply to body.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>body_styles</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional CSS styles to apply to body.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="esparto._layout.Card" class="doc doc-heading">
+        <code>Card</code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+      <p>Layout class that defines a Card.</p>
+<p>Child items will be vertically stacked by default.
+Horizontal arrangement is achieved by nesting content inside a Row.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>title</code></td>
+        <td><code>str</code></td>
+        <td><p>Used as a title within the page and as a key value.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>children</code></td>
+        <td><code>list</code></td>
+        <td><p>Child items defining layout and content.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>col_width</code></td>
+        <td><code>int</code></td>
+        <td><p>Fix column width - must be between 1 and 12.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>title_classes</code></td>
+        <td><code>list</code></td>
+        <td><p>Additional CSS classes to apply to title.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>title_styles</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional CSS styles to apply to title.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>body_classes</code></td>
+        <td><code>list</code></td>
+        <td><p>Additional CSS classes to apply to body.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>body_styles</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional CSS styles to apply to body.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="esparto._layout.Card.to_html" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Render content to HTML code.</p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>str</code></td>
+      <td><p>html (str): HTML code.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>esparto/_layout.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Render content to HTML code.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        html (str): HTML code.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">children_rendered</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">c</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">])</span>
+    <span class="n">title_rendered</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">render_html</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">title_html_tag</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">title_classes</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">title_styles</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_title_identifier</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+        <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+    <span class="p">)</span>
+    <span class="n">card_body_classes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mx-2&quot;</span><span class="p">,</span> <span class="s2">&quot;border&quot;</span><span class="p">,</span> <span class="s2">&quot;rounded&quot;</span><span class="p">,</span> <span class="s2">&quot;card-body&quot;</span><span class="p">,</span> <span class="s2">&quot;es-card-body&quot;</span><span class="p">]</span>
+    <span class="n">card_body_styles</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;min-height&quot;</span><span class="p">:</span> <span class="s2">&quot;100%&quot;</span><span class="p">}</span>
+    <span class="n">html_body</span> <span class="o">=</span> <span class="n">render_html</span><span class="p">(</span>
+        <span class="s2">&quot;div&quot;</span><span class="p">,</span>
+        <span class="n">card_body_classes</span><span class="p">,</span>
+        <span class="n">card_body_styles</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">title_rendered</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">children_rendered</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_identifier</span><span class="p">()</span><span class="si">}</span><span class="s2">-body&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">html_full</span> <span class="o">=</span> <span class="n">render_html</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">body_html_tag</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">body_classes</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">body_styles</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">html_body</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_identifier</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">html_full</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="esparto._layout.Spacer" class="doc doc-heading">
+        <code>Spacer</code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+      <p>Empty Column for making space within a Row.</p>
+
+
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
 <h2 id="esparto._layout.PageBreak" class="doc doc-heading">
         <code>PageBreak</code>
 
@@ -1436,9 +2135,26 @@
 
     <div class="doc doc-contents first">
 
-      <p>Add a page break when printing or saving to PDF.</p>
+      <p>Defines a page break when printing or saving to PDF.</p>
 
 
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
 
     </div>
 
@@ -1464,7 +2180,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../02-user-guide/general-usage.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: General Usage" rel="prev">
+        <a href="../02-user-guide/examples.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Example Notebooks" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1473,7 +2189,7 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              General Usage
+              Example Notebooks
             </div>
           </div>
         </a>
@@ -1531,7 +2247,7 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.76f349be.min.js"></script>

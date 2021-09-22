@@ -14,7 +14,7 @@
     
     
       
-        <title>Authors - esparto</title>
+        <title>Quick Reference - esparto</title>
       
     
     
@@ -69,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#credits" class="md-skip">
+        <a href="#quick-reference" class="md-skip">
           Skip to content
         </a>
       
@@ -99,7 +99,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Authors
+              Quick Reference
             
           </span>
         </div>
@@ -185,7 +185,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../02-user-guide/quick-reference.html" class="md-tabs__link">
+      <a href="quick-reference.html" class="md-tabs__link">
         User Guides
       </a>
     </li>
@@ -211,15 +211,13 @@
         
   
   
-    
-  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="authors.html" class="md-tabs__link md-tabs__link--active">
+      <a href="../04-about/authors.html" class="md-tabs__link">
         About
       </a>
     </li>
@@ -316,7 +314,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../02-user-guide/quick-reference.html" class="md-nav__link">
+      <a href="quick-reference.html" class="md-nav__link">
         Quick Reference
       </a>
     </li>
@@ -328,7 +326,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../02-user-guide/examples.html" class="md-nav__link">
+      <a href="examples.html" class="md-nav__link">
         Example Notebooks
       </a>
     </li>
@@ -437,14 +435,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
       
       <label class="md-nav__link" for="__nav_4">
         About
@@ -460,51 +456,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Authors
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="authors.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../04-about/authors.html" class="md-nav__link">
         Authors
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#lead-developer" class="md-nav__link">
-    Lead Developer
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -514,7 +470,7 @@
   
   
     <li class="md-nav__item">
-      <a href="release-notes.html" class="md-nav__link">
+      <a href="../04-about/release-notes.html" class="md-nav__link">
         Release Notes
       </a>
     </li>
@@ -526,7 +482,7 @@
   
   
     <li class="md-nav__item">
-      <a href="roadmap.html" class="md-nav__link">
+      <a href="../04-about/roadmap.html" class="md-nav__link">
         Roadmap
       </a>
     </li>
@@ -538,7 +494,7 @@
   
   
     <li class="md-nav__item">
-      <a href="license.html" class="md-nav__link">
+      <a href="../04-about/license.html" class="md-nav__link">
         License
       </a>
     </li>
@@ -563,22 +519,71 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/domvwt/esparto/edit/master/docs/04-about/authors.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/domvwt/esparto/edit/master/docs/02-user-guide/quick-reference-old.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="credits">Credits</h1>
-<h2 id="lead-developer">Lead Developer</h2>
-<p>Dominic Thorn</p>
-<ul>
-<li><a href="mailto:dominic.thorn@gmail.com">dominic.thorn@gmail.com</a></li>
-<li><a href="https://domvwt.github.io/">domvwt.github.io</a></li>
-</ul>
-<!-- Contributors
-------------
+                <h1 id="quick-reference">Quick Reference</h1>
+<h3 id="create-a-new-page">Create a New Page</h3>
+<p>All pages start with a <code>Page</code> object. Additional options are available for
+including a Table of Contents and a brand name in the header.
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">esparto</span> <span class="k">as</span> <span class="nn">es</span>
+<span class="n">page</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Page</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;My Page&quot;</span><span class="p">,</span> <span class="n">navbrand</span><span class="o">=</span><span class="s2">&quot;esparto&quot;</span><span class="p">,</span> <span class="n">table_of_contents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div></p>
+<h3 id="page-layout">Page Layout</h3>
+<p>Pages items always follow the same hierarchy:</p>
+<p><code>Page</code> -&gt; <code>Section</code> -&gt; <code>Row</code> -&gt; <code>Column</code> -&gt; <code>Content</code></p>
+<p>If content is passed without explicitly defining the hierarcy it will be automatically inferred.</p>
+<h3 id="add-content">Add Content</h3>
+<p><code>Page</code> elements can be created and retrieved by title or by index. Elements can also be retrieved as attributes if they already exist.
+If new content is passed to an index it will either overwrite the content at that position or be appended to the parent element's child list.</p>
+<div class="highlight"><pre><span></span><code><span class="n">page</span><span class="p">[</span><span class="s2">&quot;Section Title&quot;</span><span class="p">][</span><span class="s2">&quot;Row Title&quot;</span><span class="p">][</span><span class="s2">&quot;Column Title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">content</span>  <span class="c1"># get element by title</span>
+<span class="n">page</span><span class="o">.</span><span class="n">section_title</span><span class="o">.</span><span class="n">row_title</span><span class="o">.</span><span class="n">column_title</span> <span class="o">=</span> <span class="n">content</span>  <span class="c1"># get element by attribute name (if it exists)</span>
+<span class="n">page</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">content</span>  <span class="c1"># get element by index</span>
+<span class="n">page</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">content</span>  <span class="c1"># overwrite the last item</span>
+<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Section Title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;column title&quot;</span><span class="p">:</span> <span class="n">column</span> <span class="n">content</span><span class="p">}</span>  <span class="c1"># use a dict to pass a column title</span>
 
-None yet. Why not be the first? -->
+<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Section Title&quot;</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">content</span>  <span class="c1"># add content and return original object</span>
+<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Section Title&quot;</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="n">content</span>  <span class="c1"># add content and return esparto element</span>
+
+<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Section Title&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">content_a</span><span class="p">,</span> <span class="n">content_b</span><span class="p">)</span>  <span class="c1"># use a tuple to place content in the same row</span>
+<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Section Title&quot;</span><span class="p">][</span><span class="s2">&quot;Row Title&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">content_a</span><span class="p">,</span> <span class="n">content_b</span><span class="p">)</span>  <span class="c1"># or the same column</span>
+</code></pre></div>
+<p><em>NOTE:
+When an item is added to the page it will either overwrite an existing item or be appended to the end of the parent element child list, regardless of the given index.</em></p>
+<h3 id="remove-content">Remove content</h3>
+<div class="highlight"><pre><span></span><code><span class="k">del</span> <span class="n">page</span><span class="p">[</span><span class="s2">&quot;Section Title&quot;</span><span class="p">][</span><span class="s2">&quot;Row Title&quot;</span><span class="p">][</span><span class="s2">&quot;Column Title&quot;</span><span class="p">]</span>  <span class="c1"># by title</span>
+<span class="k">del</span> <span class="n">page</span><span class="o">.</span><span class="n">section_title</span><span class="o">.</span><span class="n">row_title</span><span class="o">.</span><span class="n">column_title</span>  <span class="c1"># by attribute name</span>
+<span class="k">del</span> <span class="n">page</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># by index</span>
+</code></pre></div>
+<h3 id="view-the-page">View the Page</h3>
+<div class="highlight"><pre><span></span><code><span class="n">page</span><span class="o">.</span><span class="n">tree</span><span class="p">()</span>  <span class="c1"># print the page structure</span>
+<span class="n">page</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>  <span class="c1"># render the page in Jupyter cell output</span>
+</code></pre></div>
+<h3 id="save-the-page">Save the Page</h3>
+<div class="highlight"><pre><span></span><code><span class="n">page</span><span class="o">.</span><span class="n">save_html</span><span class="p">(</span><span class="s2">&quot;my-page.html&quot;</span><span class="p">)</span>
+<span class="n">page</span><span class="o">.</span><span class="n">save_pdf</span><span class="p">(</span><span class="s2">&quot;my-page.pdf&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="using-cards">Using Cards</h3>
+<p><code>Card</code> objects are a useful way of grouping related content items. They can be added explicitly as content:
+<div class="highlight"><pre><span></span><code><span class="n">page</span><span class="p">[</span><span class="s2">&quot;Section Title&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Card</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Card Title&quot;</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">content</span><span class="p">])</span>
+</code></pre></div>
+Or generated implicitly in a <code>CardSection</code>:
+<div class="highlight"><pre><span></span><code><span class="n">page</span><span class="p">[</span><span class="s2">&quot;Section Title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">CardSection</span><span class="p">()</span>
+<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Section Title&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Card Title&quot;</span><span class="p">:</span> <span class="n">content</span><span class="p">}</span>
+</code></pre></div></p>
+<h3 id="spacers-and-pagebreaks">Spacers and PageBreaks</h3>
+<p>A <code>Spacer</code> is used to fill add empty space to a <code>Row</code>. The <code>PageBreak</code> object is used to force a page-break in printed or PDF output.
+<div class="highlight"><pre><span></span><code><span class="n">page</span><span class="p">[</span><span class="s2">&quot;Section Title&quot;</span><span class="p">][</span><span class="s2">&quot;Row Title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">content</span><span class="p">,</span> <span class="n">es</span><span class="o">.</span><span class="n">Spacer</span><span class="p">()</span>  <span class="c1"># content will share row space equally with Spacer</span>
+<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Section Title&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">es</span><span class="o">.</span><span class="n">PageBreak</span><span class="p">()</span>  <span class="c1"># add a page break at the end of the section</span>
+</code></pre></div></p>
+<h3 id="config-options">Config Options</h3>
+<p>There are several options available for configuring the behaviour and appearance of the <code>Page</code>. Call <code>help</code> on the <code>options</code> object for more information or check the relevant documentation.
+<div class="highlight"><pre><span></span><code><span class="n">help</span><span class="p">(</span><span class="n">es</span><span class="o">.</span><span class="n">options</span><span class="p">)</span>
+<span class="c1"># or</span>
+<span class="n">es</span><span class="o">.</span><span class="n">options</span><span class="err">?</span>
+</code></pre></div></p>
                 
               
               
@@ -594,41 +599,6 @@ None yet. Why not be the first? -->
       
         
 <footer class="md-footer">
-  
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
-      
-        
-        <a href="../03-api-reference/adaptors.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Adaptors" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Adaptors
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="release-notes.html" class="md-footer__link md-footer__link--next" aria-label="Next: Release Notes" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Release Notes
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

@@ -185,8 +185,8 @@
   
   
     <li class="md-tabs__item">
-      <a href="../02-user-guide/examples.html" class="md-tabs__link">
-        User Guide
+      <a href="../02-user-guide/quick-reference.html" class="md-tabs__link">
+        User Guides
       </a>
     </li>
   
@@ -301,13 +301,13 @@
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
       <label class="md-nav__link" for="__nav_2">
-        User Guide
+        User Guides
         <span class="md-nav__icon md-icon"></span>
       </label>
-      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
+      <nav class="md-nav" aria-label="User Guides" data-md-level="1">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
-          User Guide
+          User Guides
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -316,8 +316,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../02-user-guide/examples.html" class="md-nav__link">
-        Examples
+      <a href="../02-user-guide/quick-reference.html" class="md-nav__link">
+        Quick Reference
       </a>
     </li>
   
@@ -328,8 +328,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../02-user-guide/general-usage.html" class="md-nav__link">
-        General Usage
+      <a href="../02-user-guide/examples.html" class="md-nav__link">
+        Example Notebooks
       </a>
     </li>
   
@@ -396,6 +396,18 @@
   
   
     <li class="md-nav__item">
+      <a href="options.html" class="md-nav__link">
+        Options
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
       <a href="publish.html" class="md-nav__link">
         Publish
       </a>
@@ -444,61 +456,6 @@
   <a href="#esparto._adaptors" class="md-nav__link">
     _adaptors
   </a>
-  
-    <nav class="md-nav" aria-label="_adaptors">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#esparto._adaptors.content_adaptor" class="md-nav__link">
-    content_adaptor()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#esparto._adaptors.content_adaptor_bokeh" class="md-nav__link">
-    content_adaptor_bokeh()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#esparto._adaptors.content_adaptor_core" class="md-nav__link">
-    content_adaptor_core()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#esparto._adaptors.content_adaptor_df" class="md-nav__link">
-    content_adaptor_df()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#esparto._adaptors.content_adaptor_mpl" class="md-nav__link">
-    content_adaptor_mpl()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#esparto._adaptors.content_adaptor_path" class="md-nav__link">
-    content_adaptor_path()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#esparto._adaptors.content_adaptor_plotly" class="md-nav__link">
-    content_adaptor_plotly()
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -668,7 +625,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Wrap content in the required class.</p>
+      <p>Wrap content in the required class. If Layout object is passed, return unchanged.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -699,7 +656,7 @@
   </thead>
   <tbody>
     <tr>
-      <td><code>Content</code></td>
+      <td><code>Union[esparto._content.Content, esparto._layout.Layout, dict]</code></td>
       <td><p>Content: Appropriately wrapped content.</p></td>
     </tr>
   </tbody>
@@ -707,9 +664,9 @@
         <details class="quote">
           <summary>Source code in <code>esparto/_adaptors.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@singledispatch</span>
-<span class="k">def</span> <span class="nf">content_adaptor</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Content</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Content</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">content_adaptor</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Content</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Content</span><span class="p">,</span> <span class="n">Layout</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Wrap content in the required class.</span>
+<span class="sd">    Wrap content in the required class. If Layout object is passed, return unchanged.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      content (Any): Any content to be added to the document.</span>
@@ -826,6 +783,64 @@
 
 
 
+<h3 id="esparto._adaptors.content_adaptor_dict" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">content_adaptor_dict</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Pass through dict of {"title": content}.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>esparto/_adaptors.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="nd">@content_adaptor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">content_adaptor_dict</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Pass through dict of {&quot;title&quot;: content}.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">content</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">content</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Content dict must be passed as {&#39;title&#39;: content}&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">content</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h3 id="esparto._adaptors.content_adaptor_layout" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">content_adaptor_layout</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>If Layout object is passed, return unchanged.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>esparto/_adaptors.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="nd">@content_adaptor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Layout</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">content_adaptor_layout</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Layout</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Layout</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;If Layout object is passed, return unchanged.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">content</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 id="esparto._adaptors.content_adaptor_mpl" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">content_adaptor_mpl</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></code>
 
@@ -867,7 +882,7 @@
         <details class="quote">
           <summary>Source code in <code>esparto/_adaptors.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@content_adaptor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Path</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">content_adaptor_path</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Content</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">content_adaptor_path</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Content</span><span class="p">,</span> <span class="n">Layout</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Convert text or image path to Markdown or Image content.&quot;&quot;&quot;</span>
     <span class="n">content_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">content_adaptor_core</span><span class="p">(</span><span class="n">content_str</span><span class="p">)</span>
@@ -1003,7 +1018,7 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.76f349be.min.js"></script>

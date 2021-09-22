@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <title>
+   My Report
+  </title>
+  <link href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;📄&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+  <!-- Required meta tags -->
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+  <style>
+   /* Print friendly page formatting */
+@page {
+    size: auto;
+    margin: 15mm 20mm;
+}
+
+@media print {
+    html,
+    body,
+    main {
+        border: 1px solid white;
+        width: 90%;
+        height: auto;
+    }
+    .row {
+        page-break-inside: avoid;
+        page-break-after: auto;
+        page-break-before: auto;
+    }
+    .es-column-body, .es-card {
+        flex: 1 !important;
+    }
+}
+
+
+/* Extra Small tables */
+.table-xs td, th {
+    padding: 0 !important;
+    padding-left: .3rem !important;
+    padding-right: .3rem !important;
+}
+
+.table-xs th {
+    text-align: left;
+}
+
+.table-xs td {
+    text-align: right;
+}
+
+
+/* Sticky footer styles */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 35px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    line-height: 35px;
+    background-color: #f5f5f5;
+}
+
+.footer p {
+    margin-bottom: 0;
+}
+
+
+/* Responsive SVG */
+.svg-content-mpl {
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    bottom: 0px;
+    margin: auto;
+}
+  </style>
+  <!-- Required dependencies -->
+  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet"/>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js">
+  </script>
+ </head>
+ <body>
+  <nav class="navbar navbar-expand-md navbar-light bg-light mb-3">
+   <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+    </a>
+   </div>
+  </nav>
+  <!-- GENERATED CONTENT START -->
+  <main class="es-page-body container px-2" id="my_report">
+   <h1 class="es-page-title display-4 mb-4" id="my_report-title">
+    My Report
+   </h1>
+   <div class="px-1 mb-3 es-section-body" id="data_analysis" style="align-items: flex-start">
+    <h3 class="mb-3 es-section-title" id="data_analysis-title">
+     Data Analysis
+    </h3>
+    <div class="row px-1 es-row-body" id="es-cardrowequal" style="align-items: stretch">
+     <div class="col-lg-6 mb-3 p-0 es-card" id="data">
+      <div class="mx-2 border rounded card-body es-card-body" id="data-body" style="min-height: 100%">
+       <h5 class="card-title es-card-title" id="data-title">
+        Data
+       </h5>
+       <div class="table-responsive">
+        <table border="0" class="dataframe table table-xs table-striped table-hover table-bordered my-1">
+         <thead>
+          <tr style="text-align: right;">
+           <th style="min-width: 0px;">
+           </th>
+           <th style="min-width: 0px;">
+            mean
+           </th>
+           <th style="min-width: 0px;">
+            std
+           </th>
+           <th style="min-width: 0px;">
+            min
+           </th>
+           <th style="min-width: 0px;">
+            max
+           </th>
+          </tr>
+         </thead>
+         <tbody>
+          <tr>
+           <th>
+            mpg
+           </th>
+           <td>
+            23.51
+           </td>
+           <td>
+            7.82
+           </td>
+           <td>
+            9.0
+           </td>
+           <td>
+            46.6
+           </td>
+          </tr>
+          <tr>
+           <th>
+            cylinders
+           </th>
+           <td>
+            5.45
+           </td>
+           <td>
+            1.70
+           </td>
+           <td>
+            3.0
+           </td>
+           <td>
+            8.0
+           </td>
+          </tr>
+          <tr>
+           <th>
+            displacement
+           </th>
+           <td>
+            193.43
+           </td>
+           <td>
+            104.27
+           </td>
+           <td>
+            68.0
+           </td>
+           <td>
+            455.0
+           </td>
+          </tr>
+          <tr>
+           <th>
+            horsepower
+           </th>
+           <td>
+            104.47
+           </td>
+           <td>
+            38.49
+           </td>
+           <td>
+            46.0
+           </td>
+           <td>
+            230.0
+           </td>
+          </tr>
+          <tr>
+           <th>
+            weight
+           </th>
+           <td>
+            2970.42
+           </td>
+           <td>
+            846.84
+           </td>
+           <td>
+            1613.0
+           </td>
+           <td>
+            5140.0
+           </td>
+          </tr>
+          <tr>
+           <th>
+            acceleration
+           </th>
+           <td>
+            15.57
+           </td>
+           <td>
+            2.76
+           </td>
+           <td>
+            8.0
+           </td>
+           <td>
+            24.8
+           </td>
+          </tr>
+          <tr>
+           <th>
+            model_year
+           </th>
+           <td>
+            76.01
+           </td>
+           <td>
+            3.70
+           </td>
+           <td>
+            70.0
+           </td>
+           <td>
+            82.0
+           </td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+      </div>
+     </div>
+     <div class="col-lg-6 mb-3 p-0 es-card" id="pie_chart">
+      <div class="mx-2 border rounded card-body es-card-body" id="pie_chart-body" style="min-height: 100%">
+       <h5 class="card-title es-card-title" id="pie_chart-title">
+        Pie Chart
+       </h5>
+       <div class="responsive-plot mb-3" style="max-width: 100%; height: 250px; margin: auto;">
+        <div class="plotly-graph-div" id="043ce6aa-02d4-4944-b354-c4164ee8facc" style="height:250px; width:100%;">
+        </div>
+        <script type="text/javascript">
+         window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("043ce6aa-02d4-4944-b354-c4164ee8facc")) {                    Plotly.newPlot(                        "043ce6aa-02d4-4944-b354-c4164ee8facc",                        [{"domain": {"x": [0.0, 1.0], "y": [0.0, 1.0]}, "hovertemplate": "origin=%{label}<extra></extra>", "labels": ["usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "japan", "usa", "usa", "usa", "japan", "europe", "europe", "europe", "europe", "europe", "usa", "usa", "usa", "usa", "usa", "japan", "usa", "japan", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "europe", "europe", "europe", "japan", "japan", "europe", "usa", "japan", "usa", "europe", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "japan", "usa", "usa", "usa", "usa", "europe", "europe", "europe", "europe", "usa", "japan", "japan", "usa", "japan", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "europe", "usa", "usa", "usa", "usa", "usa", "japan", "usa", "japan", "japan", "usa", "usa", "europe", "usa", "usa", "europe", "europe", "europe", "europe", "usa", "europe", "japan", "usa", "usa", "usa", "usa", "usa", "japan", "usa", "japan", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "europe", "europe", "europe", "japan", "japan", "usa", "europe", "europe", "japan", "japan", "europe", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "japan", "usa", "usa", "usa", "japan", "europe", "japan", "usa", "europe", "usa", "europe", "europe", "europe", "europe", "japan", "europe", "europe", "usa", "usa", "europe", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "europe", "japan", "usa", "usa", "usa", "usa", "europe", "japan", "japan", "usa", "europe", "usa", "europe", "japan", "europe", "usa", "usa", "usa", "usa", "japan", "usa", "europe", "usa", "japan", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "europe", "usa", "japan", "usa", "usa", "usa", "japan", "europe", "japan", "europe", "japan", "europe", "usa", "japan", "japan", "japan", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "japan", "japan", "usa", "japan", "usa", "usa", "japan", "europe", "europe", "europe", "europe", "europe", "japan", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "europe", "japan", "usa", "usa", "europe", "usa", "europe", "usa", "usa", "usa", "japan", "europe", "usa", "usa", "usa", "usa", "europe", "japan", "usa", "japan", "usa", "usa", "usa", "usa", "europe", "japan", "japan", "japan", "japan", "japan", "usa", "japan", "europe", "europe", "europe", "europe", "japan", "europe", "japan", "europe", "japan", "japan", "europe", "usa", "japan", "usa", "usa", "usa", "usa", "usa", "japan", "usa", "japan", "japan", "japan", "japan", "japan", "usa", "usa", "usa", "europe", "europe", "japan", "japan", "japan", "japan", "europe", "europe", "japan", "japan", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "europe", "japan", "japan", "usa", "usa", "japan", "japan", "japan", "japan", "japan", "japan", "usa", "usa", "usa", "usa", "japan", "usa", "usa", "usa", "europe", "usa", "usa", "usa"], "legendgroup": "", "name": "", "showlegend": true, "textinfo": "percent+label", "textposition": "inside", "type": "pie"}],                        {"height": 250, "legend": {"tracegroupgap": 0}, "margin": {"b": 10, "l": 10, "r": 10, "t": 10}, "modebar": {"bgcolor": "white"}, "paper_bgcolor": "rgba(0,0,0,0)", "plot_bgcolor": "rgba(0,0,0,0)", "showlegend": false, "template": {"data": {"bar": [{"error_x": {"color": "#2a3f5f"}, "error_y": {"color": "#2a3f5f"}, "marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "bar"}], "barpolar": [{"marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "barpolar"}], "carpet": [{"aaxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "baxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "type": "carpet"}], "choropleth": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "choropleth"}], "contour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour"}], "contourcarpet": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "contourcarpet"}], "heatmap": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap"}], "heatmapgl": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl"}], "histogram": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "histogram"}], "histogram2d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d"}], "histogram2dcontour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour"}], "mesh3d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "mesh3d"}], "parcoords": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "parcoords"}], "pie": [{"automargin": true, "type": "pie"}], "scatter": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter"}], "scatter3d": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter3d"}], "scattercarpet": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattercarpet"}], "scattergeo": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergeo"}], "scattergl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergl"}], "scattermapbox": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattermapbox"}], "scatterpolar": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolar"}], "scatterpolargl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolargl"}], "scatterternary": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterternary"}], "surface": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface"}], "table": [{"cells": {"fill": {"color": "#EBF0F8"}, "line": {"color": "white"}}, "header": {"fill": {"color": "#C8D4E3"}, "line": {"color": "white"}}, "type": "table"}]}, "layout": {"annotationdefaults": {"arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1}, "autotypenumbers": "strict", "coloraxis": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "colorscale": {"diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": {"color": "#2a3f5f"}, "geo": {"bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white"}, "hoverlabel": {"align": "left"}, "hovermode": "closest", "mapbox": {"style": "light"}, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": {"angularaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "radialaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "scene": {"xaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "yaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "zaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}}, "shapedefaults": {"line": {"color": "#2a3f5f"}}, "ternary": {"aaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "baxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "caxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "title": {"x": 0.05}, "xaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}, "yaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}}}},                        {"responsive": true}                    )                };
+        </script>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="row px-1 es-row-body" id="es-cardrowequal" style="align-items: stretch">
+     <div class="col-lg-6 mb-3 p-0 es-card" id="pie_chart">
+      <div class="mx-2 border rounded card-body es-card-body" id="pie_chart-body" style="min-height: 100%">
+       <h5 class="card-title es-card-title" id="pie_chart-title">
+        Pie Chart
+       </h5>
+       <div class="responsive-plot mb-3" style="max-width: 100%; height: 250px; margin: auto;">
+        <div class="plotly-graph-div" id="83529c75-eb41-4fad-845c-aaa8fdab373e" style="height:250px; width:100%;">
+        </div>
+        <script type="text/javascript">
+         window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("83529c75-eb41-4fad-845c-aaa8fdab373e")) {                    Plotly.newPlot(                        "83529c75-eb41-4fad-845c-aaa8fdab373e",                        [{"domain": {"x": [0.0, 1.0], "y": [0.0, 1.0]}, "hovertemplate": "origin=%{label}<extra></extra>", "labels": ["usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "japan", "usa", "usa", "usa", "japan", "europe", "europe", "europe", "europe", "europe", "usa", "usa", "usa", "usa", "usa", "japan", "usa", "japan", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "europe", "europe", "europe", "japan", "japan", "europe", "usa", "japan", "usa", "europe", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "japan", "usa", "usa", "usa", "usa", "europe", "europe", "europe", "europe", "usa", "japan", "japan", "usa", "japan", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "europe", "usa", "usa", "usa", "usa", "usa", "japan", "usa", "japan", "japan", "usa", "usa", "europe", "usa", "usa", "europe", "europe", "europe", "europe", "usa", "europe", "japan", "usa", "usa", "usa", "usa", "usa", "japan", "usa", "japan", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "europe", "europe", "europe", "japan", "japan", "usa", "europe", "europe", "japan", "japan", "europe", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "japan", "usa", "usa", "usa", "japan", "europe", "japan", "usa", "europe", "usa", "europe", "europe", "europe", "europe", "japan", "europe", "europe", "usa", "usa", "europe", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "europe", "japan", "usa", "usa", "usa", "usa", "europe", "japan", "japan", "usa", "europe", "usa", "europe", "japan", "europe", "usa", "usa", "usa", "usa", "japan", "usa", "europe", "usa", "japan", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "europe", "usa", "japan", "usa", "usa", "usa", "japan", "europe", "japan", "europe", "japan", "europe", "usa", "japan", "japan", "japan", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "japan", "japan", "usa", "japan", "usa", "usa", "japan", "europe", "europe", "europe", "europe", "europe", "japan", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "europe", "japan", "usa", "usa", "europe", "usa", "europe", "usa", "usa", "usa", "japan", "europe", "usa", "usa", "usa", "usa", "europe", "japan", "usa", "japan", "usa", "usa", "usa", "usa", "europe", "japan", "japan", "japan", "japan", "japan", "usa", "japan", "europe", "europe", "europe", "europe", "japan", "europe", "japan", "europe", "japan", "japan", "europe", "usa", "japan", "usa", "usa", "usa", "usa", "usa", "japan", "usa", "japan", "japan", "japan", "japan", "japan", "usa", "usa", "usa", "europe", "europe", "japan", "japan", "japan", "japan", "europe", "europe", "japan", "japan", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "usa", "europe", "japan", "japan", "usa", "usa", "japan", "japan", "japan", "japan", "japan", "japan", "usa", "usa", "usa", "usa", "japan", "usa", "usa", "usa", "europe", "usa", "usa", "usa"], "legendgroup": "", "name": "", "showlegend": true, "textinfo": "percent+label", "textposition": "inside", "type": "pie"}],                        {"height": 250, "legend": {"tracegroupgap": 0}, "margin": {"b": 10, "l": 10, "r": 10, "t": 10}, "modebar": {"bgcolor": "white"}, "paper_bgcolor": "rgba(0,0,0,0)", "plot_bgcolor": "rgba(0,0,0,0)", "showlegend": false, "template": {"data": {"bar": [{"error_x": {"color": "#2a3f5f"}, "error_y": {"color": "#2a3f5f"}, "marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "bar"}], "barpolar": [{"marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "barpolar"}], "carpet": [{"aaxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "baxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "type": "carpet"}], "choropleth": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "choropleth"}], "contour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour"}], "contourcarpet": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "contourcarpet"}], "heatmap": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap"}], "heatmapgl": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl"}], "histogram": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "histogram"}], "histogram2d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d"}], "histogram2dcontour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour"}], "mesh3d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "mesh3d"}], "parcoords": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "parcoords"}], "pie": [{"automargin": true, "type": "pie"}], "scatter": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter"}], "scatter3d": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter3d"}], "scattercarpet": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattercarpet"}], "scattergeo": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergeo"}], "scattergl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergl"}], "scattermapbox": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattermapbox"}], "scatterpolar": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolar"}], "scatterpolargl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolargl"}], "scatterternary": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterternary"}], "surface": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface"}], "table": [{"cells": {"fill": {"color": "#EBF0F8"}, "line": {"color": "white"}}, "header": {"fill": {"color": "#C8D4E3"}, "line": {"color": "white"}}, "type": "table"}]}, "layout": {"annotationdefaults": {"arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1}, "autotypenumbers": "strict", "coloraxis": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "colorscale": {"diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": {"color": "#2a3f5f"}, "geo": {"bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white"}, "hoverlabel": {"align": "left"}, "hovermode": "closest", "mapbox": {"style": "light"}, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": {"angularaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "radialaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "scene": {"xaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "yaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "zaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}}, "shapedefaults": {"line": {"color": "#2a3f5f"}}, "ternary": {"aaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "baxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "caxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "title": {"x": 0.05}, "xaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}, "yaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}}}},                        {"responsive": true}                    )                };
+        </script>
+       </div>
+      </div>
+     </div>
+     <div class="col-lg-6 mb-3 p-0 es-card" id="data">
+      <div class="mx-2 border rounded card-body es-card-body" id="data-body" style="min-height: 100%">
+       <h5 class="card-title es-card-title" id="data-title">
+        Data
+       </h5>
+       <div class="table-responsive">
+        <table border="0" class="dataframe table table-xs table-striped table-hover table-bordered my-1">
+         <thead>
+          <tr style="text-align: right;">
+           <th style="min-width: 0px;">
+           </th>
+           <th style="min-width: 0px;">
+            mean
+           </th>
+           <th style="min-width: 0px;">
+            std
+           </th>
+           <th style="min-width: 0px;">
+            min
+           </th>
+           <th style="min-width: 0px;">
+            max
+           </th>
+          </tr>
+         </thead>
+         <tbody>
+          <tr>
+           <th>
+            mpg
+           </th>
+           <td>
+            23.51
+           </td>
+           <td>
+            7.82
+           </td>
+           <td>
+            9.0
+           </td>
+           <td>
+            46.6
+           </td>
+          </tr>
+          <tr>
+           <th>
+            cylinders
+           </th>
+           <td>
+            5.45
+           </td>
+           <td>
+            1.70
+           </td>
+           <td>
+            3.0
+           </td>
+           <td>
+            8.0
+           </td>
+          </tr>
+          <tr>
+           <th>
+            displacement
+           </th>
+           <td>
+            193.43
+           </td>
+           <td>
+            104.27
+           </td>
+           <td>
+            68.0
+           </td>
+           <td>
+            455.0
+           </td>
+          </tr>
+          <tr>
+           <th>
+            horsepower
+           </th>
+           <td>
+            104.47
+           </td>
+           <td>
+            38.49
+           </td>
+           <td>
+            46.0
+           </td>
+           <td>
+            230.0
+           </td>
+          </tr>
+          <tr>
+           <th>
+            weight
+           </th>
+           <td>
+            2970.42
+           </td>
+           <td>
+            846.84
+           </td>
+           <td>
+            1613.0
+           </td>
+           <td>
+            5140.0
+           </td>
+          </tr>
+          <tr>
+           <th>
+            acceleration
+           </th>
+           <td>
+            15.57
+           </td>
+           <td>
+            2.76
+           </td>
+           <td>
+            8.0
+           </td>
+           <td>
+            24.8
+           </td>
+          </tr>
+          <tr>
+           <th>
+            model_year
+           </th>
+           <td>
+            76.01
+           </td>
+           <td>
+            3.70
+           </td>
+           <td>
+            70.0
+           </td>
+           <td>
+            82.0
+           </td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="row px-1 es-row-body" id="bokeh" style="align-items: stretch">
+     <div class="col-12 mt-2 mb-3 px-3 h5 es-row-title" id="bokeh-title">
+      Bokeh
+     </div>
+     <div class="col-lg-6 mb-3 p-0 es-card" id="es-card">
+      <div class="mx-2 border rounded card-body es-card-body" id="es-card-body" style="min-height: 100%">
+       <div class="mb-3 es-bokeh-figure" style="max-width: 600px; max-height: 400px; margin: auto;">
+        <script type="text/javascript">
+         (function() {
+          var fn = function() {
+            Bokeh.safely(function() {
+              (function(root) {
+                function embed_document(root) {
+                  
+                var docs_json = '{"c05c1d97-760a-4216-a417-3d17eaca30e6":{"defs":[],"roots":{"references":[{"attributes":{"line_color":"#1f77b4","line_width":2,"x":{"field":"__x__values"},"y":{"field":"mean"}},"id":"1040","type":"Line"},{"attributes":{"line_alpha":0.1,"line_color":"#1f77b4","line_width":2,"x":{"field":"__x__values"},"y":{"field":"mean"}},"id":"1041","type":"Line"},{"attributes":{"below":[{"id":"1014"}],"center":[{"id":"1017"},{"id":"1021"},{"id":"1053"}],"height":400,"left":[{"id":"1018"}],"margin":[0,0,0,0],"output_backend":"webgl","renderers":[{"id":"1042"}],"sizing_mode":"scale_width","title":{"id":"1004"},"toolbar":{"id":"1029"},"x_range":{"id":"1006"},"x_scale":{"id":"1010"},"y_range":{"id":"1008"},"y_scale":{"id":"1012"}},"id":"1003","subtype":"Figure","type":"Plot"},{"attributes":{"bottom_units":"screen","fill_alpha":0.5,"fill_color":"lightgrey","left_units":"screen","level":"overlay","line_alpha":1.0,"line_color":"black","line_dash":[4,4],"line_width":2,"right_units":"screen","syncable":false,"top_units":"screen"},"id":"1028","type":"BoxAnnotation"},{"attributes":{"code":"\\n                                var labels = {0: &#x27;mpg&#x27;, 1: &#x27;cylinders&#x27;, 2: &#x27;displacement&#x27;, 3: &#x27;horsepower&#x27;, 4: &#x27;weight&#x27;, 5: &#x27;acceleration&#x27;, 6: &#x27;model_year&#x27;};\\n                                return labels[tick];\\n                                "},"id":"1036","type":"FuncTickFormatter"},{"attributes":{"source":{"id":"1038"}},"id":"1043","type":"CDSView"},{"attributes":{"ticks":[0,1,2,3,4,5,6]},"id":"1057","type":"FixedTicker"},{"attributes":{"label":{"value":" mean"},"renderers":[{"id":"1042"}]},"id":"1054","type":"LegendItem"},{"attributes":{"click_policy":"hide","items":[{"id":"1054"}]},"id":"1053","type":"Legend"},{"attributes":{},"id":"1010","type":"LinearScale"},{"attributes":{"formatter":{"id":"1036"},"major_label_policy":{"id":"1046"},"ticker":{"id":"1057"}},"id":"1014","type":"LinearAxis"},{"attributes":{},"id":"1008","type":"DataRange1d"},{"attributes":{"axis":{"id":"1018"},"dimension":1,"ticker":null},"id":"1021","type":"Grid"},{"attributes":{},"id":"1019","type":"BasicTicker"},{"attributes":{},"id":"1012","type":"LinearScale"},{"attributes":{},"id":"1051","type":"UnionRenderers"},{"attributes":{},"id":"1027","type":"HelpTool"},{"attributes":{},"id":"1023","type":"WheelZoomTool"},{"attributes":{},"id":"1052","type":"Selection"},{"attributes":{"overlay":{"id":"1028"}},"id":"1024","type":"BoxZoomTool"},{"attributes":{},"id":"1022","type":"PanTool"},{"attributes":{"data":{"__x__values":[0,1,2,3,4,5,6],"__x__values_original":["mpg","cylinders","displacement","horsepower","weight","acceleration","model_year"],"mean":{"__ndarray__":"w/UoXI+CN0DNzMzMzMwVQPYoXI/CLWhArkfhehQeWkCkcD0K1zSnQKRwPQrXIy9AcT0K16MAU0A=","dtype":"float64","order":"little","shape":[7]}},"selected":{"id":"1052"},"selection_policy":{"id":"1051"}},"id":"1038","type":"ColumnDataSource"},{"attributes":{"active_multi":null,"active_scroll":{"id":"1023"},"tools":[{"id":"1022"},{"id":"1023"},{"id":"1024"},{"id":"1025"},{"id":"1026"},{"id":"1027"},{"id":"1055"}]},"id":"1029","type":"Toolbar"},{"attributes":{},"id":"1025","type":"SaveTool"},{"attributes":{"axis_label":"mean","formatter":{"id":"1049"},"major_label_policy":{"id":"1048"},"ticker":{"id":"1019"}},"id":"1018","type":"LinearAxis"},{"attributes":{},"id":"1026","type":"ResetTool"},{"attributes":{"callback":null,"mode":"vline","renderers":[{"id":"1042"}],"tooltips":[["x","@__x__values_original"],["mean","@{mean}"]]},"id":"1055","type":"HoverTool"},{"attributes":{},"id":"1046","type":"AllLabels"},{"attributes":{"data_source":{"id":"1038"},"glyph":{"id":"1040"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1041"},"view":{"id":"1043"}},"id":"1042","type":"GlyphRenderer"},{"attributes":{},"id":"1049","type":"BasicTickFormatter"},{"attributes":{},"id":"1006","type":"DataRange1d"},{"attributes":{},"id":"1048","type":"AllLabels"},{"attributes":{"axis":{"id":"1014"},"ticker":null},"id":"1017","type":"Grid"},{"attributes":{},"id":"1004","type":"Title"}],"root_ids":["1003"]},"title":"Bokeh Application","version":"2.3.2"}}';
+                var render_items = [{"docid":"c05c1d97-760a-4216-a417-3d17eaca30e6","root_ids":["1003"],"roots":{"1003":"d3d13c4e-f7cf-4790-8d04-a6d9f7a6b758"}}];
+                root.Bokeh.embed.embed_items(docs_json, render_items);
+              
+                }
+                if (root.Bokeh !== undefined) {
+                  embed_document(root);
+                } else {
+                  var attempts = 0;
+                  var timer = setInterval(function(root) {
+                    if (root.Bokeh !== undefined) {
+                      clearInterval(timer);
+                      embed_document(root);
+                    } else {
+                      attempts++;
+                      if (attempts > 100) {
+                        clearInterval(timer);
+                        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                      }
+                    }
+                  }, 10, root)
+                }
+              })(window);
+            });
+          };
+          if (document.readyState != "loading") fn();
+          else document.addEventListener("DOMContentLoaded", fn);
+        })();
+        </script>
+        <div class="bk-root" data-root-id="1003" id="d3d13c4e-f7cf-4790-8d04-a6d9f7a6b758">
+        </div>
+       </div>
+       <div class="table-responsive">
+        <table border="0" class="dataframe table table-xs table-striped table-hover table-bordered my-1">
+         <thead>
+          <tr style="text-align: right;">
+           <th style="min-width: 0px;">
+           </th>
+           <th style="min-width: 0px;">
+            mean
+           </th>
+           <th style="min-width: 0px;">
+            std
+           </th>
+           <th style="min-width: 0px;">
+            min
+           </th>
+           <th style="min-width: 0px;">
+            max
+           </th>
+          </tr>
+         </thead>
+         <tbody>
+          <tr>
+           <th>
+            mpg
+           </th>
+           <td>
+            23.51
+           </td>
+           <td>
+            7.82
+           </td>
+           <td>
+            9.0
+           </td>
+           <td>
+            46.6
+           </td>
+          </tr>
+          <tr>
+           <th>
+            cylinders
+           </th>
+           <td>
+            5.45
+           </td>
+           <td>
+            1.70
+           </td>
+           <td>
+            3.0
+           </td>
+           <td>
+            8.0
+           </td>
+          </tr>
+          <tr>
+           <th>
+            displacement
+           </th>
+           <td>
+            193.43
+           </td>
+           <td>
+            104.27
+           </td>
+           <td>
+            68.0
+           </td>
+           <td>
+            455.0
+           </td>
+          </tr>
+          <tr>
+           <th>
+            horsepower
+           </th>
+           <td>
+            104.47
+           </td>
+           <td>
+            38.49
+           </td>
+           <td>
+            46.0
+           </td>
+           <td>
+            230.0
+           </td>
+          </tr>
+          <tr>
+           <th>
+            weight
+           </th>
+           <td>
+            2970.42
+           </td>
+           <td>
+            846.84
+           </td>
+           <td>
+            1613.0
+           </td>
+           <td>
+            5140.0
+           </td>
+          </tr>
+          <tr>
+           <th>
+            acceleration
+           </th>
+           <td>
+            15.57
+           </td>
+           <td>
+            2.76
+           </td>
+           <td>
+            8.0
+           </td>
+           <td>
+            24.8
+           </td>
+          </tr>
+          <tr>
+           <th>
+            model_year
+           </th>
+           <td>
+            76.01
+           </td>
+           <td>
+            3.70
+           </td>
+           <td>
+            70.0
+           </td>
+           <td>
+            82.0
+           </td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+      </div>
+     </div>
+     <div class="col-lg-6 mb-3 p-0 es-card" id="es-card">
+      <div class="mx-2 border rounded card-body es-card-body" id="es-card-body" style="min-height: 100%">
+       <div class="mb-3 es-bokeh-figure" style="max-width: 600px; max-height: 400px; margin: auto;">
+        <script type="text/javascript">
+         (function() {
+          var fn = function() {
+            Bokeh.safely(function() {
+              (function(root) {
+                function embed_document(root) {
+                  
+                var docs_json = '{"21d45c34-1c1c-43e1-97c8-14702aaca7b7":{"defs":[],"roots":{"references":[{"attributes":{"line_color":"#1f77b4","line_width":2,"x":{"field":"__x__values"},"y":{"field":"mean"}},"id":"1040","type":"Line"},{"attributes":{"line_alpha":0.1,"line_color":"#1f77b4","line_width":2,"x":{"field":"__x__values"},"y":{"field":"mean"}},"id":"1041","type":"Line"},{"attributes":{"below":[{"id":"1014"}],"center":[{"id":"1017"},{"id":"1021"},{"id":"1053"}],"height":400,"left":[{"id":"1018"}],"margin":[0,0,0,0],"output_backend":"webgl","renderers":[{"id":"1042"}],"sizing_mode":"scale_width","title":{"id":"1004"},"toolbar":{"id":"1029"},"x_range":{"id":"1006"},"x_scale":{"id":"1010"},"y_range":{"id":"1008"},"y_scale":{"id":"1012"}},"id":"1003","subtype":"Figure","type":"Plot"},{"attributes":{"bottom_units":"screen","fill_alpha":0.5,"fill_color":"lightgrey","left_units":"screen","level":"overlay","line_alpha":1.0,"line_color":"black","line_dash":[4,4],"line_width":2,"right_units":"screen","syncable":false,"top_units":"screen"},"id":"1028","type":"BoxAnnotation"},{"attributes":{"code":"\\n                                var labels = {0: &#x27;mpg&#x27;, 1: &#x27;cylinders&#x27;, 2: &#x27;displacement&#x27;, 3: &#x27;horsepower&#x27;, 4: &#x27;weight&#x27;, 5: &#x27;acceleration&#x27;, 6: &#x27;model_year&#x27;};\\n                                return labels[tick];\\n                                "},"id":"1036","type":"FuncTickFormatter"},{"attributes":{"source":{"id":"1038"}},"id":"1043","type":"CDSView"},{"attributes":{"ticks":[0,1,2,3,4,5,6]},"id":"1057","type":"FixedTicker"},{"attributes":{"label":{"value":" mean"},"renderers":[{"id":"1042"}]},"id":"1054","type":"LegendItem"},{"attributes":{"click_policy":"hide","items":[{"id":"1054"}]},"id":"1053","type":"Legend"},{"attributes":{},"id":"1010","type":"LinearScale"},{"attributes":{"formatter":{"id":"1036"},"major_label_policy":{"id":"1046"},"ticker":{"id":"1057"}},"id":"1014","type":"LinearAxis"},{"attributes":{},"id":"1008","type":"DataRange1d"},{"attributes":{"axis":{"id":"1018"},"dimension":1,"ticker":null},"id":"1021","type":"Grid"},{"attributes":{},"id":"1019","type":"BasicTicker"},{"attributes":{},"id":"1012","type":"LinearScale"},{"attributes":{},"id":"1051","type":"UnionRenderers"},{"attributes":{},"id":"1027","type":"HelpTool"},{"attributes":{},"id":"1023","type":"WheelZoomTool"},{"attributes":{},"id":"1052","type":"Selection"},{"attributes":{"overlay":{"id":"1028"}},"id":"1024","type":"BoxZoomTool"},{"attributes":{},"id":"1022","type":"PanTool"},{"attributes":{"data":{"__x__values":[0,1,2,3,4,5,6],"__x__values_original":["mpg","cylinders","displacement","horsepower","weight","acceleration","model_year"],"mean":{"__ndarray__":"w/UoXI+CN0DNzMzMzMwVQPYoXI/CLWhArkfhehQeWkCkcD0K1zSnQKRwPQrXIy9AcT0K16MAU0A=","dtype":"float64","order":"little","shape":[7]}},"selected":{"id":"1052"},"selection_policy":{"id":"1051"}},"id":"1038","type":"ColumnDataSource"},{"attributes":{"active_multi":null,"active_scroll":{"id":"1023"},"tools":[{"id":"1022"},{"id":"1023"},{"id":"1024"},{"id":"1025"},{"id":"1026"},{"id":"1027"},{"id":"1055"}]},"id":"1029","type":"Toolbar"},{"attributes":{},"id":"1025","type":"SaveTool"},{"attributes":{"axis_label":"mean","formatter":{"id":"1049"},"major_label_policy":{"id":"1048"},"ticker":{"id":"1019"}},"id":"1018","type":"LinearAxis"},{"attributes":{},"id":"1026","type":"ResetTool"},{"attributes":{"callback":null,"mode":"vline","renderers":[{"id":"1042"}],"tooltips":[["x","@__x__values_original"],["mean","@{mean}"]]},"id":"1055","type":"HoverTool"},{"attributes":{},"id":"1046","type":"AllLabels"},{"attributes":{"data_source":{"id":"1038"},"glyph":{"id":"1040"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1041"},"view":{"id":"1043"}},"id":"1042","type":"GlyphRenderer"},{"attributes":{},"id":"1049","type":"BasicTickFormatter"},{"attributes":{},"id":"1006","type":"DataRange1d"},{"attributes":{},"id":"1048","type":"AllLabels"},{"attributes":{"axis":{"id":"1014"},"ticker":null},"id":"1017","type":"Grid"},{"attributes":{},"id":"1004","type":"Title"}],"root_ids":["1003"]},"title":"Bokeh Application","version":"2.3.2"}}';
+                var render_items = [{"docid":"21d45c34-1c1c-43e1-97c8-14702aaca7b7","root_ids":["1003"],"roots":{"1003":"3c048176-b2a2-4f2c-9438-70cf305d055f"}}];
+                root.Bokeh.embed.embed_items(docs_json, render_items);
+              
+                }
+                if (root.Bokeh !== undefined) {
+                  embed_document(root);
+                } else {
+                  var attempts = 0;
+                  var timer = setInterval(function(root) {
+                    if (root.Bokeh !== undefined) {
+                      clearInterval(timer);
+                      embed_document(root);
+                    } else {
+                      attempts++;
+                      if (attempts > 100) {
+                        clearInterval(timer);
+                        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                      }
+                    }
+                  }, 10, root)
+                }
+              })(window);
+            });
+          };
+          if (document.readyState != "loading") fn();
+          else document.addEventListener("DOMContentLoaded", fn);
+        })();
+        </script>
+        <div class="bk-root" data-root-id="1003" id="3c048176-b2a2-4f2c-9438-70cf305d055f">
+        </div>
+       </div>
+       <div class="table-responsive">
+        <table border="0" class="dataframe table table-xs table-striped table-hover table-bordered my-1">
+         <thead>
+          <tr style="text-align: right;">
+           <th style="min-width: 0px;">
+           </th>
+           <th style="min-width: 0px;">
+            mean
+           </th>
+           <th style="min-width: 0px;">
+            std
+           </th>
+           <th style="min-width: 0px;">
+            min
+           </th>
+           <th style="min-width: 0px;">
+            max
+           </th>
+          </tr>
+         </thead>
+         <tbody>
+          <tr>
+           <th>
+            mpg
+           </th>
+           <td>
+            23.51
+           </td>
+           <td>
+            7.82
+           </td>
+           <td>
+            9.0
+           </td>
+           <td>
+            46.6
+           </td>
+          </tr>
+          <tr>
+           <th>
+            cylinders
+           </th>
+           <td>
+            5.45
+           </td>
+           <td>
+            1.70
+           </td>
+           <td>
+            3.0
+           </td>
+           <td>
+            8.0
+           </td>
+          </tr>
+          <tr>
+           <th>
+            displacement
+           </th>
+           <td>
+            193.43
+           </td>
+           <td>
+            104.27
+           </td>
+           <td>
+            68.0
+           </td>
+           <td>
+            455.0
+           </td>
+          </tr>
+          <tr>
+           <th>
+            horsepower
+           </th>
+           <td>
+            104.47
+           </td>
+           <td>
+            38.49
+           </td>
+           <td>
+            46.0
+           </td>
+           <td>
+            230.0
+           </td>
+          </tr>
+          <tr>
+           <th>
+            weight
+           </th>
+           <td>
+            2970.42
+           </td>
+           <td>
+            846.84
+           </td>
+           <td>
+            1613.0
+           </td>
+           <td>
+            5140.0
+           </td>
+          </tr>
+          <tr>
+           <th>
+            acceleration
+           </th>
+           <td>
+            15.57
+           </td>
+           <td>
+            2.76
+           </td>
+           <td>
+            8.0
+           </td>
+           <td>
+            24.8
+           </td>
+          </tr>
+          <tr>
+           <th>
+            model_year
+           </th>
+           <td>
+            76.01
+           </td>
+           <td>
+            3.70
+           </td>
+           <td>
+            70.0
+           </td>
+           <td>
+            82.0
+           </td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </main>
+  <!-- GENERATED CONTENT END -->
+  <!-- Required JS dependencies -->
+  <script crossorigin="anonymous" integrity="sha384-XypntL49z55iwGVUW4qsEu83zKL3XEcz0MjuGOQ9SlaaQ68X/g+k1FcioZi7oQAc" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.3.2.min.js" type="text/javascript">
+  </script>
+  <script crossorigin="anonymous" integrity="sha384-TX0gSQTdXTTeScqxj6PVQxTiRW8DOoGVwinyi1D3kxv7wuxQ02XkOxv0xwiypcAH" src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.3.2.min.js" type="text/javascript">
+  </script>
+  <script crossorigin="anonymous" integrity="sha384-bEsM86IHGDTLCS0Zod8a8WM6Y4+lafAL/eSiyQcuPzinmWNgNO2/olUF0Z2Dkn5i" src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.3.2.min.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   Bokeh.set_log_level("info");
+  </script>
+  <!-- Footer -->
+  <div class="d-print-none" style="height: 3rem;">
+  </div>
+  <footer class="footer d-print-none bg-light">
+   <div class="container">
+    <div class="row justify-items-about">
+     <div class="col">
+      <a href="https://domvwt.github.io/esparto/">
+       <small class="text-dark font-italic">
+        esparto
+       </small>
+      </a>
+     </div>
+    </div>
+   </div>
+  </footer>
+ </body>
+</html>

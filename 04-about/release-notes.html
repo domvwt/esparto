@@ -185,8 +185,8 @@
   
   
     <li class="md-tabs__item">
-      <a href="../02-user-guide/examples.html" class="md-tabs__link">
-        User Guide
+      <a href="../02-user-guide/quick-reference.html" class="md-tabs__link">
+        User Guides
       </a>
     </li>
   
@@ -301,13 +301,13 @@
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
       <label class="md-nav__link" for="__nav_2">
-        User Guide
+        User Guides
         <span class="md-nav__icon md-icon"></span>
       </label>
-      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
+      <nav class="md-nav" aria-label="User Guides" data-md-level="1">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
-          User Guide
+          User Guides
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -316,8 +316,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../02-user-guide/examples.html" class="md-nav__link">
-        Examples
+      <a href="../02-user-guide/quick-reference.html" class="md-nav__link">
+        Quick Reference
       </a>
     </li>
   
@@ -328,8 +328,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../02-user-guide/general-usage.html" class="md-nav__link">
-        General Usage
+      <a href="../02-user-guide/examples.html" class="md-nav__link">
+        Example Notebooks
       </a>
     </li>
   
@@ -384,6 +384,18 @@
     <li class="md-nav__item">
       <a href="../03-api-reference/content.html" class="md-nav__link">
         Content
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-api-reference/options.html" class="md-nav__link">
+        Options
       </a>
     </li>
   
@@ -493,6 +505,20 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#200-2021-09-19" class="md-nav__link">
+    2.0.0 (2021-09-19)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#130-2021-07-19" class="md-nav__link">
+    1.3.0 (2021-07-19)
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#120-2021-06-28" class="md-nav__link">
@@ -641,9 +667,44 @@
                 
                 
                 <h1 id="release-notes">Release Notes</h1>
+<h2 id="200-2021-09-19">2.0.0 (2021-09-19)</h2>
+<ul>
+<li>New Features<ul>
+<li>Links to Bootswatch CDN for page themes</li>
+<li>Reorganise and add options to <code>esparto.options</code></li>
+<li>Table of Contents generator for Page element</li>
+<li>Save and Load config options</li>
+<li>Define Columns and Cards as dict of {"title": content}</li>
+<li>Add or replace Content by positional index</li>
+</ul>
+</li>
+<li>New Layout Classes<ul>
+<li>CardSection: Section with Cards as the default Content container</li>
+<li>CardRow: Row of Cards</li>
+<li>CardRowEqual: Row of equal width cards</li>
+</ul>
+</li>
+</ul>
+<h2 id="130-2021-07-19">1.3.0 (2021-07-19)</h2>
+<ul>
+<li>New Layout class<ul>
+<li>Card: Bordered container for grouping content</li>
+</ul>
+</li>
+<li>Updated Content class<ul>
+<li>FigureMpl: SVG rendered plots now flex up to 150% of original size</li>
+</ul>
+</li>
+<li>Other<ul>
+<li>Defined string and repr representations for current settings</li>
+<li>Updated CSS so maintain distance from header if main title is not defined</li>
+<li>Updated content adaptor to allow other Layout objects as valid children for Column</li>
+</ul>
+</li>
+</ul>
 <h2 id="120-2021-06-28">1.2.0 (2021-06-28)</h2>
 <ul>
-<li>Implicitly read markdown text files</li>
+<li>Implicitly read Markdown text files</li>
 </ul>
 <h2 id="110-2021-06-18">1.1.0 (2021-06-18)</h2>
 <ul>
@@ -669,60 +730,60 @@
 </ul>
 <h2 id="101-2021-06-01">1.0.1 (2021-06-01)</h2>
 <ul>
-<li>Update dependencies.</li>
-<li>Fix SVG rendering in PDF.</li>
-<li>Update docs and examples.</li>
+<li>Update dependencies</li>
+<li>Fix SVG rendering in PDF</li>
+<li>Update docs and examples</li>
 </ul>
 <h2 id="100-2021-05-31">1.0.0 (2021-05-31)</h2>
 <ul>
-<li>Improve API.</li>
-<li>Responsive SVG plots.</li>
-<li>Update Jinja template to remove branding.</li>
-<li>Refactor codebase.</li>
+<li>Improve API</li>
+<li>Responsive SVG plots</li>
+<li>Update Jinja template to remove branding</li>
+<li>Refactor codebase</li>
 </ul>
 <h2 id="025-2021-05-06">0.2.5 (2021-05-06)</h2>
 <ul>
-<li>Fix linting errors.</li>
-<li>Add dataclasses dependency for Python &lt; 3.7.</li>
+<li>Fix linting errors</li>
+<li>Add dataclasses dependency for Python &lt; 3.7</li>
 </ul>
 <h2 id="024-2021-05-04">0.2.4 (2021-05-04)</h2>
 <ul>
-<li>Fix bug corrupting document titles.</li>
-<li>Lazy load the content dependency dict.</li>
-<li>Remove unused code.</li>
+<li>Fix bug corrupting page titles</li>
+<li>Lazy load the content dependency dict</li>
+<li>Remove unused code</li>
 </ul>
 <h2 id="023-2021-05-03">0.2.3 (2021-05-03)</h2>
 <ul>
-<li>Make documents 'print friendly'.</li>
-<li>Output to PDF with weasyprint.</li>
-<li>Export matplotlib plots as SVG by default.</li>
-<li>Use  <code>esparto.options</code> for configuring behaviour.</li>
+<li>Make documents 'print friendly'</li>
+<li>Output to PDF with weasyprint</li>
+<li>Export matplotlib plots as SVG by default</li>
+<li>Use  <code>esparto.options</code> for configuring behaviour</li>
 </ul>
 <h2 id="022-2021-04-24">0.2.2 (2021-04-24)</h2>
 <ul>
-<li>Fix notebook display for Colab.</li>
+<li>Fix notebook display for Colab</li>
 </ul>
 <h2 id="021-2021-04-24">0.2.1 (2021-04-24)</h2>
 <ul>
-<li>Add Bootstrap dependencies for relevant content classes.</li>
-<li>Inherit FigureBokeh height from Bokeh object.</li>
-<li>Fix issues with in-notebook content rendering.</li>
+<li>Add Bootstrap dependencies for relevant content classes</li>
+<li>Inherit FigureBokeh height from Bokeh object</li>
+<li>Fix issues with in-notebook content rendering</li>
 </ul>
 <h2 id="020-2021-04-23">0.2.0 (2021-04-23)</h2>
 <ul>
-<li>Add support for Bokeh and Plotly.</li>
+<li>Add support for Bokeh and Plotly</li>
 </ul>
 <h2 id="012-2021-04-09">0.1.2 (2021-04-09)</h2>
 <ul>
-<li>Relax dependency on Pillow to allow versions &gt;=7.0.0 and &lt;9.0.0.</li>
+<li>Relax dependency on Pillow to allow versions &gt;=7.0.0 and &lt;9.0.0</li>
 </ul>
 <h2 id="011-2021-04-08">0.1.1 (2021-04-08)</h2>
 <ul>
-<li>Update package metadata for pypi.</li>
+<li>Update package metadata for pypi</li>
 </ul>
 <h2 id="010-2021-04-07">0.1.0 (2021-04-07)</h2>
 <ul>
-<li>First public release.</li>
+<li>First public release</li>
 </ul>
 <p><br></p>
                 
@@ -811,7 +872,7 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.76f349be.min.js"></script>

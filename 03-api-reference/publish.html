@@ -185,8 +185,8 @@
   
   
     <li class="md-tabs__item">
-      <a href="../02-user-guide/examples.html" class="md-tabs__link">
-        User Guide
+      <a href="../02-user-guide/quick-reference.html" class="md-tabs__link">
+        User Guides
       </a>
     </li>
   
@@ -301,13 +301,13 @@
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
       <label class="md-nav__link" for="__nav_2">
-        User Guide
+        User Guides
         <span class="md-nav__icon md-icon"></span>
       </label>
-      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
+      <nav class="md-nav" aria-label="User Guides" data-md-level="1">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
-          User Guide
+          User Guides
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -316,8 +316,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../02-user-guide/examples.html" class="md-nav__link">
-        Examples
+      <a href="../02-user-guide/quick-reference.html" class="md-nav__link">
+        Quick Reference
       </a>
     </li>
   
@@ -328,8 +328,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../02-user-guide/general-usage.html" class="md-nav__link">
-        General Usage
+      <a href="../02-user-guide/examples.html" class="md-nav__link">
+        Example Notebooks
       </a>
     </li>
   
@@ -386,6 +386,18 @@
     <li class="md-nav__item">
       <a href="content.html" class="md-nav__link">
         Content
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="options.html" class="md-nav__link">
+        Options
       </a>
     </li>
   
@@ -579,7 +591,7 @@
 <span class="c1"># Create a new Page</span>
 <span class="n">page</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Page</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;My New Page&quot;</span><span class="p">)</span>
 
-<span class="c1"># Publish the document to an HTML file:</span>
+<span class="c1"># Publish the page to an HTML file:</span>
 <span class="n">page</span><span class="o">.</span><span class="n">save_html</span><span class="p">(</span><span class="s2">&quot;my-page.html&quot;</span><span class="p">)</span>
 
 <span class="c1"># Or as a PDF:</span>
@@ -592,15 +604,15 @@
 
 
 
-<h3 id="esparto._publish.publish_html" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">publish_html</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;./esparto-doc.html&#39;</span><span class="p">,</span> <span class="n">return_html</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dependency_source</span><span class="o">=</span><span class="s1">&#39;esparto.options&#39;</span><span class="p">,</span> <span class="n">css_styles</span><span class="o">=</span><span class="s1">&#39;esparto.options&#39;</span><span class="p">,</span> <span class="n">jinja_template</span><span class="o">=</span><span class="s1">&#39;esparto.options&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+<h2 id="esparto._publish.publish_html" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">publish_html</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;./esparto-doc.html&#39;</span><span class="p">,</span> <span class="n">return_html</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dependency_source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">esparto_css</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">jinja_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
-</h3>
+</h2>
 
     <div class="doc doc-contents first">
 
-      <p>Save document to HTML.</p>
+      <p>Save page to HTML.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -614,7 +626,7 @@
   </thead>
   <tbody>
       <tr>
-        <td><code>document</code></td>
+        <td><code>page</code></td>
         <td><code>Page</code></td>
         <td><p>A Page object.</p></td>
         <td><em>required</em></td>
@@ -634,25 +646,25 @@
       <tr>
         <td><code>dependency_source</code></td>
         <td><code>str</code></td>
-        <td><p>One of 'cdn' or 'inline' (default = 'esparto.options').</p></td>
-        <td><code>&#39;esparto.options&#39;</code></td>
+        <td><p>One of 'cdn' or 'inline' (default = None).</p></td>
+        <td><code>None</code></td>
       </tr>
       <tr>
-        <td><code>css_styles</code></td>
+        <td><code>esparto_css</code></td>
         <td><code>str</code></td>
-        <td><p>Path to CSS stylesheet. (default = 'esparto.options').</p></td>
-        <td><code>&#39;esparto.options&#39;</code></td>
+        <td><p>Path to CSS stylesheet. (default = None).</p></td>
+        <td><code>None</code></td>
       </tr>
       <tr>
         <td><code>jinja_template</code></td>
         <td><code>str</code></td>
-        <td><p>Path to Jinja template. (default = 'esparto.options').</p></td>
-        <td><code>&#39;esparto.options&#39;</code></td>
+        <td><p>Path to Jinja template. (default = None).</p></td>
+        <td><code>None</code></td>
       </tr>
       <tr>
         <td><code>**kwargs</code></td>
         <td><code>Dict[str, Any]</code></td>
-        <td><p>Arguments passed to <code>document.to_html()</code>.</p></td>
+        <td><p>Arguments passed to <code>page.to_html()</code>.</p></td>
         <td><code>{}</code></td>
       </tr>
   </tbody>
@@ -675,44 +687,44 @@
         <details class="quote">
           <summary>Source code in <code>esparto/_publish.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">publish_html</span><span class="p">(</span>
-    <span class="n">document</span><span class="p">:</span> <span class="s2">&quot;Page&quot;</span><span class="p">,</span>
+    <span class="n">page</span><span class="p">:</span> <span class="s2">&quot;Page&quot;</span><span class="p">,</span>
     <span class="n">filepath</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;./esparto-doc.html&quot;</span><span class="p">,</span>
     <span class="n">return_html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">dependency_source</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">default</span><span class="p">,</span>
-    <span class="n">css_styles</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">default</span><span class="p">,</span>
-    <span class="n">jinja_template</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">default</span><span class="p">,</span>
+    <span class="n">dependency_source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">esparto_css</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">jinja_template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Save document to HTML.</span>
+    <span class="sd">&quot;&quot;&quot;Save page to HTML.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">      document (Page): A Page object.</span>
+<span class="sd">      page (Page): A Page object.</span>
 <span class="sd">      filepath (str): Filepath to write to.</span>
 <span class="sd">      return_html (bool): Returns HTML string if True.</span>
-<span class="sd">      dependency_source (str): One of &#39;cdn&#39; or &#39;inline&#39; (default = &#39;esparto.options&#39;).</span>
-<span class="sd">      css_styles (str): Path to CSS stylesheet. (default = &#39;esparto.options&#39;).</span>
-<span class="sd">      jinja_template (str): Path to Jinja template. (default = &#39;esparto.options&#39;).</span>
-<span class="sd">      **kwargs (Dict[str, Any]): Arguments passed to `document.to_html()`.</span>
+<span class="sd">      dependency_source (str): One of &#39;cdn&#39; or &#39;inline&#39; (default = None).</span>
+<span class="sd">      esparto_css (str): Path to CSS stylesheet. (default = None).</span>
+<span class="sd">      jinja_template (str): Path to Jinja template. (default = None).</span>
+<span class="sd">      **kwargs (Dict[str, Any]): Arguments passed to `page.to_html()`.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">      str: HTML string if return_html is True.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">required_deps</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">_required_dependencies</span><span class="p">()</span>
-    <span class="n">dependency_source</span> <span class="o">=</span> <span class="n">get_dep_source_from_options</span><span class="p">(</span><span class="n">dependency_source</span><span class="p">)</span>
+    <span class="n">required_deps</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">_required_dependencies</span><span class="p">()</span>
+    <span class="n">dependency_source</span> <span class="o">=</span> <span class="n">dependency_source</span> <span class="ow">or</span> <span class="n">options</span><span class="o">.</span><span class="n">dependency_source</span>
     <span class="n">resolved_deps</span> <span class="o">=</span> <span class="n">resolve_deps</span><span class="p">(</span><span class="n">required_deps</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">dependency_source</span><span class="p">)</span>
 
-    <span class="n">css_styles</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">resolve_config_option</span><span class="p">(</span><span class="s2">&quot;css_styles&quot;</span><span class="p">,</span> <span class="n">css_styles</span><span class="p">))</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
-    <span class="n">jinja_template</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span>
+    <span class="n">esparto_css</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">resolve_config_option</span><span class="p">(</span><span class="s2">&quot;esparto_css&quot;</span><span class="p">,</span> <span class="n">esparto_css</span><span class="p">))</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+    <span class="n">jinja_template_loaded</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span>
         <span class="n">Path</span><span class="p">(</span><span class="n">resolve_config_option</span><span class="p">(</span><span class="s2">&quot;jinja_template&quot;</span><span class="p">,</span> <span class="n">jinja_template</span><span class="p">))</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
     <span class="p">)</span>
 
-    <span class="n">html_rendered</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">jinja_template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span>
-        <span class="n">org_name</span><span class="o">=</span><span class="n">document</span><span class="o">.</span><span class="n">org_name</span><span class="p">,</span>
-        <span class="n">doc_title</span><span class="o">=</span><span class="n">document</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
-        <span class="n">css_styles</span><span class="o">=</span><span class="n">css_styles</span><span class="p">,</span>
-        <span class="n">content</span><span class="o">=</span><span class="n">document</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+    <span class="n">html_rendered</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">jinja_template_loaded</span><span class="o">.</span><span class="n">render</span><span class="p">(</span>
+        <span class="n">navbrand</span><span class="o">=</span><span class="n">page</span><span class="o">.</span><span class="n">navbrand</span><span class="p">,</span>
+        <span class="n">doc_title</span><span class="o">=</span><span class="n">page</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+        <span class="n">esparto_css</span><span class="o">=</span><span class="n">esparto_css</span><span class="p">,</span>
+        <span class="n">content</span><span class="o">=</span><span class="n">page</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
         <span class="n">head_deps</span><span class="o">=</span><span class="n">resolved_deps</span><span class="o">.</span><span class="n">head</span><span class="p">,</span>
         <span class="n">tail_deps</span><span class="o">=</span><span class="n">resolved_deps</span><span class="o">.</span><span class="n">tail</span><span class="p">,</span>
     <span class="p">)</span>
@@ -737,15 +749,15 @@
 
 
 
-<h3 id="esparto._publish.publish_pdf" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">publish_pdf</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;./esparto-doc.pdf&#39;</span><span class="p">,</span> <span class="n">return_html</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+<h2 id="esparto._publish.publish_pdf" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">publish_pdf</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;./esparto-doc.pdf&#39;</span><span class="p">,</span> <span class="n">return_html</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 
-</h3>
+</h2>
 
     <div class="doc doc-contents first">
 
-      <p>Save document to PDF.</p>
+      <p>Save page to PDF.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -759,7 +771,7 @@
   </thead>
   <tbody>
       <tr>
-        <td><code>document</code></td>
+        <td><code>page</code></td>
         <td><code>Page</code></td>
         <td><p>A Page object.</p></td>
         <td><em>required</em></td>
@@ -796,12 +808,12 @@
         <details class="quote">
           <summary>Source code in <code>esparto/_publish.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">publish_pdf</span><span class="p">(</span>
-    <span class="n">document</span><span class="p">:</span> <span class="s2">&quot;Page&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;./esparto-doc.pdf&quot;</span><span class="p">,</span> <span class="n">return_html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">page</span><span class="p">:</span> <span class="s2">&quot;Page&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;./esparto-doc.pdf&quot;</span><span class="p">,</span> <span class="n">return_html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Save document to PDF.</span>
+    <span class="sd">&quot;&quot;&quot;Save page to PDF.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">      document (Layout): A Page object.</span>
+<span class="sd">      page (Layout): A Page object.</span>
 <span class="sd">      filepath (str): Filepath to write to.</span>
 <span class="sd">      return_html (bool): Returns HTML string if True.</span>
 
@@ -813,18 +825,18 @@
         <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="s2">&quot;Install weasyprint for PDF support&quot;</span><span class="p">)</span>
     <span class="kn">import</span> <span class="nn">weasyprint</span> <span class="k">as</span> <span class="nn">weasy</span>  <span class="c1"># type: ignore</span>
 
-    <span class="n">temp_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">pdf_temp_dir</span><span class="p">)</span>
+    <span class="n">temp_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">_pdf_temp_dir</span><span class="p">)</span>
     <span class="n">temp_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">html_rendered</span> <span class="o">=</span> <span class="n">publish_html</span><span class="p">(</span>
-        <span class="n">document</span><span class="o">=</span><span class="n">document</span><span class="p">,</span>
+        <span class="n">page</span><span class="o">=</span><span class="n">page</span><span class="p">,</span>
         <span class="n">filepath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">return_html</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">dependency_source</span><span class="o">=</span><span class="s2">&quot;inline&quot;</span><span class="p">,</span>
         <span class="n">pdf_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">pdf_doc</span> <span class="o">=</span> <span class="n">weasy</span><span class="o">.</span><span class="n">HTML</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="n">html_rendered</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">pdf_temp_dir</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
-    <span class="n">pdf_doc</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">title</span>
+    <span class="n">pdf_doc</span> <span class="o">=</span> <span class="n">weasy</span><span class="o">.</span><span class="n">HTML</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="n">html_rendered</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">_pdf_temp_dir</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+    <span class="n">pdf_doc</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">title</span>
     <span class="n">pdf_doc</span><span class="o">.</span><span class="n">write_pdf</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">temp_dir</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
@@ -848,11 +860,11 @@
 
 
 
-<h3 id="esparto._publish.nb_display" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">nb_display</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">return_html</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dependency_source</span><span class="o">=</span><span class="s1">&#39;esparto.options&#39;</span><span class="p">)</span></code>
+<h2 id="esparto._publish.nb_display" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">nb_display</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">return_html</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dependency_source</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 
-</h3>
+</h2>
 
     <div class="doc doc-contents first">
 
@@ -885,7 +897,7 @@
         <td><code>dependency_source</code></td>
         <td><code>str</code></td>
         <td><p>One of 'cdn', 'inline', or 'esparto.options'.</p></td>
-        <td><code>&#39;esparto.options&#39;</code></td>
+        <td><code>None</code></td>
       </tr>
   </tbody>
 </table>
@@ -909,7 +921,7 @@
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">nb_display</span><span class="p">(</span>
     <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;Layout&quot;</span><span class="p">,</span> <span class="s2">&quot;Content&quot;</span><span class="p">],</span>
     <span class="n">return_html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">dependency_source</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">default</span><span class="p">,</span>
+    <span class="n">dependency_source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Display Layout or Content to Jupyter Notebook cell.</span>
 
@@ -922,7 +934,7 @@
 <span class="sd">      str: HTML string if return_html is True.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">Javascript</span><span class="p">,</span> <span class="n">display</span>  <span class="c1"># type: ignore</span>
+    <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span>  <span class="c1"># type: ignore</span>
 
     <span class="kn">from</span> <span class="nn">esparto._layout</span> <span class="kn">import</span> <span class="n">Layout</span>
 
@@ -931,17 +943,16 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">required_deps</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">&quot;_dependencies&quot;</span><span class="p">,</span> <span class="nb">set</span><span class="p">())</span>
 
-    <span class="n">dependency_source</span> <span class="o">=</span> <span class="n">get_dep_source_from_options</span><span class="p">(</span><span class="n">dependency_source</span><span class="p">)</span>
-
+    <span class="n">dependency_source</span> <span class="o">=</span> <span class="n">dependency_source</span> <span class="ow">or</span> <span class="n">options</span><span class="o">.</span><span class="n">dependency_source</span>
     <span class="n">resolved_deps</span> <span class="o">=</span> <span class="n">resolve_deps</span><span class="p">(</span><span class="n">required_deps</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">dependency_source</span><span class="p">)</span>
-    <span class="n">css_styles</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">css_styles</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+    <span class="n">esparto_css</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">esparto_css</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
     <span class="n">head_deps</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">resolved_deps</span><span class="o">.</span><span class="n">head</span><span class="p">)</span>
     <span class="n">tail_deps</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">resolved_deps</span><span class="o">.</span><span class="n">tail</span><span class="p">)</span>
     <span class="n">html</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">notebook_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">render_html</span> <span class="o">=</span> <span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;&lt;div class=&#39;container&#39; style=&#39;width: 100%; height: 100%;&#39;&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">html</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/div&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
     <span class="p">)</span>
-    <span class="n">render_html</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&lt;style&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">css_styles</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/style&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">render_html</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&lt;style&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">esparto_css</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/style&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
 
     <span class="n">render_html</span> <span class="o">=</span> <span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;&lt;!doctype html&gt;</span><span class="se">\n</span><span class="s2">&lt;html&gt;</span><span class="se">\n</span><span class="s2">&lt;head&gt;</span><span class="si">{</span><span class="n">head_deps</span><span class="si">}</span><span class="s2">&lt;/head&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -949,17 +960,19 @@
     <span class="p">)</span>
 
     <span class="nb">print</span><span class="p">()</span>
-    <span class="c1"># This allows time to download plotly.js from the CDN - otherwise cell renders empty</span>
+    <span class="c1"># This allows time to download plotly.js from the CDN - otherwise cell can render empty</span>
     <span class="k">if</span> <span class="s2">&quot;plotly&quot;</span> <span class="ow">in</span> <span class="n">required_deps</span> <span class="ow">and</span> <span class="n">dependency_source</span> <span class="o">==</span> <span class="s2">&quot;cdn&quot;</span><span class="p">:</span>
         <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;head&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">head_deps</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/head&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">),</span> <span class="n">metadata</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">isolated</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
-    <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">render_html</span><span class="p">),</span> <span class="n">metadata</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">isolated</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">()</span>
+    <span class="c1"># Temporary solution to prevent Jupyter Notebook cell fully collapsing before content renders</span>
+    <span class="k">if</span> <span class="s2">&quot;bokeh&quot;</span> <span class="ow">in</span> <span class="n">required_deps</span><span class="p">:</span>
+        <span class="n">extra_css</span> <span class="o">=</span> <span class="s2">&quot;&lt;style&gt;.container { min-height: 30em !important; }&lt;/style&gt;&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">extra_css</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-    <span class="c1"># Prevent output scrolling</span>
-    <span class="n">js</span> <span class="o">=</span> <span class="s2">&quot;$(&#39;.output_scroll&#39;).removeClass(&#39;output_scroll&#39;)&quot;</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">Javascript</span><span class="p">(</span><span class="n">js</span><span class="p">))</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">extra_css</span> <span class="o">+</span> <span class="n">render_html</span><span class="p">),</span> <span class="n">metadata</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">isolated</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">return_html</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">render_html</span>
@@ -990,7 +1003,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="content.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Content" rel="prev">
+        <a href="options.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Options" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -999,7 +1012,7 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Content
+              Options
             </div>
           </div>
         </a>
@@ -1057,7 +1070,7 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.76f349be.min.js"></script>

@@ -187,8 +187,8 @@
   
   
     <li class="md-tabs__item">
-      <a href="02-user-guide/examples.html" class="md-tabs__link">
-        User Guide
+      <a href="02-user-guide/quick-reference.html" class="md-tabs__link">
+        User Guides
       </a>
     </li>
   
@@ -317,18 +317,12 @@
     Introduction
   </a>
   
-    <nav class="md-nav" aria-label="Introduction">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#example-use-cases" class="md-nav__link">
-    Example Use Cases
-  </a>
-  
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#basic-usage" class="md-nav__link">
+    Basic Usage
+  </a>
   
 </li>
       
@@ -368,15 +362,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#basic-usage" class="md-nav__link">
-    Basic Usage
+  <a href="#contributions-issues-and-requests" class="md-nav__link">
+    Contributions, Issues, and Requests
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-output" class="md-nav__link">
-    Example Output
+  <a href="#examples" class="md-nav__link">
+    Examples
   </a>
   
 </li>
@@ -403,13 +397,13 @@
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
       <label class="md-nav__link" for="__nav_2">
-        User Guide
+        User Guides
         <span class="md-nav__icon md-icon"></span>
       </label>
-      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
+      <nav class="md-nav" aria-label="User Guides" data-md-level="1">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
-          User Guide
+          User Guides
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -418,8 +412,8 @@
   
   
     <li class="md-nav__item">
-      <a href="02-user-guide/examples.html" class="md-nav__link">
-        Examples
+      <a href="02-user-guide/quick-reference.html" class="md-nav__link">
+        Quick Reference
       </a>
     </li>
   
@@ -430,8 +424,8 @@
   
   
     <li class="md-nav__item">
-      <a href="02-user-guide/general-usage.html" class="md-nav__link">
-        General Usage
+      <a href="02-user-guide/examples.html" class="md-nav__link">
+        Example Notebooks
       </a>
     </li>
   
@@ -486,6 +480,18 @@
     <li class="md-nav__item">
       <a href="03-api-reference/content.html" class="md-nav__link">
         Content
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="03-api-reference/options.html" class="md-nav__link">
+        Options
       </a>
     </li>
   
@@ -621,37 +627,42 @@
 <a href="https://pypi.python.org/pypi/esparto/"><img alt="PyPI pyversions" src="https://img.shields.io/pypi/pyversions/esparto.svg" /></a>
 <a href="https://travis-ci.com/domvwt/esparto"><img alt="Build Status" src="https://travis-ci.com/domvwt/esparto.svg?branch=main" /></a>
 <a href="https://codecov.io/gh/domvwt/esparto"><img alt="codecov" src="https://codecov.io/gh/domvwt/esparto/branch/main/graph/badge.svg?token=35J8NZCUYC" /></a>
-<a href="https://sonarcloud.io/dashboard?id=domvwt_esparto"><img alt="Quality Gate Status" src="https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&amp;metric=alert_status" /></a></p>
+<a href="https://sonarcloud.io/dashboard?id=domvwt_esparto"><img alt="Quality Gate Status" src="https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&amp;metric=alert_status" /></a>
+<img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/esparto" /></p>
 <h2 id="introduction">Introduction</h2>
-<p><code>esparto</code> is a simple HTML and PDF document generator for Python.
-The library takes a fully Pythonic approach to defining documents,
-allowing iterative building and modification of the page and its contents.</p>
-<h3 id="example-use-cases">Example Use Cases</h3>
-<ul>
-<li>Automated MI reporting</li>
-<li>Collating and sharing data visualisations</li>
-<li>ML model performance and evaluation documents</li>
-<li>Designing simple web pages</li>
-</ul>
+<p><strong>esparto</strong> is a Python package for building shareable reports with content
+from popular data analysis libraries.
+With just a few lines of code, <strong>esparto</strong> turns DataFrames, plots, and
+Markdown into an interactive webpage or PDF document.</p>
+<p>Documents produced by <strong>esparto</strong> are completely portable - no backend server
+is required - and entirely customisable using CSS and Jinja templating.
+All content dependencies are declared inline or loaded via a CDN, meaning your
+reports can be shared by email, hosted on a standard http server, or made
+available as static pages as-is.</p>
+<h2 id="basic-usage">Basic Usage</h2>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">esparto</span> <span class="k">as</span> <span class="nn">es</span>
+<span class="n">page</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Page</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;My Report&quot;</span><span class="p">)</span>
+<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Data Analysis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">pandas_dataframe</span><span class="p">,</span> <span class="n">plotly_figure</span><span class="p">)</span>
+<span class="n">page</span><span class="o">.</span><span class="n">save_html</span><span class="p">(</span><span class="s2">&quot;my-report.html&quot;</span><span class="p">)</span>
+</code></pre></div>
 <h2 id="main-features">Main Features</h2>
 <ul>
-<li>Lightweight API</li>
-<li>Jupyter Notebook support</li>
-<li>Output self-contained HTML and PDF files</li>
-<li>Responsive layout from <a href="https://getbootstrap.com/">Bootstrap</a></li>
-<li>No CSS or HTML required</li>
-<li>Implicit conversion for:<ul>
+<li>Automatic and adaptive layout</li>
+<li>Customisable with CSS or Jinja</li>
+<li>Jupyter Notebook friendly</li>
+<li>Output as HTML or PDF</li>
+<li>Built-in adaptors for:<ul>
 <li>Markdown</li>
 <li>Images</li>
-<li>Pandas DataFrames</li>
-<li>Matplotlib</li>
-<li>Bokeh</li>
-<li>Plotly</li>
+<li><a href="https://pandas.pydata.org/">Pandas DataFrames</a></li>
+<li><a href="https://matplotlib.org/">Matplotlib</a></li>
+<li><a href="https://docs.bokeh.org/en/latest/index.html">Bokeh</a></li>
+<li><a href="https://plotly.com/">Plotly</a></li>
 </ul>
 </li>
 </ul>
 <h2 id="installation">Installation</h2>
-<p><code>esparto</code> is available from PyPI:
+<p><strong>esparto</strong> is available from PyPI:
 <div class="highlight"><pre><span></span><code>pip install esparto
 </code></pre></div></p>
 <p>If PDF output is required, <code>weasyprint</code> must also be installed:
@@ -663,71 +674,26 @@ allowing iterative building and modification of the page and its contents.</p>
 <li><a href="https://palletsprojects.com/p/jinja/">jinja2</a></li>
 <li><a href="https://python-markdown.github.io/">markdown</a></li>
 <li><a href="https://python-pillow.org/">Pillow</a></li>
-<li><a href="https://weasyprint.org/">weasyprint</a> <em>(optional - for PDF output)</em></li>
+<li><a href="https://pyyaml.org/">PyYAML</a></li>
+<li><a href="https://weasyprint.org/">weasyprint</a> <em>(optional - required for PDF output)</em></li>
 </ul>
 <h2 id="license">License</h2>
 <p><a href="https://opensource.org/licenses/MIT">MIT</a></p>
 <h2 id="documentation">Documentation</h2>
 <p>Full documentation and examples are available at <a href="https://domvwt.github.io/esparto/">domvwt.github.io/esparto/</a>.</p>
-<h2 id="basic-usage">Basic Usage</h2>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">esparto</span> <span class="k">as</span> <span class="nn">es</span>
-
-<span class="c1"># Instantiating a Page</span>
-<span class="n">page</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Page</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Research&quot;</span><span class="p">)</span>
-
-<span class="c1"># Page layout hierarchy:</span>
-<span class="c1"># Page -&gt; Section -&gt; Row -&gt; Column -&gt; Content</span>
-
-<span class="c1"># Add or update content</span>
-<span class="c1"># Keys are used as titles</span>
-<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Introduction&quot;</span><span class="p">][</span><span class="s2">&quot;Part One&quot;</span><span class="p">][</span><span class="s2">&quot;Item A&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;./text/content.md&quot;</span>
-<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Introduction&quot;</span><span class="p">][</span><span class="s2">&quot;Part One&quot;</span><span class="p">][</span><span class="s2">&quot;Item B&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;./pictures/image1.jpg&quot;</span>
-
-<span class="c1"># Add content without a title</span>
-<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Introduction&quot;</span><span class="p">][</span><span class="s2">&quot;Part One&quot;</span><span class="p">][</span><span class="s2">&quot;&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Hello, Wolrd!&quot;</span>
-
-<span class="c1"># Replace child at index - useful if no title given</span>
-<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Introduction&quot;</span><span class="p">][</span><span class="s2">&quot;Part One&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Hello, World!&quot;</span>
-
-<span class="c1"># Set content and return input object</span>
-<span class="c1"># Useful in Jupyter Notebook as it will be displayed in cell output</span>
-<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Methodology&quot;</span><span class="p">][</span><span class="s2">&quot;Part One&quot;</span><span class="p">][</span><span class="s2">&quot;Item A&quot;</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;dolor sit amet&quot;</span>
-<span class="c1"># &gt;&gt;&gt; &quot;dolor sit amet&quot;</span>
-
-<span class="c1"># Set content and return new layout</span>
-<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Methodology&quot;</span><span class="p">][</span><span class="s2">&quot;Part Two&quot;</span><span class="p">][</span><span class="s2">&quot;Item B&quot;</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="s2">&quot;foobar&quot;</span>
-<span class="c1"># &gt;&gt;&gt; {&#39;Item B&#39;: [&#39;Markdown&#39;]}</span>
-
-<span class="c1"># Show document structure</span>
-<span class="n">page</span><span class="o">.</span><span class="n">tree</span><span class="p">()</span>
-<span class="c1"># &gt;&gt;&gt; {&#39;Research&#39;: [{&#39;Introduction&#39;: [{&#39;Part One&#39;: [{&#39;Item A&#39;: [&#39;Markdown&#39;]},</span>
-<span class="c1">#                                                   {&#39;Item B&#39;: [&#39;Image&#39;]}]}]},</span>
-<span class="c1">#                   {&#39;Methodology&#39;: [{&#39;Part One&#39;: [{&#39;Item A&#39;: [&#39;Markdown&#39;]}]},</span>
-<span class="c1">#                                    {&#39;Part Two&#39;: [{&#39;Item A&#39;: [&#39;Markdown&#39;]}]}]}]}</span>
-
-<span class="c1"># Remove content</span>
-<span class="k">del</span> <span class="n">page</span><span class="p">[</span><span class="s2">&quot;Methodology&quot;</span><span class="p">][</span><span class="s2">&quot;Part One&quot;</span><span class="p">][</span><span class="s2">&quot;Item A&quot;</span><span class="p">]</span>
-<span class="k">del</span> <span class="n">page</span><span class="o">.</span><span class="n">methodology</span><span class="o">.</span><span class="n">part_two</span><span class="o">.</span><span class="n">item_b</span>
-
-<span class="c1"># Access existing content as an attribute</span>
-<span class="n">page</span><span class="o">.</span><span class="n">introduction</span><span class="o">.</span><span class="n">part_one</span><span class="o">.</span><span class="n">item_a</span> <span class="o">=</span> <span class="s2">&quot;./pictures/image2.jpg&quot;</span>
-<span class="n">page</span><span class="o">.</span><span class="n">introduction</span><span class="o">.</span><span class="n">part_one</span><span class="o">.</span><span class="n">tree</span><span class="p">()</span>
-<span class="c1"># &gt;&gt;&gt; {&#39;Part One&#39;: [{&#39;Item A&#39;: [&#39;Image&#39;]},</span>
-<span class="c1">#                   {&#39;Item B&#39;: [&#39;Image&#39;]},</span>
-<span class="c1">#                   {&#39;Column 2&#39;: [&#39;Markdown&#39;]}]}</span>
-
-<span class="c1"># Save the document</span>
-<span class="n">page</span><span class="o">.</span><span class="n">save_html</span><span class="p">(</span><span class="s2">&quot;my-page.html&quot;</span><span class="p">)</span>
-<span class="n">page</span><span class="o">.</span><span class="n">save_pdf</span><span class="p">(</span><span class="s2">&quot;my-page.pdf&quot;</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="example-output">Example Output</h2>
-<p>Iris Report - <a href="https://domvwt.github.io/esparto/examples/iris-report.html">HTML</a> |
+<h2 id="contributions-issues-and-requests">Contributions, Issues, and Requests</h2>
+<p>All feedback and contributions are welcome - please raise an issue or pull request on <a href="https://github.com/domvwt/esparto">GitHub</a>.</p>
+<h2 id="examples">Examples</h2>
+<p>Iris Report - <a href="https://domvwt.github.io/esparto/examples/iris-report.html">Webpage</a> |
 <a href="https://domvwt.github.io/esparto/examples/iris-report.pdf">PDF</a></p>
-<p>Bokeh and Plotly - <a href="https://domvwt.github.io/esparto/examples/interactive-plots.html">HTML</a> |
+<p>Bokeh and Plotly - <a href="https://domvwt.github.io/esparto/examples/interactive-plots.html">Webpage</a> |
 <a href="https://domvwt.github.io/esparto/examples/interactive-plots.pdf">PDF</a></p>
 <p><br></p>
-<p><img width=600  src="https://github.com/domvwt/esparto/blob/fdc0e787c0bc013d16667773e82e21c647b71d91/docs/images/iris-report-compressed.png?raw=true"
-alt="example page" style="border-radius:0.5%;"></p>
+<p width=100%>
+<img width=80%  src="https://github.com/domvwt/esparto/blob/fdc0e787c0bc013d16667773e82e21c647b71d91/docs/images/iris-report-compressed.png?raw=true" alt="example page" style="border-radius:0.5%;">
+</p>
+
+<!-- Links -->
                 
               
               
@@ -748,13 +714,13 @@ alt="example page" style="border-radius:0.5%;"></p>
       
       
         
-        <a href="02-user-guide/examples.html" class="md-footer__link md-footer__link--next" aria-label="Next: Examples" rel="next">
+        <a href="02-user-guide/quick-reference.html" class="md-footer__link md-footer__link--next" aria-label="Next: Quick Reference" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Examples
+              Quick Reference
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -799,7 +765,7 @@ alt="example page" style="border-radius:0.5%;"></p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "navigation.sections", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
     
     
       <script src="assets/javascripts/bundle.76f349be.min.js"></script>

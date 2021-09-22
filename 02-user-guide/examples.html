@@ -14,7 +14,7 @@
     
     
       
-        <title>Examples - esparto</title>
+        <title>Example Notebooks - esparto</title>
       
     
     
@@ -69,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#examples" class="md-skip">
+        <a href="#guides" class="md-skip">
           Skip to content
         </a>
       
@@ -99,7 +99,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Examples
+              Example Notebooks
             
           </span>
         </div>
@@ -187,8 +187,8 @@
   
   
     <li class="md-tabs__item">
-      <a href="examples.html" class="md-tabs__link md-tabs__link--active">
-        User Guide
+      <a href="quick-reference.html" class="md-tabs__link md-tabs__link--active">
+        User Guides
       </a>
     </li>
   
@@ -303,15 +303,27 @@
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
       
       <label class="md-nav__link" for="__nav_2">
-        User Guide
+        User Guides
         <span class="md-nav__icon md-icon"></span>
       </label>
-      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
+      <nav class="md-nav" aria-label="User Guides" data-md-level="1">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
-          User Guide
+          User Guides
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="quick-reference.html" class="md-nav__link">
+        Quick Reference
+      </a>
+    </li>
+  
+
           
             
   
@@ -328,12 +340,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Examples
+          Example Notebooks
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="examples.html" class="md-nav__link md-nav__link--active">
-        Examples
+        Example Notebooks
       </a>
       
         
@@ -351,6 +363,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    Getting Started
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#data-analysis" class="md-nav__link">
     Data Analysis
   </a>
@@ -358,8 +377,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#interactive-plotting" class="md-nav__link">
-    Interactive Plotting
+  <a href="#interactive-plots" class="md-nav__link">
+    Interactive Plots
   </a>
   
 </li>
@@ -368,18 +387,6 @@
   
 </nav>
       
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="general-usage.html" class="md-nav__link">
-        General Usage
-      </a>
     </li>
   
 
@@ -433,6 +440,18 @@
     <li class="md-nav__item">
       <a href="../03-api-reference/content.html" class="md-nav__link">
         Content
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-api-reference/options.html" class="md-nav__link">
+        Options
       </a>
     </li>
   
@@ -563,43 +582,44 @@
                   </a>
                 
                 
-                <h1 id="examples">Examples</h1>
-<p>These examples demonstrate recommended ways of working with <code>esparto</code>.
-Note that Jupyter Notebooks do not preserve the formatting of rendered
-content between sessions - be sure to re-run the examples in order to
-view the output as intended.</p>
+                <h1 id="guides">Guides</h1>
+<p>These examples demonstrate recommended ways of working with <code>esparto</code>.</p>
+<h2 id="getting-started">Getting Started</h2>
+<p><a href="https://colab.research.google.com/github/domvwt/esparto/blob/main/docs/examples/getting-started.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>
+<a href="https://mybinder.org/v2/gh/domvwt/esparto/main?filepath=docs%2Fexamples%2Fgetting-started.ipynb"><img alt="Binder" src="https://mybinder.org/badge_logo.svg" /></a>
+<a href="https://github.com/domvwt/esparto/blob/main/docs/examples/getting-started.ipynb"><img alt="GitHub" src="https://img.shields.io/badge/view%20on-GitHub-lightgrey" /></a></p>
+<p>A guided tour of the <code>esparto</code> API. This notebook covers:</p>
+<ul>
+<li>Working with different Content types</li>
+<li>Layout and formatting</li>
+<li>Page options</li>
+<li>Saving your work</li>
+</ul>
+<hr />
 <h2 id="data-analysis">Data Analysis</h2>
 <p><a href="https://colab.research.google.com/github/domvwt/esparto/blob/main/docs/examples/iris-report.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>
 <a href="https://mybinder.org/v2/gh/domvwt/esparto/main?filepath=docs%2Fexamples%2Firis-report.ipynb"><img alt="Binder" src="https://mybinder.org/badge_logo.svg" /></a>
 <a href="https://github.com/domvwt/esparto/blob/main/docs/examples/iris-report.ipynb"><img alt="GitHub" src="https://img.shields.io/badge/view%20on-GitHub-lightgrey" /></a></p>
-<p>The iris dataset is one of the most well known datasets in statistics and
-data science. This notebook shows how we can put together a simple
-data analysis report in <code>esparto</code>.</p>
+<p>This notebook shows how we can put together a simple data analysis in <code>esparto</code>.</p>
 <p>This example covers:</p>
 <ul>
-<li>Text content with markdown formatting</li>
+<li>Text content with Markdown formatting</li>
 <li>Including images from files</li>
 <li>Converting a Pandas DataFrame to a table</li>
 <li>Adding plots from Matplotlib and Seaborn</li>
 </ul>
-<p>Output: <a href="../examples/iris-report.html">HTML</a> | <a href="../examples/iris-report.pdf">PDF</a></p>
+<p>Output: <a href="../examples/iris-report.html">Webpage</a> | <a href="../examples/iris-report.pdf">PDF</a></p>
 <hr />
-<h2 id="interactive-plotting">Interactive Plotting</h2>
+<h2 id="interactive-plots">Interactive Plots</h2>
 <p><a href="https://colab.research.google.com/github/domvwt/esparto/blob/main/docs/examples/interactive-plots.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>
 <a href="https://mybinder.org/v2/gh/domvwt/esparto/main?filepath=docs%2Fexamples%2Finteractive-plots.ipynb"><img alt="Binder" src="https://mybinder.org/badge_logo.svg" /></a>
 <a href="https://github.com/domvwt/esparto/blob/main/docs/examples/interactive-plots.ipynb"><img alt="GitHub" src="https://img.shields.io/badge/view%20on-GitHub-lightgrey" /></a></p>
-<p>The <a href="https://github.com/PatrikHlobil/Pandas-Bokeh">pandas-bokeh</a> library
-offers convenient functions for producing interactive Bokeh plots with
-few lines of code.</p>
-<p>With the <a href="https://plotly.com/python/pandas-backend/">Plotly backend for Pandas</a>
-we can access the Plotly Express API directly from the <code>.plot()</code> method of
-any DataFrame or Series.</p>
-<p>This notebook shows basic examples from each library:</p>
+<p>This notebook shows basic examples from interactive plotting libraries:</p>
 <ul>
-<li>Interactive plotting with Bokeh and Plotly</li>
-<li>Adding interactive content to the page</li>
+<li>Bokeh</li>
+<li>Plotly</li>
 </ul>
-<p>Output: <a href="../examples/interactive-plots.html">HTML</a> | <a href="../examples/interactive-plots.pdf">PDF</a></p>
+<p>Output: <a href="../examples/interactive-plots.html">Webpage</a> | <a href="../examples/interactive-plots.pdf">PDF</a></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>PDF output is not officially supported for <code>Bokeh</code> at this time.</p>
@@ -624,7 +644,7 @@ any DataFrame or Series.</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../index.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Overview" rel="prev">
+        <a href="quick-reference.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Quick Reference" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -633,20 +653,20 @@ any DataFrame or Series.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Overview
+              Quick Reference
             </div>
           </div>
         </a>
       
       
         
-        <a href="general-usage.html" class="md-footer__link md-footer__link--next" aria-label="Next: General Usage" rel="next">
+        <a href="../03-api-reference/layout.html" class="md-footer__link md-footer__link--next" aria-label="Next: Layout" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              General Usage
+              Layout
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -691,7 +711,7 @@ any DataFrame or Series.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.76f349be.min.js"></script>

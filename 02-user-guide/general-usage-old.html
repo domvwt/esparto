@@ -14,7 +14,7 @@
     
     
       
-        <title>Authors - esparto</title>
+        <title>General usage old - esparto</title>
       
     
     
@@ -69,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#credits" class="md-skip">
+        <a href="#offline-mode" class="md-skip">
           Skip to content
         </a>
       
@@ -99,7 +99,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Authors
+              General usage old
             
           </span>
         </div>
@@ -185,7 +185,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../02-user-guide/quick-reference.html" class="md-tabs__link">
+      <a href="quick-reference.html" class="md-tabs__link">
         User Guides
       </a>
     </li>
@@ -211,15 +211,13 @@
         
   
   
-    
-  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="authors.html" class="md-tabs__link md-tabs__link--active">
+      <a href="../04-about/authors.html" class="md-tabs__link">
         About
       </a>
     </li>
@@ -316,7 +314,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../02-user-guide/quick-reference.html" class="md-nav__link">
+      <a href="quick-reference.html" class="md-nav__link">
         Quick Reference
       </a>
     </li>
@@ -328,7 +326,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../02-user-guide/examples.html" class="md-nav__link">
+      <a href="examples.html" class="md-nav__link">
         Example Notebooks
       </a>
     </li>
@@ -437,14 +435,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
       
       <label class="md-nav__link" for="__nav_4">
         About
@@ -460,51 +456,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Authors
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="authors.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../04-about/authors.html" class="md-nav__link">
         Authors
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#lead-developer" class="md-nav__link">
-    Lead Developer
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -514,7 +470,7 @@
   
   
     <li class="md-nav__item">
-      <a href="release-notes.html" class="md-nav__link">
+      <a href="../04-about/release-notes.html" class="md-nav__link">
         Release Notes
       </a>
     </li>
@@ -526,7 +482,7 @@
   
   
     <li class="md-nav__item">
-      <a href="roadmap.html" class="md-nav__link">
+      <a href="../04-about/roadmap.html" class="md-nav__link">
         Roadmap
       </a>
     </li>
@@ -538,7 +494,7 @@
   
   
     <li class="md-nav__item">
-      <a href="license.html" class="md-nav__link">
+      <a href="../04-about/license.html" class="md-nav__link">
         License
       </a>
     </li>
@@ -563,22 +519,66 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/domvwt/esparto/edit/master/docs/04-about/authors.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/domvwt/esparto/edit/master/docs/02-user-guide/general-usage-old.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="credits">Credits</h1>
-<h2 id="lead-developer">Lead Developer</h2>
-<p>Dominic Thorn</p>
-<ul>
-<li><a href="mailto:dominic.thorn@gmail.com">dominic.thorn@gmail.com</a></li>
-<li><a href="https://domvwt.github.io/">domvwt.github.io</a></li>
-</ul>
-<!-- Contributors
-------------
+                  <h1>General usage old</h1>
+                
+                <h2 id="offline-mode">Offline Mode</h2>
+<p>When working in an environment with no internet connection it is necessary to
+use inline content dependencies rather than the preferred Content Distribution Network (CDN).</p>
+<p>Offline mode can be activated by changing the relevant <code>esparto.options</code> attribute:
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">esparto</span> <span class="k">as</span> <span class="nn">es</span>
 
-None yet. Why not be the first? -->
+<span class="n">es</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">offline_mode</span> <span class="o">=</span> <span class="kc">True</span>
+</code></pre></div></p>
+<h2 id="matplotlib-output">Matplotlib Output</h2>
+<p>To produce sharp and scalable images, esparto defaults to SVG format for
+static plots.
+This can cause a significant drain on resources when plotting a high number
+of data points and so PNG format may be preferred.</p>
+<p>PNG format can be selected for all Matplotlib plots:
+<div class="highlight"><pre><span></span><code><span class="n">es</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">matplotlib_output_format</span> <span class="o">=</span> <span class="s2">&quot;png&quot;</span>
+</code></pre></div></p>
+<p>Or configured on a case by case basis:
+<div class="highlight"><pre><span></span><code><span class="n">fig</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">esparto_fig</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">FigureMpl</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">output_format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">)</span>
+</code></pre></div></p>
+<p>Options provided directly to <code>FigureMpl</code> will override the global configuration.</p>
+<h2 id="pdf-output">PDF Output</h2>
+<h3 id="from-the-api">From the API</h3>
+<p>Saving a page to PDF is achieved through the API by calling the <code>.save_pdf()</code>
+method from a <code>Page</code> object:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">esparto</span> <span class="k">as</span> <span class="nn">es</span>
+
+<span class="n">my_page</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Page</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;My Page&quot;</span><span class="p">)</span>
+<span class="n">my_page</span> <span class="o">+=</span> <span class="s2">&quot;image.jpg&quot;</span>
+<span class="n">my_page</span><span class="o">.</span><span class="n">save_pdf</span><span class="p">(</span><span class="s2">&quot;my-page.pdf)</span>
+</code></pre></div>
+<p>In order to render plots for PDF output, they must be rendered to SVG. While
+this leads to consistent and attractive results for Matplotlib figures, it is
+less predictable and requires additional system configuration for Bokeh and
+Plotly objects.</p>
+<h4 id="plotly">Plotly</h4>
+<p>The preferred approach with Plotly is to use the Kaleido library, which is installable
+with pip:
+<div class="highlight"><pre><span></span><code>pip install kaleido
+</code></pre></div>
+Esparto will automatically handle the conversion, provided Kaleido is available.</p>
+<p>Make sure to inspect results for unusual cropping and other artifacts.</p>
+<h4 id="bokeh">Bokeh</h4>
+<p>The approach taken by Bokeh is to use a browser and webdriver combination.
+I have not been able to make this work during testing but the functionality
+has been retained in esparto should you have more luck with it.</p>
+<p>See the Bokeh documenation on <a href="https://docs.bokeh.org/en/latest/docs/user_guide/export.html#additional-dependencies">additional dependencies for exporting plots.</a></p>
+<p>Conversion should be handled by esparto, provided the Bokeh dependencies
+are satisfied.</p>
+<h3 id="saving-from-a-browser">Saving from a Browser</h3>
+<p>Alternatively, it is possible to save any HTML page as a PDF through the print
+menu in your web browser. This method should work with all content types.</p>
+<p><br></p>
                 
               
               
@@ -594,41 +594,6 @@ None yet. Why not be the first? -->
       
         
 <footer class="md-footer">
-  
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
-      
-        
-        <a href="../03-api-reference/adaptors.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Adaptors" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Adaptors
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="release-notes.html" class="md-footer__link md-footer__link--next" aria-label="Next: Release Notes" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Release Notes
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
