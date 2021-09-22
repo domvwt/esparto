@@ -63,7 +63,6 @@ class PlotlyOptions(ConfigMixin):
 
     layout_args: Dict[str, Any] = field(
         default_factory=lambda: {
-            "margin": {"l": 10, "r": 10, "t": 10, "b": 10},
             "paper_bgcolor": "rgba(0,0,0,0)",
             "plot_bgcolor": "rgba(0,0,0,0)",
             "modebar": {"bgcolor": "white"},
