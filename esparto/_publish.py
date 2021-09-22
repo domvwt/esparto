@@ -136,7 +136,7 @@ def nb_display(
     else:
         required_deps = getattr(item, "_dependencies", set())
 
-    dependency_source = options.dependency_source
+    dependency_source = dependency_source or options.dependency_source
     resolved_deps = resolve_deps(required_deps, source=dependency_source)
     esparto_css = Path(options.esparto_css).read_text()
     head_deps = "\n".join(resolved_deps.head)
