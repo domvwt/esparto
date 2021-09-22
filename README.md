@@ -13,7 +13,7 @@ esparto
 **esparto** is a Python package for building shareable reports with content
 from popular data analysis libraries.
 With just a few lines of code, **esparto** turns DataFrames, plots, and
-Markdown into an interactive HTML page or PDF.
+Markdown into an interactive webpage or PDF document.
 
 Documents produced by **esparto** are completely portable - no backend server
 is required - and entirely customisable using CSS and Jinja templating.
@@ -78,10 +78,10 @@ All feedback and contributions are welcome - please raise an issue or pull reque
 
 
 ## Examples
-Iris Report - [HTML](https://domvwt.github.io/esparto/examples/iris-report.html) |
+Iris Report - [Webpage](https://domvwt.github.io/esparto/examples/iris-report.html) |
 [PDF](https://domvwt.github.io/esparto/examples/iris-report.pdf)
 
-Bokeh and Plotly - [HTML](https://domvwt.github.io/esparto/examples/interactive-plots.html) |
+Bokeh and Plotly - [Webpage](https://domvwt.github.io/esparto/examples/interactive-plots.html) |
 [PDF](https://domvwt.github.io/esparto/examples/interactive-plots.pdf)
 
 <br>

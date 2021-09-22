@@ -34,7 +34,7 @@ This example covers:
 * Converting a Pandas DataFrame to a table
 * Adding plots from Matplotlib and Seaborn
 
-Output: [HTML](../examples/iris-report.html) | [PDF](../examples/iris-report.pdf)
+Output: [Webpage](../examples/iris-report.html) | [PDF](../examples/iris-report.pdf)
 
 ----
 
@@ -50,7 +50,7 @@ This notebook shows basic examples from interactive plotting libraries:
 * Bokeh
 * Plotly
 
-Output: [HTML](../examples/interactive-plots.html) | [PDF](../examples/interactive-plots.pdf)
+Output: [Webpage](../examples/interactive-plots.html) | [PDF](../examples/interactive-plots.pdf)
 
 !!! note
     PDF output is not officially supported for `Bokeh` at this time.

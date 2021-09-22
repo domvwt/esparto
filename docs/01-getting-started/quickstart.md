@@ -37,7 +37,7 @@ my_page.save_html("esparto-quick.html")
 ```
 <br>
 
-The rendered HTML document:
+The rendered web document:
 
 <img src='../esparto-quickstart-screenshot.png' style='border: 1px dotted lightgrey; width: 60%; height: auto'>
 
