@@ -30,6 +30,8 @@ layout_list = [
     (la.Row(children=[*content_list])),
     (la.Column(children=[*content_list])),
     (la.Card(children=[*content_list])),
+    (la.CardSection(children=[*content_list])),
+    (la.CardRow(children=[*content_list])),
     (la.Spacer()),
     (la.PageBreak()),
 ]
@@ -67,6 +69,8 @@ if _EXTRAS:
     content_pdf = content_list + [
         (co.FigureMpl(plt.Figure())),
         (co.FigureMpl(plt.Figure(), output_format="svg")),
+        (co.FigureMpl(plt.Figure(), output_format="svg", pdf_figsize=0.9)),
+        (co.FigureMpl(plt.Figure(), output_format="svg", pdf_figsize=(8, 5))),
     ]
 
     adaptors_extra = [

@@ -71,3 +71,9 @@ def test_incorrect_content_rejected():
 
     with pytest.raises(TypeError):
         ad.content_adaptor(fake)
+
+
+def test_adaptor_dict_bad():
+    bad_dict = {"key1": "val1", "key2": "val2"}
+    with pytest.raises(ValueError):
+        ad.content_adaptor(bad_dict)

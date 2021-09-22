@@ -10,7 +10,7 @@ python:
 
 env:
   - EXTRA_INSTALLS=""
-  - EXTRA_INSTALLS="ipython pandas matplotlib bokeh plotly kaleido weasyprint beautifulsoup4 html5lib"
+  - EXTRA_INSTALLS="ipython pandas matplotlib bokeh plotly kaleido weasyprint<53 beautifulsoup4 html5lib"
 
 install:
   - pip install . pytest coverage $EXTRA_INSTALLS

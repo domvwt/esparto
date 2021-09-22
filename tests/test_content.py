@@ -88,6 +88,32 @@ def test_image_scale_height(target, image_content):
         assert width_new == int(scale * width)
 
 
+@pytest.mark.parametrize("target", [0.7, 0.9, 1.1])
+def test_image_scale_float(target, image_content):
+    img = Image.open(image_content.content)
+    width, height = img.size
+
+    if target >= 1:
+        with pytest.raises(ValueError):
+            resized = co._rescale_image(img, scale=target)
+    else:
+        resized = co._rescale_image(img, scale=target)
+        width_new, height_new = resized.size
+        assert height_new == int(target * height)
+        assert width_new == int(target * width)
+
+
+def test_image_scale_missing(image_content):
+    img = Image.open(image_content.content)
+    with pytest.raises(ValueError):
+        _ = co._rescale_image(img, scale=None)
+
+
+def test_html_dim_wrong_type():
+    with pytest.raises(TypeError):
+        _ = co._html_dim([1, 2, 3])  # type: ignore
+
+
 @pytest.mark.parametrize("a", content_list)
 def test_incorrect_content_rejected(a):
 

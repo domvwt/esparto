@@ -1,26 +1,36 @@
-"""Layout classes for defining and interacting with a document."""
+"""Layout classes for defining page apperance and structure."""
 
 import copy
 from abc import ABC
+from collections import namedtuple
 from pprint import pformat
 from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Optional, Set, Type, Union
 
 from esparto._publish import nb_display, publish_html, publish_pdf
-from esparto._utils import clean_attr_name, clean_iterator, get_matching_titles
+from esparto._utils import (
+    clean_attr_name,
+    clean_iterator,
+    get_matching_titles,
+    render_html,
+)
 
 if TYPE_CHECKING:
-    from esparto._content import Content
+    from esparto._content import Content, Markdown
 
 
 class Layout(ABC):
-    """Template for Layout elements. All Layout classes come with these methods and attributes.
+    """Class Template for Layout elements.
 
     Layout class hierarchy:
         `Page -> Section -> Row -> Column -> Content`
 
     Attributes:
-      title (str): Object title. Used as a title within the document and as a key value.
-      children (list): Child items defining the document layout and content.
+        title (str): Object title. Used as a title within the page and as a key value.
+        children (list): Child items defining the page layout and content.
+        title_classes (list): Additional CSS classes to apply to title.
+        title_styles (dict): Additional CSS styles to apply to title.
+        body_classes (list): Additional CSS classes to apply to body.
+        body_styles (dict): Additional CSS styles to apply to body.
 
     """
 
@@ -33,10 +43,31 @@ class Layout(ABC):
         title: Optional[str] = None,
         children: Union[
             List[Union["Layout", "Content", Any]], "Layout", "Content"
-        ] = list(),
+        ] = None,
+        title_classes: List[str] = None,
+        title_styles: Dict[str, Any] = None,
+        body_classes: List[str] = None,
+        body_styles: Dict[str, Any] = None,
     ):
-        self.set_children(children)
         self.title = title
+        children = children or []
+        self.set_children(children)
+
+        self.__post_init__()
+
+        title_classes = title_classes or []
+        title_styles = title_styles or {}
+        body_classes = body_classes or []
+        body_styles = body_styles or {}
+
+        self.title_classes += title_classes
+        self.title_styles.update(title_styles)
+
+        self.body_classes += body_classes
+        self.body_styles.update(body_styles)
+
+    def __post_init__(self):
+        raise NotImplementedError
 
     def __iter__(self):
         return iter([self])
@@ -52,10 +83,8 @@ class Layout(ABC):
 
     def __add__(self, other: Union["Layout", "Content", Any]):
 
-        if isinstance(other, type(self)):
-            return self._parent_class(
-                title=self.title, children=[*(*self.children, *other.children)]
-            )
+        if isinstance(other, (type(self), Spacer)):
+            return self._parent_class(children=[self, other])
 
         new = copy.copy(self)
         new.children = self.children + [*self._smart_wrap(other)]
@@ -105,31 +134,46 @@ class Layout(ABC):
                 self._add_child_id(key)
             return self.children[-1]
 
-        elif isinstance(key, int) and key < len(self.children):
-            return self.children[key]
+        elif isinstance(key, int):
+            if key < len(self.children):
+                return self.children[key]
+            value = self._child_class()
+            self.children.append(value)
+            return self.children[-1]
 
         raise KeyError(key)
 
     def __setitem__(self, key: Union[str, int], value: Any):
         value = copy.copy(value)
-        value = self._smart_wrap(value)
-        value = value[0]
+        title = (
+            getattr(value, "title", None) if issubclass(type(value), Layout) else None
+        )
+        if not isinstance(value, self._child_class):
+            if issubclass(self._child_class, Column):
+                value = self._child_class(title=title, children=[value])
+            else:
+                value = self._smart_wrap(value)
+                value = value[0]
         if isinstance(key, str):
             if key:
-                value.title = key
+                value.title = title or key
                 indexes = get_matching_titles(key, self.children)
                 if indexes:
                     self.children[indexes[0]] = value
                 else:
                     self.children.append(value)
-                self._add_child_id(key)
+                self._add_child_id(value.title)
             else:
                 self.children.append(value)
-            return None
-        elif isinstance(key, int) and key < len(self.children):
-            value.title = getattr(self.children[key], "title", None)
-            self.children[key] = value
-            return None
+            return
+        elif isinstance(key, int):
+            if key < len(self.children):
+                value.title = title or getattr(self.children[key], "title", None)
+                self.children[key] = value
+                return
+            self.children.append(value)
+            return
+
         raise KeyError(key)
 
     def __delitem__(self, key) -> None:
@@ -154,12 +198,30 @@ class Layout(ABC):
         self.set_children(other)
         return self
 
+    def __copy__(self):
+        attributes = vars(self)
+        new = self.__class__()
+        new.__dict__.update(attributes)
+        new.children = [*new.children]
+        return new
+
     title: Optional[str]
     children: List[Any] = []
+
+    title_html_tag: str
+    title_classes: List[str]
+    title_styles: Dict[str, Any]
+
+    body_html_tag: str
+    body_classes: List[str]
+    body_styles: Dict[str, Any]
+
+    @property
+    def _default_id(self):
+        return f"es-{type(self).__name__}".lower()
+
     _parent_class: Type["Layout"]
     _child_class: Type["Layout"]
-    _title_tags: str
-    _body_tags: str
     _dependencies = {"bootstrap"}
 
     @property
@@ -176,32 +238,56 @@ class Layout(ABC):
     # ------------------------------------------------------------------------+
 
     def display(self) -> None:
-        """Display rendered document in a Notebook environment."""
+        """Render content in a Notebook environment."""
         nb_display(self)
 
+    def get_identifier(self):
+        """Get the HTML element ID for the current object."""
+        return clean_attr_name(str(self.title)) if self.title else self._default_id
+
+    def get_title_identifier(self):
+        """Get the HTML element ID for the current object title."""
+        return f"{self.get_identifier()}-title"
+
     def set_children(self, other: Union["Layout", "Content", Any]):
-        """Set children as other."""
+        """Set children as `other`."""
         other = copy.copy(other)
         self.children = [*self._smart_wrap(other)]
+        for child in self.children:
+            title = getattr(child, "title", None)
+            if title:
+                self._add_child_id(title)
 
     def to_html(self, **kwargs) -> str:
-        """Convert document to HTML code.
+        """Render object as HTML code.
 
         Returns:
-          str: HTML code.
+            html (str): HTML code.
 
         """
         children_rendered = " ".join([c.to_html(**kwargs) for c in self.children])
-        title_rendered = self._title_tags.format(title=self.title) if self.title else ""
-
-        html = self._body_tags.format(
-            identifier=clean_attr_name(str(self.title)),
-            children=f"{title_rendered}\n{children_rendered}\n",
+        title_rendered = (
+            render_html(
+                self.title_html_tag,
+                self.title_classes,
+                self.title_styles,
+                self.title,
+                self.get_title_identifier(),
+            )
+            if self.title
+            else ""
+        )
+        html = render_html(
+            self.body_html_tag,
+            self.body_classes,
+            self.body_styles,
+            f"{title_rendered}\n{children_rendered}\n",
+            self.get_identifier(),
         )
         return html
 
     def tree(self) -> None:
-        """Display document tree."""
+        """Display page tree."""
         print(self._tree())
 
     # ------------------------------------------------------------------------+
@@ -222,14 +308,14 @@ class Layout(ABC):
 
     def _smart_wrap(
         self, child_list: Iterable[Any]
-    ) -> Iterable[Union["Layout", "Content"]]:
+    ) -> Iterable[Union["Layout", "Content", dict]]:
         """Wrap children in a coherent class hierarchy.
 
         Args:
-          children: Sequence of Content and / or Child items.
+            children: Sequence of Content and / or Child items.
 
         Returns:
-          List of Layout and Content items wrapped in a coherent class hierarchy.
+            List of Layout and Content items wrapped in a coherent class hierarchy.
 
 
         If the parent object is a Column and the item is a Content Class:
@@ -243,6 +329,9 @@ class Layout(ABC):
             - append current child to output
         If the current child is wrapped and we have no accumulated unwrapped items:
             - append the wrapped child to output
+        If the current child is a dict and the parent is a Row:
+            - use the dictionary key as a title and value as content
+            - wrap and append the current child to output
         If the current child is unwrapped and the parent is a Row:
             - wrap and append the current child to output
         If the current item is unwrapped and the parent is not a Row:
@@ -257,6 +346,8 @@ class Layout(ABC):
         child_list = clean_iterator(child_list)
 
         if isinstance(self, Column):
+            if any([isinstance(x, dict) for x in child_list]):
+                raise TypeError("Invalid content passed to Column: 'dict'")
             return [content_adaptor(x) for x in child_list]
 
         is_row = isinstance(self, Row)
@@ -276,7 +367,11 @@ class Layout(ABC):
                     output.append(child)
             else:  # if not is_wrapped
                 if is_row:
-                    output.append(self._child_class(children=[child]))
+                    if isinstance(child, dict):
+                        title, child = list(child.items())[0]
+                    else:
+                        title = None
+                    output.append(self._child_class(title=title, children=[child]))
                 else:
                     unwrapped_acc.append(child)
 
@@ -301,9 +396,9 @@ class Layout(ABC):
     def _required_dependencies(self) -> Set[str]:
         deps: Set[str] = self._dependencies
 
-        def dep_finder(item):
+        def dep_finder(parent):
             nonlocal deps
-            for child in item.children:
+            for child in parent.children:
                 deps = deps | set(getattr(child, "_dependencies", {}))
                 if hasattr(child, "children"):
                     dep_finder(child)
@@ -323,12 +418,18 @@ class Layout(ABC):
 
 
 class Page(Layout):
-    """Defines the top level of a document.
+    """Layout class that defines a Page.
 
     Args:
-        title (str): Used as a title within the document and as a key value.
+        title (str): Used as a title within the page and as a key value.
         navbrand (str): Brand name. Displayed in the page navbar if provided.
+        table_of_contents (bool, int): Add a Table of Contents to the top of page.
+            Passing an `int` will define the maximum depth.
         children (list): Child items defining layout and content.
+        title_classes (list): Additional CSS classes to apply to title.
+        title_styles (dict): Additional CSS styles to apply to title.
+        body_classes (list): Additional CSS classes to apply to body.
+        body_styles (dict): Additional CSS styles to apply to body.
 
     """
 
@@ -336,12 +437,20 @@ class Page(Layout):
         self,
         title: Optional[str] = None,
         navbrand: Optional[str] = "",
+        table_of_contents: Union[bool, int] = False,
         children: Union[
             List[Union["Layout", "Content", Any]], "Layout", "Content"
-        ] = list(),
+        ] = None,
+        title_classes: List[str] = None,
+        title_styles: Dict[str, Any] = None,
+        body_classes: List[str] = None,
+        body_styles: Dict[str, Any] = None,
     ):
-        super().__init__(title, children)
-        self.org_name = navbrand
+        super().__init__(
+            title, children, title_classes, title_styles, body_classes, body_styles
+        )
+        self.navbrand = navbrand
+        self.table_of_contents = table_of_contents
 
     def save(
         self,
@@ -350,17 +459,17 @@ class Page(Layout):
         dependency_source: str = None,
     ) -> Optional[str]:
         """
-        Save document to HTML file.
+        Save page to HTML file.
 
         Note: Alias for `self.save_html()`.
 
         Args:
-          filepath (str): Destination filepath.
-          return_html (bool): If True, return HTML as a string.
-          dependency_source (str): 'cdn' or 'inline'.
+            filepath (str): Destination filepath.
+            return_html (bool): If True, return HTML as a string.
+            dependency_source (str): 'cdn' or 'inline'.
 
         Returns:
-          Document rendered as HTML. (If `return_html` is True)
+            html (str): Document rendered as HTML. (If `return_html` is True)
 
         """
         html = self.save_html(
@@ -380,15 +489,15 @@ class Page(Layout):
         dependency_source: str = None,
     ) -> Optional[str]:
         """
-        Save document to HTML file.
+        Save page to HTML file.
 
         Args:
-          filepath (str): Destination filepath.
-          return_html (bool): If True, return HTML as a string.
-          dependency_source (str): 'cdn' or 'inline'.
+            filepath (str): Destination filepath.
+            return_html (bool): If True, return HTML as a string.
+            dependency_source (str): 'cdn' or 'inline'.
 
         Returns:
-          Document rendered as HTML. (If `return_html` is True)
+            html (str): Document rendered as HTML. (If `return_html` is True)
 
         """
         html = publish_html(
@@ -406,16 +515,16 @@ class Page(Layout):
         self, filepath: str = "./esparto-doc.pdf", return_html: bool = False
     ) -> Optional[str]:
         """
-        Save document to PDF file.
+        Save page to PDF file.
 
         Note: Requires optional module `weasyprint`.
 
         Args:
-          filepath (str): Destination filepath.
-          return_html (bool): If True, return intermediate HTML representation as a string.
+            filepath (str): Destination filepath.
+            return_html (bool): If True, return intermediate HTML representation as a string.
 
         Returns:
-          Document rendered as HTML. (If `return_html` is True)
+            html (str): Document rendered as HTML. (If `return_html` is True)
 
         """
         html = publish_pdf(self, filepath, return_html=return_html)
@@ -424,8 +533,34 @@ class Page(Layout):
             return html
         return None
 
-    _title_tags = "<h1 class='display-4 mb-3'>{title}</h1>"
-    _body_tags = "<main class='container px-2' id='{identifier}'>{children}</main>"
+    def to_html(self, **kwargs):
+        if self.table_of_contents:
+            # Create a copy of the page and dynamically generate the TOC.
+            # Copy is required so that TOC is not added multiple times and
+            # always reflects the current content.
+            max_depth = (
+                None if self.table_of_contents is True else self.table_of_contents
+            )
+            page_copy = copy.copy(self)
+            toc = table_of_contents(page_copy, max_depth=max_depth)
+            page_copy.children.insert(
+                0,
+                page_copy._child_class(
+                    title="Contents", children=[toc], title_classes=["h4"]
+                ),
+            )
+            page_copy.table_of_contents = False
+            return page_copy.to_html(**kwargs)
+        return super().to_html(**kwargs)
+
+    def __post_init__(self) -> None:
+        self.title_html_tag = "h1"
+        self.title_classes = ["es-page-title", "display-4", "mb-4"]
+        self.title_styles = dict()
+
+        self.body_html_tag = "main"
+        self.body_classes = ["es-page-body", "container", "px-2"]
+        self.body_styles = dict()
 
     @property
     def _parent_class(self):
@@ -437,16 +572,27 @@ class Page(Layout):
 
 
 class Section(Layout):
-    """Sections define thematically distinct groups of content within a Page.
+    """Layout class that defines a Section.
 
     Args:
-        title (str): Used as a title within the document and as a key value.
+        title (str): Used as a title within the page and as a key value.
         children (list): Child items defining layout and content.
+        title_classes (list): Additional CSS classes to apply to title.
+        title_styles (dict): Additional CSS styles to apply to title.
+        body_classes (list): Additional CSS classes to apply to body.
+        body_styles (dict): Additional CSS styles to apply to body.
 
     """
 
-    _title_tags = "<h3 class='mb-3'>{title}</h3>"
-    _body_tags = "<div class='px-1 mb-3' id='{identifier}'>{children}</div>"
+    def __post_init__(self) -> None:
+        self.title_html_tag = "h3"
+        self.title_classes = ["mb-3", "es-section-title"]
+        self.title_styles = dict()
+
+        self.body_html_tag = "div"
+        self.body_classes = ["px-1", "mb-3", "es-section-body"]
+        self.body_styles = {"align-items": "flex-start"}
+
     _parent_class = Page
 
     @property
@@ -454,17 +600,73 @@ class Section(Layout):
         return Row
 
 
-class Row(Layout):
-    """Rows are used in combination with Columns to define the grid layout within a section.
+class CardSection(Section):
+    """Layout class that defines a CardSection. CardSections wrap content in Cards by default.
 
     Args:
-        title (str): Used as a title within the document and as a key value.
+        title (str): Used as a title within the page and as a key value.
         children (list): Child items defining layout and content.
+        cards_equal (bool): Cards in the same Row are stretched vertically if True.
+        title_classes (list): Additional CSS classes to apply to title.
+        title_styles (dict): Additional CSS styles to apply to title.
+        body_classes (list): Additional CSS classes to apply to body.
+        body_styles (dict): Additional CSS styles to apply to body.
 
     """
 
-    _title_tags = "<div class='col-12'><h5 class='px-1 mb-3'>{title}</h5></div>"
-    _body_tags = "<div class='row mb-3' style='align-items: flex-start;' id='{identifier}'>{children}</div>"
+    def __init__(
+        self,
+        title: Optional[str] = None,
+        children: Union[
+            List[Union["Layout", "Content", Any]], "Layout", "Content"
+        ] = None,
+        cards_equal: bool = False,
+        title_classes: List[str] = None,
+        title_styles: Dict[str, Any] = None,
+        body_classes: List[str] = None,
+        body_styles: Dict[str, Any] = None,
+    ):
+        super().__init__(
+            title=title,
+            children=children,
+            title_classes=title_classes,
+            title_styles=title_styles,
+            body_classes=body_classes,
+            body_styles=body_styles,
+        )
+
+        self.cards_equal = cards_equal
+
+    @property
+    def _child_class(self):
+        # Attribute missing if class is not instantiated
+        if hasattr(self, "cards_equal") and self.cards_equal:
+            return CardRowEqual
+        return CardRow
+
+
+class Row(Layout):
+    """Layout class that defines a Row.
+
+    Args:
+        title (str): Used as a title within the page and as a key value.
+        children (list): Child items defining layout and content.
+        title_classes (list): Additional CSS classes to apply to title.
+        title_styles (dict): Additional CSS styles to apply to title.
+        body_classes (list): Additional CSS classes to apply to body.
+        body_styles (dict): Additional CSS styles to apply to body.
+
+    """
+
+    def __post_init__(self) -> None:
+        self.title_html_tag = "div"
+        self.title_classes = ["col-12", "mt-2", "mb-3", "px-3", "h5", "es-row-title"]
+        self.title_styles = dict()
+
+        self.body_html_tag = "div"
+        self.body_classes = ["row", "px-1", "es-row-body"]
+        self.body_styles = {"align-items": "flex-start"}
+
     _parent_class = Section
 
     @property
@@ -473,16 +675,59 @@ class Row(Layout):
 
 
 class Column(Layout):
-    """Columns sit within Rows and act as content holders.
+    """Layout class that defines a Column.
 
     Args:
-        title (str): Used as a title within the document and as a key value.
+        title (str): Used as a title within the page and as a key value.
         children (list): Child items defining layout and content.
+        col_width (int): Fix column width - must be between 1 and 12.
+        title_classes (list): Additional CSS classes to apply to title.
+        title_styles (dict): Additional CSS styles to apply to title.
+        body_classes (list): Additional CSS classes to apply to body.
+        body_styles (dict): Additional CSS styles to apply to body.
 
     """
 
-    _title_tags = "<h5 class='px-1 mb-3'>{title}</h5>"
-    _body_tags = "<div class='col-lg mb-3' id='{identifier}'>{children}</div>"
+    def __init__(
+        self,
+        title: Optional[str] = None,
+        children: Union[
+            List[Union["Layout", "Content", Any]], "Layout", "Content"
+        ] = None,
+        col_width: int = None,
+        title_classes: List[str] = None,
+        title_styles: Dict[str, Any] = None,
+        body_classes: List[str] = None,
+        body_styles: Dict[str, Any] = None,
+    ):
+        self.title = title
+        children = children or []
+        self.set_children(children)
+        self.col_width = col_width
+
+        self.__post_init__()
+
+        title_classes = title_classes or []
+        title_styles = title_styles or {}
+        body_classes = body_classes or []
+        body_styles = body_styles or {}
+
+        self.title_classes += title_classes
+        self.title_styles.update(title_styles)
+
+        self.body_classes += body_classes
+        self.body_styles.update(body_styles)
+
+    def __post_init__(self) -> None:
+        self.title_html_tag = "h5"
+        self.title_classes = ["mt-2", "mb-3", "px-1", "es-column-title"]
+        self.title_styles = dict()
+
+        col_class = f"col-lg-{self.col_width}" if self.col_width else "col-lg"
+        self.body_html_tag = "div"
+        self.body_classes = [col_class, "mx-2", "mb-3", "es-column-body"]
+        self.body_styles = dict()
+
     _parent_class = Row
 
     @property
@@ -490,34 +735,199 @@ class Column(Layout):
         raise NotImplementedError
 
 
-class Card(Column):
-    """A Card can be used in place of a Column for grouping related items.
-    Child items will be vertically stacked by defualt. Horizontal distribution
-    can be achieved by nesting content inside a Row.
+class CardRow(Row):
+    """Layout class that defines a CardRow. CardRows wrap content in Cards by default.
 
     Args:
-        title (str): Used as a title within the document and as a key value.
+        title (str): Used as a title within the page and as a key value.
         children (list): Child items defining layout and content.
+        title_classes (list): Additional CSS classes to apply to title.
+        title_styles (dict): Additional CSS styles to apply to title.
+        body_classes (list): Additional CSS classes to apply to body.
+        body_styles (dict): Additional CSS styles to apply to body.
 
     """
 
-    _title_tags = "<h5 class='card-title'>{title}</h5>"
-    _body_tags = (
-        "<div class='col-lg mx-2 mb-3 border rounded' style='padding: 1rem;' id='{identifier}'>"
-        "{children}"
-        "</div>"
-    )
+    @property
+    def _child_class(self):
+        return Card
+
+
+class CardRowEqual(CardRow):
+    """Layout class that defines a CardRow with Cards of equal height.
+
+    Args:
+        title (str): Used as a title within the page and as a key value.
+        children (list): Child items defining layout and content.
+        title_classes (list): Additional CSS classes to apply to title.
+        title_styles (dict): Additional CSS styles to apply to title.
+        body_classes (list): Additional CSS classes to apply to body.
+        body_styles (dict): Additional CSS styles to apply to body.
+
+    """
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+        self.body_styles = {"align-items": "stretch"}
+
+
+class Card(Column):
+    """Layout class that defines a Card.
+
+    Child items will be vertically stacked by default.
+    Horizontal arrangement is achieved by nesting content inside a Row.
+
+    Args:
+        title (str): Used as a title within the page and as a key value.
+        children (list): Child items defining layout and content.
+        col_width (int): Fix column width - must be between 1 and 12.
+        title_classes (list): Additional CSS classes to apply to title.
+        title_styles (dict): Additional CSS styles to apply to title.
+        body_classes (list): Additional CSS classes to apply to body.
+        body_styles (dict): Additional CSS styles to apply to body.
+
+    """
+
+    def __init__(
+        self,
+        title: Optional[str] = None,
+        children: Union[
+            List[Union["Layout", "Content", Any]], "Layout", "Content"
+        ] = None,
+        col_width: int = 6,
+        title_classes: List[str] = None,
+        title_styles: Dict[str, Any] = None,
+        body_classes: List[str] = None,
+        body_styles: Dict[str, Any] = None,
+    ):
+        super().__init__(
+            title=title,
+            children=children,
+            col_width=col_width,
+            title_classes=title_classes,
+            title_styles=title_styles,
+            body_classes=body_classes,
+            body_styles=body_styles,
+        )
+
+    def __post_init__(self) -> None:
+        self.title_html_tag = "h5"
+        self.title_classes = ["card-title", "es-card-title"]
+        self.title_styles = dict()
+
+        self.body_html_tag = "div"
+
+        col_class = f"col-lg-{self.col_width}" if self.col_width else "col-lg"
+        self.body_classes = [
+            col_class,
+            "mb-3",
+            "p-0",
+            "es-card",
+        ]
+        self.body_styles = {}
+
+    def to_html(self, **kwargs) -> str:
+        """Render content to HTML code.
+
+        Returns:
+            html (str): HTML code.
+
+        """
+        children_rendered = " ".join([c.to_html(**kwargs) for c in self.children])
+        title_rendered = (
+            render_html(
+                self.title_html_tag,
+                self.title_classes,
+                self.title_styles,
+                self.title,
+                self.get_title_identifier(),
+            )
+            if self.title
+            else ""
+        )
+        card_body_classes = ["mx-2", "border", "rounded", "card-body", "es-card-body"]
+        card_body_styles = {"min-height": "100%"}
+        html_body = render_html(
+            "div",
+            card_body_classes,
+            card_body_styles,
+            f"\n{title_rendered}\n{children_rendered}\n",
+            f"{self.get_identifier()}-body",
+        )
+        html_full = render_html(
+            self.body_html_tag,
+            self.body_classes,
+            self.body_styles,
+            f"\n{html_body}\n",
+            f"{self.get_identifier()}",
+        )
+
+        return html_full
 
 
 class Spacer(Column):
     """Empty Column for making space within a Row."""
 
-    def __init__(self):
-        super().__init__()
-
 
 class PageBreak(Section):
-    """Add a page break when printing or saving to PDF."""
+    """Defines a page break when printing or saving to PDF."""
 
-    _title_tags = ""
-    _body_tags = "<div id='page-break' style='page-break-after: always;'></div>"
+    body_id = "es-page-break"
+
+    def __post_init__(self) -> None:
+        self.title_html_tag = ""
+        self.title_classes = []
+        self.title_styles = dict()
+
+        self.body_html_tag = "div"
+        self.body_classes = []
+        self.body_styles = {"page-break-after": "always"}
+
+
+def table_of_contents(
+    object: Layout, max_depth: int = None, numbered=True
+) -> "Markdown":
+    """Produce table of contents for a Layout object.
+
+    Args:
+        object (Layout): Target object for TOC.
+        max_depth (int): Maximum depth of returned TOC.
+        numbered (bool): If True TOC items are numbered.
+            If False, bulletpoints are used.
+
+    """
+    from esparto._content import Markdown
+
+    max_depth = max_depth or 99
+
+    def get_toc_items(parent):
+        result_tup = namedtuple("TOCItem", "title, level, id")
+
+        def find_ids(parent, level, acc):
+            if hasattr(parent, "get_title_identifier") and parent.title:
+                acc.append(
+                    result_tup(parent.title, level, parent.get_title_identifier())
+                )
+                level += 1
+            if hasattr(parent, "children"):
+                for child in parent.children:
+                    find_ids(child, level, acc)
+            else:
+                return acc
+            return acc
+
+        acc_new = find_ids(parent, 0, [])
+        return acc_new
+
+    toc_items = get_toc_items(object)
+
+    tab = "\t"
+    marker = "1." if numbered else "*"
+    markdown_list = [
+        f"{(item.level - 1) * tab} {marker} [{item.title}](#{item.id})"
+        for item in toc_items
+        if item.level > 0 and item.level <= max_depth
+    ]
+    markdown_str = "\n".join(markdown_list)
+
+    return Markdown(markdown_str)

@@ -5,8 +5,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List, Optional, Set
 
-from esparto import _INSTALLED_MODULES, _MODULE_PATH
-from esparto._options import get_dep_source_from_options
+from esparto import _INSTALLED_MODULES
+from esparto._options import options
 
 
 @dataclass
@@ -33,16 +33,12 @@ JS_DEPS = {"bokeh", "plotly"}
 
 
 def lazy_content_dependency_dict() -> ContentDependencyDict:
-    bootstrap_cdn = (
-        '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" '
-        + 'integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">'
-    )
-    bootstrap_inline = Path(_MODULE_PATH, "resources/css/bootstrap.min.css").read_text()
+    bootstrap_inline = Path(options.bootstrap_css).read_text()
     bootstrap_inline = f"<style>\n{bootstrap_inline}\n</style>"
 
     content_dependency_dict = ContentDependencyDict()
     content_dependency_dict += ContentDependency(
-        "bootstrap", bootstrap_cdn, bootstrap_inline, "head"
+        "bootstrap", options.bootstrap_cdn, bootstrap_inline, "head"
     )
 
     if "bokeh" in _INSTALLED_MODULES:
@@ -73,7 +69,10 @@ def lazy_content_dependency_dict() -> ContentDependencyDict:
 def resolve_deps(required_deps: Set[str], source: Optional[str]) -> ResolvedDeps:
     resolved_deps = ResolvedDeps()
 
-    source = str(get_dep_source_from_options(source))
+    if source not in {"cdn", "inline"}:
+        raise ValueError("Dependency source must be 'cdn' or 'inline'")
+
+    source = options.dependency_source
 
     for dep in required_deps:
         dep_details: ContentDependency = lazy_content_dependency_dict()[dep]

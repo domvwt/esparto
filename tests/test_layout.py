@@ -143,24 +143,36 @@ def test_get_item(page_basic_layout):
     assert page.section_one.row_one[0] == page_basic_layout[0][0][0]
 
 
-def test_get_item_key_str_error(page_basic_layout):
-    page = la.Page(title="Test Page")
-    page["Section One"]["Row One"] = "markdown content"
+def test_get_item_bad_key(page_basic_layout):
+    bad_key = 1.5
     with pytest.raises(KeyError):
-        page["Section One"][2]
+        page_basic_layout[bad_key]
 
 
-def test_set_item_key_int_error(page_basic_layout):
-    page = la.Page(title="Test Page")
-    page["Section One"]["Row One"] = "markdown content"
-    with pytest.raises(KeyError):
-        page["Section One"][2] = "different content"
+def test_get_item_no_key(page_basic_layout):
+    result = page_basic_layout[""]
+    expected = page_basic_layout.children[-1]
+    assert result is expected
 
 
-def test_set_item_new(page_basic_layout):
+def test_set_item_new_str(page_basic_layout):
     page = la.Page(title="Test Page")
     page["Section One"]["Row One"] = "markdown content"
     assert page == page_basic_layout
+
+
+def test_set_column_extra_children():
+    expected = la.Page(
+        children=la.Section(
+            children=la.Row(
+                children=la.Column(children=["markdown", "content", "tuple"]),
+            ),
+        ),
+    )
+    output_page = la.Page()
+    output_page[0][0][0] = ("markdown", "content", "tuple")
+    print(output_page)
+    assert output_page == expected
 
 
 def test_set_item_existing_str(page_basic_layout):
@@ -239,9 +251,63 @@ def test_lshift(page_basic_layout):
     assert page == page_basic_layout
 
 
+def test_lshift_tuple():
+    col = la.Column(title="title")
+    content = ("a", "b")
+    passthrough = col << ("a", "b")
+    assert passthrough == content
+    assert col == la.Column(title="title", children=["a", "b"])
+
+
 def test_rshift(page_basic_layout):
     page = la.Page(title="Test Page")
     content = "markdown content"
     passthrough = page["Section One"]["Row One"] >> content
     assert passthrough == page_basic_layout["Section One"]["Row One"]
     assert page == page_basic_layout
+
+
+def test_rshift_tuple():
+    col = la.Column(title="title")
+    passthrough = col >> ("a", "b")
+    assert passthrough == la.Column(title="title", children=["a", "b"])
+
+
+def test_table_of_contents():
+    input_page = la.Page(title="My Page")
+    input_page["Section One"]["Item A"] = "some text"
+    input_page["Section One"]["Item B"] = "more text"
+    input_page["Section Two"]["Item C"]["Item D"] = "and more text"
+    input_page["Section Two"]["Item C"]["Item E"] = "even more text"
+
+    output_toc = la.table_of_contents(input_page, numbered=False)
+    expected_toc = co.Markdown(
+        " * [Section One](#section_one-title)\n\t"
+        " * [Item A](#item_a-title)\n\t"
+        " * [Item B](#item_b-title)\n"
+        " * [Section Two](#section_two-title)\n\t"
+        " * [Item C](#item_c-title)\n\t\t"
+        " * [Item D](#item_d-title)\n\t\t"
+        " * [Item E](#item_e-title)"
+    )
+    assert output_toc == expected_toc
+
+
+def test_table_of_contents_numbered():
+    input_page = la.Page(title="My Page")
+    input_page["Section One"]["Item A"] = "some text"
+    input_page["Section One"]["Item B"] = "more text"
+    input_page["Section Two"]["Item C"]["Item D"] = "and more text"
+    input_page["Section Two"]["Item C"]["Item E"] = "even more text"
+
+    output_toc = la.table_of_contents(input_page, numbered=True)
+    expected_toc = co.Markdown(
+        " 1. [Section One](#section_one-title)\n\t"
+        " 1. [Item A](#item_a-title)\n\t"
+        " 1. [Item B](#item_b-title)\n"
+        " 1. [Section Two](#section_two-title)\n\t"
+        " 1. [Item C](#item_c-title)\n\t\t"
+        " 1. [Item D](#item_d-title)\n\t\t"
+        " 1. [Item E](#item_e-title)"
+    )
+    assert output_toc == expected_toc

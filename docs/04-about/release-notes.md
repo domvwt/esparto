@@ -1,6 +1,20 @@
 Release Notes
 =============
 
+2.0.0 (2021-09-19)
+------------------
+-   New Features
+    -   Links to Bootswatch CDN for page themes
+    -   Reorganise and add options to `esparto.options`
+    -   Table of Contents generator for Page element
+    -   Save and Load config options
+    -   Define Columns and Cards as dict of {"title": content}
+    -   Add or replace Content by positional index
+-   New Layout Classes
+    -   CardSection: Section with Cards as the default Content container
+    -   CardRow: Row of Cards
+    -   CardRowEqual: Row of equal width cards
+
 1.3.0 (2021-07-19)
 ------------------
 -   New Layout class
@@ -15,7 +29,7 @@ Release Notes
 
 1.2.0 (2021-06-28)
 ------------------
--   Implicitly read markdown text files
+-   Implicitly read Markdown text files
 
 
 1.1.0 (2021-06-18)
@@ -56,7 +70,7 @@ Release Notes
 
 0.2.4 (2021-05-04)
 ------------------
--   Fix bug corrupting document titles
+-   Fix bug corrupting page titles
 -   Lazy load the content dependency dict
 -   Remove unused code
 
