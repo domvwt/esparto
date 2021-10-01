@@ -46,16 +46,15 @@ page.save_html("my-report.html")
 
 
 ## Installation
-**esparto** is available from PyPI:
+**esparto** is available from [PyPI][PyPI] and [Conda][Conda]:
 ```bash
 pip install esparto
 ```
-
-If PDF output is required, `weasyprint` must also be installed:
 ```bash
-pip install weasyprint
+conda install esparto -c conda-forge
 ```
 
+If PDF output is required, [Weasyprint](https://weasyprint.org/) must also be installed.
 
 ## Dependencies
 *   [python](https://python.org/) >= 3.6
@@ -91,6 +90,8 @@ Bokeh and Plotly - [Webpage](https://domvwt.github.io/esparto/examples/interacti
 </p>
 
 <!-- Links -->
+[PyPI]: https://pypi.org/project/esparto/
+[Conda]: https://anaconda.org/conda-forge/esparto
 [Bootstrap]: https://getbootstrap.com/docs/4.6/getting-started/introduction/
 [Pandas]: https://pandas.pydata.org/
 [Matplotlib]: https://matplotlib.org/

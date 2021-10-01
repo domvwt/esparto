@@ -6,4 +6,4 @@
 
 ### Layout Classes
 
-### Content Classes
+# Coming Soon!
