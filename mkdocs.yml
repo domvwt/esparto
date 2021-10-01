@@ -22,9 +22,9 @@ markdown_extensions:
 
 nav:
   - Overview: 'index.md'
-  - User Guides:
-        - 'Quick Reference': '02-user-guide/quick-reference.md'
-        - 'Example Notebooks': '02-user-guide/examples.md'
+  - User Guide:
+        - 'Quick Start': '02-user-guide/quick-start.md'
+        - 'Tutorial Notebooks': '02-user-guide/tutorial-notebooks.md'
   - API Reference:
         - 'Layout': '03-api-reference/layout.md'
         - 'Content': '03-api-reference/content.md'
@@ -35,7 +35,7 @@ nav:
         - 'Authors': '04-about/authors.md'
         # - 'Contributing': '04-about/contributing.md'
         - 'Release Notes': '04-about/release-notes.md'
-        - 'Roadmap': '04-about/roadmap.md'
+        # - 'Roadmap': '04-about/roadmap.md'
         - 'License': '04-about/license.md'
 
 extra_css:

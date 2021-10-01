@@ -1,4 +1,4 @@
-# Guides
+# Tutorial  Notebooks
 
 These examples demonstrate recommended ways of working with `esparto`.
 
