@@ -8,8 +8,9 @@ esparto
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&metric=alert_status)](https://sonarcloud.io/dashboard?id=domvwt_esparto)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/esparto)
 
+Introduction
+------------
 
-## Introduction
 **esparto** is a Python package for building shareable reports with content
 from popular data analysis libraries.
 With just a few lines of code, **esparto** turns DataFrames, plots, and
@@ -21,8 +22,9 @@ All content dependencies are declared inline or loaded via a CDN, meaning your
 reports can be shared by email, hosted on a standard http server, or made
 available as static pages as-is.
 
+Basic Usage
+-----------
 
-## Basic Usage
 ```python
 import esparto as es
 page = es.Page(title="My Report")
@@ -30,53 +32,64 @@ page["Data Analysis"] = (pandas_dataframe, plotly_figure)
 page.save_html("my-report.html")
 ```
 
+Main Features
+-------------
 
-## Main Features
 * Automatic and adaptive layout
 * Customisable with CSS or Jinja
 * Jupyter Notebook friendly
 * Output as HTML or PDF
 * Built-in adaptors for:
-    * Markdown
-    * Images
-    * [Pandas DataFrames][Pandas]
-    * [Matplotlib][Matplotlib]
-    * [Bokeh][Bokeh]
-    * [Plotly][Plotly]
+  * Markdown
+  * Images
+  * [Pandas DataFrames][Pandas]
+  * [Matplotlib][Matplotlib]
+  * [Bokeh][Bokeh]
+  * [Plotly][Plotly]
 
+Installation
+------------
 
-## Installation
 **esparto** is available from [PyPI][PyPI] and [Conda][Conda]:
+
 ```bash
 pip install esparto
 ```
+
 ```bash
 conda install esparto -c conda-forge
 ```
 
 If PDF output is required, [Weasyprint](https://weasyprint.org/) must also be installed.
 
-## Dependencies
-*   [python](https://python.org/) >= 3.6
-*   [jinja2](https://palletsprojects.com/p/jinja/)
-*   [markdown](https://python-markdown.github.io/)
-*   [Pillow](https://python-pillow.org/)
-*   [PyYAML](https://pyyaml.org/)
-*   [weasyprint](https://weasyprint.org/) _(optional - required for PDF output)_
+Dependencies
+------------
 
+* [python](https://python.org/) >= 3.6
+* [jinja2](https://palletsprojects.com/p/jinja/)
+* [markdown](https://python-markdown.github.io/)
+* [Pillow](https://python-pillow.org/)
+* [PyYAML](https://pyyaml.org/)
+* [weasyprint](https://weasyprint.org/) _(optional - required for PDF output)_
 
-## License
+License
+-------
+
 [MIT](https://opensource.org/licenses/MIT)
 
+Documentation
+-------------
 
-## Documentation
 Full documentation and examples are available at [domvwt.github.io/esparto/](https://domvwt.github.io/esparto/).
 
-## Contributions, Issues, and Requests
+Contributions, Issues, and Requests
+-----------------------------------
+
 All feedback and contributions are welcome - please raise an issue or pull request on [GitHub][GitHub].
 
+Examples
+--------
 
-## Examples
 Iris Report - [Webpage](https://domvwt.github.io/esparto/examples/iris-report.html) |
 [PDF](https://domvwt.github.io/esparto/examples/iris-report.pdf)
 

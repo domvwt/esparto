@@ -1,45 +1,158 @@
-/* Print friendly page formatting */
-@page {
-    size: auto;
-    margin: 15mm 20mm;
+/* * Layout Styles */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin-bottom: 0.5rem;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.2;
+    color: inherit;
+    margin-top: 2em;
+    margin-bottom: 0;
 }
 
-@media print {
-    html,
-    body,
-    main {
-        border: 1px solid white;
-        width: 90%;
-        height: auto;
-    }
-    .row {
-        page-break-inside: avoid;
-        page-break-after: auto;
-        page-break-before: auto;
-    }
-    .es-column-body, .es-card {
-        flex: 1 !important;
-    }
+h1,
+.es-page-title {
+    font-size: 2em;
+    font-weight: 300;
 }
 
+h2,
+.es-section-title {
+    font-size: 1.5em;
+}
 
-/* Extra Small tables */
-.table-xs td, th {
+h3,
+.es-row-title,
+.es-column-title {
+    font-size: 1.2em;
+}
+
+h4 {
+    font-size: 1em;
+}
+
+h5,
+.es-card-title {
+    font-size: 1em;
+}
+
+h6 {
+    font-size: 0.9em;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+.es-markdown {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+}
+
+.es-figure {
+    text-align: center;
+    margin: 0;
+    padding: 0.5rem;
+    padding-bottom: 1rem;
+}
+
+.es-table {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.es-matplotlib-figure {
+    margin: 0;
+    padding: 0;
+}
+
+.es-bokeh-figure .es-plotly-figure {
+    margin-bottom: 1rem;
+}
+
+.es-page-body {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.es-section-body {
+    margin-bottom: 1rem;
+    padding-left: 1px;
+    padding-right: 1px;
+    align-items: flex-start;
+}
+
+.es-row-title {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    /* margin-bottom: 1rem; */
+    margin-top: 0.5rem;
+}
+
+.es-row-body {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    align-items: flex-start;
+}
+.es-column-title {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    /* margin-bottom: 1rem; */
+    margin-top: 0.5rem;
+}
+
+.es-column-body {
+    margin-bottom: 1rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.es-card-title {
+    /* Uses h5 */
+    /* margin-bottom: 1rem; */
+    padding: 0;
+}
+.es-card-body {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    min-height: 100%;
+}
+.es-page-break {
+    page-break-after: always;
+}
+
+.es-table td,
+th {
     padding: 0 !important;
-    padding-left: .3rem !important;
-    padding-right: .3rem !important;
+    padding-left: 0.3rem !important;
+    padding-right: 0.3rem !important;
 }
 
-.table-xs th {
+.es-table th {
     text-align: left;
 }
 
-.table-xs td {
+.es-table td {
     text-align: right;
 }
 
+/* Responsive SVG */
+.svg-content-mpl {
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    bottom: 0px;
+    margin: auto;
+}
 
-/* Sticky footer styles */
 html {
     position: relative;
     min-height: 100%;
@@ -62,12 +175,26 @@ body {
     margin-bottom: 0;
 }
 
+@page {
+    size: auto;
+    margin: 15mm 20mm;
+}
 
-/* Responsive SVG */
-.svg-content-mpl {
-    width: 100%;
-    height: 100%;
-    top: 0px;
-    bottom: 0px;
-    margin: auto;
+@media print {
+    html,
+    body,
+    main {
+        border: 1px solid white;
+        width: 90%;
+        height: auto;
+    }
+    .row {
+        page-break-inside: avoid;
+        page-break-after: auto;
+        page-break-before: auto;
+    }
+    .es-column-body,
+    .es-card {
+        flex: 1 !important;
+    }
 }

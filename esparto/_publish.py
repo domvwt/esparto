@@ -4,7 +4,7 @@ import time
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional, Union
 
-from jinja2 import Template  # type: ignore
+from jinja2 import Template
 
 if TYPE_CHECKING:
     from esparto._layout import Page, Layout
@@ -19,10 +19,10 @@ def publish_html(
     page: "Page",
     filepath: Optional[str] = "./esparto-doc.html",
     return_html: bool = False,
-    dependency_source: str = None,
-    esparto_css: str = None,
-    jinja_template: str = None,
-    **kwargs,
+    dependency_source: Optional[str] = None,
+    esparto_css: Optional[str] = None,
+    jinja_template: Optional[str] = None,
+    **kwargs: bool,
 ) -> Optional[str]:
     """Save page to HTML.
 
@@ -114,7 +114,7 @@ def publish_pdf(
 def nb_display(
     item: Union["Layout", "Content"],
     return_html: bool = False,
-    dependency_source: str = None,
+    dependency_source: Optional[str] = None,
 ) -> Optional[str]:
     """Display Layout or Content to Jupyter Notebook cell.
 
