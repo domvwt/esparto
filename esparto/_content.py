@@ -125,7 +125,8 @@ class Markdown(Content):
     def to_html(self, **kwargs) -> str:
         html = md.markdown(self.content)
         html = f"{html}\n"
-        html = f"<div class='px-1'>\n{html}\n</div>"
+        # // html = f"<div class='px-1'>\n{html}\n</div>"
+        html = f"<div class='es-markdown'>\n{html}\n</div>"
         return html
 
 
@@ -216,8 +217,9 @@ class Image(Content):
         max_scale_down = 0.5
 
         html = (
-            "<figure class='text-center m-0 p-2 pb-3'>"
-            "<img class='img-fluid figure-img rounded' "
+            # // "<figure class='text-center m-0 p-2 pb-3'>"
+            "<figure class='es-figure'>"
+            "<img class='img-fluid figure-img rounded es-image' "
             f"style='min-width: {int(width * max_scale_down)}px; "
             f"max-width: min({int(width * max_scale_up)}px, 100%);' "
             f"alt='{self.alt_text}' "
@@ -259,11 +261,10 @@ class DataFramePd(Content):
         self.col_space = col_space
         self.css_classes = [
             "table",
-            "table-xs",
             "table-striped",
             "table-hover",
             "table-bordered",
-            "my-1",
+            # // "my-1",
         ]
 
     def to_html(self, **kwargs) -> str:
@@ -273,7 +274,7 @@ class DataFramePd(Content):
             col_space=self.col_space,
             classes=self.css_classes,
         )
-        html = f"<div class='table-responsive'>{html}</div>"
+        html = f"<div class='table-responsive es-table'>{html}</div>"
         return html
 
 
@@ -354,7 +355,7 @@ class FigureMpl(Content):
             html = (
                 "<div class='row justify-content-center p-0 m-0' "
                 "style='width: 100%; height: auto;'>\n"
-                f"<div class='col p-0 m-0' style='max-width: min({int(width * max_scale_up)}px, 100%); "
+                f"<div class='col es-matplotlib-figure' style='max-width: min({int(width * max_scale_up)}px, 100%); "
                 f"min-width: {int(width * max_scale_down)}px; height: auto;'>"
                 f"{inner}\n</div>\n</div>\n"
             )
@@ -425,7 +426,8 @@ class FigureBokeh(Content):
         html = _remove_outer_div(html)
 
         return (
-            "<div class='mb-3 es-bokeh-figure' "
+            # // "<div class='mb-3 es-bokeh-figure' "
+            "<div class='es-bokeh-figure' "
             f"style='max-width: {self.width}; max-height: {self.height}; margin: auto;'>"
             f"\n{html}\n{js}\n</div>"
         )
@@ -478,7 +480,7 @@ class FigurePlotly(Content):
             # Remove outer <div> tag so we can give our own attributes.
             html = _remove_outer_div(html)
             html = (
-                "<div class='responsive-plot mb-3' "
+                "<div class='responsive-plot es-plotly-figure' "
                 f"style='max-width: {self.width}; height: {self.height}; margin: auto;'>{html}\n</div>"
             )
 

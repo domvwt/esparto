@@ -15,7 +15,7 @@ from esparto._utils import public_dict
 class ConfigMixin(object):
     _options_source: str
 
-    def _to_dict(self) -> dict:
+    def _to_dict(self) -> Dict[str, Any]:
         return public_dict(self.__dict__)
 
     def __repr__(self) -> str:
@@ -38,7 +38,7 @@ class MatplotlibOptions(ConfigMixin):
         html_output_format (str):
             How plots are rendered in HTML: 'png' or 'svg'.
         notebook_format (str):
-            How plots are rendedered in Jupyter Notebooks: 'png' or 'svg'.
+            How plots are rendered in Jupyter Notebooks: 'png' or 'svg'.
         pdf_figsize (tuple or int):
             Specify size of Matplotlib figures in PDF output.
             An integer tuple can be passed as: (height, width).
@@ -116,7 +116,7 @@ class ConfigOptions(ConfigMixin):
         '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" '
         'integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">'
     )
-    bootstrap_css: str = str(_MODULE_PATH / "resources/css/bootstrap.min.css")
+    bootstrap_css: str = str(_MODULE_PATH / "resources/css/bootstrap-grid.min.css")
     esparto_css: str = str(_MODULE_PATH / "resources/css/esparto.css")
     jinja_template: str = str(_MODULE_PATH / "resources/jinja/base.html.jinja")
 
@@ -143,7 +143,7 @@ class ConfigOptions(ConfigMixin):
         self = yaml.unsafe_load(yaml_str)
         self._options_source = str(path)
 
-    def _autoload(self):
+    def _autoload(self) -> None:
         config_paths = [
             Path("./esparto-config.yaml"),
             Path.home() / "esparto-data/esparto-config.yaml",
@@ -159,7 +159,7 @@ class ConfigOptions(ConfigMixin):
 options = ConfigOptions()
 
 
-def resolve_config_option(config_option: str, value: Optional[str]):
+def resolve_config_option(config_option: str, value: Optional[str]) -> Any:
     if value is None:
         return getattr(options, config_option)
     else:

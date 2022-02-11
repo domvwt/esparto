@@ -4,7 +4,7 @@ import time
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional, Union
 
-from jinja2 import Template  # type: ignore
+from jinja2 import Template
 
 if TYPE_CHECKING:
     from esparto._layout import Page, Layout
@@ -19,10 +19,10 @@ def publish_html(
     page: "Page",
     filepath: Optional[str] = "./esparto-doc.html",
     return_html: bool = False,
-    dependency_source: str = None,
-    esparto_css: str = None,
-    jinja_template: str = None,
-    **kwargs,
+    dependency_source: Optional[str] = None,
+    esparto_css: Optional[str] = None,
+    jinja_template: Optional[str] = None,
+    **kwargs: bool,
 ) -> Optional[str]:
     """Save page to HTML.
 
@@ -84,7 +84,7 @@ def publish_pdf(
     """
     if "weasyprint" not in _INSTALLED_MODULES:
         raise ModuleNotFoundError("Install weasyprint for PDF support")
-    import weasyprint as weasy  # type: ignore
+    import weasyprint as wp  # type: ignore
 
     temp_dir = Path(options._pdf_temp_dir)
     temp_dir.mkdir(parents=True, exist_ok=True)
@@ -96,7 +96,7 @@ def publish_pdf(
         dependency_source="inline",
         pdf_mode=True,
     )
-    pdf_doc = weasy.HTML(string=html_rendered, base_url=options._pdf_temp_dir).render()
+    pdf_doc = wp.HTML(string=html_rendered, base_url=options._pdf_temp_dir).render()
     pdf_doc.metadata.title = page.title
     pdf_doc.write_pdf(filepath)
 
@@ -114,7 +114,7 @@ def publish_pdf(
 def nb_display(
     item: Union["Layout", "Content"],
     return_html: bool = False,
-    dependency_source: str = None,
+    dependency_source: Optional[str] = None,
 ) -> Optional[str]:
     """Display Layout or Content to Jupyter Notebook cell.
 
@@ -151,8 +151,8 @@ def nb_display(
         f"<!doctype html>\n<html>\n<head>{head_deps}</head>\n"
         f"<body>\n{render_html}\n{tail_deps}\n</body>\n</html>\n"
     )
-
     print()
+
     # This allows time to download plotly.js from the CDN - otherwise cell can render empty
     if "plotly" in required_deps and dependency_source == "cdn":
         display(HTML(f"<head>\n{head_deps}\n</head>\n"), metadata=dict(isolated=True))
