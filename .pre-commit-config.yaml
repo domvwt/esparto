@@ -29,7 +29,7 @@ repos:
     -   id: mypy
         name: MyPy
         language: system
-        entry: poetry run mypy --strict
+        entry: poetry run mypy
         types: [python]
     -   id: version
         name: Version
