@@ -23,7 +23,7 @@ markdown = "^3.1"
 Pillow = ">=7.0.0,<9"
 dataclasses = {version = "*", python = "<3.7"}
 beautifulsoup4 = {version = ">=4.7", optional = true}
-weasyprint = {version = ">=51, <53", optional = true}
+weasyprint = {version = ">=51,<55", optional = true}
 pyyaml = ">=5.1"
 
 [tool.poetry.dev-dependencies]
