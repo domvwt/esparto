@@ -20,8 +20,8 @@ classifiers = [
 python = ">=3.6.1,<4.0"
 jinja2 = ">=2.10.1,<4.0.0"
 markdown = "^3.1"
-Pillow = ">=7.0.0,<9"
 dataclasses = {version = "*", python = "<3.7"}
+Pillow = {version = ">=7.0.0,<9", optional = true}
 beautifulsoup4 = {version = ">=4.7", optional = true}
 weasyprint = {version = ">=51, <53", optional = true}
 pyyaml = ">=5.1"
