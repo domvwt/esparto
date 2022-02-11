@@ -1,25 +1,48 @@
 /* * Layout Styles */
 
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 35px;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+        Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
+        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+pre,
+code {
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+        "Courier New", monospace;
+}
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6,
-p {
-    margin-bottom: 0.5rem;
-    font-family: inherit;
-    font-weight: 500;
-    line-height: 1.2;
-    color: inherit;
-    margin-top: 2em;
+p,
+.es-page-title,
+.es-section-title,
+.es-row-title,
+.es-column-title,
+.es-card-title {
+    margin-top: 0.75em;
     margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0.5em;
 }
 
-h1,
 .es-page-title {
-    font-size: 2em;
+    font-size: 3.5em;
     font-weight: 300;
+}
+
+h1 {
+    font-size: 2em;
 }
 
 h2,
@@ -29,7 +52,8 @@ h2,
 
 h3,
 .es-row-title,
-.es-column-title {
+.es-column-title,
+.es-card-title {
     font-size: 1.2em;
 }
 
@@ -37,8 +61,7 @@ h4 {
     font-size: 1em;
 }
 
-h5,
-.es-card-title {
+h5 {
     font-size: 1em;
 }
 
@@ -47,14 +70,8 @@ h6 {
 }
 
 p {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-}
-.es-markdown {
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
 }
 
 .es-figure {
@@ -62,11 +79,6 @@ p {
     margin: 0;
     padding: 0.5rem;
     padding-bottom: 1rem;
-}
-
-.es-table {
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
 }
 
 .es-matplotlib-figure {
@@ -90,43 +102,42 @@ p {
     align-items: flex-start;
 }
 
-.es-row-title {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    /* margin-bottom: 1rem; */
-    margin-top: 0.5rem;
-}
-
 .es-row-body {
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
     align-items: flex-start;
-}
-.es-column-title {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    /* margin-bottom: 1rem; */
-    margin-top: 0.5rem;
 }
 
 .es-column-body {
     margin-bottom: 1rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+}
+
+.es-card {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
 }
 
 .es-card-title {
-    /* Uses h5 */
-    /* margin-bottom: 1rem; */
-    padding: 0;
+    margin: 0;
 }
+
 .es-card-body {
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    margin: 0;
+    padding: 1.25rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
     min-height: 100%;
 }
+
 .es-page-break {
     page-break-after: always;
+}
+
+.es-table {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
 }
 
 .es-table td,
@@ -153,15 +164,6 @@ th {
     margin: auto;
 }
 
-html {
-    position: relative;
-    min-height: 100%;
-}
-
-body {
-    margin-bottom: 35px;
-}
-
 .footer {
     position: absolute;
     bottom: 0;
@@ -175,26 +177,15 @@ body {
     margin-bottom: 0;
 }
 
-@page {
-    size: auto;
-    margin: 15mm 20mm;
-}
-
 @media print {
-    html,
-    body,
-    main {
-        border: 1px solid white;
-        width: 90%;
-        height: auto;
-    }
     .row {
         page-break-inside: avoid;
         page-break-after: auto;
         page-break-before: auto;
     }
     .es-column-body,
-    .es-card {
+    .es-card,
+    .es-card-body {
         flex: 1 !important;
     }
 }

@@ -25,7 +25,8 @@ def test_all_adaptors_covered(adaptor_list_fn):
     if PosixPath in test_classes:
         test_classes.remove(PosixPath)
         test_classes = adaptor_types | {Path}
-    adaptor_types.remove(None)
+    if None in adaptor_types:
+        adaptor_types.remove(None)
     missing = adaptor_types.difference(test_classes)
     assert not missing, missing
 

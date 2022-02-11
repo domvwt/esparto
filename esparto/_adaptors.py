@@ -1,5 +1,5 @@
-from functools import singledispatch
-from mimetypes import guess_type
+import functools as ft
+import mimetypes as mt
 from pathlib import Path
 from typing import Union
 
@@ -16,7 +16,7 @@ from esparto._content import (
 from esparto._layout import Layout
 
 
-@singledispatch
+@ft.singledispatch
 def content_adaptor(content: Content) -> Union[Content, Layout, dict]:
     """
     Wrap content in the required class. If Layout object is passed, return unchanged.
@@ -36,7 +36,7 @@ def content_adaptor(content: Content) -> Union[Content, Layout, dict]:
 @content_adaptor.register(str)
 def content_adaptor_core(content: str) -> Content:
     """Convert text or image to Markdown or Image content."""
-    guess = guess_type(content)
+    guess = mt.guess_type(content)
     if guess and isinstance(guess[0], str):
         file_type = guess[0].split("/")[0]
         if file_type == "image":

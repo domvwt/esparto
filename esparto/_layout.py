@@ -1,4 +1,4 @@
-"""Layout classes for defining page apperance and structure."""
+"""Layout classes for defining page appearance and structure."""
 
 import copy
 from abc import ABC
@@ -41,6 +41,7 @@ class Layout(ABC):
     def __init__(
         self,
         title: Optional[str] = None,
+        # TODO: Make a type for children
         children: Union[
             List[Union["Layout", "Content", Any]], "Layout", "Content"
         ] = None,
@@ -230,7 +231,7 @@ class Layout(ABC):
         try:
             super().__getattribute__("__child_ids")
         except AttributeError:
-            super().__setattr__("__child_ids", dict())
+            super().__setattr__("__child_ids", {})
         return super().__getattribute__("__child_ids")
 
     # ------------------------------------------------------------------------+
@@ -517,7 +518,7 @@ class Page(Layout):
         """
         Save page to PDF file.
 
-        Note: Requires optional module `weasyprint`.
+        Note: Requires `weasyprint` library.
 
         Args:
             filepath (str): Destination filepath.
@@ -557,12 +558,12 @@ class Page(Layout):
         self.title_html_tag = "h1"
         # // self.title_classes = ["es-page-title", "display-4", "mb-4"]
         self.title_classes = ["es-page-title"]
-        self.title_styles = dict()
+        self.title_styles = {}
 
         self.body_html_tag = "main"
         # // self.body_classes = ["es-page-body" "container", "px-2"]
-        self.body_classes = ["es-page-body" "container"]
-        self.body_styles = dict()
+        self.body_classes = ["es-page-body", "container"]
+        self.body_styles = {}
 
     @property
     def _parent_class(self):
@@ -590,13 +591,13 @@ class Section(Layout):
         self.title_html_tag = "h3"
         # // self.title_classes = ["mb-3", "es-section-title"]
         self.title_classes = ["es-section-title"]
-        self.title_styles = dict()
+        self.title_styles = {}
 
         self.body_html_tag = "div"
         # // self.body_classes = ["px-1", "mb-3", "es-section-body"]
         self.body_classes = ["es-section-body"]
         # // self.body_styles = {"align-items": "flex-start"}
-        self.body_styles = dict()
+        self.body_styles = {}
 
     _parent_class = Page
 
@@ -664,16 +665,16 @@ class Row(Layout):
     """
 
     def __post_init__(self) -> None:
-        self.title_html_tag = "div"
+        self.title_html_tag = "h5"
         # // self.title_classes = ["col-12", "mt-2", "mb-3", "px-3", "h5", "es-row-title"]
         self.title_classes = ["col-12", "es-row-title"]
-        self.title_styles = dict()
+        self.title_styles = {}
 
         self.body_html_tag = "div"
         # // self.body_classes = ["row", "px-1", "es-row-body"]
         self.body_classes = ["row", "es-row-body"]
         # // self.body_styles = {"align-items": "flex-start"}
-        self.body_styles = dict()
+        self.body_styles = {}
 
     _parent_class = Section
 
@@ -730,13 +731,13 @@ class Column(Layout):
         self.title_html_tag = "h5"
         # // self.title_classes = ["mt-2", "mb-3", "px-1", "es-column-title"]
         self.title_classes = ["es-column-title"]
-        self.title_styles = dict()
+        self.title_styles = {}
 
         col_class = f"col-lg-{self.col_width}" if self.col_width else "col-lg"
         self.body_html_tag = "div"
         # // self.body_classes = [col_class, "mx-2", "mb-3", "es-column-body"]
         self.body_classes = [col_class, "es-column-body"]
-        self.body_styles = dict()
+        self.body_styles = {}
 
     _parent_class = Row
 
@@ -823,7 +824,7 @@ class Card(Column):
     def __post_init__(self) -> None:
         self.title_html_tag = "h5"
         self.title_classes = ["card-title", "es-card-title"]
-        self.title_styles = dict()
+        self.title_styles = {}
 
         self.body_html_tag = "div"
 
@@ -857,9 +858,9 @@ class Card(Column):
             else ""
         )
         # // card_body_classes = ["mx-2", "border", "rounded", "card-body", "es-card-body"]
-        card_body_classes = ["border", "rounded", "card-body", "es-card-body"]
+        card_body_classes = ["es-card-body"]
         # //card_body_styles = {"min-height": "100%"}
-        card_body_styles: Dict[str, str] = dict()
+        card_body_styles: Dict[str, str] = {}
         html_body = render_html(
             "div",
             card_body_classes,
@@ -890,12 +891,12 @@ class PageBreak(Section):
     def __post_init__(self) -> None:
         self.title_html_tag = ""
         self.title_classes = []
-        self.title_styles = dict()
+        self.title_styles = {}
 
         self.body_html_tag = "div"
         self.body_classes = []
         # // self.body_styles = {"page-break-after": "always"}
-        self.body_styles = dict()
+        self.body_styles = {}
 
 
 def table_of_contents(

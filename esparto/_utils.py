@@ -1,17 +1,21 @@
 import re
-from typing import TYPE_CHECKING, Any, Callable, Dict, Iterable, List, Union, Optional
+from typing import TYPE_CHECKING, Any, Callable, Dict, Iterable, List, Optional, Union
 
 if TYPE_CHECKING:
-    from esparto._layout import Layout
     from esparto._content import Content
+    from esparto._layout import Layout
 
 
-def get_index_where(condition: Callable[..., bool], iterable: Iterable[Any]) -> List[int]:
+def get_index_where(
+    condition: Callable[..., bool], iterable: Iterable[Any]
+) -> List[int]:
     """Return index values where `condition` is `True`."""
     return [idx for idx, item in enumerate(iterable) if condition(item)]
 
 
-def get_matching_titles(title: str, children: List[Union[Layout, Content]]) -> List[int]:
+def get_matching_titles(
+    title: str, children: List[Union["Layout", "Content"]]
+) -> List[int]:
     """Return child items with matching title."""
     return get_index_where(lambda x: bool(getattr(x, "title", None) == title), children)
 
@@ -38,7 +42,7 @@ def clean_iterator(iterator: Iterable[Any]) -> Iterable[Any]:
     iterator = (
         list(iterator) if isinstance(iterator, (list, tuple, set)) else [iterator]
     )
-    # Unnest any nested lists of children
+    # Un-nest any nested lists of children
     if len(list(iterator)) == 1 and isinstance(list(iterator)[0], (list, tuple, set)):
         iterator = list(iterator)[0]
     return iterator
@@ -73,7 +77,9 @@ def render_html(
     return rendered
 
 
-def responsive_svg_mpl(source: str, width: Optional[int] = None, height: Optional[int] = None) -> str:
+def responsive_svg_mpl(
+    source: str, width: Optional[int] = None, height: Optional[int] = None
+) -> str:
     """Make SVG element responsive."""
 
     regex_w = r"width=\S*"
