@@ -1,45 +1,5 @@
-/* Print friendly page formatting */
-@page {
-    size: auto;
-    margin: 15mm 20mm;
-}
+/* * Layout Styles */
 
-@media print {
-    html,
-    body,
-    main {
-        border: 1px solid white;
-        width: 90%;
-        height: auto;
-    }
-    .row {
-        page-break-inside: avoid;
-        page-break-after: auto;
-        page-break-before: auto;
-    }
-    .es-column-body, .es-card {
-        flex: 1 !important;
-    }
-}
-
-
-/* Extra Small tables */
-.table-xs td, th {
-    padding: 0 !important;
-    padding-left: .3rem !important;
-    padding-right: .3rem !important;
-}
-
-.table-xs th {
-    text-align: left;
-}
-
-.table-xs td {
-    text-align: right;
-}
-
-
-/* Sticky footer styles */
 html {
     position: relative;
     min-height: 100%;
@@ -47,6 +7,161 @@ html {
 
 body {
     margin-bottom: 35px;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+        Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
+        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+pre,
+code {
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+        "Courier New", monospace;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+.es-page-title,
+.es-section-title,
+.es-row-title,
+.es-column-title,
+.es-card-title {
+    margin-top: 0.75em;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0.5em;
+}
+
+.es-page-title {
+    font-size: 3.5em;
+    font-weight: 300;
+}
+
+h1 {
+    font-size: 2em;
+}
+
+h2,
+.es-section-title {
+    font-size: 1.5em;
+}
+
+h3,
+.es-row-title,
+.es-column-title,
+.es-card-title {
+    font-size: 1.2em;
+}
+
+h4 {
+    font-size: 1em;
+}
+
+h5 {
+    font-size: 1em;
+}
+
+h6 {
+    font-size: 0.9em;
+}
+
+p {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+
+.es-figure {
+    text-align: center;
+    margin: 0;
+    padding: 0.5rem;
+    padding-bottom: 1rem;
+}
+
+.es-matplotlib-figure {
+    margin: 0;
+    padding: 0;
+}
+
+.es-bokeh-figure .es-plotly-figure {
+    margin-bottom: 1rem;
+}
+
+.es-page-body {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.es-section-body {
+    margin-bottom: 1rem;
+    padding-left: 1px;
+    padding-right: 1px;
+    align-items: flex-start;
+}
+
+.es-row-body {
+    align-items: flex-start;
+}
+
+.es-column-body {
+    margin-bottom: 1rem;
+}
+
+.es-card {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+}
+
+.es-card-title {
+    margin: 0;
+}
+
+.es-card-body {
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    margin: 0;
+    padding: 1.25rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    min-height: 100%;
+}
+
+.es-page-break {
+    page-break-after: always;
+}
+
+.es-table {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+.es-table td,
+th {
+    padding: 0 !important;
+    padding-left: 0.3rem !important;
+    padding-right: 0.3rem !important;
+}
+
+.es-table th {
+    text-align: left;
+}
+
+.es-table td {
+    text-align: right;
+}
+
+/* Responsive SVG */
+.svg-content-mpl {
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    bottom: 0px;
+    margin: auto;
 }
 
 .footer {
@@ -62,12 +177,15 @@ body {
     margin-bottom: 0;
 }
 
-
-/* Responsive SVG */
-.svg-content-mpl {
-    width: 100%;
-    height: 100%;
-    top: 0px;
-    bottom: 0px;
-    margin: auto;
+@media print {
+    .row {
+        page-break-inside: avoid;
+        page-break-after: auto;
+        page-break-before: auto;
+    }
+    .es-column-body,
+    .es-card,
+    .es-card-body {
+        flex: 1 !important;
+    }
 }

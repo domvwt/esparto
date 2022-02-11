@@ -6,6 +6,8 @@ esparto-doc.html
 esparto-quick.html
 esparto-doc.pdf
 docs/examples/*.html
+/*.html
+/*.pdf
 
 # IDE files
 .vscode
@@ -113,3 +115,5 @@ ENV/
 
 # mypy
 .mypy_cache/
+.markdownlint.json
+my-report.html
