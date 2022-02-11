@@ -92,8 +92,8 @@ def responsive_svg_mpl(
     source = re.sub(regex_h, height_, source, count=1)
 
     # Preserve aspect ratio of SVG
-    regexp = r"<svg"
-    repl = '<svg class="svg-content-mpl" preserveAspectRatio="xMinYMin meet" '
-    source = re.sub(regexp, repl, source, count=1)
+    old_str = r"<svg"
+    new_str = '<svg class="svg-content-mpl" preserveAspectRatio="xMinYMin meet" '
+    source = source.replace(old_str, new_str, 1)
 
     return source
