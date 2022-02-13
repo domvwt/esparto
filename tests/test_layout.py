@@ -4,7 +4,6 @@ import pytest
 
 import esparto._content as co
 import esparto._layout as la
-from tests.conftest import _irises_path
 
 
 def test_all_layout_classes_covered(layout_list_fn):
@@ -121,10 +120,10 @@ layout_add_list = [
     ),
     (
         la.Page(),
-        _irises_path,
+        "chet baker",
         la.Page(
             children=la.Section(
-                children=la.Row(children=la.Column(children=co.Image(_irises_path)))
+                children=la.Row(children=la.Column(children=co.Markdown("chet baker")))
             )
         ),
     ),

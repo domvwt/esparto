@@ -115,8 +115,8 @@ Dependencies
 - [python](https://python.org/) >= 3.6
 - [jinja2](https://palletsprojects.com/p/jinja/)
 - [markdown](https://python-markdown.github.io/)
-- [Pillow](https://python-pillow.org/)
 - [PyYAML](https://pyyaml.org/)
+- [Pillow](https://python-pillow.org/) _(optional - required for image output)_
 - [weasyprint](https://weasyprint.org/) _(optional - required for PDF output)_
 
 License
