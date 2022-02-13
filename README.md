@@ -67,6 +67,10 @@ Basic Usage
 ```python
 import esparto as es
 
+# Do some analysis
+pandas_dataframe = ...
+plotly_figure = ...
+
 # Create a Page object
 page = es.Page(title="My Report")
 
@@ -82,13 +86,13 @@ page.save_pdf("my-report.pdf")
 Main Features
 -------------
 
-- Adaptive layout
-- Customisable with CSS and Jinja
-- Jupyter Notebook friendly
-- Output as HTML or PDF
-- Built-in adaptors for:
-  - Markdown
-  - Images
+- Develop and view output in Jupyter Notebooks
+- Share as HTML or PDF
+- Customise with CSS and Jinja
+- Responsive Bootstrap grid layout
+- Content adaptors for:
+  - [Markdown][Markdown]
+  - [Images][Pillow]
   - [Pandas DataFrames][Pandas]
   - [Matplotlib][Matplotlib]
   - [Bokeh][Bokeh]
@@ -159,9 +163,11 @@ Bokeh and Plotly - [Webpage](https://domvwt.github.io/esparto/examples/interacti
 <!-- * Links -->
 [PyPI]: https://pypi.org/project/esparto/
 [Conda]: https://anaconda.org/conda-forge/esparto
-[Bootstrap]: https://getbootstrap.com/docs/4.6/getting-started/introduction/
+[Bootstrap]: https://getbootstrap.com/
+[Markdown]: https://www.markdownguide.org/
+[Pillow]: https://python-pillow.org/
 [Pandas]: https://pandas.pydata.org/
 [Matplotlib]: https://matplotlib.org/
-[Bokeh]: https://docs.bokeh.org/en/latest/index.html
+[Bokeh]: https://bokeh.org/
 [Plotly]: https://plotly.com/
 [GitHub]: https://github.com/domvwt/esparto
