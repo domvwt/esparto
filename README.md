@@ -1,18 +1,21 @@
 esparto
 =======
 
-- [ ] TODO: Create develop branch
-- [ ] TODO: Move CSS styles to esparto.css
-- [ ] TODO: Retire bootstrap CSS apart from grid layout - cleaner table style
-- [ ] TODO: Minify esparto html - no, this is non-trivial
-- [ ] TODO: Update README documentation to explain project
-- [ ] TODO: Do NOT remove optional css styles from layout elements
-- [ ] TODO: Custom page icon emoji
-- [ ] TODO: Replace iris report example image in README
-- [ ] TODO: Update examples in docs
-- [ ] TODO: Update docs
-- [ ] TODO: Refactor options - pass to page object
-- [ ] TODO: Allow linked stylesheets via 'url' option
+- [x] Create develop branch
+- [x] Move CSS styles to esparto.css
+- [x] Retire bootstrap CSS apart from grid layout
+- [ ] Make pillow optional dependency
+- [ ] Update esparto options to .rc
+- [ ] Make PyYaml optional, use JSON and .ini
+- [ ] Cleaner table style?
+- [ ] Update README documentation to explain project
+- [ ] Do NOT remove optional css styles from layout elements
+- [ ] Custom page icon emoji
+- [ ] Replace iris report example image in README
+- [ ] Update examples in docs
+- [ ] Update docs
+- [ ] Refactor options - pass to page object
+- [ ] Allow linked stylesheets via 'url' option
 
 <!--
 <http://codesqueeze.com/the-7-software-ilities-you-need-to-know/>
