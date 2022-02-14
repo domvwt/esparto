@@ -5,6 +5,7 @@ esparto
 - [x] Move CSS styles to esparto.css
 - [x] Retire bootstrap CSS apart from grid layout
 - [x] Make pillow optional dependency
+- [ ] Migrate CICD away from Travis
 - [ ] Update esparto options to .rc
 - [ ] Make PyYaml optional, use JSON and .ini
 - [ ] Cleaner table style?
