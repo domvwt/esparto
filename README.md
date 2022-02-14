@@ -4,7 +4,9 @@ esparto
 - [x] Create develop branch
 - [x] Move CSS styles to esparto.css
 - [x] Retire bootstrap CSS apart from grid layout
-- [ ] Make pillow optional dependency
+- [x] Make pillow optional dependency
+- [x] Add markdown extensions
+- [ ] Fix footer width and remove styles from jinja
 - [ ] Update esparto options to .rc
 - [ ] Make PyYaml optional, use JSON and .ini
 - [ ] Cleaner table style?
