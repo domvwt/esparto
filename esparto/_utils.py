@@ -1,15 +1,23 @@
 import re
-from typing import Callable, Dict, Iterable, List
+from typing import TYPE_CHECKING, Any, Callable, Dict, Iterable, List, Optional, Union
+
+if TYPE_CHECKING:
+    from esparto._content import Content
+    from esparto._layout import Layout
 
 
-def get_index_where(condition: Callable[..., bool], iterable: Iterable) -> List[int]:
+def get_index_where(
+    condition: Callable[..., bool], iterable: Iterable[Any]
+) -> List[int]:
     """Return index values where `condition` is `True`."""
     return [idx for idx, item in enumerate(iterable) if condition(item)]
 
 
-def get_matching_titles(title: str, children: list) -> List[int]:
+def get_matching_titles(
+    title: str, children: List[Union["Layout", "Content"]]
+) -> List[int]:
     """Return child items with matching title."""
-    return get_index_where(lambda x: getattr(x, "title", None) == title, children)
+    return get_index_where(lambda x: bool(getattr(x, "title", None) == title), children)
 
 
 def clean_attr_name(attr_name: str) -> str:
@@ -29,18 +37,18 @@ def clean_attr_name(attr_name: str) -> str:
     return attr_name
 
 
-def clean_iterator(iterator: Iterable) -> Iterable:
+def clean_iterator(iterator: Iterable[Any]) -> Iterable[Any]:
     # Convert any non-list iterators to lists
     iterator = (
         list(iterator) if isinstance(iterator, (list, tuple, set)) else [iterator]
     )
-    # Unnest any nested lists of children
+    # Un-nest any nested lists of children
     if len(list(iterator)) == 1 and isinstance(list(iterator)[0], (list, tuple, set)):
         iterator = list(iterator)[0]
     return iterator
 
 
-def public_dict(d: dict) -> dict:
+def public_dict(d: Dict[str, Any]) -> Dict[str, Any]:
     """Remove keys starting with '_' from dict."""
     return {
         k: v for k, v in d.items() if not (isinstance(k, str) and k.startswith("_"))
@@ -52,8 +60,8 @@ def render_html(
     classes: List[str],
     styles: Dict[str, str],
     children: str,
-    identifier: str = None,
-):
+    identifier: Optional[str] = None,
+) -> str:
     """Render HTML from provided attributes."""
     class_str = " ".join(classes) if classes else ""
     class_str = f"class='{class_str}'" if classes else ""
@@ -69,7 +77,9 @@ def render_html(
     return rendered
 
 
-def responsive_svg_mpl(source: str, width: int = None, height: int = None) -> str:
+def responsive_svg_mpl(
+    source: str, width: Optional[int] = None, height: Optional[int] = None
+) -> str:
     """Make SVG element responsive."""
 
     regex_w = r"width=\S*"
@@ -82,8 +92,8 @@ def responsive_svg_mpl(source: str, width: int = None, height: int = None) -> st
     source = re.sub(regex_h, height_, source, count=1)
 
     # Preserve aspect ratio of SVG
-    regexp = r"<svg"
-    repl = '<svg class="svg-content-mpl" preserveAspectRatio="xMinYMin meet" '
-    source = re.sub(regexp, repl, source, count=1)
+    old_str = r"<svg"
+    new_str = '<svg class="svg-content-mpl" preserveAspectRatio="xMinYMin meet" '
+    source = source.replace(old_str, new_str, 1)
 
     return source
