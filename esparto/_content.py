@@ -125,7 +125,7 @@ class Markdown(Content):
         self.content: str = text
 
     def to_html(self, **kwargs) -> str:
-        html = md.markdown(self.content)
+        html = md.markdown(self.content, extensions=["extra", "smarty"])
         html = f"{html}\n"
         # // html = f"<div class='px-1'>\n{html}\n</div>"
         html = f"<div class='es-markdown'>\n{html}\n</div>"
