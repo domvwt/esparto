@@ -9,21 +9,19 @@ from tests.conftest import _EXTRAS, content_list, layout_list
 
 
 def html_is_valid(html: Optional[str], fragment: bool = False):
-    if _EXTRAS:
-        from html5lib import HTMLParser  # type: ignore
+    from html5lib import HTMLParser  # type: ignore
 
-        htmlparser = HTMLParser(strict=True)
-        try:
-            if fragment:
-                htmlparser.parseFragment(html)
-            else:
-                htmlparser.parse(html)
-            success = True
-        except Exception as e:
-            print(e)
-            success = False
-        return success
-    return True
+    htmlparser = HTMLParser(strict=True)
+    try:
+        if fragment:
+            htmlparser.parseFragment(html)
+        else:
+            htmlparser.parse(html)
+        success = True
+    except Exception as e:
+        print(e)
+        success = False
+    return success
 
 
 @pytest.mark.parametrize("content", (*content_list, *layout_list))
