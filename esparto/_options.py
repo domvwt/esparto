@@ -113,10 +113,10 @@ class ConfigOptions(ConfigMixin):
 
     dependency_source: str = "cdn"
     bootstrap_cdn: str = (
-        '<link rel="stylesheet" '
-        'href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap-grid.min.css" '
-        'integrity="sha512-q0LpKnEKG/pAf1qi1SAyX0lCNnrlJDjAvsyaygu07x8OF4CEOpQhBnYiFW6YDUnOOcyAEiEYlV4S9vEc6akTEw==" '
-        'crossorigin="anonymous" referrerpolicy="no-referrer" />'
+        "<link rel='stylesheet' "
+        "href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap-grid.min.css' "
+        "integrity='sha512-q0LpKnEKG/pAf1qi1SAyX0lCNnrlJDjAvsyaygu07x8OF4CEOpQhBnYiFW6YDUnOOcyAEiEYlV4S9vEc6akTEw==' "
+        "crossorigin='anonymous' referrerpolicy='no-referrer'>"
     )
     bootstrap_css: str = str(_MODULE_PATH / "resources/css/bootstrap-grid.min.css")
     esparto_css: str = str(_MODULE_PATH / "resources/css/esparto.css")
