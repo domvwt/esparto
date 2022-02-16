@@ -11,6 +11,7 @@ from esparto import _INSTALLED_MODULES, _OPTIONAL_DEPENDENCIES
 _EXTRAS = _OPTIONAL_DEPENDENCIES <= _INSTALLED_MODULES
 
 _irises_path = str(Path("tests/resources/irises.jpg").absolute())
+_markdown_path = str(Path("tests/resources/markdown.md").absolute())
 
 with Path(_irises_path).open("rb") as f:
     _irises_binary = BytesIO(f.read())
@@ -19,7 +20,6 @@ with Path(_irises_path).open("rb") as f:
 # Add new content classes here
 content_list = [
     (co.Markdown("this _is_ some **markdown**")),
-    (co.Image(_irises_path)),
     (co.RawHTML("<p>Raw HTML</p>")),
 ]
 
@@ -39,8 +39,8 @@ layout_list = [
 # Add new adaptor types here
 adaptor_list = [
     ("this is markdown", co.Markdown),
-    (_irises_path, co.Image),
-    (Path(_irises_path), co.Image),
+    ({"key": "value"}, dict),
+    (Path(_markdown_path), co.Markdown),
 ]
 
 if _EXTRAS:
@@ -57,6 +57,7 @@ if _EXTRAS:
 
     # svg output format cannot be parsed in testing
     content_extra = [
+        (co.Image(_irises_path)),
         (co.DataFramePd(pd.DataFrame({"a": range(1, 11), "b": range(11, 21)}))),
         (co.FigureMpl(plt.Figure(), output_format="png")),
         (co.FigureBokeh(bkp.figure())),
@@ -74,6 +75,8 @@ if _EXTRAS:
     ]
 
     adaptors_extra = [
+        (_irises_path, co.Image),
+        (Path(_irises_path), co.Image),
         (pd.DataFrame({"a": range(1, 11), "b": range(11, 21)}), co.DataFramePd),
         (plt.figure(), co.FigureMpl),
         (bkp.Figure(), co.FigureBokeh),

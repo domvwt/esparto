@@ -21,6 +21,7 @@ _MODULE_PATH: _Path = _Path(__file__).parent.absolute()
 
 
 _OPTIONAL_DEPENDENCIES: _Set[str] = {
+    "PIL",
     "bs4",
     "IPython",
     "matplotlib",
