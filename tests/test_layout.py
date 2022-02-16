@@ -1,3 +1,4 @@
+from copy import copy
 from itertools import chain
 
 import pytest
@@ -193,6 +194,36 @@ def test_set_item_existing_attr(page_basic_layout):
     page["Section One"]["Row One"] = "different content"
     page.section_one.row_one = "markdown content"
     assert page == page_basic_layout
+
+
+def test_set_column_as_dict(page_basic_layout):
+    page = la.Page(title="Test Page")
+
+    expected = page_basic_layout
+    expected[0][0][0] = la.Column(title="Column One", children=["markdown content"])
+
+    page["Section One"]["Row One"]["Wrong Title"] = {"Column One": "markdown content"}
+
+    assert page == expected
+
+
+def test_set_column_as_dict_tuple():
+    page = la.Page(title="Test Page")
+    with pytest.raises(TypeError):
+        page["Section One"]["Row One"]["Column One"] = {
+            "Column One": "markdown content"
+        }, {"Column Two": "markdown content"}
+
+
+def test_set_row_as_dict_tuple():
+    page = la.Page(title="Test Page")
+    expected = copy(page)
+    expected["Section One"]["Row One"]["Column One"] = "markdown content"
+    expected["Section One"]["Row One"]["Column Two"] = "markdown content"
+    page["Section One"]["Row One"] = {"Column One": "markdown content"}, {
+        "Column Two": "markdown content"
+    }
+    assert page == expected
 
 
 def test_delitem_str(page_basic_layout):
