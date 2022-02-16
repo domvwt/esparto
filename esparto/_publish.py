@@ -83,7 +83,7 @@ def publish_pdf(
 
     """
     if "weasyprint" not in _INSTALLED_MODULES:
-        raise ModuleNotFoundError("Install weasyprint for PDF support")
+        raise ModuleNotFoundError("Install `weasyprint` for PDF support.")
     import weasyprint as wp  # type: ignore
 
     temp_dir = Path(options._pdf_temp_dir)

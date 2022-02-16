@@ -17,50 +17,42 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.6.1,<4.0"
-jinja2 = ">=2.10.1,<4.0.0"
-markdown = "^3.1"
-Pillow = ">=7.0.0,<9"
-dataclasses = {version = "*", python = "<3.7"}
-beautifulsoup4 = {version = ">=4.7", optional = true}
-weasyprint = {version = ">=51, <53", optional = true}
+python = ">=3.6.1"
+jinja2 = ">=2.10.1"
+markdown = ">=3.1"
 pyyaml = ">=5.1"
+dataclasses = {version = "*", python = "<3.7"}
+Pillow = {version = ">=7.0.0", optional = true}
+beautifulsoup4 = {version = ">=4.7", optional = true}
+weasyprint = {version = ">=51", optional = true}
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"
 pytest = "^6.2.2"
-pyment = "^0.3.3"
 rope = "^0.19.0"
 IPython = "^7.3"
-jedi = "0.17.2"
 mkdocs = "^1.1.2"
 matplotlib = "^3.3.0"
 html5lib = "^1.1"
 pandas = "^1.0.0"
 beautifulsoup4 = "^4.9.3"
-mkdocs-bootstrap4 = "^0.1.5"
-coverage = "^5.5"
+coverage = {version = "^5.5", python = "<4"}
 mkdocs-material = "^7.1.0"
-mkdocstrings = "^0.15.0"
+mkdocstrings = {version = "^0.15.0", python = "<4"}
 pre-commit = "^2.12.0"
 tox = "^3.23.0"
 mypy = "^0.902"
-isort = "^5.8.0"
+isort = {version = "^5.8.0", python = "<4"}
 flake8 = "^3.9.0"
 bokeh = "^2.3.1"
 plotly = "^4.14.3"
 pandas-bokeh = "^0.5.5"
 weasyprint = "52.5"
 kaleido = "^0.2.1,!=0.2.1.post1"
-sklearn = "^0.0"
-shap = "^0.39.0"
-zipp = "^3.4.1"
 types-Markdown = "^3.3.0"
-jupyter = "<6"
-jupyter-contrib-nbextensions = "^0.5.1"
 
 [tool.poetry.extras]
-extras = ["beautifulsoup4", "weasyprint"]
+extras = ["beautifulsoup4", "weasyprint", "Pillow"]
 
 [tool.isort]
 profile = "black"
