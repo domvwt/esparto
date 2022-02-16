@@ -1,8 +1,8 @@
 from pathlib import Path
 
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
+import matplotlib.pyplot as plt  # type: ignore
+import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
 
 import esparto as es
 
@@ -69,6 +69,14 @@ def example_02():
     page.save_pdf("page02.pdf")
 
 
+def example_03():
+    page = es.Page()
+    page += "tests/resources/markdown.md"
+    page.save_html("page03.html")
+    page.save_pdf("page03.pdf")
+
+
 if __name__ == "__main__":
     example_01()
     example_02()
+    example_03()

@@ -8,13 +8,15 @@ from typing import Any, Set, Tuple, Union
 from uuid import uuid4
 
 import markdown as md
-import PIL.Image as Img  # type: ignore
-from PIL.Image import Image as PILImage
 
 from esparto import _INSTALLED_MODULES
 from esparto._options import options
 from esparto._publish import nb_display
 from esparto._utils import responsive_svg_mpl
+
+if "PIL" in _INSTALLED_MODULES:
+    import PIL.Image as Img  # type: ignore
+    from PIL.Image import Image as PILImage
 
 if "pandas" in _INSTALLED_MODULES:
     from pandas import DataFrame  # type: ignore
@@ -123,7 +125,7 @@ class Markdown(Content):
         self.content: str = text
 
     def to_html(self, **kwargs) -> str:
-        html = md.markdown(self.content)
+        html = md.markdown(self.content, extensions=["extra", "smarty"])
         html = f"{html}\n"
         # // html = f"<div class='px-1'>\n{html}\n</div>"
         html = f"<div class='es-markdown'>\n{html}\n</div>"
@@ -134,6 +136,8 @@ class Image(Content):
     """Image content.
 
     Can be read from a filepath, PIL.Image object, or from bytes.
+
+    Requires optional `Pillow` library.
 
     Only one of `scale`, `set_width`, or `set_height` should be used.
     If more than one is populated, the values will be prioritised in the order:
@@ -153,16 +157,18 @@ class Image(Content):
 
     def __init__(
         self,
-        image: Union[str, Path, PILImage, BytesIO],
+        image: Union[str, Path, "PILImage", BytesIO],
         caption: str = "",
         alt_text: str = "Image",
         scale: float = None,
         set_width: int = None,
         set_height: int = None,
     ):
+        if "PIL" not in _INSTALLED_MODULES:
+            raise ModuleNotFoundError("Install `Pillow` for image content support.")
 
         if not isinstance(image, (str, Path, PILImage, BytesIO)):
-            raise TypeError(r"image must be one of {str, Path, PIL.Image, BytesIO}")
+            raise TypeError(r"`image` must be one of {str, Path, PIL.Image, BytesIO}")
 
         self.content = image
         self.alt_text = alt_text
@@ -497,7 +503,7 @@ def _remove_outer_div(html: str) -> str:
     return html
 
 
-def _image_to_base64(image: PILImage) -> str:
+def _image_to_base64(image: "PILImage") -> str:
     """
     Convert an image from PIL to base64 representation.
 
@@ -515,8 +521,8 @@ def _image_to_base64(image: PILImage) -> str:
 
 
 def _rescale_image(
-    image: PILImage, width: int = None, height: int = None, scale: float = None
-) -> PILImage:
+    image: "PILImage", width: int = None, height: int = None, scale: float = None
+) -> "PILImage":
     """Rescale image by width in px, height in px, or ratio."""
     image = image.copy()
     new_size = _rescale_dims(image.size, width, height, scale)
