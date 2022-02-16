@@ -682,6 +682,12 @@ class Row(Layout):
     def _child_class(self):
         return Column
 
+    def __setitem__(self, key: Union[str, int], value: Any):
+        if isinstance(value, dict):
+            title, content = list(value.items())[0]
+            value = self._child_class(title=title, children=[content])
+        super().__setitem__(key, value)
+
 
 class Column(Layout):
     """Layout class that defines a Column.
