@@ -8,11 +8,6 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  {% if esparto_css %}
-  <style>
-  {{ esparto_css }}
-  </style>
-  {% endif %}
 
   {% if head_deps is defined and head_deps|length %}
   <!-- Required dependencies -->
@@ -20,13 +15,17 @@
   {{ dep }}
   {% endfor %}
   {% endif %}
+
+  {% if esparto_css %}
+  <style>
+  {{ esparto_css }}
+  </style>
+  {% endif %}
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-md navbar-light bg-light mb-3">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">{{ navbrand }}</a>
-    </div>
+  <nav class="navbar d-flex navbar-expand-md navbar-light bg-light mb-3 d-print-none" width="100vw">
+      <a class="navbar-brand" style="margin-left: 10vw;" href="#">{{ navbrand }}</a>
   </nav>
 
   <!-- GENERATED CONTENT START -->
@@ -40,17 +39,10 @@
   {% endif %}
 
   <!-- Footer -->
-  <div class="d-print-none" style='height: 3rem;'></div>
-  <footer class="footer d-print-none bg-light">
-    <div class="container">
-      <div class="row justify-items-about">
-        <div class="col">
-          <a href="https://domvwt.github.io/esparto/">
-            <small class="text-dark font-italic">esparto</small>
-          </a>
-        </div>
-      </div>
-    </div>
+  <footer class="footer d-flex bg-light mt-5 d-print-none" width="100vw" height="2em">
+    <a class="small text-decoration-none text-dark fst-italic" style="margin-left: 10vw; padding: 0.3em;" href="https://domvwt.github.io/esparto/">
+      esparto
+    </a>
   </footer>
 </body>
 

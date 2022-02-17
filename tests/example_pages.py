@@ -3,6 +3,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt  # type: ignore
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
+import plotly.express as px  # type: ignore
 
 import esparto as es
 
@@ -26,7 +27,7 @@ df = df
 
 
 def example_01():
-    page = es.Page(title="Test Page", table_of_contents=2)
+    page = es.Page(title="Columns Page", navbrand="esparto", table_of_contents=2)
 
     page["Section One"]["Row One"]["Column One"] = lorem
     page["Section Two"] = es.Section()
@@ -51,7 +52,7 @@ def example_01():
 
 
 def example_02():
-    page = es.Page(title="Test Page")
+    page = es.Page(title="Matplotlib Page")
 
     _ = df.plot.hist(alpha=0.4, bins=30)
     fig = plt.gcf()
@@ -70,13 +71,33 @@ def example_02():
 
 
 def example_03():
-    page = es.Page()
+    page = es.Page(title="Markdown Page")
     page += "tests/resources/markdown.md"
     page.save_html("page03.html")
     page.save_pdf("page03.pdf")
+
+
+def example_04():
+    page = es.Page(title="Plotly Page")
+
+    fig = px.scatter(data_frame=df, x="A", y="B")
+
+    page[0][0] = df[:10], fig
+
+    page[0][1] = ({"fig": fig}, {"table": df[:10]})
+
+    page[0][2] = es.CardRowEqual(children=[{"fig": fig}, {"table": df[:10]}][::-1])
+
+    page[0][3] = {"text": lorem}, {"table": df[:10]}
+
+    page[0][4] = ({"fig": fig}, {"fig": fig})
+
+    page.save_html("page04.html")
+    page.save_pdf("page04.pdf")
 
 
 if __name__ == "__main__":
     example_01()
     example_02()
     example_03()
+    example_04()
