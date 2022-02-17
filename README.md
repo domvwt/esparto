@@ -7,9 +7,8 @@ esparto
 - [x] Make pillow optional dependency
 - [x] Add markdown extensions
 - [x] Migrate CICD away from Travis
-- [ ] Fix footer width and remove styles from jinja
+- [x] REVERT TO BOOTSTRAP CSS
 - [ ] Update esparto options to .rc
-- [ ] Make PyYaml optional, use JSON and .ini
 - [ ] Cleaner table style?
 - [ ] Update README documentation to explain project
 - [ ] Do NOT remove optional css styles from layout elements

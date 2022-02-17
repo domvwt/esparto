@@ -114,11 +114,11 @@ class ConfigOptions(ConfigMixin):
     dependency_source: str = "cdn"
     bootstrap_cdn: str = (
         "<link rel='stylesheet' "
-        "href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap-grid.min.css' "
-        "integrity='sha512-q0LpKnEKG/pAf1qi1SAyX0lCNnrlJDjAvsyaygu07x8OF4CEOpQhBnYiFW6YDUnOOcyAEiEYlV4S9vEc6akTEw==' "
+        "href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css' "
+        "integrity='sha512-GQGU0fMMi238uA+a/bdWJfpUGKUkBdgfFdgBm72SUQ6BeyWjoY/ton0tEjH+OSH9iP4Dfh+7HM0I9f5eR0L/4w==' "
         "crossorigin='anonymous' referrerpolicy='no-referrer'>"
     )
-    bootstrap_css: str = str(_MODULE_PATH / "resources/css/bootstrap-grid.min.css")
+    bootstrap_css: str = str(_MODULE_PATH / "resources/css/bootstrap.css")
     esparto_css: str = str(_MODULE_PATH / "resources/css/esparto.css")
     jinja_template: str = str(_MODULE_PATH / "resources/jinja/base.html.jinja")
 
