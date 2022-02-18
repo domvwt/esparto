@@ -1,6 +1,11 @@
 esparto
 =======
 
+<!--
+
+TODO
+----
+
 - [x] Create develop branch
 - [x] Move CSS styles to esparto.css
 - [x] Retire bootstrap CSS apart from grid layout
@@ -8,7 +13,8 @@ esparto
 - [x] Add markdown extensions
 - [x] Migrate CICD away from Travis
 - [x] REVERT TO BOOTSTRAP CSS
-- [ ] Update esparto options to .rc
+- [x] FIX: Move JavaScript to end of body
+- [ ] Update esparto options to .rc?
 - [ ] Cleaner table style?
 - [ ] Update README documentation to explain project
 - [ ] Do NOT remove optional css styles from layout elements
@@ -19,7 +25,6 @@ esparto
 - [ ] Refactor options - pass to page object
 - [ ] Allow linked stylesheets via 'url' option
 
-<!--
 <http://codesqueeze.com/the-7-software-ilities-you-need-to-know/>
 
 This project prioritises:
@@ -53,7 +58,7 @@ Because of enterprise requirements:
 
 [![image](https://img.shields.io/pypi/v/esparto.svg)](https://pypi.python.org/pypi/esparto)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/esparto.svg)](https://pypi.python.org/pypi/esparto/)
-[![Build Status](https://travis-ci.com/domvwt/esparto.svg?branch=main)](https://travis-ci.com/domvwt/esparto)
+![Build Status](https://github.com/domvwt/esparto/actions/workflows/lint-and-test.yml/badge.svg)
 [![codecov](https://codecov.io/gh/domvwt/esparto/branch/main/graph/badge.svg?token=35J8NZCUYC)](https://codecov.io/gh/domvwt/esparto)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&metric=alert_status)](https://sonarcloud.io/dashboard?id=domvwt_esparto)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/esparto)
@@ -76,7 +81,7 @@ plotly_figure = ...
 # Create a Page object
 page = es.Page(title="My Report")
 
-# Add Python objects as content
+# Add content
 page["Data Analysis"] = (pandas_dataframe, plotly_figure)
 
 # Save to HTML or PDF

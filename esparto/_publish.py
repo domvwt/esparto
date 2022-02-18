@@ -1,5 +1,6 @@
 """Functions that render and save documents."""
 
+import re
 import time
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional, Union
@@ -57,14 +58,14 @@ def publish_html(
         head_deps=resolved_deps.head,
         tail_deps=resolved_deps.tail,
     )
-    html_prettified = _prettify_html(html_rendered)
+    html_rendered = _prettify_html(html_rendered)
+    html_rendered = _relocate_scripts(html_rendered)
 
     if filepath:
-        with open(filepath, "w") as f:
-            f.write(html_prettified)
+        Path(filepath).write_text(html_rendered)
 
     if return_html:
-        return html_prettified
+        return html_rendered
     return None
 
 
@@ -142,15 +143,16 @@ def nb_display(
     head_deps = "\n".join(resolved_deps.head)
     tail_deps = "\n".join(resolved_deps.tail)
     html = item.to_html(notebook_mode=True)
-    render_html = (
+    html_rendered = (
         f"<div class='container' style='width: 100%; height: 100%;'>\n{html}\n</div>\n"
     )
-    render_html += f"<style>\n{esparto_css}\n</style>\n"
+    html_rendered += f"<style>\n{esparto_css}\n</style>\n"
 
-    render_html = (
+    html_rendered = (
         f"<!doctype html>\n<html>\n<head>{head_deps}</head>\n"
-        f"<body>\n{render_html}\n{tail_deps}\n</body>\n</html>\n"
+        f"<body>\n{html_rendered}\n{tail_deps}\n</body>\n</html>\n"
     )
+    html_rendered = _relocate_scripts(html_rendered)
     print()
 
     # This allows time to download plotly.js from the CDN - otherwise cell can render empty
@@ -164,11 +166,11 @@ def nb_display(
     else:
         extra_css = ""
 
-    display(HTML(extra_css + render_html), metadata=dict(isolated=True))
+    display(HTML(extra_css + html_rendered), metadata=dict(isolated=True))
     print()
 
     if return_html:
-        return render_html
+        return html_rendered
     return None
 
 
@@ -181,3 +183,26 @@ def _prettify_html(html: Optional[str]) -> str:
         html = str(BeautifulSoup(html, features="html.parser").prettify())
 
     return html or ""
+
+
+def _relocate_scripts(html: str) -> str:
+    """Move all JavaScript in page body to end of section."""
+    pattern = re.compile(r"<script.+?/script>", re.DOTALL)
+    head, body = html.split("<body>", 1)
+    script_list = re.findall(pattern, body)
+    if script_list:
+        body = re.sub(pattern, "", body)
+        for script in script_list:
+            body.replace(script, "")
+        body_content, post_body = body.rsplit("</body>", 1)
+        html = "".join(
+            [
+                head,
+                "<body>",
+                body_content,
+                *script_list,
+                "</body>",
+                post_body,
+            ]
+        )
+    return html

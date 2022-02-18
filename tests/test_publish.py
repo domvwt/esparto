@@ -95,6 +95,34 @@ def test_saved_html_valid_toc(page_layout: es.Page, tmp_path):
     assert html_is_valid(html)
 
 
+def test_relocate_scripts():
+    html = "".join(
+        """
+        <body>
+            <div>here is some content</div>
+            <div>
+            <script>this is some javacript</script>
+            </div>
+            <div>here is some more content</div>
+        </body>
+    """.split()
+    )
+
+    expected = "".join(
+        """
+        <body>
+            <div>here is some content</div>
+            <div>
+            </div>
+            <div>here is some more content</div>
+            <script>this is some javacript</script>
+        </body>
+    """.split()
+    )
+    output = pu._relocate_scripts(html)
+    assert output == expected
+
+
 if _EXTRAS:
     from tests.conftest import content_pdf
 
