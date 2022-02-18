@@ -197,8 +197,8 @@ def _relocate_scripts(html: str) -> str:
         body_content, post_body = body.rsplit("</body>", 1)
         html = "".join(
             [
-                "<body>",
                 head,
+                "<body>",
                 body_content,
                 *script_list,
                 "</body>",
