@@ -187,12 +187,22 @@ def _prettify_html(html: Optional[str]) -> str:
 
 def _relocate_scripts(html: str) -> str:
     """Move all JavaScript in page body to end of section."""
-    pattern = r"<script.+?/script>"
+    pattern = re.compile(r"<script.+?/script>", re.DOTALL)
     head, body = html.split("<body>", 1)
-    script_list = re.findall(pattern, body, re.DOTALL)
+    script_list = re.findall(pattern, body)
     if script_list:
+        body = re.sub(pattern, "", body)
         for script in script_list:
             body.replace(script, "")
-        body_start, body_end = body.rsplit("</body>", 1)
-        html = "".join([head, body_start, *script_list, body_end])
+        body_content, post_body = body.rsplit("</body>", 1)
+        html = "".join(
+            [
+                "<body>",
+                head,
+                body_content,
+                *script_list,
+                "</body>",
+                post_body,
+            ]
+        )
     return html
