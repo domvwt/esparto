@@ -57,7 +57,7 @@ lint: ## check style with flake8
 	flake8 esparto tests
 
 mypy: ## check type hints
-	mypy esparto tests --strict
+	mypy esparto --strict
 
 isort: ## sort imports
 	isort esparto tests --profile black
