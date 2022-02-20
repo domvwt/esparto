@@ -1,10 +1,10 @@
 """Functions that render and save documents."""
 
-import re
 import time
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional, Union
 
+from bs4 import BeautifulSoup, Tag  # type: ignore
 from jinja2 import Template
 
 if TYPE_CHECKING:
@@ -177,33 +177,22 @@ def nb_display(
 
 def _prettify_html(html: Optional[str]) -> str:
     """Prettify HTML."""
-    if "bs4" in _INSTALLED_MODULES:
-        from bs4 import BeautifulSoup  # type: ignore
+    html = html or ""
+    html = str(BeautifulSoup(html, features="html.parser").prettify())
 
-        html = html or ""
-        html = str(BeautifulSoup(html, features="html.parser").prettify())
-
-    return html or ""
+    return html
 
 
 def _relocate_scripts(html: str) -> str:
     """Move all JavaScript in page body to end of section."""
-    pattern = re.compile(r"<script.+?/script>", re.DOTALL)
-    head, body = html.split("<body>", 1)
-    script_list = re.findall(pattern, body)
-    if script_list:
-        body = re.sub(pattern, "", body)
+    soup = BeautifulSoup(html, "html.parser")
+    body = soup.find("body")
+
+    if isinstance(body, Tag):
+        script_list = body.find_all("script")
         for script in script_list:
-            body.replace(script, "")
-        body_content, post_body = body.rsplit("</body>", 1)
-        html = "".join(
-            [
-                head,
-                "<body>",
-                body_content,
-                *script_list,
-                "</body>",
-                post_body,
-            ]
-        )
+            body.insert(len(body), script)
+
+    html = str(soup)
+
     return html

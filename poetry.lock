@@ -1193,12 +1193,12 @@ docs = ["sphinx", "jaraco.packaging (>=8.2)", "rst.linker (>=1.9)"]
 testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-cov", "pytest-enabler (>=1.0.1)", "jaraco.itertools", "func-timeout", "pytest-black (>=0.3.7)", "pytest-mypy"]
 
 [extras]
-extras = ["beautifulsoup4", "weasyprint", "Pillow"]
+extras = ["weasyprint", "Pillow"]
 
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.6.1"
-content-hash = "cc91b200222cad36a19889d0588b765ccd2c81a94b913586de5f785da00aed40"
+content-hash = "732161d7c29622f690918b907aad5a43ad135fc1e5594223e2419977a511f5cd"
 
 [metadata.files]
 appdirs = [
