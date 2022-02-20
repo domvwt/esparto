@@ -34,6 +34,8 @@ INTERACTIVE TABLES:
 - [x] REVERT TO BOOTSTRAP CSS
 - [x] FIX: Move JavaScript to end of body
 - [x] Refactor options - pass to page object and use option context
+- [ ] Use BeautifulSoup4 for safely moving <script> to end of page
+- [ ] Use Enum for dependency names
 - [ ] Update esparto options to .rc?
 - [ ] Cleaner table style?
 - [ ] Update README documentation to explain project

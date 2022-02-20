@@ -47,7 +47,7 @@ def publish_html(
 
     esparto_css = Path(resolve_config_option("esparto_css", esparto_css)).read_text()
 
-    page_html = (page.to_html(**kwargs),)
+    page_html = page.to_html(**kwargs)
     jinja_template_object = Template(
         Path(resolve_config_option("jinja_template", jinja_template)).read_text()
     )
