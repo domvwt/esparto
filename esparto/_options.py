@@ -1,10 +1,12 @@
 """Esparto configuration options."""
 
+import collections.abc
 import copy
 import pprint
+import traceback
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Any, Dict, Mapping, Optional, Tuple, Union
 
 import yaml  # type: ignore
 
@@ -86,8 +88,8 @@ class BokehOptions(ConfigMixin):
 
 
 @dataclass(repr=False)
-class ConfigOptions(ConfigMixin):
-    """Options for configuring esparto behaviour and output.
+class PageOptions(ConfigMixin):
+    """Options for configuring page rendering and output.
 
     Config options will automatically be loaded if a yaml file is found at
     either './esparto-config.yaml' or '~/esparto-data/esparto-config.yaml'.
@@ -118,7 +120,7 @@ class ConfigOptions(ConfigMixin):
         "integrity='sha512-GQGU0fMMi238uA+a/bdWJfpUGKUkBdgfFdgBm72SUQ6BeyWjoY/ton0tEjH+OSH9iP4Dfh+7HM0I9f5eR0L/4w==' "
         "crossorigin='anonymous' referrerpolicy='no-referrer'>"
     )
-    bootstrap_css: str = str(_MODULE_PATH / "resources/css/bootstrap.css")
+    bootstrap_css: str = str(_MODULE_PATH / "resources/css/bootstrap.min.css")
     esparto_css: str = str(_MODULE_PATH / "resources/css/esparto.css")
     jinja_template: str = str(_MODULE_PATH / "resources/jinja/base.html.jinja")
 
@@ -158,7 +160,35 @@ class ConfigOptions(ConfigMixin):
                 break
 
 
-options = ConfigOptions()
+options = PageOptions()
+
+
+def update_recursive(
+    source_dict: Dict[Any, Any], update_map: Mapping
+) -> Dict[Any, Any]:
+    """Recursively update nested dictionaries.
+    https://stackoverflow.com/a/3233356/8065696
+    """
+    for k, v in update_map.items():
+        if isinstance(v, collections.abc.Mapping):
+            source_dict[k] = update_recursive(source_dict.get(k, {}), v)
+        else:
+            source_dict[k] = v
+    return source_dict
+
+
+class OptionsContext:
+    def __init__(self, page_options: PageOptions):
+        self.page_options = page_options
+        self.default_options = copy.copy(options)
+
+    def __enter__(self):
+        update_recursive(options.__dict__, self.page_options.__dict__)
+
+    def __exit__(self, exc_type, exc_value, tb):
+        if exc_type is not None:
+            traceback.print_exception(exc_type, exc_value, tb)
+        update_recursive(options.__dict__, self.default_options.__dict__)
 
 
 def resolve_config_option(config_option: str, value: Optional[str]) -> Any:

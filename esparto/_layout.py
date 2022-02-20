@@ -6,6 +6,7 @@ from collections import namedtuple
 from pprint import pformat
 from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Optional, Set, Type, Union
 
+from esparto._options import OptionsContext, PageOptions, options
 from esparto._publish import nb_display, publish_html, publish_pdf
 from esparto._utils import (
     clean_attr_name,
@@ -431,6 +432,7 @@ class Page(Layout):
         title_styles (dict): Additional CSS styles to apply to title.
         body_classes (list): Additional CSS classes to apply to body.
         body_styles (dict): Additional CSS styles to apply to body.
+        page_options (es.PageOptions): Page specific rendering and output options.
 
     """
 
@@ -446,12 +448,14 @@ class Page(Layout):
         title_styles: Dict[str, Any] = None,
         body_classes: List[str] = None,
         body_styles: Dict[str, Any] = None,
+        page_options: Optional[PageOptions] = None,
     ):
         super().__init__(
             title, children, title_classes, title_styles, body_classes, body_styles
         )
         self.navbrand = navbrand
         self.table_of_contents = table_of_contents
+        self.page_options = page_options or options
 
     def save(
         self,
@@ -535,24 +539,25 @@ class Page(Layout):
         return None
 
     def to_html(self, **kwargs) -> str:
-        if self.table_of_contents:
-            # Create a copy of the page and dynamically generate the TOC.
-            # Copy is required so that TOC is not added multiple times and
-            # always reflects the current content.
-            max_depth = (
-                None if self.table_of_contents is True else self.table_of_contents
-            )
-            page_copy = copy.copy(self)
-            toc = table_of_contents(page_copy, max_depth=max_depth)
-            page_copy.children.insert(
-                0,
-                page_copy._child_class(
-                    title="Contents", children=[toc], title_classes=["h4"]
-                ),
-            )
-            page_copy.table_of_contents = False
-            return page_copy.to_html(**kwargs)
-        return super().to_html(**kwargs)
+        with OptionsContext(self.page_options):
+            if self.table_of_contents:
+                # Create a copy of the page and dynamically generate the TOC.
+                # Copy is required so that TOC is not added multiple times and
+                # always reflects the current content.
+                max_depth = (
+                    None if self.table_of_contents is True else self.table_of_contents
+                )
+                page_copy = copy.copy(self)
+                toc = table_of_contents(page_copy, max_depth=max_depth)
+                page_copy.children.insert(
+                    0,
+                    page_copy._child_class(
+                        title="Contents", children=[toc], title_classes=["h4"]
+                    ),
+                )
+                page_copy.table_of_contents = False
+                return page_copy.to_html(**kwargs)
+            return super().to_html(**kwargs)
 
     def __post_init__(self) -> None:
         self.title_html_tag = "h1"

@@ -127,7 +127,6 @@ class Markdown(Content):
     def to_html(self, **kwargs) -> str:
         html = md.markdown(self.content, extensions=["extra", "smarty"])
         html = f"{html}\n"
-        # // html = f"<div class='px-1'>\n{html}\n</div>"
         html = f"<div class='es-markdown'>\n{html}\n</div>"
         return html
 
@@ -223,7 +222,6 @@ class Image(Content):
         max_scale_down = 0.5
 
         html = (
-            # // "<figure class='text-center m-0 p-2 pb-3'>"
             "<figure class='es-figure'>"
             "<img class='img-fluid figure-img rounded es-image' "
             f"style='min-width: {int(width * max_scale_down)}px; "
@@ -270,14 +268,13 @@ class DataFramePd(Content):
             "table-striped",
             "table-hover",
             "table-bordered",
-            # // "my-1",
         ]
 
     def to_html(self, **kwargs) -> str:
         html = self.content.to_html(
             index=self.index,
             border=0,
-            col_space=self.col_space,
+            col_space=self.col_space,  # type: ignore
             classes=self.css_classes,
         )
         html = f"<div class='table-responsive es-table'>{html}</div>"
@@ -432,7 +429,6 @@ class FigureBokeh(Content):
         html = _remove_outer_div(html)
 
         return (
-            # // "<div class='mb-3 es-bokeh-figure' "
             "<div class='es-bokeh-figure' "
             f"style='max-width: {self.width}; max-height: {self.height}; margin: auto;'>"
             f"\n{html}\n{js}\n</div>"

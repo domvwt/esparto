@@ -46,15 +46,16 @@ def publish_html(
     resolved_deps = resolve_deps(required_deps, source=dependency_source)
 
     esparto_css = Path(resolve_config_option("esparto_css", esparto_css)).read_text()
-    jinja_template_loaded = Template(
+
+    page_html = (page.to_html(**kwargs),)
+    jinja_template_object = Template(
         Path(resolve_config_option("jinja_template", jinja_template)).read_text()
     )
-
-    html_rendered: str = jinja_template_loaded.render(
+    html_rendered: str = jinja_template_object.render(
         navbrand=page.navbrand,
         doc_title=page.title,
         esparto_css=esparto_css,
-        content=page.to_html(**kwargs),
+        content=page_html,
         head_deps=resolved_deps.head,
         tail_deps=resolved_deps.tail,
     )

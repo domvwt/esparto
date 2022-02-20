@@ -6,6 +6,25 @@ esparto
 TODO
 ----
 
+INTERACTIVE TABLES:
+
+  <link crossorigin="anonymous" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" referrerpolicy="no-referrer" rel="stylesheet"/>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+
+  <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+
+  <script type="text/javascript">
+      $(document).ready(function() {
+          $('#data-table-target').DataTable(
+              {
+                  paging: false,
+                  searching: false
+              }
+          );
+      } );
+  </script>
+
 - [x] Create develop branch
 - [x] Move CSS styles to esparto.css
 - [x] Retire bootstrap CSS apart from grid layout
@@ -14,6 +33,7 @@ TODO
 - [x] Migrate CICD away from Travis
 - [x] REVERT TO BOOTSTRAP CSS
 - [x] FIX: Move JavaScript to end of body
+- [x] Refactor options - pass to page object and use option context
 - [ ] Update esparto options to .rc?
 - [ ] Cleaner table style?
 - [ ] Update README documentation to explain project
@@ -22,7 +42,6 @@ TODO
 - [ ] Replace iris report example image in README
 - [ ] Update examples in docs
 - [ ] Update docs
-- [ ] Refactor options - pass to page object
 - [ ] Allow linked stylesheets via 'url' option
 
 <http://codesqueeze.com/the-7-software-ilities-you-need-to-know/>
