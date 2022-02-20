@@ -186,7 +186,7 @@ class OptionsContext:
         update_recursive(options.__dict__, self.page_options.__dict__)
 
     def __exit__(self, exc_type, exc_value, tb):
-        if exc_type is not None:
+        if exc_type is not None:  # pragma: no cover
             traceback.print_exception(exc_type, exc_value, tb)
         update_recursive(options.__dict__, self.default_options.__dict__)
 

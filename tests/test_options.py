@@ -1,5 +1,7 @@
 import copy
 
+import pytest
+
 import esparto._options as opt
 
 
@@ -19,3 +21,18 @@ def test_options_context():
 
     assert opt.options == default_options
     assert context_options == updated_options
+
+
+update_recursive_cases = [
+    ({"a": 1, "b": 2}, {"b": 3}, {"a": 1, "b": 3}),
+    (
+        {"a": 1, "b": 2, "c": {"d": 4, "e": 5}},
+        {"b": 3, "c": {"e": 6}},
+        {"a": 1, "b": 3, "c": {"d": 4, "e": 6}},
+    ),
+]
+
+
+@pytest.mark.parametrize("input1,input2,expected", update_recursive_cases)
+def test_update_recursive(input1, input2, expected):
+    assert opt.update_recursive(input1, input2) == expected
