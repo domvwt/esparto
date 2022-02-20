@@ -57,6 +57,6 @@ from esparto._layout import (
     Section,
     Spacer,
 )
-from esparto._options import options
+from esparto._options import PageOptions, options
 
 options._autoload()
