@@ -42,7 +42,6 @@ class Layout(ABC):
     def __init__(
         self,
         title: Optional[str] = None,
-        # TODO: Make a type for children
         children: Union[
             List[Union["Layout", "Content", Any]], "Layout", "Content"
         ] = None,

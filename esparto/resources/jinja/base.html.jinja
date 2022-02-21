@@ -5,18 +5,19 @@
   <title>{{ doc_title | default("esparto-doc", true) }}</title>
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
-  <!-- Required meta tags -->
+  <!-- Meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   {% if head_deps is defined and head_deps|length %}
-  <!-- Required dependencies -->
+  <!-- Bootstrap CSS and JavaScript Dependencies -->
   {% for dep in head_deps %}
   {{ dep }}
   {% endfor %}
   {% endif %}
 
   {% if esparto_css %}
+  <!-- Esparto CSS -->
   <style>
   {{ esparto_css }}
   </style>
@@ -24,19 +25,13 @@
 </head>
 
 <body>
+  <!-- Header -->
   <nav class="navbar d-flex navbar-expand-md navbar-light bg-light mb-3 d-print-none" width="100vw">
       <a class="navbar-brand" style="margin-left: 10vw;" href="#">{{ navbrand }}</a>
   </nav>
 
-  <!-- GENERATED CONTENT START -->
+  <!-- Content -->
   {{ content }}
-  <!-- GENERATED CONTENT END -->
-  {% if tail_deps is defined and tail_deps|length %}
-  <!-- Required JS dependencies -->
-  {% for dep in tail_deps %}
-  {{ dep }}
-  {% endfor %}
-  {% endif %}
 
   <!-- Footer -->
   <footer class="footer d-flex bg-light mt-5 d-print-none" width="100vw" height="2em">
@@ -44,6 +39,13 @@
       esparto
     </a>
   </footer>
+
+  <!-- JavaScript Dependencies -->
+  {% if tail_deps is defined and tail_deps|length %}
+  {% for dep in tail_deps %}
+  {{ dep }}
+  {% endfor %}
+  {% endif %}
 </body>
 
 </html>
