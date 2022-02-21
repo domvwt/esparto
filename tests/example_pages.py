@@ -1,3 +1,4 @@
+import argparse
 from pathlib import Path
 
 import matplotlib.pyplot as plt  # type: ignore
@@ -26,7 +27,7 @@ df["D"] = np.random.normal(-5, 8, 1000)
 df = df
 
 
-def example_01():
+def example_01(pdf: bool = False):
     page = es.Page(title="Columns Page", navbrand="esparto", table_of_contents=2)
 
     page["Section One"]["Row One"]["Column One"] = lorem
@@ -48,10 +49,12 @@ def example_01():
         ]
 
     page.save_html("page01.html")
-    page.save_pdf("page01.pdf")
+
+    if pdf:
+        page.save_pdf("page01.pdf")
 
 
-def example_02():
+def example_02(pdf: bool = False):
     page = es.Page(title="Matplotlib Page")
 
     _ = df.plot.hist(alpha=0.4, bins=30)
@@ -67,17 +70,21 @@ def example_02():
     page[0][3] = {"text": lorem}, {"table": df[:10]}
 
     page.save_html("page02.html")
-    page.save_pdf("page02.pdf")
+
+    if pdf:
+        page.save_pdf("page02.pdf")
 
 
-def example_03():
+def example_03(pdf: bool = False):
     page = es.Page(title="Markdown Page")
     page += "tests/resources/markdown.md"
     page.save_html("page03.html")
-    page.save_pdf("page03.pdf")
+
+    if pdf:
+        page.save_pdf("page03.pdf")
 
 
-def example_04():
+def example_04(pdf: bool = False):
     page = es.Page(title="Plotly Page")
 
     fig = px.scatter(data_frame=df, x="A", y="B")
@@ -93,11 +100,61 @@ def example_04():
     page[0][4] = ({"fig": fig}, {"fig": fig})
 
     page.save_html("page04.html")
-    page.save_pdf("page04.pdf")
+
+    if pdf:
+        page.save_pdf("page04.pdf")
+
+
+def example_05(pdf: bool = False):
+    page = es.Page(
+        title="Slim Page",
+        navbrand="esparto",
+        table_of_contents=2,
+        body_styles={"max-width": "700px"},
+    )
+
+    page["Section One"]["Row One"]["Column One"] = lorem
+    page["Section Two"] = es.Section()
+    page["Section Three"] = es.CardSection()
+    page["Section Four"] = es.Section()
+    page["Section Five"] = es.CardSection()
+
+    for i in range(1, 5):
+        page["Section Two"][f"Row {i}"] = [(image, lorem) for _ in range(1, i + 1)]
+        page["Section Three"][f"Row {i}"] += [
+            lorem if j % 2 == 0 else {"Card Title": image} for j in range(1, i + 1)
+        ]
+        page["Section Four"][f"Row {i}"] += [
+            {"Column Title": lorem} for _ in range(1, i + 1)
+        ]
+        page["Section Five"][f"Row {i}"] += [
+            {"Card Title": lorem} for _ in range(1, i + 1)
+        ]
+
+    page.save_html("page05.html")
+
+    if pdf:
+        page.save_pdf("page05.pdf")
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--pdf", action="store_true")
+
+    args = parser.parse_args()
+
+    pdf = args.pdf
+
+    print("Producing example output...", end="", flush=True)
+
+    example_01(pdf)
+    example_02(pdf)
+    example_03(pdf)
+    example_04(pdf)
+    example_05(pdf)
+
+    print("Done.")
 
 
 if __name__ == "__main__":
-    example_01()
-    example_02()
-    example_03()
-    example_04()
+    main()

@@ -34,13 +34,14 @@ INTERACTIVE TABLES:
 - [x] REVERT TO BOOTSTRAP CSS
 - [x] FIX: Move JavaScript to end of body
 - [x] Refactor options - pass to page object and use option context
-- [ ] Use BeautifulSoup4 for safely moving <script> to end of page
-- [ ] Use Enum for dependency names
+- [x] Use BeautifulSoup4 for safely moving <script> to end of page
+- [ ] Use Enum for dependency names (?)
+- [ ] Move TOC to PageOptions
+- [ ] Remove classes and styles from layout __init__ methods
 - [ ] Update esparto options to .rc?
 - [ ] Cleaner table style?
 - [ ] Update README documentation to explain project
 - [ ] Do NOT remove optional css styles from layout elements
-- [ ] Custom page icon emoji
 - [ ] Replace iris report example image in README
 - [ ] Update examples in docs
 - [ ] Update docs
@@ -103,7 +104,8 @@ plotly_figure = ...
 page = es.Page(title="My Report")
 
 # Add content
-page["Data Analysis"] = (pandas_dataframe, plotly_figure)
+page["Data Analysis"]["Plot"] = plotly_figure
+page["Data Analysis"]["Data"] = pandas_dataframe
 
 # Save to HTML or PDF
 page.save_html("my-report.html")
@@ -139,17 +141,19 @@ pip install esparto
 conda install esparto -c conda-forge
 ```
 
-If PDF output is required, [Weasyprint](https://weasyprint.org/) must also be installed.
-
 Dependencies
 ------------
 
 - [python](https://python.org/) >= 3.6
 - [jinja2](https://palletsprojects.com/p/jinja/)
 - [markdown](https://python-markdown.github.io/)
+- [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/)
 - [PyYAML](https://pyyaml.org/)
-- [Pillow](https://python-pillow.org/) _(optional - required for image output)_
-- [weasyprint](https://weasyprint.org/) _(optional - required for PDF output)_
+
+### Optional
+
+- [Pillow](https://python-pillow.org/) *(for image content)*
+- [weasyprint](https://weasyprint.org/) *(for PDF output)*
 
 License
 -------
@@ -164,7 +168,7 @@ Full documentation and examples are available at [domvwt.github.io/esparto/](htt
 Contributions, Issues, and Requests
 -----------------------------------
 
-All feedback and contributions are welcome - please raise an issue or pull request on [GitHub][GitHub].
+Feedback and contributions are welcome - please raise an issue or pull request on [GitHub][GitHub].
 
 Examples
 --------

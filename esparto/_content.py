@@ -265,9 +265,7 @@ class DataFramePd(Content):
         self.col_space = col_space
         self.css_classes = [
             "table",
-            "table-striped",
             "table-hover",
-            "table-bordered",
         ]
 
     def to_html(self, **kwargs) -> str:

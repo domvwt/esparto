@@ -42,7 +42,6 @@ class Layout(ABC):
     def __init__(
         self,
         title: Optional[str] = None,
-        # TODO: Make a type for children
         children: Union[
             List[Union["Layout", "Content", Any]], "Layout", "Content"
         ] = None,
@@ -561,12 +560,10 @@ class Page(Layout):
 
     def __post_init__(self) -> None:
         self.title_html_tag = "h1"
-        # // self.title_classes = ["es-page-title", "display-4", "mb-4"]
         self.title_classes = ["es-page-title"]
         self.title_styles = {}
 
         self.body_html_tag = "main"
-        # // self.body_classes = ["es-page-body" "container", "px-2"]
         self.body_classes = ["es-page-body", "container"]
         self.body_styles = {}
 
@@ -594,14 +591,11 @@ class Section(Layout):
 
     def __post_init__(self) -> None:
         self.title_html_tag = "h3"
-        # // self.title_classes = ["mb-3", "es-section-title"]
         self.title_classes = ["es-section-title"]
         self.title_styles = {}
 
         self.body_html_tag = "div"
-        # // self.body_classes = ["px-1", "mb-3", "es-section-body"]
         self.body_classes = ["es-section-body"]
-        # // self.body_styles = {"align-items": "flex-start"}
         self.body_styles = {}
 
     _parent_class = Page
@@ -671,14 +665,11 @@ class Row(Layout):
 
     def __post_init__(self) -> None:
         self.title_html_tag = "h5"
-        # // self.title_classes = ["col-12", "mt-2", "mb-3", "px-3", "h5", "es-row-title"]
         self.title_classes = ["col-12", "es-row-title"]
         self.title_styles = {}
 
         self.body_html_tag = "div"
-        # // self.body_classes = ["row", "px-1", "es-row-body"]
         self.body_classes = ["row", "es-row-body"]
-        # // self.body_styles = {"align-items": "flex-start"}
         self.body_styles = {}
 
     _parent_class = Section
@@ -740,13 +731,11 @@ class Column(Layout):
 
     def __post_init__(self) -> None:
         self.title_html_tag = "h5"
-        # // self.title_classes = ["mt-2", "mb-3", "px-1", "es-column-title"]
         self.title_classes = ["es-column-title"]
         self.title_styles = {}
 
         col_class = f"col-lg-{self.col_width}" if self.col_width else "col-lg"
         self.body_html_tag = "div"
-        # // self.body_classes = [col_class, "mx-2", "mb-3", "es-column-body"]
         self.body_classes = [col_class, "es-column-body"]
         self.body_styles = {}
 
@@ -840,12 +829,6 @@ class Card(Column):
         self.body_html_tag = "div"
 
         col_class = f"col-lg-{self.col_width}" if self.col_width else "col-lg"
-        # // self.body_classes = [
-        #     col_class,
-        #     "mb-3",
-        #     "p-0",
-        #     "es-card",
-        # ]
         self.body_classes = [col_class, "es-card"]
         self.body_styles = {}
 
@@ -868,9 +851,7 @@ class Card(Column):
             if self.title
             else ""
         )
-        # // card_body_classes = ["mx-2", "border", "rounded", "card-body", "es-card-body"]
         card_body_classes = ["es-card-body"]
-        # //card_body_styles = {"min-height": "100%"}
         card_body_styles: Dict[str, str] = {}
         html_body = render_html(
             "div",
@@ -906,7 +887,6 @@ class PageBreak(Section):
 
         self.body_html_tag = "div"
         self.body_classes = []
-        # // self.body_styles = {"page-break-after": "always"}
         self.body_styles = {}
 
 

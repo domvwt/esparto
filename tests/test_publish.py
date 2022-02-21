@@ -98,6 +98,9 @@ def test_saved_html_valid_toc(page_layout: es.Page, tmp_path):
 def test_relocate_scripts():
     html = "".join(
         """
+        <head>
+        <script>this is some javacript</script>
+        </head>
         <body>
             <div>here is some content</div>
             <div>
@@ -110,6 +113,9 @@ def test_relocate_scripts():
 
     expected = "".join(
         """
+        <head>
+        <script>this is some javacript</script>
+        </head>
         <body>
             <div>here is some content</div>
             <div>

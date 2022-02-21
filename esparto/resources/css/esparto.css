@@ -109,8 +109,7 @@ p {
 }
 
 .es-column-body {
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+    margin-right: 1rem;
     margin-bottom: 1rem;
 }
 
@@ -152,7 +151,7 @@ p {
 }
 
 .es-table th {
-    text-align: left;
+    text-align: right;
 }
 
 .es-table td {
@@ -165,6 +164,26 @@ p {
     top: 0px;
     bottom: 0px;
     margin: auto;
+}
+
+*::-moz-selection {
+    background: rgba(255, 255, 0, 0.3);
+    color: #000;
+}
+
+*::selection {
+    background: rgba(255, 255, 0, 0.3);
+    color: #000;
+}
+
+a::-moz-selection {
+    background: rgba(255, 255, 0, 0.3);
+    color: #0645ad;
+}
+
+a::selection {
+    background: rgba(255, 255, 0, 0.3);
+    color: #0645ad;
 }
 
 @media print {

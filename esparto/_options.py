@@ -63,13 +63,7 @@ class PlotlyOptions(ConfigMixin):
 
     """
 
-    layout_args: Dict[str, Any] = field(
-        default_factory=lambda: {
-            "paper_bgcolor": "rgba(0,0,0,0)",
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "modebar": {"bgcolor": "white"},
-        }
-    )
+    layout_args: Dict[str, Any] = field(default_factory=lambda: {})
 
 
 @dataclass(repr=False)
