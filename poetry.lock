@@ -584,20 +584,20 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "mkdocstrings"
-version = "0.15.2"
+version = "0.16.2"
 description = "Automatic documentation from sources, for MkDocs."
 category = "dev"
 optional = false
-python-versions = ">=3.6,<4.0"
+python-versions = ">=3.6"
 
 [package.dependencies]
 Jinja2 = ">=2.11.1,<4.0"
 Markdown = ">=3.3,<4.0"
 MarkupSafe = ">=1.1,<3.0"
-mkdocs = ">=1.1.1,<2.0.0"
-mkdocs-autorefs = ">=0.1,<0.3"
-pymdown-extensions = ">=6.3,<9.0"
-pytkdocs = ">=0.2.0,<0.12.0"
+mkdocs = ">=1.2,<2.0"
+mkdocs-autorefs = ">=0.1,<0.4"
+pymdown-extensions = ">=6.3,<10.0"
+pytkdocs = ">=0.2.0,<0.13.0"
 
 [[package]]
 name = "mypy"
@@ -1198,7 +1198,7 @@ extras = ["weasyprint", "Pillow"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.6.1"
-content-hash = "732161d7c29622f690918b907aad5a43ad135fc1e5594223e2419977a511f5cd"
+content-hash = "fe558becffff16a80ddafda71f80faf90b72882ee527f65a6a4817aaed38d8a1"
 
 [metadata.files]
 appdirs = [
@@ -1649,8 +1649,8 @@ mkdocs-material-extensions = [
     {file = "mkdocs_material_extensions-1.0.3-py3-none-any.whl", hash = "sha256:a82b70e533ce060b2a5d9eb2bc2e1be201cf61f901f93704b4acf6e3d5983a44"},
 ]
 mkdocstrings = [
-    {file = "mkdocstrings-0.15.2-py3-none-any.whl", hash = "sha256:8d6cbe64c07ae66739010979ca01d49dd2f64d1a45009f089d217b9cd2a65e36"},
-    {file = "mkdocstrings-0.15.2.tar.gz", hash = "sha256:c2fee9a3a644647c06eb2044fdfede1073adfd1a55bf6752005d3db10705fe73"},
+    {file = "mkdocstrings-0.16.2-py3-none-any.whl", hash = "sha256:671fba8a6c7a8455562aae0a3fa85979fbcef261daec5b2bac4dd1479acc14df"},
+    {file = "mkdocstrings-0.16.2.tar.gz", hash = "sha256:3d8a86c283dfa21818d5b9579aa4e750eea6b5c127b43ad8b00cebbfb7f9634e"},
 ]
 mypy = [
     {file = "mypy-0.902-cp35-cp35m-macosx_10_9_x86_64.whl", hash = "sha256:3f12705eabdd274b98f676e3e5a89f247ea86dc1af48a2d5a2b080abac4e1243"},
