@@ -7,6 +7,9 @@ import plotly.express as px  # type: ignore
 
 import esparto as es
 
+PDF = False
+
+
 lorem = (
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore "
     "magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo "
@@ -48,7 +51,9 @@ def example_01():
         ]
 
     page.save_html("page01.html")
-    page.save_pdf("page01.pdf")
+
+    if PDF:
+        page.save_pdf("page01.pdf")
 
 
 def example_02():
@@ -67,14 +72,18 @@ def example_02():
     page[0][3] = {"text": lorem}, {"table": df[:10]}
 
     page.save_html("page02.html")
-    page.save_pdf("page02.pdf")
+
+    if PDF:
+        page.save_pdf("page02.pdf")
 
 
 def example_03():
     page = es.Page(title="Markdown Page")
     page += "tests/resources/markdown.md"
     page.save_html("page03.html")
-    page.save_pdf("page03.pdf")
+
+    if PDF:
+        page.save_pdf("page03.pdf")
 
 
 def example_04():
@@ -93,7 +102,9 @@ def example_04():
     page[0][4] = ({"fig": fig}, {"fig": fig})
 
     page.save_html("page04.html")
-    page.save_pdf("page04.pdf")
+
+    if PDF:
+        page.save_pdf("page04.pdf")
 
 
 if __name__ == "__main__":
