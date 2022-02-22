@@ -7,13 +7,13 @@ import esparto._options as opt
 
 def test_options_context():
     default_options = copy.deepcopy(opt.options)
-    updated_options = opt.PageOptions(
+    updated_options = opt.OutputOptions(
         dependency_source="XXX",
         matplotlib=opt.MatplotlibOptions(
             html_output_format="svg", notebook_format="XXX", pdf_figsize=0.7
         ),
     )
-    new_options = opt.PageOptions(
+    new_options = opt.OutputOptions(
         dependency_source="XXX", matplotlib=opt.MatplotlibOptions(notebook_format="XXX")
     )
     with opt.OptionsContext(new_options):

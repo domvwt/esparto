@@ -1,9 +1,8 @@
 import re
-from typing import TYPE_CHECKING, Any, Callable, Dict, Iterable, List, Optional, Union
+from typing import TYPE_CHECKING, Any, Callable, Dict, Iterable, List, Optional
 
 if TYPE_CHECKING:
-    from esparto._content import Content
-    from esparto._layout import Layout
+    from esparto._typing import Child
 
 
 def get_index_where(
@@ -13,9 +12,7 @@ def get_index_where(
     return [idx for idx, item in enumerate(iterable) if condition(item)]
 
 
-def get_matching_titles(
-    title: str, children: List[Union["Layout", "Content"]]
-) -> List[int]:
+def get_matching_titles(title: str, children: List["Child"]) -> List[int]:
     """Return child items with matching title."""
     return get_index_where(lambda x: bool(getattr(x, "title", None) == title), children)
 

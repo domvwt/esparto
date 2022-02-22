@@ -4,10 +4,24 @@ import copy
 from abc import ABC
 from collections import namedtuple
 from pprint import pformat
-from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Optional, Set, Type, Union
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Dict,
+    Iterator,
+    List,
+    Optional,
+    Set,
+    Type,
+    TypeVar,
+    Union,
+)
 
-from esparto._options import OptionsContext, PageOptions, options
+import bs4  # type: ignore
+
+from esparto._options import OptionsContext, OutputOptions, options
 from esparto._publish import nb_display, publish_html, publish_pdf
+from esparto._typing import Child
 from esparto._utils import (
     clean_attr_name,
     clean_iterator,
@@ -16,7 +30,9 @@ from esparto._utils import (
 )
 
 if TYPE_CHECKING:
-    from esparto._content import Content, Markdown
+    from esparto._content import Markdown
+
+T = TypeVar("T", bound="Layout")
 
 
 class Layout(ABC):
@@ -42,13 +58,11 @@ class Layout(ABC):
     def __init__(
         self,
         title: Optional[str] = None,
-        children: Union[
-            List[Union["Layout", "Content", Any]], "Layout", "Content"
-        ] = None,
-        title_classes: List[str] = None,
-        title_styles: Dict[str, Any] = None,
-        body_classes: List[str] = None,
-        body_styles: Dict[str, Any] = None,
+        children: Union[List[Child], Child] = None,
+        title_classes: Optional[List[str]] = None,
+        title_styles: Optional[Dict[str, Any]] = None,
+        body_classes: Optional[List[str]] = None,
+        body_styles: Optional[Dict[str, Any]] = None,
     ):
         self.title = title
         children = children or []
@@ -67,32 +81,27 @@ class Layout(ABC):
         self.body_classes += body_classes
         self.body_styles.update(body_styles)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         raise NotImplementedError
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator["Layout"]:
         return iter([self])
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return self._tree()
 
-    def _repr_html_(self):
+    def _repr_html_(self) -> None:
         self.display()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self._tree()
 
-    def __add__(self, other: Union["Layout", "Content", Any]):
-
-        if isinstance(other, (type(self), Spacer)):
-            return self._parent_class(children=[self, other])
-
+    def __add__(self: T, other: Child) -> T:
         new = copy.copy(self)
         new.children = self.children + [*self._smart_wrap(other)]
-
         return new
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         if isinstance(other, self.__class__):
             return (
                 self.title == other.title
@@ -101,7 +110,7 @@ class Layout(ABC):
             )
         return False
 
-    def __ne__(self, other):
+    def __ne__(self, other: Any) -> bool:
         return not self.__eq__(other)
 
     def __getattribute__(self, key: str) -> Any:
@@ -124,7 +133,7 @@ class Layout(ABC):
         else:
             super().__delattr__(key)
 
-    def __getitem__(self, key: Union[str, int]):
+    def __getitem__(self, key: Union[str, int]) -> Any:
         if isinstance(key, str):
             indexes = get_matching_titles(key, self.children)
             if len(indexes) and key:
@@ -144,7 +153,7 @@ class Layout(ABC):
 
         raise KeyError(key)
 
-    def __setitem__(self, key: Union[str, int], value: Any):
+    def __setitem__(self, key: Union[str, int], value: Any) -> None:
         value = copy.copy(value)
         title = (
             getattr(value, "title", None) if issubclass(type(value), Layout) else None
@@ -177,7 +186,7 @@ class Layout(ABC):
 
         raise KeyError(key)
 
-    def __delitem__(self, key) -> None:
+    def __delitem__(self, key: Union[int, str]) -> None:
         if isinstance(key, str):
             indexes = get_matching_titles(key, self.children)
             if len(indexes):
@@ -186,20 +195,21 @@ class Layout(ABC):
                 return None
         elif isinstance(key, int) and key < len(self.children):
             child_title = getattr(self.children[key], "title", None)
-            self._remove_child_id(child_title)
+            if child_title:
+                self._remove_child_id(child_title)
             del self.children[key]
             return None
         raise KeyError(key)
 
-    def __lshift__(self, other: Union["Layout", "Content", Any]):
+    def __lshift__(self, other: Child) -> Child:
         self.set_children(other)
         return other
 
-    def __rshift__(self, other: Union["Layout", "Content", Any]):
+    def __rshift__(self, other: Child) -> "Layout":
         self.set_children(other)
         return self
 
-    def __copy__(self):
+    def __copy__(self) -> "Layout":
         attributes = vars(self)
         new = self.__class__()
         new.__dict__.update(attributes)
@@ -207,7 +217,7 @@ class Layout(ABC):
         return new
 
     title: Optional[str]
-    children: List[Any] = []
+    children: List[Child] = []
 
     title_html_tag: str
     title_classes: List[str]
@@ -218,11 +228,17 @@ class Layout(ABC):
     body_styles: Dict[str, Any]
 
     @property
-    def _default_id(self):
+    def _default_id(self) -> str:
         return f"es-{type(self).__name__}".lower()
 
-    _parent_class: Type["Layout"]
-    _child_class: Type["Layout"]
+    @property
+    def _parent_class(self) -> Type["Layout"]:
+        raise NotImplementedError
+
+    @property
+    def _child_class(self) -> Type["Layout"]:
+        raise NotImplementedError
+
     _dependencies = {"bootstrap"}
 
     @property
@@ -232,7 +248,8 @@ class Layout(ABC):
             super().__getattribute__("__child_ids")
         except AttributeError:
             super().__setattr__("__child_ids", {})
-        return super().__getattribute__("__child_ids")
+        child_ids: Dict[str, str] = super().__getattribute__("__child_ids")
+        return child_ids
 
     # ------------------------------------------------------------------------+
     #                              Public Methods                             |
@@ -242,15 +259,15 @@ class Layout(ABC):
         """Render content in a Notebook environment."""
         nb_display(self)
 
-    def get_identifier(self):
+    def get_identifier(self) -> str:
         """Get the HTML element ID for the current object."""
         return clean_attr_name(str(self.title)) if self.title else self._default_id
 
-    def get_title_identifier(self):
+    def get_title_identifier(self) -> str:
         """Get the HTML element ID for the current object title."""
         return f"{self.get_identifier()}-title"
 
-    def set_children(self, other: Union["Layout", "Content", Any]):
+    def set_children(self, other: Union[List[Child], Child]) -> None:
         """Set children as `other`."""
         other = copy.copy(other)
         self.children = [*self._smart_wrap(other)]
@@ -259,7 +276,7 @@ class Layout(ABC):
             if title:
                 self._add_child_id(title)
 
-    def to_html(self, **kwargs) -> str:
+    def to_html(self, **kwargs: bool) -> str:
         """Render object as HTML code.
 
         Returns:
@@ -285,6 +302,7 @@ class Layout(ABC):
             f"{title_rendered}\n{children_rendered}\n",
             self.get_identifier(),
         )
+        html = bs4.BeautifulSoup(html, "html.parser").prettify()
         return html
 
     def tree(self) -> None:
@@ -295,21 +313,19 @@ class Layout(ABC):
     #                             Private Methods                             |
     # ------------------------------------------------------------------------+
 
-    def _add_child_id(self, key):
+    def _add_child_id(self, key: str) -> None:
         attr_name = clean_attr_name(key)
         if attr_name:
             self._child_ids[attr_name] = key
             super().__setattr__(attr_name, self[key])
 
-    def _remove_child_id(self, key):
+    def _remove_child_id(self, key: str) -> None:
         attr_name = clean_attr_name(key)
         if attr_name in self._child_ids:
             del self._child_ids[attr_name]
             super().__delattr__(attr_name)
 
-    def _smart_wrap(
-        self, child_list: Iterable[Any]
-    ) -> Iterable[Union["Layout", "Content", dict]]:
+    def _smart_wrap(self, child_list: Union[List[Child], Child]) -> List[Child]:
         """Wrap children in a coherent class hierarchy.
 
         Args:
@@ -352,8 +368,8 @@ class Layout(ABC):
             return [content_adaptor(x) for x in child_list]
 
         is_row = isinstance(self, Row)
-        unwrapped_acc: list = []
-        output = []
+        unwrapped_acc: List[Child] = []
+        output: List[Child] = []
 
         for child in child_list:
             is_wrapped = isinstance(child, self._child_class)
@@ -382,7 +398,7 @@ class Layout(ABC):
 
         return output
 
-    def _recurse_children(self, idx) -> dict:
+    def _recurse_children(self, idx: int) -> Dict[str, Any]:
         key = self.title or f"{type(self).__name__} {idx}"
         tree = {
             f"{key}": [
@@ -397,7 +413,7 @@ class Layout(ABC):
     def _required_dependencies(self) -> Set[str]:
         deps: Set[str] = self._dependencies
 
-        def dep_finder(parent):
+        def dep_finder(parent: Any) -> None:
             nonlocal deps
             for child in parent.children:
                 deps = deps | set(getattr(child, "_dependencies", {}))
@@ -410,7 +426,7 @@ class Layout(ABC):
     def _tree(self) -> str:
         return pformat(self._recurse_children(idx=0))
 
-    def _ipython_key_completions_(self):  # pragma: no cover
+    def _ipython_key_completions_(self) -> List[str]:  # pragma: no cover
         return [
             getattr(child, "title")
             for child in self.children
@@ -426,12 +442,13 @@ class Page(Layout):
         navbrand (str): Brand name. Displayed in the page navbar if provided.
         table_of_contents (bool, int): Add a Table of Contents to the top of page.
             Passing an `int` will define the maximum depth.
+        max_width (int): Maximum page width expressed in pixels.
+        output_options (es.OutputOptions): Page specific rendering and output options.
         children (list): Child items defining layout and content.
         title_classes (list): Additional CSS classes to apply to title.
         title_styles (dict): Additional CSS styles to apply to title.
         body_classes (list): Additional CSS classes to apply to body.
         body_styles (dict): Additional CSS styles to apply to body.
-        page_options (es.PageOptions): Page specific rendering and output options.
 
     """
 
@@ -440,27 +457,27 @@ class Page(Layout):
         title: Optional[str] = None,
         navbrand: Optional[str] = "",
         table_of_contents: Union[bool, int] = False,
-        children: Union[
-            List[Union["Layout", "Content", Any]], "Layout", "Content"
-        ] = None,
-        title_classes: List[str] = None,
-        title_styles: Dict[str, Any] = None,
-        body_classes: List[str] = None,
-        body_styles: Dict[str, Any] = None,
-        page_options: Optional[PageOptions] = None,
+        max_width: int = 800,
+        output_options: Optional[OutputOptions] = None,
+        children: Union[List[Child], Child] = None,
+        title_classes: Optional[List[str]] = None,
+        title_styles: Optional[Dict[str, Any]] = None,
+        body_classes: Optional[List[str]] = None,
+        body_styles: Optional[Dict[str, Any]] = None,
     ):
         super().__init__(
             title, children, title_classes, title_styles, body_classes, body_styles
         )
         self.navbrand = navbrand
         self.table_of_contents = table_of_contents
-        self.page_options = page_options or options
+        self.max_width = max_width
+        self.output_options = output_options or options
 
     def save(
         self,
         filepath: str = "./esparto-doc.html",
         return_html: bool = False,
-        dependency_source: str = None,
+        dependency_source: Optional[str] = None,
     ) -> Optional[str]:
         """
         Save page to HTML file.
@@ -490,7 +507,7 @@ class Page(Layout):
         self,
         filepath: str = "./esparto-doc.html",
         return_html: bool = False,
-        dependency_source: str = None,
+        dependency_source: Optional[str] = None,
     ) -> Optional[str]:
         """
         Save page to HTML file.
@@ -537,8 +554,8 @@ class Page(Layout):
             return html
         return None
 
-    def to_html(self, **kwargs) -> str:
-        with OptionsContext(self.page_options):
+    def to_html(self, **kwargs: bool) -> str:
+        with OptionsContext(self.output_options):
             if self.table_of_contents:
                 # Create a copy of the page and dynamically generate the TOC.
                 # Copy is required so that TOC is not added multiple times and
@@ -556,6 +573,9 @@ class Page(Layout):
                 )
                 page_copy.table_of_contents = False
                 return page_copy.to_html(**kwargs)
+
+            self.body_styles.update({"max-width": f"{self.max_width}px"})
+
             return super().to_html(**kwargs)
 
     def __post_init__(self) -> None:
@@ -563,16 +583,16 @@ class Page(Layout):
         self.title_classes = ["es-page-title"]
         self.title_styles = {}
 
-        self.body_html_tag = "main"
-        self.body_classes = ["es-page-body", "container"]
+        self.body_html_tag = "div"
+        self.body_classes = ["es-page-body"]
         self.body_styles = {}
 
     @property
-    def _parent_class(self):
+    def _parent_class(self) -> Type["Layout"]:
         return Page
 
     @property
-    def _child_class(self):
+    def _child_class(self) -> Type["Layout"]:
         return Section
 
 
@@ -598,10 +618,12 @@ class Section(Layout):
         self.body_classes = ["es-section-body"]
         self.body_styles = {}
 
-    _parent_class = Page
+    @property
+    def _parent_class(self) -> Type["Layout"]:
+        return Page
 
     @property
-    def _child_class(self):
+    def _child_class(self) -> Type["Layout"]:
         return Row
 
 
@@ -622,14 +644,12 @@ class CardSection(Section):
     def __init__(
         self,
         title: Optional[str] = None,
-        children: Union[
-            List[Union["Layout", "Content", Any]], "Layout", "Content"
-        ] = None,
+        children: Union[List[Child], Child, None] = None,
         cards_equal: bool = False,
-        title_classes: List[str] = None,
-        title_styles: Dict[str, Any] = None,
-        body_classes: List[str] = None,
-        body_styles: Dict[str, Any] = None,
+        title_classes: Optional[List[str]] = None,
+        title_styles: Optional[Dict[str, Any]] = None,
+        body_classes: Optional[List[str]] = None,
+        body_styles: Optional[Dict[str, Any]] = None,
     ):
         super().__init__(
             title=title,
@@ -643,7 +663,7 @@ class CardSection(Section):
         self.cards_equal = cards_equal
 
     @property
-    def _child_class(self):
+    def _child_class(self) -> Type["Layout"]:
         # Attribute missing if class is not instantiated
         if hasattr(self, "cards_equal") and self.cards_equal:
             return CardRowEqual
@@ -672,13 +692,15 @@ class Row(Layout):
         self.body_classes = ["row", "es-row-body"]
         self.body_styles = {}
 
-    _parent_class = Section
+    @property
+    def _parent_class(self) -> Type["Layout"]:
+        return Section
 
     @property
-    def _child_class(self):
+    def _child_class(self) -> Type["Layout"]:
         return Column
 
-    def __setitem__(self, key: Union[str, int], value: Any):
+    def __setitem__(self, key: Union[str, int], value: Any) -> None:
         if isinstance(value, dict):
             title, content = list(value.items())[0]
             value = self._child_class(title=title, children=[content])
@@ -702,14 +724,12 @@ class Column(Layout):
     def __init__(
         self,
         title: Optional[str] = None,
-        children: Union[
-            List[Union["Layout", "Content", Any]], "Layout", "Content"
-        ] = None,
-        col_width: int = None,
-        title_classes: List[str] = None,
-        title_styles: Dict[str, Any] = None,
-        body_classes: List[str] = None,
-        body_styles: Dict[str, Any] = None,
+        children: Union[List[Child], Child] = None,
+        col_width: Optional[int] = None,
+        title_classes: Optional[List[str]] = None,
+        title_styles: Optional[Dict[str, Any]] = None,
+        body_classes: Optional[List[str]] = None,
+        body_styles: Optional[Dict[str, Any]] = None,
     ):
         self.title = title
         children = children or []
@@ -739,10 +759,12 @@ class Column(Layout):
         self.body_classes = [col_class, "es-column-body"]
         self.body_styles = {}
 
-    _parent_class = Row
+    @property
+    def _parent_class(self) -> Type["Layout"]:
+        return Row
 
     @property
-    def _child_class(self):
+    def _child_class(self) -> Type["Layout"]:
         raise NotImplementedError
 
 
@@ -760,7 +782,7 @@ class CardRow(Row):
     """
 
     @property
-    def _child_class(self):
+    def _child_class(self) -> Type["Layout"]:
         return Card
 
 
@@ -802,14 +824,12 @@ class Card(Column):
     def __init__(
         self,
         title: Optional[str] = None,
-        children: Union[
-            List[Union["Layout", "Content", Any]], "Layout", "Content"
-        ] = None,
+        children: Union[List[Child], Child] = None,
         col_width: int = 6,
-        title_classes: List[str] = None,
-        title_styles: Dict[str, Any] = None,
-        body_classes: List[str] = None,
-        body_styles: Dict[str, Any] = None,
+        title_classes: Optional[List[str]] = None,
+        title_styles: Optional[Dict[str, Any]] = None,
+        body_classes: Optional[List[str]] = None,
+        body_styles: Optional[Dict[str, Any]] = None,
     ):
         super().__init__(
             title=title,
@@ -832,7 +852,7 @@ class Card(Column):
         self.body_classes = [col_class, "es-card"]
         self.body_styles = {}
 
-    def to_html(self, **kwargs) -> str:
+    def to_html(self, **kwargs: bool) -> str:
         """Render content to HTML code.
 
         Returns:
@@ -891,7 +911,7 @@ class PageBreak(Section):
 
 
 def table_of_contents(
-    object: Layout, max_depth: int = None, numbered=True
+    object: Layout, max_depth: Optional[int] = None, numbered: bool = True
 ) -> "Markdown":
     """Produce table of contents for a Layout object.
 
@@ -906,14 +926,12 @@ def table_of_contents(
 
     max_depth = max_depth or 99
 
-    def get_toc_items(parent):
-        result_tup = namedtuple("TOCItem", "title, level, id")
+    TOCItem = namedtuple("TOCItem", "title, level, id")
 
-        def find_ids(parent, level, acc):
+    def get_toc_items(parent: Layout) -> List[TOCItem]:
+        def find_ids(parent: Any, level: int, acc: List[TOCItem]) -> List[TOCItem]:
             if hasattr(parent, "get_title_identifier") and parent.title:
-                acc.append(
-                    result_tup(parent.title, level, parent.get_title_identifier())
-                )
+                acc.append(TOCItem(parent.title, level, parent.get_title_identifier()))
                 level += 1
             if hasattr(parent, "children"):
                 for child in parent.children:

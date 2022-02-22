@@ -105,16 +105,6 @@ layout_add_list = [
         ),
     ),
     (
-        la.Column(children=["eric dolphy"]),
-        la.Column(children=["grant green"]),
-        la.Row(
-            children=[
-                la.Column(children=["eric dolphy"]),
-                la.Column(children=["grant green"]),
-            ]
-        ),
-    ),
-    (
         la.Page(title="piano"),
         "bill evans",
         la.Page(title="piano", children=[co.Markdown("bill evans")]),

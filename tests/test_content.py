@@ -105,11 +105,6 @@ if _EXTRAS:
             _ = co._rescale_image(img, scale=None)
 
 
-def test_html_dim_wrong_type():
-    with pytest.raises(TypeError):
-        _ = co._html_dim([1, 2, 3])  # type: ignore
-
-
 @pytest.mark.parametrize("a", content_list)
 def test_incorrect_content_rejected(a):
 

@@ -1,6 +1,5 @@
 """Content dependency management."""
 
-from collections import UserDict
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List, Optional, Set
@@ -23,8 +22,8 @@ class ResolvedDeps:
     tail: List[str] = field(default_factory=list)
 
 
-class ContentDependencyDict(UserDict):
-    def __add__(self, item: ContentDependency):
+class ContentDependencyDict(dict):  # type: ignore
+    def __add__(self, item: ContentDependency) -> "ContentDependencyDict":
         super().__setitem__(item.name, item)
         return self
 
@@ -70,7 +69,7 @@ def resolve_deps(required_deps: Set[str], source: Optional[str]) -> ResolvedDeps
     resolved_deps = ResolvedDeps()
 
     if source not in {"cdn", "inline"}:
-        raise ValueError("Dependency source must be 'cdn' or 'inline'")
+        raise ValueError("Dependency source must be one of {'cdn', 'inline'}")
 
     source = options.dependency_source
 

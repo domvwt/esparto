@@ -6,7 +6,8 @@ import pprint
 import traceback
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Mapping, Optional, Tuple, Union
+from types import TracebackType
+from typing import Any, Dict, Mapping, Optional, Tuple, Type, Union
 
 import yaml  # type: ignore
 
@@ -82,7 +83,7 @@ class BokehOptions(ConfigMixin):
 
 
 @dataclass(repr=False)
-class PageOptions(ConfigMixin):
+class OutputOptions(ConfigMixin):
     """Options for configuring page rendering and output.
 
     Config options will automatically be loaded if a yaml file is found at
@@ -154,11 +155,11 @@ class PageOptions(ConfigMixin):
                 break
 
 
-options = PageOptions()
+options = OutputOptions()
 
 
 def update_recursive(
-    source_dict: Dict[Any, Any], update_map: Mapping
+    source_dict: Dict[Any, Any], update_map: Mapping[Any, Any]
 ) -> Dict[Any, Any]:
     """Recursively update nested dictionaries.
     https://stackoverflow.com/a/3233356/8065696
@@ -172,14 +173,16 @@ def update_recursive(
 
 
 class OptionsContext:
-    def __init__(self, page_options: PageOptions):
+    def __init__(self, page_options: OutputOptions):
         self.page_options = page_options
         self.default_options = copy.copy(options)
 
-    def __enter__(self):
+    def __enter__(self) -> None:
         update_recursive(options.__dict__, self.page_options.__dict__)
 
-    def __exit__(self, exc_type, exc_value, tb):
+    def __exit__(
+        self, exc_type: Type[BaseException], exc_value: BaseException, tb: TracebackType
+    ) -> None:
         if exc_type is not None:  # pragma: no cover
             traceback.print_exception(exc_type, exc_value, tb)
         update_recursive(options.__dict__, self.default_options.__dict__)

@@ -46,7 +46,7 @@ jobs:
         coverage run --append --source esparto -m pytest
     - name: Install optional dependencies
       run: |
-        python -m pip install ipython pandas matplotlib bokeh plotly kaleido "weasyprint<53" beautifulsoup4 html5lib
+        python -m pip install ipython pandas matplotlib bokeh plotly kaleido "weasyprint<53" html5lib
     - name: Test full install with pytest
       run: |
         coverage run --append --source esparto -m pytest
