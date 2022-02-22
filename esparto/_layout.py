@@ -4,7 +4,18 @@ import copy
 from abc import ABC
 from collections import namedtuple
 from pprint import pformat
-from typing import TYPE_CHECKING, Any, Dict, Iterator, List, Optional, Set, Type, Union
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Dict,
+    Iterator,
+    List,
+    Optional,
+    Set,
+    Type,
+    TypeVar,
+    Union,
+)
 
 import bs4  # type: ignore
 
@@ -19,6 +30,8 @@ from esparto._utils import (
 
 if TYPE_CHECKING:
     from esparto._content import Content, Markdown
+
+T = TypeVar("T", bound="Layout")
 
 Child = Union["Layout", "Content", Any]
 
@@ -84,14 +97,9 @@ class Layout(ABC):
     def __str__(self) -> str:
         return self._tree()
 
-    def __add__(self: "Layout", other: Child) -> "Layout":
-
-        if isinstance(other, (type(self), Spacer)):
-            return self._parent_class(children=[self, other])
-
+    def __add__(self: T, other: Child) -> T:
         new = copy.copy(self)
         new.children = self.children + [*self._smart_wrap(other)]
-
         return new
 
     def __eq__(self, other: Any) -> bool:
