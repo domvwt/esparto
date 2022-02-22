@@ -130,10 +130,6 @@ p {
     padding: 0 !important;
     padding-left: 0.3rem !important;
     padding-right: 0.3rem !important;
-}
-
-.es-table th,
-.es-table td {
     text-align: right;
 }
 
