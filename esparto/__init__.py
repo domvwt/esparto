@@ -15,7 +15,7 @@ from typing import Set as _Set
 
 __author__ = """Dominic Thorn"""
 __email__ = "dominic.thorn@gmail.com"
-__version__ = "2.1.0"
+__version__ = "3.0.0"
 
 _MODULE_PATH: _Path = _Path(__file__).parent.absolute()
 
@@ -56,6 +56,6 @@ from esparto._layout import (
     Section,
     Spacer,
 )
-from esparto._options import PageOptions, options
+from esparto._options import OutputOptions, options
 
 options._autoload()

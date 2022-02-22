@@ -83,7 +83,7 @@ class BokehOptions(ConfigMixin):
 
 
 @dataclass(repr=False)
-class PageOptions(ConfigMixin):
+class OutputOptions(ConfigMixin):
     """Options for configuring page rendering and output.
 
     Config options will automatically be loaded if a yaml file is found at
@@ -155,7 +155,7 @@ class PageOptions(ConfigMixin):
                 break
 
 
-options = PageOptions()
+options = OutputOptions()
 
 
 def update_recursive(
@@ -173,7 +173,7 @@ def update_recursive(
 
 
 class OptionsContext:
-    def __init__(self, page_options: PageOptions):
+    def __init__(self, page_options: OutputOptions):
         self.page_options = page_options
         self.default_options = copy.copy(options)
 

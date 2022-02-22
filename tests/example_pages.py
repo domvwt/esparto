@@ -1,6 +1,7 @@
 import argparse
 from pathlib import Path
 
+import bokeh.plotting as bkp
 import matplotlib.pyplot as plt  # type: ignore
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
@@ -23,8 +24,7 @@ df["A"] = np.random.normal(10, 4, 1000)
 df["B"] = np.random.normal(-10, 6, 1000)
 df["C"] = np.random.normal(0, 3, 1000)
 df["D"] = np.random.normal(-5, 8, 1000)
-
-df = df
+df = df.round(3)
 
 
 def example_01(pdf: bool = False):
@@ -61,48 +61,51 @@ def example_02(pdf: bool = False):
     fig = plt.gcf()
     fig.tight_layout()
 
+    _ = df.plot.hist(alpha=0.4, bins=30)
+    fig2 = plt.gcf()
+    fig2.tight_layout()
+    fig2.set_size_inches(4, 3)
+
     page[0][0] = df[:10], fig
-
     page[0][1] = ({"fig": fig}, {"table": df[:10]})
-
     page[0][2] = es.CardRowEqual(children=[{"fig": fig}, {"table": df[:10]}][::-1])
-
     page[0][3] = {"text": lorem}, {"table": df[:10]}
+    page[0][4] = fig
+    page[0][5] = fig2
 
-    page.save_html("page02.html")
+    page.save_html("page02-mpl.html")
 
     if pdf:
-        page.save_pdf("page02.pdf")
+        page.save_pdf("page02-mpl.pdf")
 
 
 def example_03(pdf: bool = False):
-    page = es.Page(title="Markdown Page")
+    page = es.Page(title="Markdown Page", max_width=600)
     page += "tests/resources/markdown.md"
-    page.save_html("page03.html")
+    page.save_html("page03-markdown.html")
 
     if pdf:
-        page.save_pdf("page03.pdf")
+        page.save_pdf("page03-markdown.pdf")
 
 
 def example_04(pdf: bool = False):
     page = es.Page(title="Plotly Page")
 
     fig = px.scatter(data_frame=df, x="A", y="B")
+    fig2 = px.scatter(data_frame=df, x="A", y="B", width=400, height=300)
 
     page[0][0] = df[:10], fig
-
     page[0][1] = ({"fig": fig}, {"table": df[:10]})
-
     page[0][2] = es.CardRowEqual(children=[{"fig": fig}, {"table": df[:10]}][::-1])
-
     page[0][3] = {"text": lorem}, {"table": df[:10]}
-
     page[0][4] = ({"fig": fig}, {"fig": fig})
+    page[0][5] = fig
+    page[0][6] = fig2
 
-    page.save_html("page04.html")
+    page.save_html("page04-plotly.html")
 
     if pdf:
-        page.save_pdf("page04.pdf")
+        page.save_pdf("page04-plotly.pdf")
 
 
 def example_05(pdf: bool = False):
@@ -137,6 +140,25 @@ def example_05(pdf: bool = False):
         page.save_pdf("page05.pdf")
 
 
+def example_06(pdf: bool = False):
+    page = es.Page(title="Bokeh Page")
+
+    fig = bkp.figure(title="One")
+    fig.circle("A", "B", source=df)
+
+    page[0][0] = df[:10], fig
+    page[0][1] = ({"fig": fig}, {"table": df[:10]})
+    page[0][2] = es.CardRowEqual(children=[{"fig": fig}, {"table": df[:10]}][::-1])
+    page[0][3] = {"text": lorem}, {"table": df[:10]}
+    page[0][4] = ({"fig": fig}, {"fig": fig})
+
+    fig2 = bkp.figure(title="Two", width=400, height=300)
+    fig2.circle("A", "B", source=df)
+    page[0][5] = fig2
+
+    page.save_html("page06-bokeh.html")
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--pdf", action="store_true")
@@ -152,6 +174,7 @@ def main():
     example_03(pdf)
     example_04(pdf)
     example_05(pdf)
+    example_06(pdf)
 
     print("Done.")
 

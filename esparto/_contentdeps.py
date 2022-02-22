@@ -70,7 +70,7 @@ def resolve_deps(required_deps: Set[str], source: Optional[str]) -> ResolvedDeps
     resolved_deps = ResolvedDeps()
 
     if source not in {"cdn", "inline"}:
-        raise ValueError("Dependency source must be 'cdn' or 'inline'")
+        raise ValueError("Dependency source must be one of {'cdn', 'inline'}")
 
     source = options.dependency_source
 

@@ -217,15 +217,12 @@ class Image(Content):
 
         image_encoded = _image_to_base64(image)
 
-        width, height = image.size
-        max_scale_up = 1.2
-        max_scale_down = 0.5
+        width, _ = image.size
 
         html = (
             "<figure class='es-figure'>"
             "<img class='img-fluid figure-img rounded es-image' "
-            f"style='min-width: {int(width * max_scale_down)}px; "
-            f"max-width: min({int(width * max_scale_up)}px, 100%);' "
+            f"style='width: min({int(width)}px, 100%);' "
             f"alt='{self.alt_text}' "
             f"src='data:image/png;base64,{image_encoded}'>"
         )
@@ -284,8 +281,6 @@ class FigureMpl(Content):
 
     Args:
         figure (plt.Figure): A Matplotlib figure.
-        width (int, str): Image width. (default = '100%')
-        height (int, str): Image height. (default = 'auto')
         output_format (str): 'svg' or 'png'. (default = None)
         pdf_figsize (tuple, float): Set figure size for PDF output. (default = None)
             Accepts a tuple of (height, width) or a float to use as scale factor.
@@ -297,8 +292,6 @@ class FigureMpl(Content):
     def __init__(
         self,
         figure: "MplFigure",
-        width: Union[str, int] = "100%",
-        height: Union[str, int] = "auto",
         output_format: str = None,
         pdf_figsize: Union[Tuple[int, int], float] = None,
     ):
@@ -307,8 +300,6 @@ class FigureMpl(Content):
             raise TypeError(r"figure must be a Matplotlib Figure")
 
         self.content: MplFigure = figure
-        self.width = _html_dim(width)
-        self.height = _html_dim(height)
         self.output_format = output_format or options.matplotlib.html_output_format
         self.pdf_figsize = pdf_figsize or options.matplotlib.pdf_figsize
 
@@ -337,10 +328,14 @@ class FigureMpl(Content):
             xml = buffer.read()
 
             dpi = 96
-            width, height = self.content.get_size_inches() * dpi
+            fig_width, fig_height = (
+                int(val * dpi) for val in self.content.get_size_inches()
+            )
 
             if kwargs.get("pdf_mode"):
-                xml = responsive_svg_mpl(xml, width=int(width), height=int(height))
+                xml = responsive_svg_mpl(
+                    xml, width=int(fig_width), height=int(fig_height)
+                )
                 temp_file = Path(options._pdf_temp_dir) / f"{uuid4()}.svg"
                 temp_file.write_text(xml)
                 inner = (
@@ -351,14 +346,9 @@ class FigureMpl(Content):
                 xml = responsive_svg_mpl(xml)
                 inner = xml
 
-            max_scale_up = 1
-            max_scale_down = 0.5
             html = (
-                "<div class='row justify-content-center p-0 m-0' "
-                "style='width: 100%; height: auto;'>\n"
-                f"<div class='col es-matplotlib-figure' style='max-width: min({int(width * max_scale_up)}px, 100%); "
-                f"min-width: {int(width * max_scale_down)}px; height: auto;'>"
-                f"{inner}\n</div>\n</div>\n"
+                f"<div class='es-matplotlib-figure' style='width: min({fig_width}px, 100%);'>"
+                f"{inner}\n</div>\n"
             )
 
             # Reset figsize in case it was changed
@@ -378,8 +368,6 @@ class FigureBokeh(Content):
 
     Args:
         figure (bokeh.layouts.LayoutDOM): A Bokeh object.
-        width (int, str): Figure width. (default = figure.width or '100%')
-        height (int, str): Figure height. (default = figure.height or 'auto')
         layout_attributes (dict): Attributes set on `figure`. (default = None)
 
     """
@@ -389,21 +377,12 @@ class FigureBokeh(Content):
     def __init__(
         self,
         figure: "BokehObject",
-        width: Union[int, str] = None,
-        height: Union[int, str] = None,
         layout_attributes: dict = None,
     ):
         if not issubclass(type(figure), BokehObject):
             raise TypeError(r"figure must be a Bokeh object")
 
         self.content: BokehObject = figure
-
-        fig_width = figure.properties_with_values().get("width")
-        fig_height = figure.properties_with_values().get("height")
-
-        self.width = _html_dim(width or fig_width or "100%")
-        self.height = _html_dim(height or fig_height or "auto")
-
         self.layout_attributes = layout_attributes or options.bokeh.layout_attributes
 
     def to_html(self, **kwargs) -> str:
@@ -426,9 +405,11 @@ class FigureBokeh(Content):
         # Remove outer <div> tag so we can give our own attributes
         html = _remove_outer_div(html)
 
+        fig_width = self.content.properties_with_values().get("width", 1000)
+
         return (
             "<div class='es-bokeh-figure' "
-            f"style='max-width: {self.width}; max-height: {self.height}; margin: auto;'>"
+            f"style='width: min({fig_width}px, 100%);'>"
             f"\n{html}\n{js}\n</div>"
         )
 
@@ -438,8 +419,6 @@ class FigurePlotly(Content):
 
     Args:
         figure (plotly.graph_objs._figure.Figure): A Plotly figure.
-        width (int): Figure width. (default = '100%')
-        height (int): Figure height. (default = 500)
         layout_args (dict): Args passed to `figure.update_layout()`. (default = None)
 
     """
@@ -449,16 +428,12 @@ class FigurePlotly(Content):
     def __init__(
         self,
         figure: "PlotlyFigure",
-        width: int = None,
-        height: int = None,
         layout_args: dict = None,
     ):
 
         if not isinstance(figure, PlotlyFigure):
             raise TypeError(r"figure must be a Plotly Figure")
 
-        self.width = _html_dim(width or int(figure.layout["width"] or 0) or "100%")  # type: ignore
-        self.height = _html_dim(height or int(figure.layout["height"] or 0) or 500)  # type: ignore
         self.layout_args = layout_args or options.plotly.layout_args
 
         self.content: PlotlyFigure = figure
@@ -469,20 +444,22 @@ class FigurePlotly(Content):
         if self.layout_args:
             self.content.update_layout(**self.layout_args)
 
+        # Default width is 700, default height is 450
+        fig_width: int = getattr(self.content, "width", 700)
+
         if kwargs.get("pdf_mode"):
             temp_file = Path(options._pdf_temp_dir) / f"{uuid4()}.svg"
             self.content.write_image(str(temp_file))
-            html = f"<img src='{temp_file.name}' width='100%' height='auto'>\n"
+            inner = f"<img src='{temp_file.name}' width='100%' height='auto'>"
 
         else:
-            html = plotly_to_html(self.content, include_plotlyjs=False, full_html=False)
-
-            # Remove outer <div> tag so we can give our own attributes.
-            html = _remove_outer_div(html)
-            html = (
-                "<div class='responsive-plot es-plotly-figure' "
-                f"style='max-width: {self.width}; height: {self.height}; margin: auto;'>{html}\n</div>"
+            inner = plotly_to_html(
+                self.content, include_plotlyjs=False, full_html=False
             )
+            # Remove outer <div> tag so we can give our own attributes.
+            inner = _remove_outer_div(inner)
+
+        html = f"<div class='es-plotly-figure' style='width: min({fig_width}px, 100%);'>{inner}\n</div>"
 
         # Reset layout in case it was changed
         self.content.update_layout(self._original_layout)
@@ -542,12 +519,3 @@ def _rescale_dims(
 
     new_size = (int(size[0] * ratio), int(size[1] * ratio))
     return new_size
-
-
-def _html_dim(size: Union[int, str]) -> str:
-    if isinstance(size, int):
-        return f"{size}px"
-    elif isinstance(size, str):
-        return size
-    else:
-        raise TypeError(type(size))

@@ -83,16 +83,19 @@ p {
     padding-bottom: 1rem;
 }
 
-.es-matplotlib-figure {
-    margin: 0;
-    padding: 0;
-}
-
-.es-bokeh-figure .es-plotly-figure {
+.es-matplotlib-figure,
+.es-bokeh-figure,
+.es-plotly-figure {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    margin: auto;
     margin-bottom: 1rem;
 }
 
 .es-page-body {
+    margin: auto;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
 }
@@ -187,12 +190,23 @@ a::selection {
 }
 
 @media print {
+    .es-page-title,
+    .es-section-title,
+    .es-row-title,
+    .es-column-title {
+        page-break-after: avoid;
+    }
+
     .es-row-body,
     .es-column-body,
     .es-card {
         page-break-inside: avoid;
         page-break-after: auto;
         page-break-before: auto;
+    }
+
+    .es-section-body {
+        page-break-after: always;
     }
 
     .es-column-body,

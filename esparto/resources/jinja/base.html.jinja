@@ -31,7 +31,9 @@
   </nav>
 
   <!-- Content -->
+  <main class="container">
   {{ content }}
+  </main>
 
   <!-- Footer -->
   <footer class="footer d-flex bg-light mt-5 d-print-none" width="100vw" height="2em">
@@ -40,7 +42,7 @@
     </a>
   </footer>
 
-  <!-- JavaScript Dependencies -->
+  <!-- JavaScript -->
   {% if tail_deps is defined and tail_deps|length %}
   {% for dep in tail_deps %}
   {{ dep }}

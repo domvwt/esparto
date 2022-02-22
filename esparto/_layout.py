@@ -6,7 +6,9 @@ from collections import namedtuple
 from pprint import pformat
 from typing import TYPE_CHECKING, Any, Dict, Iterator, List, Optional, Set, Type, Union
 
-from esparto._options import OptionsContext, PageOptions, options
+import bs4  # type: ignore
+
+from esparto._options import OptionsContext, OutputOptions, options
 from esparto._publish import nb_display, publish_html, publish_pdf
 from esparto._utils import (
     clean_attr_name,
@@ -82,7 +84,7 @@ class Layout(ABC):
     def __str__(self) -> str:
         return self._tree()
 
-    def __add__(self: "Layout", other: "Layout") -> "Layout":
+    def __add__(self: "Layout", other: Child) -> "Layout":
 
         if isinstance(other, (type(self), Spacer)):
             return self._parent_class(children=[self, other])
@@ -293,6 +295,7 @@ class Layout(ABC):
             f"{title_rendered}\n{children_rendered}\n",
             self.get_identifier(),
         )
+        html = bs4.BeautifulSoup(html, "html.parser").prettify()
         return html
 
     def tree(self) -> None:
@@ -432,12 +435,13 @@ class Page(Layout):
         navbrand (str): Brand name. Displayed in the page navbar if provided.
         table_of_contents (bool, int): Add a Table of Contents to the top of page.
             Passing an `int` will define the maximum depth.
+        max_width (int): Maximum page width expressed in pixels.
+        output_options (es.OutputOptions): Page specific rendering and output options.
         children (list): Child items defining layout and content.
         title_classes (list): Additional CSS classes to apply to title.
         title_styles (dict): Additional CSS styles to apply to title.
         body_classes (list): Additional CSS classes to apply to body.
         body_styles (dict): Additional CSS styles to apply to body.
-        page_options (es.PageOptions): Page specific rendering and output options.
 
     """
 
@@ -446,19 +450,21 @@ class Page(Layout):
         title: Optional[str] = None,
         navbrand: Optional[str] = "",
         table_of_contents: Union[bool, int] = False,
+        max_width: int = 800,
+        output_options: Optional[OutputOptions] = None,
         children: Union[List[Child], Child] = None,
         title_classes: Optional[List[str]] = None,
         title_styles: Optional[Dict[str, Any]] = None,
         body_classes: Optional[List[str]] = None,
         body_styles: Optional[Dict[str, Any]] = None,
-        page_options: Optional[PageOptions] = None,
     ):
         super().__init__(
             title, children, title_classes, title_styles, body_classes, body_styles
         )
         self.navbrand = navbrand
         self.table_of_contents = table_of_contents
-        self.page_options = page_options or options
+        self.max_width = max_width
+        self.output_options = output_options or options
 
     def save(
         self,
@@ -542,7 +548,7 @@ class Page(Layout):
         return None
 
     def to_html(self, **kwargs: bool) -> str:
-        with OptionsContext(self.page_options):
+        with OptionsContext(self.output_options):
             if self.table_of_contents:
                 # Create a copy of the page and dynamically generate the TOC.
                 # Copy is required so that TOC is not added multiple times and
@@ -560,6 +566,9 @@ class Page(Layout):
                 )
                 page_copy.table_of_contents = False
                 return page_copy.to_html(**kwargs)
+
+            self.body_styles.update({"max-width": f"{self.max_width}px"})
+
             return super().to_html(**kwargs)
 
     def __post_init__(self) -> None:
@@ -567,8 +576,8 @@ class Page(Layout):
         self.title_classes = ["es-page-title"]
         self.title_styles = {}
 
-        self.body_html_tag = "main"
-        self.body_classes = ["es-page-body", "container"]
+        self.body_html_tag = "div"
+        self.body_classes = ["es-page-body"]
         self.body_styles = {}
 
     @property
