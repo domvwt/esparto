@@ -1,24 +1,3 @@
-/* * Layout Styles */
-
-html {
-    position: relative;
-    min-height: 100%;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-        Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
-
-pre,
-code {
-    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-        "Courier New", monospace;
-}
-
 h1,
 h2,
 h3,
@@ -153,10 +132,7 @@ p {
     padding-right: 0.3rem !important;
 }
 
-.es-table th {
-    text-align: right;
-}
-
+.es-table th,
 .es-table td {
     text-align: right;
 }
@@ -167,26 +143,6 @@ p {
     top: 0px;
     bottom: 0px;
     margin: auto;
-}
-
-*::-moz-selection {
-    background: rgba(255, 255, 0, 0.3);
-    color: #000;
-}
-
-*::selection {
-    background: rgba(255, 255, 0, 0.3);
-    color: #000;
-}
-
-a::-moz-selection {
-    background: rgba(255, 255, 0, 0.3);
-    color: #0645ad;
-}
-
-a::selection {
-    background: rgba(255, 255, 0, 0.3);
-    color: #0645ad;
 }
 
 @media print {
@@ -201,8 +157,6 @@ a::selection {
     .es-column-body,
     .es-card {
         page-break-inside: avoid;
-        page-break-after: auto;
-        page-break-before: auto;
     }
 
     .es-section-body {
