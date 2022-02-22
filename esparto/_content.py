@@ -4,7 +4,17 @@ import base64
 from abc import ABC, abstractmethod
 from io import BytesIO, StringIO
 from pathlib import Path
-from typing import Any, Set, Tuple, Union
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Dict,
+    Iterator,
+    Optional,
+    Set,
+    Tuple,
+    TypeVar,
+    Union,
+)
 from uuid import uuid4
 
 import markdown as md
@@ -12,6 +22,7 @@ import markdown as md
 from esparto import _INSTALLED_MODULES
 from esparto._options import options
 from esparto._publish import nb_display
+from esparto._typing import Child
 from esparto._utils import responsive_svg_mpl
 
 if "PIL" in _INSTALLED_MODULES:
@@ -32,6 +43,11 @@ if "plotly" in _INSTALLED_MODULES:
     from plotly.graph_objs._figure import Figure as PlotlyFigure  # type: ignore
     from plotly.io import to_html as plotly_to_html  # type: ignore
 
+if TYPE_CHECKING:
+    from esparto._layout import Row
+
+T = TypeVar("T", bound="Content")
+
 
 class Content(ABC):
     """Template for Content elements.
@@ -45,7 +61,7 @@ class Content(ABC):
     _dependencies: Set[str]
 
     @abstractmethod
-    def to_html(self, **kwargs) -> str:
+    def to_html(self, **kwargs: bool) -> str:
         """Convert content to HTML code.
 
         Returns:
@@ -58,31 +74,31 @@ class Content(ABC):
         """Display rendered content in a Jupyter Notebook cell."""
         nb_display(self)
 
-    def __add__(self, other):
+    def __add__(self, other: Child) -> "Row":
         from esparto._layout import Row
 
         return Row(children=[self, other])
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator["Content"]:
         return iter([self])
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(list(self.content))
 
-    def _repr_html_(self):
+    def _repr_html_(self) -> None:
         nb_display(self)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return getattr(self, "title", None) or self.__class__.__name__
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         if isinstance(other, self.__class__):
             if hasattr(self.content, "__iter__") and hasattr(other.content, "__iter__"):
                 return all(x == y for x, y in zip(self.content, other.content))
-            return self.content == other.content
+            return bool(self.content == other.content)
         return False
 
-    def __ne__(self, other):
+    def __ne__(self, other: Any) -> bool:
         return not self.__eq__(other)
 
 
@@ -95,15 +111,16 @@ class RawHTML(Content):
     """
 
     _dependencies: Set[Any] = set("")
+    content: str
 
-    def __init__(self, html):
+    def __init__(self, html: str) -> None:
 
         if not isinstance(html, str):
             raise TypeError(r"HTML must be str")
 
         self.content = html
 
-    def to_html(self, **kwargs) -> str:
+    def to_html(self, **kwargs: bool) -> str:
         return self.content
 
 
@@ -117,14 +134,14 @@ class Markdown(Content):
 
     _dependencies = {"bootstrap"}
 
-    def __init__(self, text):
+    def __init__(self, text: str) -> None:
 
         if not isinstance(text, str):
             raise TypeError(r"text must be str")
 
         self.content: str = text
 
-    def to_html(self, **kwargs) -> str:
+    def to_html(self, **kwargs: bool) -> str:
         html = md.markdown(self.content, extensions=["extra", "smarty"])
         html = f"{html}\n"
         html = f"<div class='es-markdown'>\n{html}\n</div>"
@@ -157,11 +174,11 @@ class Image(Content):
     def __init__(
         self,
         image: Union[str, Path, "PILImage", BytesIO],
-        caption: str = "",
-        alt_text: str = "Image",
-        scale: float = None,
-        set_width: int = None,
-        set_height: int = None,
+        caption: Optional[str] = "",
+        alt_text: Optional[str] = "Image",
+        scale: Optional[float] = None,
+        set_width: Optional[int] = None,
+        set_height: Optional[int] = None,
     ):
         if "PIL" not in _INSTALLED_MODULES:
             raise ModuleNotFoundError("Install `Pillow` for image content support.")
@@ -176,7 +193,7 @@ class Image(Content):
         self._width = set_width
         self._height = set_height
 
-    def set_width(self, width) -> None:
+    def set_width(self, width: int) -> None:
         """Set width of image.
 
         Args:
@@ -185,7 +202,7 @@ class Image(Content):
         """
         self._width = width
 
-    def set_height(self, height) -> None:
+    def set_height(self, height: int) -> None:
         """Set height of image.
 
         Args:
@@ -194,7 +211,7 @@ class Image(Content):
         """
         self._height = height
 
-    def rescale(self, scale) -> None:
+    def rescale(self, scale: float) -> None:
         """Resize the image by a scaling factor prior to rendering.
 
         Note:
@@ -206,7 +223,7 @@ class Image(Content):
         """
         self._scale = scale
 
-    def to_html(self, **kwargs) -> str:
+    def to_html(self, **kwargs: bool) -> str:
         if isinstance(self.content, PILImage):
             image = self.content
         else:
@@ -265,11 +282,11 @@ class DataFramePd(Content):
             "table-hover",
         ]
 
-    def to_html(self, **kwargs) -> str:
-        html = self.content.to_html(
+    def to_html(self, **kwargs: bool) -> str:
+        html: str = self.content.to_html(
             index=self.index,
             border=0,
-            col_space=self.col_space,  # type: ignore
+            col_space=self.col_space,
             classes=self.css_classes,
         )
         html = f"<div class='table-responsive es-table'>{html}</div>"
@@ -292,9 +309,9 @@ class FigureMpl(Content):
     def __init__(
         self,
         figure: "MplFigure",
-        output_format: str = None,
-        pdf_figsize: Union[Tuple[int, int], float] = None,
-    ):
+        output_format: Optional[str] = None,
+        pdf_figsize: Optional[Union[Tuple[int, int], float]] = None,
+    ) -> None:
 
         if not isinstance(figure, MplFigure):
             raise TypeError(r"figure must be a Matplotlib Figure")
@@ -305,7 +322,7 @@ class FigureMpl(Content):
 
         self._original_figsize = figure.get_size_inches()
 
-    def to_html(self, **kwargs):
+    def to_html(self, **kwargs: bool) -> str:
 
         if kwargs.get("notebook_mode"):
             output_format = options.matplotlib.notebook_format
@@ -322,10 +339,10 @@ class FigureMpl(Content):
 
         if output_format == "svg":
 
-            buffer = StringIO()
-            self.content.savefig(buffer, format="svg")
-            buffer.seek(0)
-            xml = buffer.read()
+            string_buffer = StringIO()
+            self.content.savefig(string_buffer, format="svg")
+            string_buffer.seek(0)
+            xml = string_buffer.read()
 
             dpi = 96
             fig_width, fig_height = (
@@ -357,10 +374,10 @@ class FigureMpl(Content):
             return html
 
         # If not svg:
-        buffer = BytesIO()
-        self.content.savefig(buffer, format="png")
-        buffer.seek(0)
-        return Image(buffer).to_html()
+        bytes_buffer = BytesIO()
+        self.content.savefig(bytes_buffer, format="png")
+        bytes_buffer.seek(0)
+        return Image(bytes_buffer).to_html()
 
 
 class FigureBokeh(Content):
@@ -377,7 +394,7 @@ class FigureBokeh(Content):
     def __init__(
         self,
         figure: "BokehObject",
-        layout_attributes: dict = None,
+        layout_attributes: Optional[Dict[Any, Any]] = None,
     ):
         if not issubclass(type(figure), BokehObject):
             raise TypeError(r"figure must be a Bokeh object")
@@ -385,7 +402,7 @@ class FigureBokeh(Content):
         self.content: BokehObject = figure
         self.layout_attributes = layout_attributes or options.bokeh.layout_attributes
 
-    def to_html(self, **kwargs) -> str:
+    def to_html(self, **kwargs: bool) -> str:
 
         if self.layout_attributes:
             for key, value in self.layout_attributes.items():
@@ -428,7 +445,7 @@ class FigurePlotly(Content):
     def __init__(
         self,
         figure: "PlotlyFigure",
-        layout_args: dict = None,
+        layout_args: Optional[Dict[Any, Any]] = None,
     ):
 
         if not isinstance(figure, PlotlyFigure):
@@ -439,7 +456,7 @@ class FigurePlotly(Content):
         self.content: PlotlyFigure = figure
         self._original_layout = figure.layout
 
-    def to_html(self, **kwargs) -> str:
+    def to_html(self, **kwargs: bool) -> str:
 
         if self.layout_args:
             self.content.update_layout(**self.layout_args)
@@ -492,7 +509,10 @@ def _image_to_base64(image: "PILImage") -> str:
 
 
 def _rescale_image(
-    image: "PILImage", width: int = None, height: int = None, scale: float = None
+    image: "PILImage",
+    width: Optional[int] = None,
+    height: Optional[int] = None,
+    scale: Optional[float] = None,
 ) -> "PILImage":
     """Rescale image by width in px, height in px, or ratio."""
     image = image.copy()
@@ -502,7 +522,10 @@ def _rescale_image(
 
 
 def _rescale_dims(
-    size: Tuple[int, int], width: int = None, height: int = None, scale: float = None
+    size: Tuple[int, int],
+    width: Optional[int] = None,
+    height: Optional[int] = None,
+    scale: Optional[float] = None,
 ) -> Tuple[int, int]:
     """Rescale dimensions by width in px, height in px, or ratio."""
     if width:

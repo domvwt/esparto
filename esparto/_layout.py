@@ -21,6 +21,7 @@ import bs4  # type: ignore
 
 from esparto._options import OptionsContext, OutputOptions, options
 from esparto._publish import nb_display, publish_html, publish_pdf
+from esparto._typing import Child
 from esparto._utils import (
     clean_attr_name,
     clean_iterator,
@@ -29,11 +30,9 @@ from esparto._utils import (
 )
 
 if TYPE_CHECKING:
-    from esparto._content import Content, Markdown
+    from esparto._content import Markdown
 
 T = TypeVar("T", bound="Layout")
-
-Child = Union["Layout", "Content", Any]
 
 
 class Layout(ABC):
@@ -955,4 +954,4 @@ def table_of_contents(
     ]
     markdown_str = "\n".join(markdown_list)
 
-    return Markdown(markdown_str)  # type: ignore
+    return Markdown(markdown_str)

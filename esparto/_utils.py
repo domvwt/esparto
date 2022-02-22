@@ -2,7 +2,7 @@ import re
 from typing import TYPE_CHECKING, Any, Callable, Dict, Iterable, List, Optional
 
 if TYPE_CHECKING:
-    from esparto._layout import Child
+    from esparto._typing import Child
 
 
 def get_index_where(

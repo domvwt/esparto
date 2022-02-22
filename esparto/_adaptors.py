@@ -1,7 +1,7 @@
 import functools as ft
 import mimetypes as mt
 from pathlib import Path
-from typing import Union
+from typing import Any, Dict, Union
 
 from esparto import _INSTALLED_MODULES
 from esparto._content import (
@@ -17,7 +17,7 @@ from esparto._layout import Layout
 
 
 @ft.singledispatch
-def content_adaptor(content: Content) -> Union[Content, Layout, dict]:
+def content_adaptor(content: Content) -> Union[Content, Layout, Dict[str, Any]]:
     """
     Wrap content in the required class. If Layout object is passed, return unchanged.
 
@@ -34,8 +34,10 @@ def content_adaptor(content: Content) -> Union[Content, Layout, dict]:
 
 
 @content_adaptor.register(str)
-def content_adaptor_core(content: str) -> Content:
+@content_adaptor.register(Path)
+def content_adaptor_core(content: Union[str, Path]) -> Content:
     """Convert text or image to Markdown or Image content."""
+    content = str(content)
     guess = mt.guess_type(content)
     if guess and isinstance(guess[0], str):
         file_type = guess[0].split("/")[0]
@@ -54,15 +56,8 @@ def content_adaptor_layout(content: Layout) -> Layout:
     return content
 
 
-@content_adaptor.register(Path)
-def content_adaptor_path(content: Path) -> Union[Content, Layout, dict]:
-    """Convert text or image path to Markdown or Image content."""
-    content_str = str(content)
-    return content_adaptor_core(content_str)
-
-
 @content_adaptor.register(dict)
-def content_adaptor_dict(content: dict) -> dict:
+def content_adaptor_dict(content: Dict[str, Any]) -> Dict[str, Any]:
     """Pass through dict of {"title": content}."""
     if not (len(content) == 1 and isinstance(list(content.keys())[0], str)):
         raise ValueError("Content dict must be passed as {'title': content}")
