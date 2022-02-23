@@ -75,7 +75,6 @@ del page.section_title.row_title[-1]
 
 ```python
 del page.section_title.row_title.column_two
-page.tree()
 ```
 
 ```
