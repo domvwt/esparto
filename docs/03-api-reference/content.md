@@ -13,11 +13,10 @@
     ```
 
 ## ::: esparto._content.Content
+
 <br>
 
 ## ::: esparto._content.Markdown
-
-## ::: esparto._content.Image
 
 ## ::: esparto._content.DataFramePd
 
@@ -26,6 +25,8 @@
 ## ::: esparto._content.FigureBokeh
 
 ## ::: esparto._content.FigurePlotly
+
+## ::: esparto._content.Image
 
 ## ::: esparto._content.RawHTML
 

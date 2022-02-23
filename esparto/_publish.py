@@ -4,7 +4,8 @@ import time
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional, Union
 
-from jinja2 import Template  # type: ignore
+from bs4 import BeautifulSoup, Tag  # type: ignore
+from jinja2 import Template
 
 if TYPE_CHECKING:
     from esparto._layout import Page, Layout
@@ -19,10 +20,10 @@ def publish_html(
     page: "Page",
     filepath: Optional[str] = "./esparto-doc.html",
     return_html: bool = False,
-    dependency_source: str = None,
-    esparto_css: str = None,
-    jinja_template: str = None,
-    **kwargs,
+    dependency_source: Optional[str] = None,
+    esparto_css: Optional[str] = None,
+    jinja_template: Optional[str] = None,
+    **kwargs: bool,
 ) -> Optional[str]:
     """Save page to HTML.
 
@@ -45,26 +46,27 @@ def publish_html(
     resolved_deps = resolve_deps(required_deps, source=dependency_source)
 
     esparto_css = Path(resolve_config_option("esparto_css", esparto_css)).read_text()
-    jinja_template_loaded = Template(
+
+    page_html = page.to_html(**kwargs)
+    jinja_template_object = Template(
         Path(resolve_config_option("jinja_template", jinja_template)).read_text()
     )
-
-    html_rendered: str = jinja_template_loaded.render(
+    html_rendered: str = jinja_template_object.render(
         navbrand=page.navbrand,
         doc_title=page.title,
         esparto_css=esparto_css,
-        content=page.to_html(**kwargs),
+        content=page_html,
         head_deps=resolved_deps.head,
         tail_deps=resolved_deps.tail,
     )
-    html_prettified = _prettify_html(html_rendered)
+    html_rendered = _prettify_html(html_rendered)
+    html_rendered = _relocate_scripts(html_rendered)
 
     if filepath:
-        with open(filepath, "w") as f:
-            f.write(html_prettified)
+        Path(filepath).write_text(html_rendered)
 
     if return_html:
-        return html_prettified
+        return html_rendered
     return None
 
 
@@ -84,7 +86,7 @@ def publish_pdf(
     """
     if "weasyprint" not in _INSTALLED_MODULES:
         raise ModuleNotFoundError("Install weasyprint for PDF support")
-    import weasyprint as weasy  # type: ignore
+    import weasyprint as wp  # type: ignore
 
     temp_dir = Path(options._pdf_temp_dir)
     temp_dir.mkdir(parents=True, exist_ok=True)
@@ -96,7 +98,7 @@ def publish_pdf(
         dependency_source="inline",
         pdf_mode=True,
     )
-    pdf_doc = weasy.HTML(string=html_rendered, base_url=options._pdf_temp_dir).render()
+    pdf_doc = wp.HTML(string=html_rendered, base_url=options._pdf_temp_dir).render()
     pdf_doc.metadata.title = page.title
     pdf_doc.write_pdf(filepath)
 
@@ -114,7 +116,7 @@ def publish_pdf(
 def nb_display(
     item: Union["Layout", "Content"],
     return_html: bool = False,
-    dependency_source: str = None,
+    dependency_source: Optional[str] = None,
 ) -> Optional[str]:
     """Display Layout or Content to Jupyter Notebook cell.
 
@@ -142,17 +144,18 @@ def nb_display(
     head_deps = "\n".join(resolved_deps.head)
     tail_deps = "\n".join(resolved_deps.tail)
     html = item.to_html(notebook_mode=True)
-    render_html = (
+    html_rendered = (
         f"<div class='container' style='width: 100%; height: 100%;'>\n{html}\n</div>\n"
     )
-    render_html += f"<style>\n{esparto_css}\n</style>\n"
+    html_rendered += f"<style>\n{esparto_css}\n</style>\n"
 
-    render_html = (
+    html_rendered = (
         f"<!doctype html>\n<html>\n<head>{head_deps}</head>\n"
-        f"<body>\n{render_html}\n{tail_deps}\n</body>\n</html>\n"
+        f"<body>\n{html_rendered}\n{tail_deps}\n</body>\n</html>\n"
     )
-
+    html_rendered = _relocate_scripts(html_rendered)
     print()
+
     # This allows time to download plotly.js from the CDN - otherwise cell can render empty
     if "plotly" in required_deps and dependency_source == "cdn":
         display(HTML(f"<head>\n{head_deps}\n</head>\n"), metadata=dict(isolated=True))
@@ -164,20 +167,32 @@ def nb_display(
     else:
         extra_css = ""
 
-    display(HTML(extra_css + render_html), metadata=dict(isolated=True))
+    display(HTML(extra_css + html_rendered), metadata=dict(isolated=True))
     print()
 
     if return_html:
-        return render_html
+        return html_rendered
     return None
 
 
 def _prettify_html(html: Optional[str]) -> str:
     """Prettify HTML."""
-    if "bs4" in _INSTALLED_MODULES:
-        from bs4 import BeautifulSoup  # type: ignore
+    html = html or ""
+    html = str(BeautifulSoup(html, features="html.parser").prettify())
 
-        html = html or ""
-        html = str(BeautifulSoup(html, features="html.parser").prettify())
+    return html
 
-    return html or ""
+
+def _relocate_scripts(html: str) -> str:
+    """Move all JavaScript in page body to end of section."""
+    soup = BeautifulSoup(html, "html.parser")
+    body = soup.find("body")
+
+    if isinstance(body, Tag):
+        script_list = body.find_all("script")
+        for script in script_list:
+            body.insert(len(body), script)
+
+    html = str(soup)
+
+    return html

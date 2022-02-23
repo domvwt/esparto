@@ -1,10 +1,13 @@
 """Esparto configuration options."""
 
+import collections.abc
 import copy
 import pprint
+import traceback
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple, Union
+from types import TracebackType
+from typing import Any, Dict, Mapping, Optional, Tuple, Type, Union
 
 import yaml  # type: ignore
 
@@ -15,7 +18,7 @@ from esparto._utils import public_dict
 class ConfigMixin(object):
     _options_source: str
 
-    def _to_dict(self) -> dict:
+    def _to_dict(self) -> Dict[str, Any]:
         return public_dict(self.__dict__)
 
     def __repr__(self) -> str:
@@ -38,7 +41,7 @@ class MatplotlibOptions(ConfigMixin):
         html_output_format (str):
             How plots are rendered in HTML: 'png' or 'svg'.
         notebook_format (str):
-            How plots are rendedered in Jupyter Notebooks: 'png' or 'svg'.
+            How plots are rendered in Jupyter Notebooks: 'png' or 'svg'.
         pdf_figsize (tuple or int):
             Specify size of Matplotlib figures in PDF output.
             An integer tuple can be passed as: (height, width).
@@ -48,7 +51,7 @@ class MatplotlibOptions(ConfigMixin):
 
     html_output_format: str = "svg"
     notebook_format: str = "svg"
-    pdf_figsize: Optional[Union[Tuple[int, int], float]] = 0.7
+    pdf_figsize: Optional[Union[Tuple[int, int], float]] = 1.0
 
 
 @dataclass(repr=False)
@@ -57,17 +60,11 @@ class PlotlyOptions(ConfigMixin):
 
     Attributes:
         layout_args (dict):
-            Arguments passed to figure.update_layout() at rendering time.
+            Arguments passed to `figure.update_layout()` at rendering time.
 
     """
 
-    layout_args: Dict[str, Any] = field(
-        default_factory=lambda: {
-            "paper_bgcolor": "rgba(0,0,0,0)",
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "modebar": {"bgcolor": "white"},
-        }
-    )
+    layout_args: Dict[str, Any] = field(default_factory=lambda: {})
 
 
 @dataclass(repr=False)
@@ -86,18 +83,18 @@ class BokehOptions(ConfigMixin):
 
 
 @dataclass(repr=False)
-class ConfigOptions(ConfigMixin):
-    """Options for configuring esparto behaviour and output.
+class OutputOptions(ConfigMixin):
+    """Options for configuring page rendering and output.
 
     Config options will automatically be loaded if a yaml file is found at
-    either './esparto-config.yaml' or '~/esparto-data/esparto-config.yaml'.
+    either `./esparto-config.yaml` or `~/esparto-data/esparto-config.yaml`.
 
     Attributes:
         dependency_source (str):
             How dependencies should be provisioned: 'cdn' or 'inline'.
         bootstrap_cdn (str):
             Link to Bootstrap CDN. Used if dependency source is 'cdn'.
-            Alternative links are available via esparto.bootstrap_cdn_themes.
+            Alternative links are available from `esparto.bootstrap_cdn_themes`.
         bootstrap_css (str):
             Path to Bootstrap CSS file. Used if dependency source is 'inline'.
         esparto_css (str):
@@ -113,8 +110,10 @@ class ConfigOptions(ConfigMixin):
 
     dependency_source: str = "cdn"
     bootstrap_cdn: str = (
-        '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" '
-        'integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">'
+        "<link rel='stylesheet' "
+        "href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css' "
+        "integrity='sha512-GQGU0fMMi238uA+a/bdWJfpUGKUkBdgfFdgBm72SUQ6BeyWjoY/ton0tEjH+OSH9iP4Dfh+7HM0I9f5eR0L/4w==' "
+        "crossorigin='anonymous' referrerpolicy='no-referrer'>"
     )
     bootstrap_css: str = str(_MODULE_PATH / "resources/css/bootstrap.min.css")
     esparto_css: str = str(_MODULE_PATH / "resources/css/esparto.css")
@@ -143,7 +142,7 @@ class ConfigOptions(ConfigMixin):
         self = yaml.unsafe_load(yaml_str)
         self._options_source = str(path)
 
-    def _autoload(self):
+    def _autoload(self) -> None:
         config_paths = [
             Path("./esparto-config.yaml"),
             Path.home() / "esparto-data/esparto-config.yaml",
@@ -156,10 +155,40 @@ class ConfigOptions(ConfigMixin):
                 break
 
 
-options = ConfigOptions()
+options = OutputOptions()
 
 
-def resolve_config_option(config_option: str, value: Optional[str]):
+def update_recursive(
+    source_dict: Dict[Any, Any], update_map: Mapping[Any, Any]
+) -> Dict[Any, Any]:
+    """Recursively update nested dictionaries.
+    https://stackoverflow.com/a/3233356/8065696
+    """
+    for k, v in update_map.items():
+        if isinstance(v, collections.abc.Mapping):
+            source_dict[k] = update_recursive(source_dict.get(k, {}), v)
+        else:
+            source_dict[k] = v
+    return source_dict
+
+
+class OptionsContext:
+    def __init__(self, page_options: OutputOptions):
+        self.page_options = page_options
+        self.default_options = copy.copy(options)
+
+    def __enter__(self) -> None:
+        update_recursive(options.__dict__, self.page_options.__dict__)
+
+    def __exit__(
+        self, exc_type: Type[BaseException], exc_value: BaseException, tb: TracebackType
+    ) -> None:
+        if exc_type is not None:  # pragma: no cover
+            traceback.print_exception(exc_type, exc_value, tb)
+        update_recursive(options.__dict__, self.default_options.__dict__)
+
+
+def resolve_config_option(config_option: str, value: Optional[str]) -> Any:
     if value is None:
         return getattr(options, config_option)
     else:

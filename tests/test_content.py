@@ -1,28 +1,10 @@
 from itertools import chain
 
 import pytest
-from PIL import Image  # type: ignore
 
 import esparto._content as co
 import esparto._layout as la
 from tests.conftest import _EXTRAS, content_list
-
-if _EXTRAS:
-
-    def test_all_content_classes_covered(content_list_fn):
-        test_classes = {type(c) for c in content_list_fn}
-        module_classes = {c for c in co.Content.__subclasses__()}
-        module_subclasses = [d.__subclasses__() for d in module_classes]
-        module_all = set(chain.from_iterable(module_subclasses)) | module_classes
-        missing = module_all.difference(test_classes)
-        assert not missing, missing
-
-    def test_all_content_classes_have_deps(content_list_fn):
-        # RawHTML has no dependencies
-        deps = [
-            c._dependencies for c in content_list_fn if not isinstance(c, co.RawHTML)
-        ]
-        assert all(deps)
 
 
 @pytest.mark.parametrize("a", content_list)
@@ -42,76 +24,85 @@ def test_content_equality(content_list_fn):
                 assert a != b
 
 
-@pytest.mark.parametrize("scale", [0.2, 0.5, 1])
-def test_image_rescale(scale, image_content):
-    img = Image.open(image_content.content)
-    width, height = img.size
+if _EXTRAS:
+    from PIL import Image  # type: ignore
 
-    resized = co._rescale_image(img, scale=scale)
-    width_new, height_new = resized.size
+    def test_all_content_classes_covered(content_list_fn):
+        test_classes = {type(c) for c in content_list_fn}
+        module_classes = {c for c in co.Content.__subclasses__()}
+        module_subclasses = [d.__subclasses__() for d in module_classes]
+        module_all = set(chain.from_iterable(module_subclasses)) | module_classes
+        missing = module_all.difference(test_classes)
+        assert not missing, missing
 
-    assert height_new == int(scale * height)
-    assert width_new == int(scale * width)
+    def test_all_content_classes_have_deps(content_list_fn):
+        # RawHTML has no dependencies
+        deps = [
+            c._dependencies for c in content_list_fn if not isinstance(c, co.RawHTML)
+        ]
+        assert all(deps)
 
+    @pytest.mark.parametrize("scale", [0.2, 0.5, 1])
+    def test_image_rescale(scale, image_content):
+        img = Image.open(image_content.content)
+        width, height = img.size
 
-@pytest.mark.parametrize("target", [100, 400, 550])
-def test_image_scale_width(target, image_content):
-    img = Image.open(image_content.content)
-    width, height = img.size
-
-    scale = target / width
-
-    if target > width:
-        with pytest.raises(ValueError):
-            resized = co._rescale_image(img, width=target)
-    else:
-        resized = co._rescale_image(img, width=target)
+        resized = co._rescale_image(img, scale=scale)
         width_new, height_new = resized.size
+
         assert height_new == int(scale * height)
-        assert width_new == target
-
-
-@pytest.mark.parametrize("target", [100, 400, 1000])
-def test_image_scale_height(target, image_content):
-    img = Image.open(image_content.content)
-    width, height = img.size
-
-    scale = target / height
-
-    if target > height:
-        with pytest.raises(ValueError):
-            resized = co._rescale_image(img, height=target)
-    else:
-        resized = co._rescale_image(img, height=target)
-        width_new, height_new = resized.size
-        assert height_new == target
         assert width_new == int(scale * width)
 
+    @pytest.mark.parametrize("target", [100, 400, 550])
+    def test_image_scale_width(target, image_content):
+        img = Image.open(image_content.content)
+        width, height = img.size
 
-@pytest.mark.parametrize("target", [0.7, 0.9, 1.1])
-def test_image_scale_float(target, image_content):
-    img = Image.open(image_content.content)
-    width, height = img.size
+        scale = target / width
 
-    if target >= 1:
-        with pytest.raises(ValueError):
+        if target > width:
+            with pytest.raises(ValueError):
+                resized = co._rescale_image(img, width=target)
+        else:
+            resized = co._rescale_image(img, width=target)
+            width_new, height_new = resized.size
+            assert height_new == int(scale * height)
+            assert width_new == target
+
+    @pytest.mark.parametrize("target", [100, 400, 1000])
+    def test_image_scale_height(target, image_content):
+        img = Image.open(image_content.content)
+        width, height = img.size
+
+        scale = target / height
+
+        if target > height:
+            with pytest.raises(ValueError):
+                resized = co._rescale_image(img, height=target)
+        else:
+            resized = co._rescale_image(img, height=target)
+            width_new, height_new = resized.size
+            assert height_new == target
+            assert width_new == int(scale * width)
+
+    @pytest.mark.parametrize("target", [0.7, 0.9, 1.1])
+    def test_image_scale_float(target, image_content):
+        img = Image.open(image_content.content)
+        width, height = img.size
+
+        if target >= 1:
+            with pytest.raises(ValueError):
+                resized = co._rescale_image(img, scale=target)
+        else:
             resized = co._rescale_image(img, scale=target)
-    else:
-        resized = co._rescale_image(img, scale=target)
-        width_new, height_new = resized.size
-        assert height_new == int(target * height)
-        assert width_new == int(target * width)
+            width_new, height_new = resized.size
+            assert height_new == int(target * height)
+            assert width_new == int(target * width)
 
-
-def test_image_scale_missing(image_content):
-    img = Image.open(image_content.content)
-    with pytest.raises(ValueError):
-        _ = co._rescale_image(img, scale=None)
-
-
-def test_html_dim_wrong_type():
-    with pytest.raises(TypeError):
-        _ = co._html_dim([1, 2, 3])  # type: ignore
+    def test_image_scale_missing(image_content):
+        img = Image.open(image_content.content)
+        with pytest.raises(ValueError):
+            _ = co._rescale_image(img, scale=None)
 
 
 @pytest.mark.parametrize("a", content_list)

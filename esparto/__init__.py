@@ -15,13 +15,13 @@ from typing import Set as _Set
 
 __author__ = """Dominic Thorn"""
 __email__ = "dominic.thorn@gmail.com"
-__version__ = "2.0.0"
+__version__ = "3.0.0"
 
 _MODULE_PATH: _Path = _Path(__file__).parent.absolute()
 
 
 _OPTIONAL_DEPENDENCIES: _Set[str] = {
-    "bs4",
+    "PIL",
     "IPython",
     "matplotlib",
     "pandas",
@@ -56,6 +56,6 @@ from esparto._layout import (
     Section,
     Spacer,
 )
-from esparto._options import options
+from esparto._options import OutputOptions, options
 
 options._autoload()

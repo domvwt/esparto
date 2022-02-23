@@ -31,6 +31,7 @@ repos:
         language: system
         entry: poetry run mypy
         types: [python]
+        exclude: tests/
     -   id: version
         name: Version
         language: system

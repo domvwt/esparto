@@ -4,54 +4,51 @@
 <head>
   <title>{{ doc_title | default("esparto-doc", true) }}</title>
   <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
-  <!-- Required meta tags -->
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+  <!-- Meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  {% if esparto_css %}
-  <style>
-  {{ esparto_css }}
-  </style>
-  {% endif %}
 
   {% if head_deps is defined and head_deps|length %}
-  <!-- Required dependencies -->
+  <!-- Bootstrap CSS and JavaScript Dependencies -->
   {% for dep in head_deps %}
   {{ dep }}
   {% endfor %}
   {% endif %}
+
+  {% if esparto_css %}
+  <!-- Esparto CSS -->
+  <style>
+  {{ esparto_css }}
+  </style>
+  {% endif %}
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-md navbar-light bg-light mb-3">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">{{ navbrand }}</a>
-    </div>
+  <!-- Header -->
+  <nav class="navbar d-flex navbar-expand-md navbar-light bg-light mb-3 d-print-none" width="100vw" style="padding: 0; min-height: 1.2rem;">
+      <a class="navbar-brand" style="margin-left: 10vw; padding: 0; font-size: 1rem;" href="#">{{ navbrand }}</a>
   </nav>
 
-  <!-- GENERATED CONTENT START -->
+  <!-- Content -->
+  <main class="container">
   {{ content }}
-  <!-- GENERATED CONTENT END -->
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer d-flex bg-light mt-5 d-print-none" width="100vw" height="2em">
+    <a class="small text-decoration-none text-dark fst-italic" style="margin-left: 10vw; padding: 0.3em;"
+      href="https://domvwt.github.io/esparto/">
+      esparto
+    </a>
+  </footer>
+
+  <!-- JavaScript -->
   {% if tail_deps is defined and tail_deps|length %}
-  <!-- Required JS dependencies -->
   {% for dep in tail_deps %}
   {{ dep }}
   {% endfor %}
   {% endif %}
-
-  <!-- Footer -->
-  <div class="d-print-none" style='height: 3rem;'></div>
-  <footer class="footer d-print-none bg-light">
-    <div class="container">
-      <div class="row justify-items-about">
-        <div class="col">
-          <a href="https://domvwt.github.io/esparto/">
-            <small class="text-dark font-italic">esparto</small>
-          </a>
-        </div>
-      </div>
-    </div>
-  </footer>
 </body>
 
 </html>

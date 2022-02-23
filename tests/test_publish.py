@@ -9,21 +9,19 @@ from tests.conftest import _EXTRAS, content_list, layout_list
 
 
 def html_is_valid(html: Optional[str], fragment: bool = False):
-    if _EXTRAS:
-        from html5lib import HTMLParser  # type: ignore
+    from html5lib import HTMLParser  # type: ignore
 
-        htmlparser = HTMLParser(strict=True)
-        try:
-            if fragment:
-                htmlparser.parseFragment(html)
-            else:
-                htmlparser.parse(html)
-            success = True
-        except Exception as e:
-            print(e)
-            success = False
-        return success
-    return True
+    htmlparser = HTMLParser(strict=True)
+    try:
+        if fragment:
+            htmlparser.parseFragment(html)
+        else:
+            htmlparser.parse(html)
+        success = True
+    except Exception as e:
+        print(e)
+        success = False
+    return success
 
 
 @pytest.mark.parametrize("content", (*content_list, *layout_list))
@@ -95,6 +93,40 @@ def test_saved_html_valid_toc(page_layout: es.Page, tmp_path):
     page_layout.save_html(str(path), dependency_source="cdn")
     html = path.read_text()
     assert html_is_valid(html)
+
+
+def test_relocate_scripts():
+    html = "".join(
+        """
+        <head>
+        <script>this is some javacript</script>
+        </head>
+        <body>
+            <div>here is some content</div>
+            <div>
+            <script>this is some javacript</script>
+            </div>
+            <div>here is some more content</div>
+        </body>
+    """.split()
+    )
+
+    expected = "".join(
+        """
+        <head>
+        <script>this is some javacript</script>
+        </head>
+        <body>
+            <div>here is some content</div>
+            <div>
+            </div>
+            <div>here is some more content</div>
+            <script>this is some javacript</script>
+        </body>
+    """.split()
+    )
+    output = pu._relocate_scripts(html)
+    assert output == expected
 
 
 if _EXTRAS:
