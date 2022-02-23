@@ -10,7 +10,7 @@ def test_options_context():
     updated_options = opt.OutputOptions(
         dependency_source="XXX",
         matplotlib=opt.MatplotlibOptions(
-            html_output_format="svg", notebook_format="XXX", pdf_figsize=0.7
+            html_output_format="svg", notebook_format="XXX", pdf_figsize=1.0
         ),
     )
     new_options = opt.OutputOptions(
