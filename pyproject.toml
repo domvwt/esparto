@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "esparto"
 version = "3.0.0"
-description = "Simple HTML page and PDF document generator for Python."
+description = "Data driven report builder for the PyData ecosystem."
 authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
 license = "MIT"
 readme = "README.md"

@@ -62,10 +62,10 @@ class Content(ABC):
 
     @abstractmethod
     def to_html(self, **kwargs: bool) -> str:
-        """Convert content to HTML code.
+        """Convert content to HTML string.
 
         Returns:
-            str: HTML code.
+            str: HTML string.
 
         """
         raise NotImplementedError
@@ -106,7 +106,7 @@ class RawHTML(Content):
     """Raw HTML content.
 
     Args:
-        html (str): HTML code.
+        html (str): HTML string.
 
     """
 
@@ -153,7 +153,8 @@ class Image(Content):
 
     Can be read from a filepath, PIL.Image object, or from bytes.
 
-    Requires optional `Pillow` library.
+    Note:
+        Requires optional `Pillow` library.
 
     Only one of `scale`, `set_width`, or `set_height` should be used.
     If more than one is populated, the values will be prioritised in the order:

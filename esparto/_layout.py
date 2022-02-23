@@ -277,10 +277,10 @@ class Layout(ABC):
                 self._add_child_id(title)
 
     def to_html(self, **kwargs: bool) -> str:
-        """Render object as HTML code.
+        """Render object as HTML string.
 
         Returns:
-            html (str): HTML code.
+            html (str): HTML string.
 
         """
         children_rendered = " ".join([c.to_html(**kwargs) for c in self.children])
@@ -482,7 +482,8 @@ class Page(Layout):
         """
         Save page to HTML file.
 
-        Note: Alias for `self.save_html()`.
+        Note:
+            Alias for `self.save_html()`.
 
         Args:
             filepath (str): Destination filepath.
@@ -538,7 +539,8 @@ class Page(Layout):
         """
         Save page to PDF file.
 
-        Note: Requires `weasyprint` library.
+        Note:
+            Requires `weasyprint` library.
 
         Args:
             filepath (str): Destination filepath.
@@ -853,10 +855,10 @@ class Card(Column):
         self.body_styles = {}
 
     def to_html(self, **kwargs: bool) -> str:
-        """Render content to HTML code.
+        """Render content to HTML string.
 
         Returns:
-            html (str): HTML code.
+            html (str): HTML string.
 
         """
         children_rendered = " ".join([c.to_html(**kwargs) for c in self.children])

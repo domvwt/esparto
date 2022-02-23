@@ -51,7 +51,7 @@ class MatplotlibOptions(ConfigMixin):
 
     html_output_format: str = "svg"
     notebook_format: str = "svg"
-    pdf_figsize: Optional[Union[Tuple[int, int], float]] = 0.7
+    pdf_figsize: Optional[Union[Tuple[int, int], float]] = 1.0
 
 
 @dataclass(repr=False)
@@ -60,7 +60,7 @@ class PlotlyOptions(ConfigMixin):
 
     Attributes:
         layout_args (dict):
-            Arguments passed to figure.update_layout() at rendering time.
+            Arguments passed to `figure.update_layout()` at rendering time.
 
     """
 
@@ -87,14 +87,14 @@ class OutputOptions(ConfigMixin):
     """Options for configuring page rendering and output.
 
     Config options will automatically be loaded if a yaml file is found at
-    either './esparto-config.yaml' or '~/esparto-data/esparto-config.yaml'.
+    either `./esparto-config.yaml` or `~/esparto-data/esparto-config.yaml`.
 
     Attributes:
         dependency_source (str):
             How dependencies should be provisioned: 'cdn' or 'inline'.
         bootstrap_cdn (str):
             Link to Bootstrap CDN. Used if dependency source is 'cdn'.
-            Alternative links are available via esparto.bootstrap_cdn_themes.
+            Alternative links are available from `esparto.bootstrap_cdn_themes`.
         bootstrap_css (str):
             Path to Bootstrap CSS file. Used if dependency source is 'inline'.
         esparto_css (str):
