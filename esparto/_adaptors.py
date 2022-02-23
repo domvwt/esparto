@@ -58,7 +58,7 @@ def content_adaptor_layout(content: Layout) -> Layout:
 
 @content_adaptor.register(dict)
 def content_adaptor_dict(content: Dict[str, Any]) -> Dict[str, Any]:
-    """Pass through dict of {"title": content}."""
+    """Pass through dict of `{"title": content}`."""
     if not (len(content) == 1 and isinstance(list(content.keys())[0], str)):
         raise ValueError("Content dict must be passed as {'title': content}")
     return content

@@ -1,6 +1,9 @@
 # esparto._options
 
-## ::: esparto._options.ConfigOptions
+!!! info
+    Default output options are configured through `es.options`.
+
+## ::: esparto._options.OutputOptions
 
 ## ::: esparto._options.MatplotlibOptions
 
