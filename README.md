@@ -12,7 +12,7 @@ Introduction
 ------------
 
 **esparto** is a Python library for building data driven reports with content
-from popular analytical packages. The project takes a straightforward approach
+from popular analytics packages. The project takes a straightforward approach
 to document design; with a focus on usability, portability, and extensiblity.
 
 Creating a report is as simple as instantiating a Page object and 'adding' content
@@ -23,7 +23,7 @@ page or PDF file.
 Further customisation of the output is possible by passing a CSS stylesheet,
 changing the [Jinja](Jinja) template, or declaring additional element styles within
 the code. The responsive [Bootstrap](Bootstrap) grid ensures documents adapt to
-almost any viewing device.
+any viewing device.
 
 Basic Usage
 -----------
