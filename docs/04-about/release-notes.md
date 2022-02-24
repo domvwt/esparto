@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+3.0.1 (2022-02-24)
+------------------
+
+- Fixes
+    - Remove call to `fig.tight_layout()` when converting Matplotlib figure to SVG for PDF
+
 3.0.0 (2022-02-23)
 ------------------
 
