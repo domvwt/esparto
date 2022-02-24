@@ -336,7 +336,6 @@ class FigureMpl(Content):
             else:
                 figsize = self.pdf_figsize
             self.content.set_size_inches(*figsize)
-            self.content.tight_layout()
 
         if output_format == "svg":
 
