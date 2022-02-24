@@ -111,7 +111,7 @@ Examples
 --------
 
 Iris Report - [Webpage](https://domvwt.github.io/esparto/examples/iris-report.html) |
-[PDF](https://domvwt.github.io/esparto/examples/iris-report.pdf)
+[PDF](https://domvwt.github.io/esparto/examples/iris-report.pdf) | [Notebook](https://github.com/domvwt/esparto/blob/main/docs/examples/iris-report.ipynb)
 
 <br>
 
