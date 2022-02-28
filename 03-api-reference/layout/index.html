@@ -1275,16 +1275,16 @@ Passing an <code>int</code> will define the maximum depth.</p></td>
 <span class="sd">        html (str): Document rendered as HTML. (If `return_html` is True)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">html</span> <span class="o">=</span> <span class="n">publish_html</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">filepath</span><span class="o">=</span><span class="n">filepath</span><span class="p">,</span>
-        <span class="n">return_html</span><span class="o">=</span><span class="n">return_html</span><span class="p">,</span>
-        <span class="n">dependency_source</span><span class="o">=</span><span class="n">dependency_source</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">return_html</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">html</span>
-    <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">with</span> <span class="n">OptionsContext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_options</span><span class="p">):</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="n">publish_html</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">filepath</span><span class="o">=</span><span class="n">filepath</span><span class="p">,</span>
+            <span class="n">return_html</span><span class="o">=</span><span class="n">return_html</span><span class="p">,</span>
+            <span class="n">dependency_source</span><span class="o">=</span><span class="n">dependency_source</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">return_html</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">html</span>
+        <span class="k">return</span> <span class="kc">None</span>
 </code></pre></div>
         </details>
     </div>
@@ -1370,11 +1370,11 @@ Passing an <code>int</code> will define the maximum depth.</p></td>
 <span class="sd">        html (str): Document rendered as HTML. (If `return_html` is True)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">html</span> <span class="o">=</span> <span class="n">publish_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">return_html</span><span class="o">=</span><span class="n">return_html</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">return_html</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">html</span>
-    <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">with</span> <span class="n">OptionsContext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_options</span><span class="p">):</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="n">publish_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">return_html</span><span class="o">=</span><span class="n">return_html</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">return_html</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">html</span>
+        <span class="k">return</span> <span class="kc">None</span>
 </code></pre></div>
         </details>
     </div>
