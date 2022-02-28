@@ -3,7 +3,7 @@
 esparto
 =======
 
-Simple HTML page and PDF generator for Python.
+Data driven report builder for the PyData ecosystem.
 
 Please visit https://domvwt.github.io/esparto/ for documentation and examples.
 
@@ -15,7 +15,7 @@ from typing import Set as _Set
 
 __author__ = """Dominic Thorn"""
 __email__ = "dominic.thorn@gmail.com"
-__version__ = "3.0.1"
+__version__ = "3.0.2"
 
 _MODULE_PATH: _Path = _Path(__file__).parent.absolute()
 

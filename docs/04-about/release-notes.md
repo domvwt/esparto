@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+3.0.2 (2022-02-28)
+------------------
+
+- Fixes
+    - Set minimum page height to fill device screen
+    - Read page additional output options when publishing HTML and PDF
+
 3.0.1 (2022-02-24)
 ------------------
 
