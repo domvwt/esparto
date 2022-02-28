@@ -522,16 +522,16 @@ class Page(Layout):
             html (str): Document rendered as HTML. (If `return_html` is True)
 
         """
-        html = publish_html(
-            self,
-            filepath=filepath,
-            return_html=return_html,
-            dependency_source=dependency_source,
-        )
-
-        if return_html:
-            return html
-        return None
+        with OptionsContext(self.output_options):
+            html = publish_html(
+                self,
+                filepath=filepath,
+                return_html=return_html,
+                dependency_source=dependency_source,
+            )
+            if return_html:
+                return html
+            return None
 
     def save_pdf(
         self, filepath: str = "./esparto-doc.pdf", return_html: bool = False
@@ -550,11 +550,11 @@ class Page(Layout):
             html (str): Document rendered as HTML. (If `return_html` is True)
 
         """
-        html = publish_pdf(self, filepath, return_html=return_html)
-
-        if return_html:
-            return html
-        return None
+        with OptionsContext(self.output_options):
+            html = publish_pdf(self, filepath, return_html=return_html)
+            if return_html:
+                return html
+            return None
 
     def to_html(self, **kwargs: bool) -> str:
         with OptionsContext(self.output_options):
