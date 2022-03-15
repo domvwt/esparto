@@ -1,5 +1,6 @@
 from argparse import SUPPRESS, ArgumentParser, _SubParsersAction
 from pathlib import Path
+from typing import Any, Callable, Dict, List, Tuple
 
 import esparto._options as opt
 from esparto import __version__
@@ -14,14 +15,19 @@ subparsers = parser.add_subparsers(dest="subcommand")
 parser.add_argument("-v", "--version", action="version", version=__version__)
 
 
-def argument(*name_or_flags, **kwargs):
+CliArg = Tuple[List[str], Dict[str, Any]]
+
+
+def argument(*name_or_flags: str, **kwargs: Dict[str, Any]) -> CliArg:
     """Convenience function to properly format arguments to pass to the
     subcommand decorator.
     """
     return (list(name_or_flags), kwargs)
 
 
-def subcommand(*subparser_args, parent: _SubParsersAction = subparsers):
+def subcommand(
+    *subparser_args: CliArg, parent: _SubParsersAction = subparsers
+) -> Callable[..., Any]:
     """Decorator to define a new subcommand in a sanity-preserving way.
     The function will be stored in the ``func`` variable when the parser
     parses arguments so that it can be called directly like so::
@@ -35,7 +41,7 @@ def subcommand(*subparser_args, parent: _SubParsersAction = subparsers):
         $ python cli.py subcommand -d
     """
 
-    def decorator(func):
+    def decorator(func: Callable[..., Any]) -> None:
         parser = parent.add_parser(
             func.__name__, description=func.__doc__, add_help=False, usage=SUPPRESS
         )
@@ -47,28 +53,28 @@ def subcommand(*subparser_args, parent: _SubParsersAction = subparsers):
 
 
 @subcommand()
-def print_esparto_css(*args) -> None:
+def print_esparto_css(*args: Any) -> None:
     """print default esparto CSS"""
     css = Path(opt.OutputOptions.esparto_css).read_text()
     print(css)
 
 
 @subcommand()
-def print_bootstrap_css(*args) -> None:
+def print_bootstrap_css(*args: Any) -> None:
     """print default Bootstrap CSS"""
     css = Path(opt.OutputOptions.bootstrap_css).read_text()
     print(css)
 
 
 @subcommand()
-def print_jinja_template(*args) -> None:
+def print_jinja_template(*args: Any) -> None:
     """print default jinja template"""
     css = Path(opt.OutputOptions.jinja_template).read_text()
     print(css)
 
 
 @subcommand()
-def print_default_options(*args) -> None:
+def print_default_options(*args: Any) -> None:
     """print default output options"""
     print(opt.OutputOptions()._to_yaml_str())
 
@@ -85,7 +91,7 @@ def print_subcommand_help() -> None:
             print(f"  {choice:<{left_pad_size}}{subparser.format_help().strip()}")
 
 
-def main():
+def main() -> None:
     args = parser.parse_args()
     if args.subcommand is None:
         parser.print_help()
