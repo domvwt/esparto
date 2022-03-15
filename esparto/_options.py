@@ -4,6 +4,7 @@ import collections.abc
 import copy
 import pprint
 import traceback
+from contextlib import ContextDecorator
 from dataclasses import dataclass, field
 from pathlib import Path
 from types import TracebackType
@@ -25,7 +26,7 @@ class ConfigMixin(object):
         return str(self)
 
     def __str__(self) -> str:
-        string = f"{pprint.pformat(self._to_dict())}"
+        string = f"{pprint.pformat(self._to_dict(), sort_dicts=False)}"
         if hasattr(self, "_options_source"):
             string += (
                 f"\nSource: {self._options_source}" if self._options_source else ""
@@ -34,7 +35,7 @@ class ConfigMixin(object):
 
 
 @dataclass(repr=False)
-class MatplotlibOptions(ConfigMixin):
+class MatplotlibOptions(yaml.YAMLObject, ConfigMixin):
     """Options for Matplotlib output.
 
     Attributes:
@@ -49,13 +50,16 @@ class MatplotlibOptions(ConfigMixin):
 
     """
 
+    yaml_loader = yaml.SafeLoader
+    yaml_tag = "!MatplotlibOptions"
+
     html_output_format: str = "svg"
     notebook_format: str = "svg"
     pdf_figsize: Optional[Union[Tuple[int, int], float]] = 1.0
 
 
 @dataclass(repr=False)
-class PlotlyOptions(ConfigMixin):
+class PlotlyOptions(yaml.YAMLObject, ConfigMixin):
     """Options for Plotly output.
 
     Attributes:
@@ -64,11 +68,14 @@ class PlotlyOptions(ConfigMixin):
 
     """
 
+    yaml_loader = yaml.SafeLoader
+    yaml_tag = "!PlotlyOptions"
+
     layout_args: Dict[str, Any] = field(default_factory=lambda: {})
 
 
 @dataclass(repr=False)
-class BokehOptions(ConfigMixin):
+class BokehOptions(yaml.YAMLObject, ConfigMixin):
     """Options for Bokeh output.
 
     Attributes:
@@ -77,13 +84,16 @@ class BokehOptions(ConfigMixin):
 
     """
 
+    yaml_loader = yaml.SafeLoader
+    yaml_tag = "!BokehOptions"
+
     layout_attributes: Dict[str, Any] = field(
         default_factory=lambda: {"sizing_mode": "scale_width"}
     )
 
 
 @dataclass(repr=False)
-class OutputOptions(ConfigMixin):
+class OutputOptions(yaml.YAMLObject, ConfigMixin):
     """Options for configuring page rendering and output.
 
     Config options will automatically be loaded if a yaml file is found at
@@ -108,6 +118,9 @@ class OutputOptions(ConfigMixin):
 
     """
 
+    yaml_loader = yaml.SafeLoader
+    yaml_tag = "!OutputOptions"
+
     dependency_source: str = "cdn"
     bootstrap_cdn: str = (
         "<link rel='stylesheet' "
@@ -129,33 +142,38 @@ class OutputOptions(ConfigMixin):
 
     def save(self, path: Union[str, Path] = "./esparto-config.yaml") -> None:
         """Save config to yaml file at `path`."""
-        path = Path(path)
+        Path(path).write_text(self._to_yaml_str())
+
+    @classmethod
+    def load(cls, path: Union[str, Path]) -> "OutputOptions":
+        """Load config from yaml file at `path`."""
+        yaml_str = Path(path).read_text()
+        opts = yaml.safe_load(yaml_str)
+        opts._options_source = str(path)
+        return opts
+
+    def _to_yaml_str(self):
         self_copy = copy.copy(self)
         del self_copy._options_source
-        yaml_str = yaml.dump(self_copy)
-        path.write_text(yaml_str)
+        return yaml.dump(self_copy, default_flow_style=False, sort_keys=False)
 
-    def load(self, path: Union[str, Path]) -> None:
-        """Load config from yaml file at `path`."""
-        path = Path(path)
-        yaml_str = path.read_text()
-        self = yaml.unsafe_load(yaml_str)
-        self._options_source = str(path)
-
-    def _autoload(self) -> None:
+    @classmethod
+    def _autoload(cls) -> "OutputOptions":
         config_paths = [
             Path("./esparto-config.yaml"),
             Path.home() / "esparto-data/esparto-config.yaml",
         ]
+
         for p in config_paths:
             if p.is_file():
-                self.load(p)
+                opts = cls.load(p)
+                opts._options_source = str(p)
                 print("esparto config loaded from:", p)
-                self._options_source = str(p)
-                break
+                return opts
+        return cls()
 
 
-options = OutputOptions()
+options = OutputOptions._autoload()
 
 
 def update_recursive(
@@ -172,7 +190,7 @@ def update_recursive(
     return source_dict
 
 
-class OptionsContext:
+class options_context(ContextDecorator):
     def __init__(self, page_options: OutputOptions):
         self.page_options = page_options
         self.default_options = copy.copy(options)

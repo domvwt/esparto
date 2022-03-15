@@ -19,7 +19,7 @@ from typing import (
 
 import bs4  # type: ignore
 
-from esparto._options import OptionsContext, OutputOptions, options
+from esparto._options import OutputOptions, options, options_context
 from esparto._publish import nb_display, publish_html, publish_pdf
 from esparto._typing import Child
 from esparto._utils import (
@@ -452,6 +452,8 @@ class Page(Layout):
 
     """
 
+    output_options: OutputOptions = options
+
     def __init__(
         self,
         title: Optional[str] = None,
@@ -504,6 +506,7 @@ class Page(Layout):
             return html
         return None
 
+    @options_context(output_options)
     def save_html(
         self,
         filepath: str = "./esparto-doc.html",
@@ -522,17 +525,17 @@ class Page(Layout):
             html (str): Document rendered as HTML. (If `return_html` is True)
 
         """
-        with OptionsContext(self.output_options):
-            html = publish_html(
-                self,
-                filepath=filepath,
-                return_html=return_html,
-                dependency_source=dependency_source,
-            )
-            if return_html:
-                return html
-            return None
+        html = publish_html(
+            self,
+            filepath=filepath,
+            return_html=return_html,
+            dependency_source=dependency_source,
+        )
+        if return_html:
+            return html
+        return None
 
+    @options_context(output_options)
     def save_pdf(
         self, filepath: str = "./esparto-doc.pdf", return_html: bool = False
     ) -> Optional[str]:
@@ -550,35 +553,34 @@ class Page(Layout):
             html (str): Document rendered as HTML. (If `return_html` is True)
 
         """
-        with OptionsContext(self.output_options):
-            html = publish_pdf(self, filepath, return_html=return_html)
-            if return_html:
-                return html
-            return None
+        html = publish_pdf(self, filepath, return_html=return_html)
+        if return_html:
+            return html
+        return None
 
+    @options_context(output_options)
     def to_html(self, **kwargs: bool) -> str:
-        with OptionsContext(self.output_options):
-            if self.table_of_contents:
-                # Create a copy of the page and dynamically generate the TOC.
-                # Copy is required so that TOC is not added multiple times and
-                # always reflects the current content.
-                max_depth = (
-                    None if self.table_of_contents is True else self.table_of_contents
-                )
-                page_copy = copy.copy(self)
-                toc = table_of_contents(page_copy, max_depth=max_depth)
-                page_copy.children.insert(
-                    0,
-                    page_copy._child_class(
-                        title="Contents", children=[toc], title_classes=["h4"]
-                    ),
-                )
-                page_copy.table_of_contents = False
-                return page_copy.to_html(**kwargs)
+        if self.table_of_contents:
+            # Create a copy of the page and dynamically generate the TOC.
+            # Copy is required so that TOC is not added multiple times and
+            # always reflects the current content.
+            max_depth = (
+                None if self.table_of_contents is True else self.table_of_contents
+            )
+            page_copy = copy.copy(self)
+            toc = table_of_contents(page_copy, max_depth=max_depth)
+            page_copy.children.insert(
+                0,
+                page_copy._child_class(
+                    title="Contents", children=[toc], title_classes=["h4"]
+                ),
+            )
+            page_copy.table_of_contents = False
+            return page_copy.to_html(**kwargs)
 
-            self.body_styles.update({"max-width": f"{self.max_width}px"})
+        self.body_styles.update({"max-width": f"{self.max_width}px"})
 
-            return super().to_html(**kwargs)
+        return super().to_html(**kwargs)
 
     def __post_init__(self) -> None:
         self.title_html_tag = "h1"

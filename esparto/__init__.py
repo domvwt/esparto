@@ -57,5 +57,3 @@ from esparto._layout import (
     Spacer,
 )
 from esparto._options import OutputOptions, options
-
-options._autoload()
