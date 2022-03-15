@@ -82,7 +82,7 @@ def print_default_options(*args: Any) -> None:
 
 
 def print_subcommand_help() -> None:
-    """Print help from subcommands."""
+    """Print help for subcommands."""
     subparser_actions = [
         action for action in parser._actions if isinstance(action, _SubParsersAction)
     ]
