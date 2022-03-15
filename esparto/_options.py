@@ -10,7 +10,7 @@ from pathlib import Path
 from types import TracebackType
 from typing import Any, Dict, Mapping, Optional, Tuple, Type, Union
 
-import yaml  # type: ignore
+import yaml
 
 from esparto import _MODULE_PATH
 from esparto._utils import public_dict
@@ -148,14 +148,14 @@ class OutputOptions(yaml.YAMLObject, ConfigMixin):
     def load(cls, path: Union[str, Path]) -> "OutputOptions":
         """Load config from yaml file at `path`."""
         yaml_str = Path(path).read_text()
-        opts = yaml.safe_load(yaml_str)
+        opts: OutputOptions = yaml.safe_load(yaml_str)
         opts._options_source = str(path)
         return opts
 
-    def _to_yaml_str(self):
+    def _to_yaml_str(self) -> str:
         self_copy = copy.copy(self)
         del self_copy._options_source
-        return yaml.dump(self_copy, default_flow_style=False, sort_keys=False)
+        return str(yaml.dump(self_copy, default_flow_style=False, sort_keys=False))
 
     @classmethod
     def _autoload(cls) -> "OutputOptions":
