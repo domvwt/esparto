@@ -1,7 +1,7 @@
 import argparse
 from pathlib import Path
 
-import bokeh.plotting as bkp
+import bokeh.plotting as bkp  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
