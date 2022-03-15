@@ -363,7 +363,7 @@ class Layout(ABC):
         child_list = clean_iterator(child_list)
 
         if isinstance(self, Column):
-            if any([isinstance(x, dict) for x in child_list]):
+            if any((isinstance(x, dict) for x in child_list)):
                 raise TypeError("Invalid content passed to Column: 'dict'")
             return [content_adaptor(x) for x in child_list]
 
