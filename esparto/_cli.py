@@ -1,3 +1,5 @@
+"""Command line utilities for esparto."""
+
 from argparse import SUPPRESS, ArgumentParser, _SubParsersAction
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Tuple
@@ -42,12 +44,12 @@ def subcommand(
     """
 
     def decorator(func: Callable[..., Any]) -> None:
-        parser = parent.add_parser(
+        parser_ = parent.add_parser(
             func.__name__, description=func.__doc__, add_help=False, usage=SUPPRESS
         )
         for args, kwargs in subparser_args:
-            parser.add_argument(*args, **kwargs)
-        parser.set_defaults(func=func)
+            parser_.add_argument(*args, **kwargs)
+        parser_.set_defaults(func=func)
 
     return decorator
 
@@ -80,6 +82,7 @@ def print_default_options(*args: Any) -> None:
 
 
 def print_subcommand_help() -> None:
+    """Print help from subcommands."""
     subparser_actions = [
         action for action in parser._actions if isinstance(action, _SubParsersAction)
     ]
