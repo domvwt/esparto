@@ -90,7 +90,7 @@ deploydocs: ## deploy docs to github pages
 	mkdocs gh-deploy
 
 class-diagram: ## make UML class diagram
-	pyreverse esparto -o png -f ALL --ignore _contentdeps.py,_options.py,_publish.py
+	pyreverse esparto -o png --ignore cdnlinks.py,contentdeps.py,_options.py,
 	mv classes.png devdocs/classes.png
 	rm packages.png
 
