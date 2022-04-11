@@ -1,4 +1,4 @@
-"""Abstract design classes to help decoupling of domain and implementation."""
+"""Abstract design classes to help decoupling of domain from implementation."""
 
 from abc import ABC
 from typing import Any, List, Set, TypeVar, Union

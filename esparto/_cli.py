@@ -43,13 +43,14 @@ def subcommand(
         $ python cli.py subcommand -d
     """
 
-    def decorator(func: Callable[..., Any]) -> None:
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
         parser_ = parent.add_parser(
             func.__name__, description=func.__doc__, add_help=False, usage=SUPPRESS
         )
         for args, kwargs in subparser_args:
             parser_.add_argument(*args, **kwargs)
         parser_.set_defaults(func=func)
+        return func
 
     return decorator
 
