@@ -15,7 +15,7 @@ from esparto import _INSTALLED_MODULES
 from esparto._options import options
 from esparto.design.base import AbstractContent, AbstractLayout, Child
 from esparto.design.layout import Row
-from esparto.publish.publish import nb_display
+from esparto.publish.output import nb_display
 
 if "PIL" in _INSTALLED_MODULES:
     from PIL.Image import Image as PILImage  # type: ignore
@@ -266,7 +266,7 @@ class DataFramePd(Content):
         html: str = self.content.to_html(
             index=self.index,
             border=0,
-            col_space=self.col_space,  # type: ignore
+            col_space=self.col_space,
             classes=self.css_classes,
         )
         html = f"<div class='table-responsive es-table'>{html}</div>"

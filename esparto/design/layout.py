@@ -22,7 +22,7 @@ import bs4  # type: ignore
 
 from esparto._options import OutputOptions, options, options_context
 from esparto.design.base import AbstractLayout, Child
-from esparto.publish.publish import nb_display, publish_html, publish_pdf
+from esparto.publish.output import nb_display, publish_html, publish_pdf
 
 T = TypeVar("T", bound="Layout")
 
@@ -352,7 +352,7 @@ class Layout(AbstractLayout, ABC):
         """
         from esparto.design.adaptors import content_adaptor
 
-        child_list = clean_iterator(child_list)
+        child_list = ensure_iterable(child_list)
 
         if isinstance(self, Column):
             if any((isinstance(x, dict) for x in child_list)):
@@ -911,7 +911,7 @@ class PageBreak(Section):
 def smart_wrap(self: Layout, child_list: Union[List[Child], Child]) -> List[Child]:
     from esparto.design.adaptors import content_adaptor
 
-    child_list = clean_iterator(child_list)
+    child_list = ensure_iterable(child_list)
 
     if isinstance(self, Column):
         if any((isinstance(x, dict) for x in child_list)):
@@ -1001,12 +1001,12 @@ def clean_attr_name(attr_name: str) -> str:
     return attr_name
 
 
-def clean_iterator(iterator: Iterable[Any]) -> Iterable[Any]:
+def ensure_iterable(something: Any) -> Iterable[Any]:
     # Convert any non-list iterators to lists
-    iterator = (
-        list(iterator) if isinstance(iterator, (list, tuple, set)) else [iterator]
+    iterable = (
+        list(something) if isinstance(something, (list, tuple, set)) else [something]
     )
     # Un-nest any nested lists of children
-    if len(list(iterator)) == 1 and isinstance(list(iterator)[0], (list, tuple, set)):
-        iterator = list(iterator)[0]
-    return iterator
+    if len(list(iterable)) == 1 and isinstance(list(iterable)[0], (list, tuple, set)):
+        iterable = list(iterable)[0]
+    return iterable

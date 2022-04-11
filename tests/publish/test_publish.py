@@ -4,7 +4,7 @@ from typing import Optional
 import pytest
 
 import esparto as es
-import esparto.publish.publish as pu
+import esparto.publish.output as pu
 from tests.conftest import _EXTRAS, content_list, layout_list
 
 
