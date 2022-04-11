@@ -350,45 +350,7 @@ class Layout(AbstractLayout, ABC):
             - append the final wrapped segment to output
 
         """
-        from esparto.design.adaptors import content_adaptor
-
-        child_list = ensure_iterable(child_list)
-
-        if isinstance(self, Column):
-            if any((isinstance(x, dict) for x in child_list)):
-                raise TypeError("Invalid content passed to Column: 'dict'")
-            return [content_adaptor(x) for x in child_list]
-
-        is_row = isinstance(self, Row)
-        unwrapped_acc: List[Child] = []
-        output: List[Child] = []
-
-        for child in child_list:
-            is_wrapped = isinstance(child, self._child_class)
-
-            if is_wrapped:
-                if unwrapped_acc:
-                    wrapped_segment = self._child_class(children=unwrapped_acc)
-                    output.append(wrapped_segment)
-                    output.append(child)
-                    unwrapped_acc = []
-                else:
-                    output.append(child)
-            else:  # if not is_wrapped
-                if is_row:
-                    if isinstance(child, dict):
-                        title, child = list(child.items())[0]
-                    else:
-                        title = None
-                    output.append(self._child_class(title=title, children=[child]))
-                else:
-                    unwrapped_acc.append(child)
-
-        if unwrapped_acc:
-            wrapped_segment = self._child_class(children=unwrapped_acc)
-            output.append(wrapped_segment)
-
-        return output
+        return smart_wrap(self, child_list)
 
     def _recurse_children(self, idx: int) -> Dict[str, Any]:
         key = self.title or f"{type(self).__name__} {idx}"
