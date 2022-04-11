@@ -25,7 +25,6 @@ def test_content_equality(content_list_fn):
 
 
 if _EXTRAS:
-    from PIL import Image  # type: ignore
 
     def test_all_content_classes_covered(content_list_fn):
         test_classes = {type(c) for c in content_list_fn}
@@ -41,68 +40,6 @@ if _EXTRAS:
             c._dependencies for c in content_list_fn if not isinstance(c, co.RawHTML)
         ]
         assert all(deps)
-
-    @pytest.mark.parametrize("scale", [0.2, 0.5, 1])
-    def test_image_rescale(scale, image_content):
-        img = Image.open(image_content.content)
-        width, height = img.size
-
-        resized = co._rescale_image(img, scale=scale)
-        width_new, height_new = resized.size
-
-        assert height_new == int(scale * height)
-        assert width_new == int(scale * width)
-
-    @pytest.mark.parametrize("target", [100, 400, 550])
-    def test_image_scale_width(target, image_content):
-        img = Image.open(image_content.content)
-        width, height = img.size
-
-        scale = target / width
-
-        if target > width:
-            with pytest.raises(ValueError):
-                resized = co._rescale_image(img, width=target)
-        else:
-            resized = co._rescale_image(img, width=target)
-            width_new, height_new = resized.size
-            assert height_new == int(scale * height)
-            assert width_new == target
-
-    @pytest.mark.parametrize("target", [100, 400, 1000])
-    def test_image_scale_height(target, image_content):
-        img = Image.open(image_content.content)
-        width, height = img.size
-
-        scale = target / height
-
-        if target > height:
-            with pytest.raises(ValueError):
-                resized = co._rescale_image(img, height=target)
-        else:
-            resized = co._rescale_image(img, height=target)
-            width_new, height_new = resized.size
-            assert height_new == target
-            assert width_new == int(scale * width)
-
-    @pytest.mark.parametrize("target", [0.7, 0.9, 1.1])
-    def test_image_scale_float(target, image_content):
-        img = Image.open(image_content.content)
-        width, height = img.size
-
-        if target >= 1:
-            with pytest.raises(ValueError):
-                resized = co._rescale_image(img, scale=target)
-        else:
-            resized = co._rescale_image(img, scale=target)
-            width_new, height_new = resized.size
-            assert height_new == int(target * height)
-            assert width_new == int(target * width)
-
-    def test_image_scale_missing(image_content):
-        img = Image.open(image_content.content)
-        with pytest.raises(ValueError):
-            _ = co._rescale_image(img, scale=None)
 
 
 @pytest.mark.parametrize("a", content_list)

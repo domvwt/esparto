@@ -21,7 +21,7 @@ _MODULE_PATH: _Path = _Path(__file__).parent.absolute()
 
 
 _OPTIONAL_DEPENDENCIES: _Set[str] = {
-    "PIL",
+    "PIL",  # Only used for type checking and conversion
     "IPython",
     "matplotlib",
     "pandas",

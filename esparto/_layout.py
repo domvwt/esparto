@@ -55,6 +55,41 @@ class Layout(ABC):
     #                              Magic Methods                              |
     # ------------------------------------------------------------------------+
 
+    title: Optional[str]
+    children: List[Child] = []
+
+    title_html_tag: str
+    title_classes: List[str]
+    title_styles: Dict[str, Any]
+
+    body_html_tag: str
+    body_classes: List[str]
+    body_styles: Dict[str, Any]
+
+    @property
+    def _default_id(self) -> str:
+        return f"es-{type(self).__name__}".lower()
+
+    @property
+    def _parent_class(self) -> Type["Layout"]:
+        raise NotImplementedError
+
+    @property
+    def _child_class(self) -> Type["Layout"]:
+        raise NotImplementedError
+
+    _dependencies = {"bootstrap"}
+
+    @property
+    def _child_ids(self) -> Dict[str, str]:
+        """Return existing child IDs or a new dict."""
+        try:
+            super().__getattribute__("__child_ids")
+        except AttributeError:
+            super().__setattr__("__child_ids", {})
+        child_ids: Dict[str, str] = super().__getattribute__("__child_ids")
+        return child_ids
+
     def __init__(
         self,
         title: Optional[str] = None,
@@ -215,41 +250,6 @@ class Layout(ABC):
         new.__dict__.update(attributes)
         new.children = [*new.children]
         return new
-
-    title: Optional[str]
-    children: List[Child] = []
-
-    title_html_tag: str
-    title_classes: List[str]
-    title_styles: Dict[str, Any]
-
-    body_html_tag: str
-    body_classes: List[str]
-    body_styles: Dict[str, Any]
-
-    @property
-    def _default_id(self) -> str:
-        return f"es-{type(self).__name__}".lower()
-
-    @property
-    def _parent_class(self) -> Type["Layout"]:
-        raise NotImplementedError
-
-    @property
-    def _child_class(self) -> Type["Layout"]:
-        raise NotImplementedError
-
-    _dependencies = {"bootstrap"}
-
-    @property
-    def _child_ids(self) -> Dict[str, str]:
-        """Return existing child IDs or a new dict."""
-        try:
-            super().__getattribute__("__child_ids")
-        except AttributeError:
-            super().__setattr__("__child_ids", {})
-        child_ids: Dict[str, str] = super().__getattribute__("__child_ids")
-        return child_ids
 
     # ------------------------------------------------------------------------+
     #                              Public Methods                             |

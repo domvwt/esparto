@@ -7,13 +7,13 @@ from typing import TYPE_CHECKING, Optional, Union
 from bs4 import BeautifulSoup, Tag  # type: ignore
 from jinja2 import Template
 
-if TYPE_CHECKING:
-    from esparto._layout import Page, Layout
-    from esparto._content import Content
-
 from esparto import _INSTALLED_MODULES
 from esparto._contentdeps import resolve_deps
 from esparto._options import options, resolve_config_option
+
+if TYPE_CHECKING:
+    from esparto._content import Content
+    from esparto._layout import Layout, Page
 
 
 def publish_html(
