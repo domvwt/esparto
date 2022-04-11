@@ -4,7 +4,7 @@ from typing import Optional
 import pytest
 
 import esparto as es
-import esparto._publish as pu
+import esparto.publish.publish as pu
 from tests.conftest import _EXTRAS, content_list, layout_list
 
 
@@ -125,7 +125,7 @@ def test_relocate_scripts():
         </body>
     """.split()
     )
-    output = pu._relocate_scripts(html)
+    output = pu.relocate_scripts(html)
     assert output == expected
 
 

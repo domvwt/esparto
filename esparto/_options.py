@@ -13,7 +13,6 @@ from typing import Any, Dict, Mapping, Optional, Tuple, Type, Union
 import yaml
 
 from esparto import _MODULE_PATH
-from esparto._utils import public_dict
 
 
 class ConfigMixin(object):
@@ -211,3 +210,10 @@ def resolve_config_option(config_option: str, value: Optional[str]) -> Any:
         return getattr(options, config_option)
     else:
         return value
+
+
+def public_dict(d: Dict[str, Any]) -> Dict[str, Any]:
+    """Remove keys starting with '_' from dict."""
+    return {
+        k: v for k, v in d.items() if not (isinstance(k, str) and k.startswith("_"))
+    }

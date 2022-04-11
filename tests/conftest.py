@@ -4,8 +4,8 @@ from pathlib import Path
 
 import pytest
 
-import esparto._content as co
-import esparto._layout as la
+import esparto.design.content as co
+import esparto.design.layout as la
 from esparto import _INSTALLED_MODULES, _OPTIONAL_DEPENDENCIES
 
 _EXTRAS = _OPTIONAL_DEPENDENCIES <= _INSTALLED_MODULES

@@ -6,4 +6,4 @@ ignore =
     E203, # whitespace before ':'
 per-file-ignores =
     __init__.py:E402, F401
-    _cdnlinks.py:E501
+    cdnlinks.py:E501

@@ -3,9 +3,9 @@ from pathlib import Path, PosixPath
 
 import pytest
 
-import esparto._adaptors as ad
-from esparto._content import Content, Markdown
-from esparto._layout import Column
+import esparto.design.adaptors as ad
+from esparto.design.content import Content, Markdown
+from esparto.design.layout import Column
 from tests.conftest import _EXTRAS, adaptor_list
 
 

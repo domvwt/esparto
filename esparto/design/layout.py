@@ -1,13 +1,14 @@
 """Layout classes for defining page appearance and structure."""
 
 import copy
+import re
 from abc import ABC
-from collections import namedtuple
 from pprint import pformat
 from typing import (
-    TYPE_CHECKING,
     Any,
+    Callable,
     Dict,
+    Iterable,
     Iterator,
     List,
     Optional,
@@ -20,22 +21,13 @@ from typing import (
 import bs4  # type: ignore
 
 from esparto._options import OutputOptions, options, options_context
-from esparto._publish import nb_display, publish_html, publish_pdf
-from esparto._typing import Child
-from esparto._utils import (
-    clean_attr_name,
-    clean_iterator,
-    get_matching_titles,
-    render_html,
-)
-
-if TYPE_CHECKING:
-    from esparto._content import Markdown
+from esparto.design.base import AbstractLayout, Child
+from esparto.publish.publish import nb_display, publish_html, publish_pdf
 
 T = TypeVar("T", bound="Layout")
 
 
-class Layout(ABC):
+class Layout(AbstractLayout, ABC):
     """Class Template for Layout elements.
 
     Layout class hierarchy:
@@ -358,7 +350,7 @@ class Layout(ABC):
             - append the final wrapped segment to output
 
         """
-        from esparto._adaptors import content_adaptor
+        from esparto.design.adaptors import content_adaptor
 
         child_list = clean_iterator(child_list)
 
@@ -564,6 +556,8 @@ class Page(Layout):
             # Create a copy of the page and dynamically generate the TOC.
             # Copy is required so that TOC is not added multiple times and
             # always reflects the current content.
+            from esparto.design.content import table_of_contents
+
             max_depth = (
                 None if self.table_of_contents is True else self.table_of_contents
             )
@@ -914,48 +908,105 @@ class PageBreak(Section):
         self.body_styles = {}
 
 
-def table_of_contents(
-    object: Layout, max_depth: Optional[int] = None, numbered: bool = True
-) -> "Markdown":
-    """Produce table of contents for a Layout object.
+def smart_wrap(self: Layout, child_list: Union[List[Child], Child]) -> List[Child]:
+    from esparto.design.adaptors import content_adaptor
 
-    Args:
-        object (Layout): Target object for TOC.
-        max_depth (int): Maximum depth of returned TOC.
-        numbered (bool): If True TOC items are numbered.
-            If False, bulletpoints are used.
+    child_list = clean_iterator(child_list)
 
-    """
-    from esparto._content import Markdown
+    if isinstance(self, Column):
+        if any((isinstance(x, dict) for x in child_list)):
+            raise TypeError("Invalid content passed to Column: 'dict'")
+        return [content_adaptor(x) for x in child_list]
 
-    max_depth = max_depth or 99
+    is_row = isinstance(self, Row)
+    unwrapped_acc: List[Child] = []
+    output: List[Child] = []
 
-    TOCItem = namedtuple("TOCItem", "title, level, id")
+    for child in child_list:
+        is_wrapped = isinstance(child, self._child_class)
 
-    def get_toc_items(parent: Layout) -> List[TOCItem]:
-        def find_ids(parent: Any, level: int, acc: List[TOCItem]) -> List[TOCItem]:
-            if hasattr(parent, "get_title_identifier") and parent.title:
-                acc.append(TOCItem(parent.title, level, parent.get_title_identifier()))
-                level += 1
-            if hasattr(parent, "children"):
-                for child in parent.children:
-                    find_ids(child, level, acc)
+        if is_wrapped:
+            if unwrapped_acc:
+                wrapped_segment = self._child_class(children=unwrapped_acc)
+                output.append(wrapped_segment)
+                output.append(child)
+                unwrapped_acc = []
             else:
-                return acc
-            return acc
+                output.append(child)
+        else:  # if not is_wrapped
+            if is_row:
+                if isinstance(child, dict):
+                    title, child = list(child.items())[0]
+                else:
+                    title = None
+                output.append(self._child_class(title=title, children=[child]))
+            else:
+                unwrapped_acc.append(child)
 
-        acc_new = find_ids(parent, 0, [])
-        return acc_new
+    if unwrapped_acc:
+        wrapped_segment = self._child_class(children=unwrapped_acc)
+        output.append(wrapped_segment)
 
-    toc_items = get_toc_items(object)
+    return output
 
-    tab = "\t"
-    marker = "1." if numbered else "*"
-    markdown_list = [
-        f"{(item.level - 1) * tab} {marker} [{item.title}](#{item.id})"
-        for item in toc_items
-        if item.level > 0 and item.level <= max_depth
-    ]
-    markdown_str = "\n".join(markdown_list)
 
-    return Markdown(markdown_str)
+def render_html(
+    tag: str,
+    classes: List[str],
+    styles: Dict[str, str],
+    children: str,
+    identifier: Optional[str] = None,
+) -> str:
+    """Render HTML from provided attributes."""
+    class_str = " ".join(classes) if classes else ""
+    class_str = f"class='{class_str}'" if classes else ""
+
+    style_str = "; ".join((f"{key}: {value}" for key, value in styles.items()))
+    style_str = f"style='{style_str}'" if styles else ""
+
+    id_str = f"id='{identifier}'" if identifier else ""
+
+    rendered = " ".join((f"<{tag} {id_str} {class_str} {style_str}>").split())
+    rendered += f"\n  {children}\n</{tag}>"
+
+    return rendered
+
+
+def get_index_where(
+    condition: Callable[..., bool], iterable: Iterable[Any]
+) -> List[int]:
+    """Return index values where `condition` is `True`."""
+    return [idx for idx, item in enumerate(iterable) if condition(item)]
+
+
+def get_matching_titles(title: str, children: List["Child"]) -> List[int]:
+    """Return child items with matching title."""
+    return get_index_where(lambda x: bool(getattr(x, "title", None) == title), children)
+
+
+def clean_attr_name(attr_name: str) -> str:
+    """Remove invalid characters from the attribute name."""
+    if not attr_name:
+        return ""
+
+    # Remove leading and trailing spaces
+    attr_name = attr_name.strip().replace(" ", "_").lower()
+
+    # Remove invalid characters
+    attr_name = re.sub("[^0-9a-zA-Z_]", "", attr_name)
+
+    # Remove leading characters until we find a letter or underscore
+    attr_name = re.sub("^[^a-zA-Z_]+", "", attr_name)
+
+    return attr_name
+
+
+def clean_iterator(iterator: Iterable[Any]) -> Iterable[Any]:
+    # Convert any non-list iterators to lists
+    iterator = (
+        list(iterator) if isinstance(iterator, (list, tuple, set)) else [iterator]
+    )
+    # Un-nest any nested lists of children
+    if len(list(iterator)) == 1 and isinstance(list(iterator)[0], (list, tuple, set)):
+        iterator = list(iterator)[0]
+    return iterator

@@ -34,8 +34,8 @@ _INSTALLED_MODULES: _Set[str] = {
     x.name for x in [_find_spec(dep) for dep in _OPTIONAL_DEPENDENCIES] if x
 }
 
-from esparto._cdnlinks import bootstrap_cdn_themes
-from esparto._content import (
+from esparto._options import OutputOptions, options
+from esparto.design.content import (
     DataFramePd,
     FigureBokeh,
     FigureMpl,
@@ -44,7 +44,7 @@ from esparto._content import (
     Markdown,
     RawHTML,
 )
-from esparto._layout import (
+from esparto.design.layout import (
     Card,
     CardRow,
     CardRowEqual,
@@ -56,4 +56,4 @@ from esparto._layout import (
     Section,
     Spacer,
 )
-from esparto._options import OutputOptions, options
+from esparto.publish.cdnlinks import bootstrap_cdn_themes

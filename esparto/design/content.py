@@ -1,29 +1,21 @@
 """Content classes for rendering objects and markdown to HTML."""
 
 import base64
+import re
 from abc import ABC, abstractmethod
+from collections import namedtuple
 from io import BytesIO, StringIO
 from pathlib import Path
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    Dict,
-    Iterator,
-    Optional,
-    Set,
-    Tuple,
-    TypeVar,
-    Union,
-)
+from typing import Any, Dict, Iterator, List, Optional, Set, Tuple, TypeVar, Union
 from uuid import uuid4
 
 import markdown as md
 
 from esparto import _INSTALLED_MODULES
 from esparto._options import options
-from esparto._publish import nb_display
-from esparto._typing import Child
-from esparto._utils import responsive_svg_mpl
+from esparto.design.base import AbstractContent, AbstractLayout, Child
+from esparto.design.layout import Row
+from esparto.publish.publish import nb_display
 
 if "PIL" in _INSTALLED_MODULES:
     from PIL.Image import Image as PILImage  # type: ignore
@@ -42,13 +34,11 @@ if "plotly" in _INSTALLED_MODULES:
     from plotly.graph_objs._figure import Figure as PlotlyFigure  # type: ignore
     from plotly.io import to_html as plotly_to_html  # type: ignore
 
-if TYPE_CHECKING:
-    from esparto._layout import Row
 
 T = TypeVar("T", bound="Content")
 
 
-class Content(ABC):
+class Content(AbstractContent, ABC):
     """Template for Content elements.
 
     Attributes:
@@ -74,7 +64,7 @@ class Content(ABC):
         nb_display(self)
 
     def __add__(self, other: Child) -> "Row":
-        from esparto._layout import Row
+        from esparto.design.layout import Row
 
         return Row(children=[self, other])
 
@@ -219,8 +209,8 @@ class Image(Content):
         self._scale = scale
 
     def to_html(self, **kwargs: bool) -> str:
-        image_bytes = _image_to_bytes(self.content)
-        image_encoded = _bytes_to_base64(image_bytes)
+        image_bytes = image_to_bytes(self.content)
+        image_encoded = bytes_to_base64(image_bytes)
 
         width = f"min({self._width}, 100%)" if self._width else "auto"
         height = f"min({self._height}, 100%)" if self._height else "auto"
@@ -276,7 +266,7 @@ class DataFramePd(Content):
         html: str = self.content.to_html(
             index=self.index,
             border=0,
-            col_space=self.col_space,
+            col_space=self.col_space,  # type: ignore
             classes=self.css_classes,
         )
         html = f"<div class='table-responsive es-table'>{html}</div>"
@@ -409,7 +399,7 @@ class FigureBokeh(Content):
         html, js = components(self.content)
 
         # Remove outer <div> tag so we can give our own attributes
-        html = _remove_outer_div(html)
+        html = remove_outer_div(html)
 
         fig_width = self.content.properties_with_values().get("width", 1000)
 
@@ -463,7 +453,7 @@ class FigurePlotly(Content):
                 self.content, include_plotlyjs=False, full_html=False
             )
             # Remove outer <div> tag so we can give our own attributes.
-            inner = _remove_outer_div(inner)
+            inner = remove_outer_div(inner)
 
         html = f"<div class='es-plotly-figure' style='width: min({fig_width}px, 100%);'>{inner}\n</div>"
 
@@ -473,14 +463,14 @@ class FigurePlotly(Content):
         return html
 
 
-def _remove_outer_div(html: str) -> str:
+def remove_outer_div(html: str) -> str:
     """Remove outer <div> tags."""
     html = html.replace("<div>", "", 1)
     html = "".join(html.rsplit("</div>", 1))
     return html
 
 
-def _image_to_bytes(image: Union[str, Path, BytesIO, "PILImage"]) -> BytesIO:
+def image_to_bytes(image: Union[str, Path, BytesIO, "PILImage"]) -> BytesIO:
     """Convert `image` to bytes.
 
     Args:
@@ -503,7 +493,7 @@ def _image_to_bytes(image: Union[str, Path, BytesIO, "PILImage"]) -> BytesIO:
         raise TypeError(type(image))
 
 
-def _bytes_to_base64(bytes: BytesIO) -> str:
+def bytes_to_base64(bytes: BytesIO) -> str:
     """
     Convert an image from bytes to base64 representation.
 
@@ -515,3 +505,72 @@ def _bytes_to_base64(bytes: BytesIO) -> str:
 
     """
     return base64.b64encode(bytes.getvalue()).decode("utf-8")
+
+
+def table_of_contents(
+    object: AbstractLayout, max_depth: Optional[int] = None, numbered: bool = True
+) -> "Markdown":
+    """Produce table of contents for a Layout object.
+
+    Args:
+        object (Layout): Target object for TOC.
+        max_depth (int): Maximum depth of returned TOC.
+        numbered (bool): If True TOC items are numbered.
+            If False, bulletpoints are used.
+
+    """
+    from esparto.design.content import Markdown
+
+    max_depth = max_depth or 99
+
+    TOCItem = namedtuple("TOCItem", "title, level, id")
+
+    def get_toc_items(parent: AbstractLayout) -> List[TOCItem]:
+        def find_ids(parent: Any, level: int, acc: List[TOCItem]) -> List[TOCItem]:
+            if hasattr(parent, "get_title_identifier") and parent.title:
+                acc.append(TOCItem(parent.title, level, parent.get_title_identifier()))
+                level += 1
+            if hasattr(parent, "children"):
+                for child in parent.children:
+                    find_ids(child, level, acc)
+            else:
+                return acc
+            return acc
+
+        acc_new = find_ids(parent, 0, [])
+        return acc_new
+
+    toc_items = get_toc_items(object)
+
+    tab = "\t"
+    marker = "1." if numbered else "*"
+    markdown_list = [
+        f"{(item.level - 1) * tab} {marker} [{item.title}](#{item.id})"
+        for item in toc_items
+        if item.level > 0 and item.level <= max_depth
+    ]
+    markdown_str = "\n".join(markdown_list)
+
+    return Markdown(markdown_str)
+
+
+def responsive_svg_mpl(
+    source: str, width: Optional[int] = None, height: Optional[int] = None
+) -> str:
+    """Make SVG element responsive."""
+
+    regex_w = r"width=\S*"
+    regex_h = r"height=\S*"
+
+    width_ = f"width='{width}px'" if width else ""
+    height_ = f"height='{height}px'" if height else ""
+
+    source = re.sub(regex_w, width_, source, count=1)
+    source = re.sub(regex_h, height_, source, count=1)
+
+    # Preserve aspect ratio of SVG
+    old_str = r"<svg"
+    new_str = '<svg class="svg-content-mpl" preserveAspectRatio="xMinYMin meet" '
+    source = source.replace(old_str, new_str, 1)
+
+    return source

@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any, Dict, Union
 
 from esparto import _INSTALLED_MODULES
-from esparto._content import (
+from esparto.design.content import (
     Content,
     DataFramePd,
     FigureBokeh,
@@ -13,7 +13,7 @@ from esparto._content import (
     Image,
     Markdown,
 )
-from esparto._layout import Layout
+from esparto.design.layout import Layout
 
 
 @ft.singledispatch
