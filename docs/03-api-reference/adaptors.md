@@ -1,4 +1,5 @@
-# esparto._adaptors
+# esparto.design.adaptors
+
 !!! info
     The `content_adaptor` function is called internally when an explicit `Content` class is not provided.
 
@@ -16,7 +17,6 @@
     {'New Page': [{'New Section': [{'Row 0': [{'Column 0': ['Markdown']}]}]}]}
     ```
 
-
-## ::: esparto._adaptors
+## ::: esparto.design.adaptors
 
 <br>
