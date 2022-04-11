@@ -57,7 +57,7 @@ Main Features
 - Responsive Bootstrap grid layout
 - Content adaptors for:
     - [Markdown][Markdown]
-    - [Images][Pillow]
+    - [Images]
     - [Pandas DataFrames][Pandas]
     - [Matplotlib][Matplotlib]
     - [Bokeh][Bokeh]
@@ -87,7 +87,6 @@ Dependencies
 
 #### Optional
 
-- [Pillow](https://python-pillow.org/) *(for image content)*
 - [weasyprint](https://weasyprint.org/) *(for PDF output)*
 
 License
@@ -125,7 +124,6 @@ Iris Report - [Webpage](https://domvwt.github.io/esparto/examples/iris-report.ht
 [Bootstrap]: https://getbootstrap.com/
 [Jinja]: https://jinja.palletsprojects.com/
 [Markdown]: https://www.markdownguide.org/
-[Pillow]: https://python-pillow.org/
 [Pandas]: https://pandas.pydata.org/
 [Matplotlib]: https://matplotlib.org/
 [Bokeh]: https://bokeh.org/
