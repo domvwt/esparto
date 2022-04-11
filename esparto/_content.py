@@ -148,6 +148,60 @@ class Markdown(Content):
         return html
 
 
+class ImageBase(Content):
+    """Image content.
+
+    Can be read from a filepath or from bytes.
+
+    Args:
+        image (str, Path, BytesIO): Image data.
+        caption (str): Image caption (default = None)
+        alt_text (str): Alternative text. (default = None)
+        set_width (int): Set width in pixels. (default = None)
+
+    """
+
+    _dependencies = {"bootstrap"}
+
+    def __init__(
+        self,
+        image: Union[str, Path, BytesIO],
+        caption: Optional[str] = "",
+        alt_text: Optional[str] = "Image",
+        set_width: Optional[int] = None,
+    ):
+        if not isinstance(image, (str, Path, BytesIO)):
+            raise TypeError(r"`image` must be one of {str, Path, PIL.Image, BytesIO}")
+
+        self.content = image
+        self.alt_text = alt_text
+        self.caption = caption
+        self._width = set_width
+
+    def to_html(self, **kwargs: bool) -> str:
+        if isinstance(self.content, BytesIO):
+            image_bytes = self.content
+        else:
+            image_bytes = BytesIO(Path(self.content).read_bytes())
+
+        image_encoded = image_to_base64(image_bytes)
+
+        html = (
+            "<figure class='es-figure'>"
+            "<img class='img-fluid figure-img rounded es-image' "
+            f"style='width: min({self._width}px, 100%);' "
+            f"alt='{self.alt_text}' "
+            f"src='data:image/png;base64,{image_encoded}'>"
+        )
+
+        if self.caption:
+            html += f"<figcaption class='figure-caption'>{self.caption}</figcaption>"
+
+        html += "</figure>"
+
+        return html
+
+
 class Image(Content):
     """Image content.
 
@@ -182,7 +236,9 @@ class Image(Content):
         set_height: Optional[int] = None,
     ):
         if "PIL" not in _INSTALLED_MODULES:
-            raise ModuleNotFoundError("Install `Pillow` for image content support.")
+            raise ModuleNotFoundError(
+                "Install `Pillow` for enhanced image content support."
+            )
 
         if not isinstance(image, (str, Path, PILImage, BytesIO)):
             raise TypeError(r"`image` must be one of {str, Path, PIL.Image, BytesIO}")
@@ -233,7 +289,7 @@ class Image(Content):
         if self._width or self._height or self._scale:
             image = _rescale_image(image, self._width, self._height, self._scale)
 
-        image_encoded = _image_to_base64(image)
+        image_encoded = pil_image_to_base64(image)
 
         width, _ = image.size
 
@@ -377,7 +433,7 @@ class FigureMpl(Content):
         bytes_buffer = BytesIO()
         self.content.savefig(bytes_buffer, format="png")
         bytes_buffer.seek(0)
-        return Image(bytes_buffer).to_html()
+        return ImageBase(bytes_buffer).to_html()
 
 
 class FigureBokeh(Content):
@@ -491,7 +547,23 @@ def _remove_outer_div(html: str) -> str:
     return html
 
 
-def _image_to_base64(image: "PILImage") -> str:
+def image_to_base64(image: BytesIO) -> str:
+    """
+    Convert an image from bytes to base64 representation.
+
+    Args:
+        image (BytesIO):
+
+    Returns:
+        str: Image encoded as a base64 utf-8 string.
+
+    """
+    image.seek(0)
+    image_encoded = base64.b64encode(image.getvalue()).decode("utf-8")
+    return image_encoded
+
+
+def pil_image_to_base64(image: "PILImage") -> str:
     """
     Convert an image from PIL to base64 representation.
 
@@ -504,8 +576,7 @@ def _image_to_base64(image: "PILImage") -> str:
     """
     buffer = BytesIO()
     image.save(buffer, format="png")
-    image_encoded = base64.b64encode(buffer.getvalue()).decode("utf-8")
-    return image_encoded
+    return image_to_base64(buffer)
 
 
 def _rescale_image(

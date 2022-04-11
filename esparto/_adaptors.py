@@ -11,6 +11,7 @@ from esparto._content import (
     FigureMpl,
     FigurePlotly,
     Image,
+    ImageBase,
     Markdown,
 )
 from esparto._layout import Layout
@@ -42,7 +43,10 @@ def content_adaptor_core(content: Union[str, Path]) -> Content:
     if guess and isinstance(guess[0], str):
         file_type = guess[0].split("/")[0]
         if file_type == "image":
-            return Image(content)
+            if "PIL" in _INSTALLED_MODULES:
+                return Image(content)
+            else:
+                return ImageBase(content)
         elif file_type == "text":
             content = Path(content).read_text()
         else:
