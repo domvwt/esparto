@@ -24,6 +24,7 @@ nav:
   - Overview: 'index.md'
   - User Guide:
         - 'Quick Start': '02-user-guide/quick-start.md'
+        - 'Output Options': '02-user-guide/output-options.md'
         - 'Tutorial Notebooks': '02-user-guide/tutorial-notebooks.md'
   - API Reference:
         - 'Layout': '03-api-reference/layout.md'
