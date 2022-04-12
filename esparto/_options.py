@@ -7,6 +7,7 @@ import traceback
 from contextlib import ContextDecorator
 from dataclasses import dataclass, field
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from types import TracebackType
 from typing import Any, Dict, Mapping, Optional, Tuple, Type, Union
 
@@ -135,7 +136,7 @@ class OutputOptions(yaml.YAMLObject, ConfigMixin):
     bokeh: BokehOptions = BokehOptions()
     plotly: PlotlyOptions = PlotlyOptions()
 
-    _pdf_temp_dir: str = ".pdf-temp"
+    _pdf_temp_dir: str = TemporaryDirectory().name
 
     _options_source: str = ""
 
