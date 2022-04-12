@@ -56,4 +56,3 @@ from esparto.design.layout import (
     Section,
     Spacer,
 )
-from esparto.publish.cdnlinks import bootstrap_cdn_themes

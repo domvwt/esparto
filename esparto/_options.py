@@ -104,7 +104,6 @@ class OutputOptions(yaml.YAMLObject, ConfigMixin):
             How dependencies should be provisioned: 'cdn' or 'inline'.
         bootstrap_cdn (str):
             Link to Bootstrap CDN. Used if dependency source is 'cdn'.
-            Alternative links are available from `esparto.bootstrap_cdn_themes`.
         bootstrap_css (str):
             Path to Bootstrap CSS file. Used if dependency source is 'inline'.
         esparto_css (str):
