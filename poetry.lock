@@ -1089,7 +1089,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-markdown"
-version = "3.3.12"
+version = "3.3.13"
 description = "Typing stubs for Markdown"
 category = "dev"
 optional = false
@@ -1198,7 +1198,7 @@ extras = ["weasyprint", "Pillow"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.6.1"
-content-hash = "732161d7c29622f690918b907aad5a43ad135fc1e5594223e2419977a511f5cd"
+content-hash = "1dedc9c353023f13750be1b25558cb05fa1137386143dc8e198e054040a3e2aa"
 
 [metadata.files]
 appdirs = [
@@ -2111,8 +2111,8 @@ typed-ast = [
     {file = "typed_ast-1.4.3.tar.gz", hash = "sha256:fb1bbeac803adea29cedd70781399c99138358c26d05fcbd23c13016b7f5ec65"},
 ]
 types-markdown = [
-    {file = "types-Markdown-3.3.12.tar.gz", hash = "sha256:bcc56dfb95be2389646e01808dc637c45805a9bb38047c93a509d96d183ca79d"},
-    {file = "types_Markdown-3.3.12-py3-none-any.whl", hash = "sha256:9a1428bfe856a0df0ac1e74507ee0cfe841c8b2a676cb83672ca249cb9f54a00"},
+    {file = "types-Markdown-3.3.13.tar.gz", hash = "sha256:35711d58243172b81a6bed4148005f1bd9661f7df9d636e281e5810180f391e8"},
+    {file = "types_Markdown-3.3.13-py3-none-any.whl", hash = "sha256:43a4b5392084124621766e3c17732b1a26c4b6a044bb5f75aa257c0b1be2b431"},
 ]
 typing-extensions = [
     {file = "typing_extensions-4.1.1-py3-none-any.whl", hash = "sha256:21c85e0fe4b9a155d0799430b0ad741cdce7e359660ccbd8b530613e8df88ce2"},
