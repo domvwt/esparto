@@ -4,7 +4,7 @@
 
 Customising the look and feel of **esparto** pages is best achieved through
 modifying or replacing the Jinja template and CSS style sheets.
-Alternative CSS and Jinja sources can be passed to `es.options` as global
+Alternatively, CSS and Jinja sources can be passed to `es.options` as global
 defaults, or passed to the `es.Page` constructor using the `es.OutputOptions` class.
 
 ```python
@@ -61,7 +61,7 @@ python -m esparto print_bootstrap_css > bootstrap.css
 python -m esparto print_default_options > esparto-config.yaml
 ```
 
-## More options...
+## More options
 
 For details on additional options please read the
 [documentation for the Options module.](/03-api-reference/options/)
