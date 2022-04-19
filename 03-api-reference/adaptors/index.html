@@ -69,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#esparto_adaptors" class="md-skip">
+        <a href="#espartodesignadaptors" class="md-skip">
           Skip to content
         </a>
       
@@ -344,6 +344,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../02-user-guide/output-options/" class="md-nav__link">
+        Output Options
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../02-user-guide/tutorial-notebooks/" class="md-nav__link">
         Tutorial Notebooks
       </a>
@@ -483,8 +497,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#esparto._adaptors" class="md-nav__link">
-    _adaptors
+  <a href="#esparto.design.adaptors" class="md-nav__link">
+    adaptors
   </a>
   
 </li>
@@ -597,7 +611,7 @@
                   </a>
                 
                 
-                <h1 id="esparto_adaptors">esparto._adaptors</h1>
+                <h1 id="espartodesignadaptors">esparto.design.adaptors</h1>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>The <code>content_adaptor</code> function is called internally when an explicit <code>Content</code> class is not provided.</p>
@@ -618,13 +632,10 @@
 
 
 
-<h2 id="esparto._adaptors" class="doc doc-heading">
-        <code>_adaptors</code>
+<h2 id="esparto.design.adaptors" class="doc doc-heading">
+        <code>adaptors</code>
 
 
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-private"><code>private</code></small>
-  </span>
 
 </h2>
 
@@ -646,7 +657,7 @@
 
 
 
-<h3 id="esparto._adaptors.content_adaptor" class="doc doc-heading">
+<h3 id="esparto.design.adaptors.content_adaptor" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">content_adaptor</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></code>
 
 
@@ -685,13 +696,13 @@
   </thead>
   <tbody>
     <tr>
-      <td><code>Union[esparto._content.Content, esparto._layout.Layout, Dict[str, Any]]</code></td>
+      <td><code>Union[esparto.design.content.Content, esparto.design.layout.Layout, Dict[str, Any]]</code></td>
       <td><p>Content: Appropriately wrapped content.</p></td>
     </tr>
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>esparto/_adaptors.py</code></summary>
+          <summary>Source code in <code>esparto/design/adaptors.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@ft</span><span class="o">.</span><span class="n">singledispatch</span>
 <span class="k">def</span> <span class="nf">content_adaptor</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Content</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Content</span><span class="p">,</span> <span class="n">Layout</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -719,7 +730,7 @@
 
 
 
-<h3 id="esparto._adaptors.content_adaptor_bokeh" class="doc doc-heading">
+<h3 id="esparto.design.adaptors.content_adaptor_bokeh" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">content_adaptor_bokeh</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></code>
 
 
@@ -730,7 +741,7 @@
       <p>Convert Bokeh Layout to FigureBokeh content.</p>
 
         <details class="quote">
-          <summary>Source code in <code>esparto/_adaptors.py</code></summary>
+          <summary>Source code in <code>esparto/design/adaptors.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@content_adaptor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">BokehObject</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">content_adaptor_bokeh</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">BokehObject</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FigureBokeh</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Convert Bokeh Layout to FigureBokeh content.&quot;&quot;&quot;</span>
@@ -747,7 +758,7 @@
 
 
 
-<h3 id="esparto._adaptors.content_adaptor_core" class="doc doc-heading">
+<h3 id="esparto.design.adaptors.content_adaptor_core" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">content_adaptor_core</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></code>
 
 
@@ -758,7 +769,7 @@
       <p>Convert text or image to Markdown or Image content.</p>
 
         <details class="quote">
-          <summary>Source code in <code>esparto/_adaptors.py</code></summary>
+          <summary>Source code in <code>esparto/design/adaptors.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@content_adaptor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
 <span class="nd">@content_adaptor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Path</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">content_adaptor_core</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Content</span><span class="p">:</span>
@@ -786,7 +797,7 @@
 
 
 
-<h3 id="esparto._adaptors.content_adaptor_df" class="doc doc-heading">
+<h3 id="esparto.design.adaptors.content_adaptor_df" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">content_adaptor_df</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></code>
 
 
@@ -797,7 +808,7 @@
       <p>Convert Pandas DataFrame to DataFramePD content.</p>
 
         <details class="quote">
-          <summary>Source code in <code>esparto/_adaptors.py</code></summary>
+          <summary>Source code in <code>esparto/design/adaptors.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@content_adaptor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">DataFrame</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">content_adaptor_df</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFramePd</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Convert Pandas DataFrame to DataFramePD content.&quot;&quot;&quot;</span>
@@ -814,7 +825,7 @@
 
 
 
-<h3 id="esparto._adaptors.content_adaptor_dict" class="doc doc-heading">
+<h3 id="esparto.design.adaptors.content_adaptor_dict" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">content_adaptor_dict</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></code>
 
 
@@ -825,7 +836,7 @@
       <p>Pass through dict of <code>{"title": content}</code>.</p>
 
         <details class="quote">
-          <summary>Source code in <code>esparto/_adaptors.py</code></summary>
+          <summary>Source code in <code>esparto/design/adaptors.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@content_adaptor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">content_adaptor_dict</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Pass through dict of `{&quot;title&quot;: content}`.&quot;&quot;&quot;</span>
@@ -844,7 +855,7 @@
 
 
 
-<h3 id="esparto._adaptors.content_adaptor_layout" class="doc doc-heading">
+<h3 id="esparto.design.adaptors.content_adaptor_layout" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">content_adaptor_layout</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></code>
 
 
@@ -855,7 +866,7 @@
       <p>If Layout object is passed, return unchanged.</p>
 
         <details class="quote">
-          <summary>Source code in <code>esparto/_adaptors.py</code></summary>
+          <summary>Source code in <code>esparto/design/adaptors.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@content_adaptor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Layout</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">content_adaptor_layout</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Layout</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Layout</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;If Layout object is passed, return unchanged.&quot;&quot;&quot;</span>
@@ -872,7 +883,7 @@
 
 
 
-<h3 id="esparto._adaptors.content_adaptor_mpl" class="doc doc-heading">
+<h3 id="esparto.design.adaptors.content_adaptor_mpl" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">content_adaptor_mpl</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></code>
 
 
@@ -883,7 +894,7 @@
       <p>Convert Matplotlib Figure to FigureMpl content.</p>
 
         <details class="quote">
-          <summary>Source code in <code>esparto/_adaptors.py</code></summary>
+          <summary>Source code in <code>esparto/design/adaptors.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@content_adaptor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Figure</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">content_adaptor_mpl</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Figure</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FigureMpl</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Convert Matplotlib Figure to FigureMpl content.&quot;&quot;&quot;</span>
@@ -900,7 +911,7 @@
 
 
 
-<h3 id="esparto._adaptors.content_adaptor_plotly" class="doc doc-heading">
+<h3 id="esparto.design.adaptors.content_adaptor_plotly" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">content_adaptor_plotly</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></code>
 
 
@@ -911,7 +922,7 @@
       <p>Convert Plotly Figure to FigurePlotly content.</p>
 
         <details class="quote">
-          <summary>Source code in <code>esparto/_adaptors.py</code></summary>
+          <summary>Source code in <code>esparto/design/adaptors.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@content_adaptor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">PlotlyFigure</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">content_adaptor_plotly</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">PlotlyFigure</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FigurePlotly</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Convert Plotly Figure to FigurePlotly content.&quot;&quot;&quot;</span>

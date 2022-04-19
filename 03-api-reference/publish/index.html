@@ -69,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#esparto_publish" class="md-skip">
+        <a href="#espartopublishoutput" class="md-skip">
           Skip to content
         </a>
       
@@ -344,6 +344,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../02-user-guide/output-options/" class="md-nav__link">
+        Output Options
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../02-user-guide/tutorial-notebooks/" class="md-nav__link">
         Tutorial Notebooks
       </a>
@@ -469,21 +483,21 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#esparto._publish.publish_html" class="md-nav__link">
+  <a href="#esparto.publish.output.publish_html" class="md-nav__link">
     publish_html()
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#esparto._publish.publish_pdf" class="md-nav__link">
+  <a href="#esparto.publish.output.publish_pdf" class="md-nav__link">
     publish_pdf()
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#esparto._publish.nb_display" class="md-nav__link">
+  <a href="#esparto.publish.output.nb_display" class="md-nav__link">
     nb_display()
   </a>
   
@@ -611,7 +625,7 @@
                   </a>
                 
                 
-                <h1 id="esparto_publish">esparto._publish</h1>
+                <h1 id="espartopublishoutput">esparto.publish.output</h1>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>Publishing methods are accessed via Layout classes.</p>
@@ -633,7 +647,7 @@
 
 
 
-<h2 id="esparto._publish.publish_html" class="doc doc-heading">
+<h2 id="esparto.publish.output.publish_html" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">publish_html</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;./esparto-doc.html&#39;</span><span class="p">,</span> <span class="n">return_html</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dependency_source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">esparto_css</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">jinja_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
@@ -714,7 +728,7 @@
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>esparto/_publish.py</code></summary>
+          <summary>Source code in <code>esparto/publish/output.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">publish_html</span><span class="p">(</span>
     <span class="n">page</span><span class="p">:</span> <span class="s2">&quot;Page&quot;</span><span class="p">,</span>
     <span class="n">filepath</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;./esparto-doc.html&quot;</span><span class="p">,</span>
@@ -758,8 +772,8 @@
         <span class="n">head_deps</span><span class="o">=</span><span class="n">resolved_deps</span><span class="o">.</span><span class="n">head</span><span class="p">,</span>
         <span class="n">tail_deps</span><span class="o">=</span><span class="n">resolved_deps</span><span class="o">.</span><span class="n">tail</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">html_rendered</span> <span class="o">=</span> <span class="n">_prettify_html</span><span class="p">(</span><span class="n">html_rendered</span><span class="p">)</span>
-    <span class="n">html_rendered</span> <span class="o">=</span> <span class="n">_relocate_scripts</span><span class="p">(</span><span class="n">html_rendered</span><span class="p">)</span>
+    <span class="n">html_rendered</span> <span class="o">=</span> <span class="n">prettify_html</span><span class="p">(</span><span class="n">html_rendered</span><span class="p">)</span>
+    <span class="n">html_rendered</span> <span class="o">=</span> <span class="n">relocate_scripts</span><span class="p">(</span><span class="n">html_rendered</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">filepath</span><span class="p">:</span>
         <span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">html_rendered</span><span class="p">)</span>
@@ -779,7 +793,7 @@
 
 
 
-<h2 id="esparto._publish.publish_pdf" class="doc doc-heading">
+<h2 id="esparto.publish.output.publish_pdf" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">publish_pdf</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;./esparto-doc.pdf&#39;</span><span class="p">,</span> <span class="n">return_html</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 
@@ -836,7 +850,7 @@
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>esparto/_publish.py</code></summary>
+          <summary>Source code in <code>esparto/publish/output.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">publish_pdf</span><span class="p">(</span>
     <span class="n">page</span><span class="p">:</span> <span class="s2">&quot;Page&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;./esparto-doc.pdf&quot;</span><span class="p">,</span> <span class="n">return_html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -873,7 +887,7 @@
         <span class="n">f</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
     <span class="n">temp_dir</span><span class="o">.</span><span class="n">rmdir</span><span class="p">()</span>
 
-    <span class="n">html_prettified</span> <span class="o">=</span> <span class="n">_prettify_html</span><span class="p">(</span><span class="n">html_rendered</span><span class="p">)</span>
+    <span class="n">html_prettified</span> <span class="o">=</span> <span class="n">prettify_html</span><span class="p">(</span><span class="n">html_rendered</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">return_html</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">html_prettified</span>
@@ -890,7 +904,7 @@
 
 
 
-<h2 id="esparto._publish.nb_display" class="doc doc-heading">
+<h2 id="esparto.publish.output.nb_display" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">nb_display</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">return_html</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dependency_source</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 
@@ -913,7 +927,7 @@
   <tbody>
       <tr>
         <td><code>item</code></td>
-        <td><code>Union[Layout, Content]</code></td>
+        <td><code>Union[AbstractLayout, AbstractContent]</code></td>
         <td><p>A Layout or Content item.</p></td>
         <td><em>required</em></td>
       </tr>
@@ -947,9 +961,9 @@
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>esparto/_publish.py</code></summary>
+          <summary>Source code in <code>esparto/publish/output.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">nb_display</span><span class="p">(</span>
-    <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;Layout&quot;</span><span class="p">,</span> <span class="s2">&quot;Content&quot;</span><span class="p">],</span>
+    <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;AbstractLayout&quot;</span><span class="p">,</span> <span class="s2">&quot;AbstractContent&quot;</span><span class="p">],</span>
     <span class="n">return_html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">dependency_source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -966,7 +980,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span>  <span class="c1"># type: ignore</span>
 
-    <span class="kn">from</span> <span class="nn">esparto._layout</span> <span class="kn">import</span> <span class="n">Layout</span>
+    <span class="kn">from</span> <span class="nn">esparto.design.layout</span> <span class="kn">import</span> <span class="n">Layout</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">Layout</span><span class="p">):</span>
         <span class="n">required_deps</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">_required_dependencies</span><span class="p">()</span>
@@ -988,7 +1002,7 @@
         <span class="sa">f</span><span class="s2">&quot;&lt;!doctype html&gt;</span><span class="se">\n</span><span class="s2">&lt;html&gt;</span><span class="se">\n</span><span class="s2">&lt;head&gt;</span><span class="si">{</span><span class="n">head_deps</span><span class="si">}</span><span class="s2">&lt;/head&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="sa">f</span><span class="s2">&quot;&lt;body&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">html_rendered</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">tail_deps</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/body&gt;</span><span class="se">\n</span><span class="s2">&lt;/html&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
     <span class="p">)</span>
-    <span class="n">html_rendered</span> <span class="o">=</span> <span class="n">_relocate_scripts</span><span class="p">(</span><span class="n">html_rendered</span><span class="p">)</span>
+    <span class="n">html_rendered</span> <span class="o">=</span> <span class="n">relocate_scripts</span><span class="p">(</span><span class="n">html_rendered</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">()</span>
 
     <span class="c1"># This allows time to download plotly.js from the CDN - otherwise cell can render empty</span>

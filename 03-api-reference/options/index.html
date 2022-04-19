@@ -344,6 +344,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../02-user-guide/output-options/" class="md-nav__link">
+        Output Options
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../02-user-guide/tutorial-notebooks/" class="md-nav__link">
         Tutorial Notebooks
       </a>
@@ -621,7 +635,9 @@
                 <h1 id="esparto_options">esparto._options</h1>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>Default output options are configured through <code>es.options</code>.</p>
+<p>Default options are configured through <code>es.options</code>, page level options can
+be passed to the <code>Page</code> constructor.</p>
+<p>Please read <a href="/02-user-guide/output-options">the user guide</a> for more details.</p>
 </div>
 
 
@@ -663,8 +679,7 @@ either <code>./esparto-config.yaml</code> or <code>~/esparto-data/esparto-config
       <tr>
         <td><code>bootstrap_cdn</code></td>
         <td><code>str</code></td>
-        <td><p>Link to Bootstrap CDN. Used if dependency source is 'cdn'.
-Alternative links are available from <code>esparto.bootstrap_cdn_themes</code>.</p></td>
+        <td><p>Link to Bootstrap CDN. Used if dependency source is 'cdn'.</p></td>
       </tr>
       <tr>
         <td><code>bootstrap_css</code></td>
@@ -726,6 +741,79 @@ Alternative links are available from <code>esparto.bootstrap_cdn_themes</code>.<
 
 
 
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="esparto._options.OutputOptions.yaml_loader" class="doc doc-heading">
+        <code>yaml_loader</code>
+
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="esparto._options.OutputOptions.yaml_loader.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+</h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Initialize the scanner.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>esparto/_options.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+    <span class="n">Reader</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">)</span>
+    <span class="n">Scanner</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">Parser</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">Composer</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">SafeConstructor</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">Resolver</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
 
 
 
@@ -734,8 +822,11 @@ Alternative links are available from <code>esparto.bootstrap_cdn_themes</code>.<
 
 
 <h3 id="esparto._options.OutputOptions.load" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></code>
 
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
+  </span>
 
 </h3>
 
@@ -745,12 +836,13 @@ Alternative links are available from <code>esparto.bootstrap_cdn_themes</code>.<
 
         <details class="quote">
           <summary>Source code in <code>esparto/_options.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;OutputOptions&quot;</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Load config from yaml file at `path`.&quot;&quot;&quot;</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-    <span class="n">yaml_str</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
-    <span class="bp">self</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">unsafe_load</span><span class="p">(</span><span class="n">yaml_str</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_options_source</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">yaml_str</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+    <span class="n">opts</span><span class="p">:</span> <span class="n">OutputOptions</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">yaml_str</span><span class="p">)</span>
+    <span class="n">opts</span><span class="o">.</span><span class="n">_options_source</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">opts</span>
 </code></pre></div>
         </details>
     </div>
@@ -777,11 +869,7 @@ Alternative links are available from <code>esparto.bootstrap_cdn_themes</code>.<
           <summary>Source code in <code>esparto/_options.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;./esparto-config.yaml&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Save config to yaml file at `path`.&quot;&quot;&quot;</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-    <span class="n">self_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-    <span class="k">del</span> <span class="n">self_copy</span><span class="o">.</span><span class="n">_options_source</span>
-    <span class="n">yaml_str</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">self_copy</span><span class="p">)</span>
-    <span class="n">path</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">yaml_str</span><span class="p">)</span>
+    <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_yaml_str</span><span class="p">())</span>
 </code></pre></div>
         </details>
     </div>
@@ -865,6 +953,79 @@ A float can be passed as a scaling factor.</p></td>
 
 
 
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="esparto._options.MatplotlibOptions.yaml_loader" class="doc doc-heading">
+        <code>yaml_loader</code>
+
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="esparto._options.MatplotlibOptions.yaml_loader.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+</h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Initialize the scanner.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>esparto/_options.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+    <span class="n">Reader</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">)</span>
+    <span class="n">Scanner</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">Parser</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">Composer</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">SafeConstructor</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">Resolver</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
 
 
 
@@ -926,6 +1087,79 @@ A float can be passed as a scaling factor.</p></td>
 
 
 
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="esparto._options.PlotlyOptions.yaml_loader" class="doc doc-heading">
+        <code>yaml_loader</code>
+
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="esparto._options.PlotlyOptions.yaml_loader.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+</h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Initialize the scanner.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>esparto/_options.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+    <span class="n">Reader</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">)</span>
+    <span class="n">Scanner</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">Parser</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">Composer</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">SafeConstructor</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">Resolver</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
 
 
 
@@ -983,6 +1217,79 @@ A float can be passed as a scaling factor.</p></td>
 
 
 
+
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="esparto._options.BokehOptions.yaml_loader" class="doc doc-heading">
+        <code>yaml_loader</code>
+
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="esparto._options.BokehOptions.yaml_loader.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+</h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Initialize the scanner.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>esparto/_options.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+    <span class="n">Reader</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">)</span>
+    <span class="n">Scanner</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">Parser</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">Composer</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">SafeConstructor</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">Resolver</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
 
 
 

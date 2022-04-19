@@ -14,7 +14,7 @@
     
     
       
-        <title>Customisation - esparto</title>
+        <title>Output Options - esparto</title>
       
     
     
@@ -69,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#coming-soon" class="md-skip">
+        <a href="#output-options" class="md-skip">
           Skip to content
         </a>
       
@@ -101,7 +101,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Customisation
+              Output Options
             
           </span>
         </div>
@@ -187,13 +187,15 @@
         
   
   
+    
+  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../quick-start/" class="md-tabs__link">
+      <a href="../quick-start/" class="md-tabs__link md-tabs__link--active">
         User Guide
       </a>
     </li>
@@ -300,12 +302,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
       
       
       
@@ -331,6 +335,74 @@
       <a href="../quick-start/" class="md-nav__link">
         Quick Start
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Output Options
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Output Options
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#css-and-jinja" class="md-nav__link">
+    CSS and Jinja
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#printing-default-resources" class="md-nav__link">
+    Printing Default Resources
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-options" class="md-nav__link">
+    More options
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -548,16 +620,58 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/domvwt/esparto/edit/master/docs/02-user-guide/customisation.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/domvwt/esparto/edit/master/docs/02-user-guide/output-options.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h3 id="jinja">Jinja</h3>
-<h3 id="css">CSS</h3>
-<h4 id="bootstrap-themes">Bootstrap Themes</h4>
-<h3 id="layout-classes">Layout Classes</h3>
-<h1 id="coming-soon">Coming Soon!</h1>
+                <h1 id="output-options">Output Options</h1>
+<h2 id="css-and-jinja">CSS and Jinja</h2>
+<p>Customising the look and feel of <strong>esparto</strong> pages is best achieved through
+modifying or replacing the Jinja template and CSS style sheets.
+Alternatively, CSS and Jinja sources can be passed to <code>es.options</code> as global
+defaults, or passed to the <code>es.Page</code> constructor using the <code>es.OutputOptions</code> class.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Updating global defaults.</span>
+<span class="n">es</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">esparto_css</span> <span class="o">=</span> <span class="s2">&quot;./esparto.css&quot;</span>
+<span class="n">es</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">jinja_template</span> <span class="o">=</span> <span class="s2">&quot;./esparto.html.jinja&quot;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Using page level options.</span>
+<span class="n">output_options</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">OutputOptions</span><span class="p">(</span>
+    <span class="n">esparto_css</span><span class="o">=</span><span class="s2">&quot;./esparto.css&quot;</span><span class="p">,</span>
+    <span class="n">jinja_template</span><span class="o">=</span><span class="s2">&quot;./esparto.html.jinja&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">page</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Page</span><span class="p">(</span><span class="n">output_options</span><span class="o">=</span><span class="n">output_options</span><span class="p">)</span>
+</code></pre></div>
+<p>Options can be saved and loaded from disk using class methods.
+If an <code>esparto-config.yaml</code> file is found in the working directory, or at
+<code>~/esparto-data/esparto-config.yaml</code>, it will be loaded automatically when
+the library is imported.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># These options will be loaded automatically for sessions in the same directory.</span>
+<span class="n">output_options</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;./esparto-config.yaml&quot;</span><span class="p">)</span>
+
+<span class="c1"># These will be loaded only if no yaml file is found in the working directory.</span>
+<span class="n">output_options</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;~/esparto-data/esparto-config.yaml&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="printing-default-resources">Printing Default Resources</h2>
+<p>It's recommended to use the standard CSS and Jinja template files as a starting
+point for any changes.
+A command line interface is provided for printing the default resources.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Print default esparto.css to `esparto.css`.</span>
+python -m esparto print_esparto_css &gt; esparto.css
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Print default jinja template to `esparto.html.jinja`.</span>
+python -m esparto print_jinja_template &gt; esparto.html.jinja
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Print default Bootstrap CSS to `bootstrap.css`.</span>
+python -m esparto print_bootstrap_css &gt; bootstrap.css
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Print default output options to `esparto-config.yaml`.</span>
+python -m esparto print_default_options &gt; esparto-config.yaml
+</code></pre></div>
+<h2 id="more-options">More options</h2>
+<p>For details on additional options please read the
+<a href="/03-api-reference/options/">documentation for the Options module.</a></p>
+<p><br></p>
                 
               
               
@@ -573,6 +687,41 @@
       
         
 <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../quick-start/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Quick Start" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Quick Start
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../tutorial-notebooks/" class="md-footer__link md-footer__link--next" aria-label="Next: Tutorial Notebooks" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Tutorial Notebooks
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

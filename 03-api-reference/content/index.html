@@ -69,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#esparto_content" class="md-skip">
+        <a href="#espartodesigncontent" class="md-skip">
           Skip to content
         </a>
       
@@ -344,6 +344,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../02-user-guide/output-options/" class="md-nav__link">
+        Output Options
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../02-user-guide/tutorial-notebooks/" class="md-nav__link">
         Tutorial Notebooks
       </a>
@@ -441,56 +455,56 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#esparto._content.Content" class="md-nav__link">
+  <a href="#esparto.design.content.Content" class="md-nav__link">
     Content
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#esparto._content.Markdown" class="md-nav__link">
+  <a href="#esparto.design.content.Markdown" class="md-nav__link">
     Markdown
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#esparto._content.DataFramePd" class="md-nav__link">
+  <a href="#esparto.design.content.DataFramePd" class="md-nav__link">
     DataFramePd
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#esparto._content.FigureMpl" class="md-nav__link">
+  <a href="#esparto.design.content.FigureMpl" class="md-nav__link">
     FigureMpl
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#esparto._content.FigureBokeh" class="md-nav__link">
+  <a href="#esparto.design.content.FigureBokeh" class="md-nav__link">
     FigureBokeh
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#esparto._content.FigurePlotly" class="md-nav__link">
+  <a href="#esparto.design.content.FigurePlotly" class="md-nav__link">
     FigurePlotly
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#esparto._content.Image" class="md-nav__link">
+  <a href="#esparto.design.content.Image" class="md-nav__link">
     Image
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#esparto._content.RawHTML" class="md-nav__link">
+  <a href="#esparto.design.content.RawHTML" class="md-nav__link">
     RawHTML
   </a>
   
@@ -646,7 +660,7 @@
                   </a>
                 
                 
-                <h1 id="esparto_content">esparto._content</h1>
+                <h1 id="espartodesigncontent">esparto.design.content</h1>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p><code>Content</code> classes will usually be inferred from the content object type.
@@ -663,7 +677,7 @@ They may be accessed via the top level module if required.</p>
 
 
 
-<h2 id="esparto._content.Content" class="doc doc-heading">
+<h2 id="esparto.design.content.Content" class="doc doc-heading">
         <code>Content</code>
 
 
@@ -714,7 +728,7 @@ They may be accessed via the top level module if required.</p>
 
 
 
-<h3 id="esparto._content.Content.display" class="doc doc-heading">
+<h3 id="esparto.design.content.Content.display" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">display</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
 
 
@@ -725,7 +739,7 @@ They may be accessed via the top level module if required.</p>
       <p>Display rendered content in a Jupyter Notebook cell.</p>
 
         <details class="quote">
-          <summary>Source code in <code>esparto/_content.py</code></summary>
+          <summary>Source code in <code>esparto/design/content.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Display rendered content in a Jupyter Notebook cell.&quot;&quot;&quot;</span>
     <span class="n">nb_display</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -741,7 +755,7 @@ They may be accessed via the top level module if required.</p>
 
 
 
-<h3 id="esparto._content.Content.to_html" class="doc doc-heading">
+<h3 id="esparto.design.content.Content.to_html" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
@@ -767,7 +781,7 @@ They may be accessed via the top level module if required.</p>
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>esparto/_content.py</code></summary>
+          <summary>Source code in <code>esparto/design/content.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@abstractmethod</span>
 <span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Convert content to HTML string.</span>
@@ -800,7 +814,7 @@ They may be accessed via the top level module if required.</p>
 
 
 
-<h2 id="esparto._content.Markdown" class="doc doc-heading">
+<h2 id="esparto.design.content.Markdown" class="doc doc-heading">
         <code>Markdown</code>
 
 
@@ -848,7 +862,7 @@ They may be accessed via the top level module if required.</p>
 
 
 
-<h3 id="esparto._content.Markdown.to_html" class="doc doc-heading">
+<h3 id="esparto.design.content.Markdown.to_html" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
@@ -874,7 +888,7 @@ They may be accessed via the top level module if required.</p>
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>esparto/_content.py</code></summary>
+          <summary>Source code in <code>esparto/design/content.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="n">html</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">,</span> <span class="s2">&quot;smarty&quot;</span><span class="p">])</span>
     <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">html</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -902,7 +916,7 @@ They may be accessed via the top level module if required.</p>
 
 
 
-<h2 id="esparto._content.DataFramePd" class="doc doc-heading">
+<h2 id="esparto.design.content.DataFramePd" class="doc doc-heading">
         <code>DataFramePd</code>
 
 
@@ -979,7 +993,7 @@ They may be accessed via the top level module if required.</p>
 
 
 
-<h3 id="esparto._content.DataFramePd.to_html" class="doc doc-heading">
+<h3 id="esparto.design.content.DataFramePd.to_html" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
@@ -1005,7 +1019,7 @@ They may be accessed via the top level module if required.</p>
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>esparto/_content.py</code></summary>
+          <summary>Source code in <code>esparto/design/content.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="n">html</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span>
         <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
@@ -1037,7 +1051,7 @@ They may be accessed via the top level module if required.</p>
 
 
 
-<h2 id="esparto._content.FigureMpl" class="doc doc-heading">
+<h2 id="esparto.design.content.FigureMpl" class="doc doc-heading">
         <code>FigureMpl</code>
 
 
@@ -1098,7 +1112,7 @@ Accepts a tuple of (height, width) or a float to use as scale factor.</p></td>
 
 
 
-<h3 id="esparto._content.FigureMpl.to_html" class="doc doc-heading">
+<h3 id="esparto.design.content.FigureMpl.to_html" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
@@ -1124,7 +1138,7 @@ Accepts a tuple of (height, width) or a float to use as scale factor.</p></td>
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>esparto/_content.py</code></summary>
+          <summary>Source code in <code>esparto/design/content.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 
     <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;notebook_mode&quot;</span><span class="p">):</span>
@@ -1202,7 +1216,7 @@ Accepts a tuple of (height, width) or a float to use as scale factor.</p></td>
 
 
 
-<h2 id="esparto._content.FigureBokeh" class="doc doc-heading">
+<h2 id="esparto.design.content.FigureBokeh" class="doc doc-heading">
         <code>FigureBokeh</code>
 
 
@@ -1256,7 +1270,7 @@ Accepts a tuple of (height, width) or a float to use as scale factor.</p></td>
 
 
 
-<h3 id="esparto._content.FigureBokeh.to_html" class="doc doc-heading">
+<h3 id="esparto.design.content.FigureBokeh.to_html" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
@@ -1282,7 +1296,7 @@ Accepts a tuple of (height, width) or a float to use as scale factor.</p></td>
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>esparto/_content.py</code></summary>
+          <summary>Source code in <code>esparto/design/content.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">layout_attributes</span><span class="p">:</span>
@@ -1301,7 +1315,7 @@ Accepts a tuple of (height, width) or a float to use as scale factor.</p></td>
     <span class="n">html</span><span class="p">,</span> <span class="n">js</span> <span class="o">=</span> <span class="n">components</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 
     <span class="c1"># Remove outer &lt;div&gt; tag so we can give our own attributes</span>
-    <span class="n">html</span> <span class="o">=</span> <span class="n">_remove_outer_div</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">remove_outer_div</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
 
     <span class="n">fig_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">properties_with_values</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 
@@ -1332,7 +1346,7 @@ Accepts a tuple of (height, width) or a float to use as scale factor.</p></td>
 
 
 
-<h2 id="esparto._content.FigurePlotly" class="doc doc-heading">
+<h2 id="esparto.design.content.FigurePlotly" class="doc doc-heading">
         <code>FigurePlotly</code>
 
 
@@ -1386,7 +1400,7 @@ Accepts a tuple of (height, width) or a float to use as scale factor.</p></td>
 
 
 
-<h3 id="esparto._content.FigurePlotly.to_html" class="doc doc-heading">
+<h3 id="esparto.design.content.FigurePlotly.to_html" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
@@ -1412,7 +1426,7 @@ Accepts a tuple of (height, width) or a float to use as scale factor.</p></td>
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>esparto/_content.py</code></summary>
+          <summary>Source code in <code>esparto/design/content.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">layout_args</span><span class="p">:</span>
@@ -1431,7 +1445,7 @@ Accepts a tuple of (height, width) or a float to use as scale factor.</p></td>
             <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="n">include_plotlyjs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">full_html</span><span class="o">=</span><span class="kc">False</span>
         <span class="p">)</span>
         <span class="c1"># Remove outer &lt;div&gt; tag so we can give our own attributes.</span>
-        <span class="n">inner</span> <span class="o">=</span> <span class="n">_remove_outer_div</span><span class="p">(</span><span class="n">inner</span><span class="p">)</span>
+        <span class="n">inner</span> <span class="o">=</span> <span class="n">remove_outer_div</span><span class="p">(</span><span class="n">inner</span><span class="p">)</span>
 
     <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;div class=&#39;es-plotly-figure&#39; style=&#39;width: min(</span><span class="si">{</span><span class="n">fig_width</span><span class="si">}</span><span class="s2">px, 100%);&#39;&gt;</span><span class="si">{</span><span class="n">inner</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;/div&gt;&quot;</span>
 
@@ -1461,7 +1475,7 @@ Accepts a tuple of (height, width) or a float to use as scale factor.</p></td>
 
 
 
-<h2 id="esparto._content.Image" class="doc doc-heading">
+<h2 id="esparto.design.content.Image" class="doc doc-heading">
         <code>Image</code>
 
 
@@ -1471,14 +1485,7 @@ Accepts a tuple of (height, width) or a float to use as scale factor.</p></td>
     <div class="doc doc-contents first">
 
       <p>Image content.</p>
-<p>Can be read from a filepath, PIL.Image object, or from bytes.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Requires optional <code>Pillow</code> library.</p>
-</div>
-<p>Only one of <code>scale</code>, <code>set_width</code>, or <code>set_height</code> should be used.
-If more than one is populated, the values will be prioritised in the order:
-     <code>set_width</code> -&gt; <code>set_height</code> -&gt; <code>scale</code></p>
+<p>Can be read from a filepath, PIL.Image object, or from bytes..</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1493,7 +1500,7 @@ If more than one is populated, the values will be prioritised in the order:
   <tbody>
       <tr>
         <td><code>image</code></td>
-        <td><code>str, PIL.Image, BytesIO</code></td>
+        <td><code>str, Path, PIL.Image, BytesIO</code></td>
         <td><p>Image data.</p></td>
         <td><em>required</em></td>
       </tr>
@@ -1512,7 +1519,7 @@ If more than one is populated, the values will be prioritised in the order:
       <tr>
         <td><code>scale</code></td>
         <td><code>float</code></td>
-        <td><p>Scale image proportionately, must be &gt; 0 and &lt;= 1. (default = None)</p></td>
+        <td><p>Scale image by proportion. (default = None)</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
@@ -1547,7 +1554,7 @@ If more than one is populated, the values will be prioritised in the order:
 
 
 
-<h3 id="esparto._content.Image.rescale" class="doc doc-heading">
+<h3 id="esparto.design.content.Image.rescale" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">rescale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span></code>
 
 
@@ -1555,11 +1562,7 @@ If more than one is populated, the values will be prioritised in the order:
 
     <div class="doc doc-contents ">
 
-      <p>Resize the image by a scaling factor prior to rendering.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Images can be scaled down only.</p>
-</div>
+      <p>Resize the image by a scaling factor.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1581,12 +1584,9 @@ If more than one is populated, the values will be prioritised in the order:
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>esparto/_content.py</code></summary>
+          <summary>Source code in <code>esparto/design/content.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">rescale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Resize the image by a scaling factor prior to rendering.</span>
-
-<span class="sd">    Note:</span>
-<span class="sd">        Images can be scaled down only.</span>
+    <span class="sd">&quot;&quot;&quot;Resize the image by a scaling factor.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        scale (float): Scaling ratio.</span>
@@ -1605,7 +1605,7 @@ If more than one is populated, the values will be prioritised in the order:
 
 
 
-<h3 id="esparto._content.Image.set_height" class="doc doc-heading">
+<h3 id="esparto.design.content.Image.set_height" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">set_height</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span></code>
 
 
@@ -1635,7 +1635,7 @@ If more than one is populated, the values will be prioritised in the order:
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>esparto/_content.py</code></summary>
+          <summary>Source code in <code>esparto/design/content.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_height</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Set height of image.</span>
 
@@ -1656,7 +1656,7 @@ If more than one is populated, the values will be prioritised in the order:
 
 
 
-<h3 id="esparto._content.Image.set_width" class="doc doc-heading">
+<h3 id="esparto.design.content.Image.set_width" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">set_width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span></code>
 
 
@@ -1686,7 +1686,7 @@ If more than one is populated, the values will be prioritised in the order:
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>esparto/_content.py</code></summary>
+          <summary>Source code in <code>esparto/design/content.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Set width of image.</span>
 
@@ -1707,7 +1707,7 @@ If more than one is populated, the values will be prioritised in the order:
 
 
 
-<h3 id="esparto._content.Image.to_html" class="doc doc-heading">
+<h3 id="esparto.design.content.Image.to_html" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
@@ -1733,24 +1733,19 @@ If more than one is populated, the values will be prioritised in the order:
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>esparto/_content.py</code></summary>
+          <summary>Source code in <code>esparto/design/content.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="n">PILImage</span><span class="p">):</span>
-        <span class="n">image</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">image</span> <span class="o">=</span> <span class="n">Img</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+    <span class="n">image_bytes</span> <span class="o">=</span> <span class="n">image_to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+    <span class="n">image_encoded</span> <span class="o">=</span> <span class="n">bytes_to_base64</span><span class="p">(</span><span class="n">image_bytes</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_width</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_height</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span><span class="p">:</span>
-        <span class="n">image</span> <span class="o">=</span> <span class="n">_rescale_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span><span class="p">)</span>
-
-    <span class="n">image_encoded</span> <span class="o">=</span> <span class="n">_image_to_base64</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
-
-    <span class="n">width</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;min(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_width</span><span class="si">}</span><span class="s2">, 100%)&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_width</span> <span class="k">else</span> <span class="s2">&quot;auto&quot;</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;min(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_height</span><span class="si">}</span><span class="s2">, 100%)&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_height</span> <span class="k">else</span> <span class="s2">&quot;auto&quot;</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;transform: scale(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_scale</span><span class="si">}</span><span class="s2">);&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
 
     <span class="n">html</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s2">&quot;&lt;figure class=&#39;es-figure&#39;&gt;&quot;</span>
         <span class="s2">&quot;&lt;img class=&#39;img-fluid figure-img rounded es-image&#39; &quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;style=&#39;width: min(</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">width</span><span class="p">)</span><span class="si">}</span><span class="s2">px, 100%);&#39; &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;style=&#39;width: </span><span class="si">{</span><span class="n">width</span><span class="si">}</span><span class="s2">; height: </span><span class="si">{</span><span class="n">height</span><span class="si">}</span><span class="s2">; </span><span class="si">{</span><span class="n">scale</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
         <span class="sa">f</span><span class="s2">&quot;alt=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">alt_text</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
         <span class="sa">f</span><span class="s2">&quot;src=&#39;data:image/png;base64,</span><span class="si">{</span><span class="n">image_encoded</span><span class="si">}</span><span class="s2">&#39;&gt;&quot;</span>
     <span class="p">)</span>
@@ -1783,7 +1778,7 @@ If more than one is populated, the values will be prioritised in the order:
 
 
 
-<h2 id="esparto._content.RawHTML" class="doc doc-heading">
+<h2 id="esparto.design.content.RawHTML" class="doc doc-heading">
         <code>RawHTML</code>
 
 
@@ -1831,7 +1826,7 @@ If more than one is populated, the values will be prioritised in the order:
 
 
 
-<h3 id="esparto._content.RawHTML.to_html" class="doc doc-heading">
+<h3 id="esparto.design.content.RawHTML.to_html" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
@@ -1857,7 +1852,7 @@ If more than one is populated, the values will be prioritised in the order:
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>esparto/_content.py</code></summary>
+          <summary>Source code in <code>esparto/design/content.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span>
 </code></pre></div>
