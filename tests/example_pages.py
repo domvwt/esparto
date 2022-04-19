@@ -1,7 +1,7 @@
 import argparse
 from pathlib import Path
 
-import bokeh.plotting as bkp
+import bokeh.plotting as bkp  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
@@ -144,7 +144,7 @@ def example_06(pdf: bool = False):
     page = es.Page(title="Bokeh Page")
 
     fig = bkp.figure(title="One")
-    fig.circle("A", "B", source=df)
+    fig.circle("A", "B", source=df)  # type: ignore
 
     page[0][0] = df[:10], fig
     page[0][1] = ({"fig": fig}, {"table": df[:10]})
@@ -153,7 +153,7 @@ def example_06(pdf: bool = False):
     page[0][4] = ({"fig": fig}, {"fig": fig})
 
     fig2 = bkp.figure(title="Two", width=400, height=300)
-    fig2.circle("A", "B", source=df)
+    fig2.circle("A", "B", source=df)  # type: ignore
     page[0][5] = fig2
 
     page.save_html("page06-bokeh.html")
@@ -167,7 +167,12 @@ def main():
 
     pdf = args.pdf
 
-    print("Producing example output...", end="", flush=True)
+    print("Producing example output...", flush=True)
+
+    if pdf:
+        print("Producing PDFs...")
+    else:
+        print("Skipping PDFs (pass '--pdf' to include)...")
 
     example_01(pdf)
     example_02(pdf)

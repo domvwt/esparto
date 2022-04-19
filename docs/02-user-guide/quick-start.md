@@ -1,5 +1,7 @@
 # Quick Start
 
+A brief overview of the main API features.
+
 ## Create a Page
 
 ```python

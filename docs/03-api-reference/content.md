@@ -1,4 +1,4 @@
-# esparto._content
+# esparto.design.content
 
 !!! info
     `Content` classes will usually be inferred from the content object type.
@@ -12,22 +12,22 @@
 
     ```
 
-## ::: esparto._content.Content
+## ::: esparto.design.content.Content
 
 <br>
 
-## ::: esparto._content.Markdown
+## ::: esparto.design.content.Markdown
 
-## ::: esparto._content.DataFramePd
+## ::: esparto.design.content.DataFramePd
 
-## ::: esparto._content.FigureMpl
+## ::: esparto.design.content.FigureMpl
 
-## ::: esparto._content.FigureBokeh
+## ::: esparto.design.content.FigureBokeh
 
-## ::: esparto._content.FigurePlotly
+## ::: esparto.design.content.FigurePlotly
 
-## ::: esparto._content.Image
+## ::: esparto.design.content.Image
 
-## ::: esparto._content.RawHTML
+## ::: esparto.design.content.RawHTML
 
 <br>

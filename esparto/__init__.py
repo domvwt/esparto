@@ -15,13 +15,13 @@ from typing import Set as _Set
 
 __author__ = """Dominic Thorn"""
 __email__ = "dominic.thorn@gmail.com"
-__version__ = "3.0.2"
+__version__ = "4.0.0"
 
 _MODULE_PATH: _Path = _Path(__file__).parent.absolute()
 
 
 _OPTIONAL_DEPENDENCIES: _Set[str] = {
-    "PIL",
+    "PIL",  # Only used for type checking and conversion
     "IPython",
     "matplotlib",
     "pandas",
@@ -34,8 +34,8 @@ _INSTALLED_MODULES: _Set[str] = {
     x.name for x in [_find_spec(dep) for dep in _OPTIONAL_DEPENDENCIES] if x
 }
 
-from esparto._cdnlinks import bootstrap_cdn_themes
-from esparto._content import (
+from esparto._options import OutputOptions, options
+from esparto.design.content import (
     DataFramePd,
     FigureBokeh,
     FigureMpl,
@@ -44,7 +44,7 @@ from esparto._content import (
     Markdown,
     RawHTML,
 )
-from esparto._layout import (
+from esparto.design.layout import (
     Card,
     CardRow,
     CardRowEqual,
@@ -56,6 +56,3 @@ from esparto._layout import (
     Section,
     Spacer,
 )
-from esparto._options import OutputOptions, options
-
-options._autoload()

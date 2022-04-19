@@ -3,8 +3,8 @@ from itertools import chain
 
 import pytest
 
-import esparto._content as co
-import esparto._layout as la
+import esparto.design.content as co
+import esparto.design.layout as la
 
 
 def test_all_layout_classes_covered(layout_list_fn):
@@ -293,41 +293,13 @@ def test_rshift_tuple():
     assert passthrough == la.Column(title="title", children=["a", "b"])
 
 
-def test_table_of_contents():
-    input_page = la.Page(title="My Page")
-    input_page["Section One"]["Item A"] = "some text"
-    input_page["Section One"]["Item B"] = "more text"
-    input_page["Section Two"]["Item C"]["Item D"] = "and more text"
-    input_page["Section Two"]["Item C"]["Item E"] = "even more text"
-
-    output_toc = la.table_of_contents(input_page, numbered=False)
-    expected_toc = co.Markdown(
-        " * [Section One](#section_one-title)\n\t"
-        " * [Item A](#item_a-title)\n\t"
-        " * [Item B](#item_b-title)\n"
-        " * [Section Two](#section_two-title)\n\t"
-        " * [Item C](#item_c-title)\n\t\t"
-        " * [Item D](#item_d-title)\n\t\t"
-        " * [Item E](#item_e-title)"
-    )
-    assert output_toc == expected_toc
-
-
-def test_table_of_contents_numbered():
-    input_page = la.Page(title="My Page")
-    input_page["Section One"]["Item A"] = "some text"
-    input_page["Section One"]["Item B"] = "more text"
-    input_page["Section Two"]["Item C"]["Item D"] = "and more text"
-    input_page["Section Two"]["Item C"]["Item E"] = "even more text"
-
-    output_toc = la.table_of_contents(input_page, numbered=True)
-    expected_toc = co.Markdown(
-        " 1. [Section One](#section_one-title)\n\t"
-        " 1. [Item A](#item_a-title)\n\t"
-        " 1. [Item B](#item_b-title)\n"
-        " 1. [Section Two](#section_two-title)\n\t"
-        " 1. [Item C](#item_c-title)\n\t\t"
-        " 1. [Item D](#item_d-title)\n\t\t"
-        " 1. [Item E](#item_e-title)"
-    )
-    assert output_toc == expected_toc
+def test_render_html():
+    tag = "div"
+    classes = ["row", "row-es"]
+    styles = {"color": "red", "border": "blue"}
+    children = "some text"
+    identifier = "row-one"
+    expected = "<div id='row-one' class='row row-es' style='color: red; border: blue'>\n  some text\n</div>"
+    output = la.render_html(tag, classes, styles, children, identifier)
+    print(output)
+    assert output == expected

@@ -1,4 +1,4 @@
-# esparto._layout
+# esparto.design.layout
 
 !!! info
     `Layout` classes are accessed from the top level module.
@@ -11,27 +11,28 @@
 
     ```
 
-## ::: esparto._layout.Layout
+## ::: esparto.design.layout.Layout
+
 <br>
 
-## ::: esparto._layout.Page
+## ::: esparto.design.layout.Page
 
-## ::: esparto._layout.Section
+## ::: esparto.design.layout.Section
 
-## ::: esparto._layout.CardSection
+## ::: esparto.design.layout.CardSection
 
-## ::: esparto._layout.Row
+## ::: esparto.design.layout.Row
 
-## ::: esparto._layout.CardRow
+## ::: esparto.design.layout.CardRow
 
-## ::: esparto._layout.CardRowEqual
+## ::: esparto.design.layout.CardRowEqual
 
-## ::: esparto._layout.Column
+## ::: esparto.design.layout.Column
 
-## ::: esparto._layout.Card
+## ::: esparto.design.layout.Card
 
-## ::: esparto._layout.Spacer
+## ::: esparto.design.layout.Spacer
 
-## ::: esparto._layout.PageBreak
+## ::: esparto.design.layout.PageBreak
 
 <br>

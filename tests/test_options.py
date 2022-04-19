@@ -16,7 +16,7 @@ def test_options_context():
     new_options = opt.OutputOptions(
         dependency_source="XXX", matplotlib=opt.MatplotlibOptions(notebook_format="XXX")
     )
-    with opt.OptionsContext(new_options):
+    with opt.options_context(new_options):
         context_options = copy.deepcopy(opt.options)
 
     assert opt.options == default_options

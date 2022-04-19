@@ -7,13 +7,13 @@ from typing import TYPE_CHECKING, Optional, Union
 from bs4 import BeautifulSoup, Tag  # type: ignore
 from jinja2 import Template
 
-if TYPE_CHECKING:
-    from esparto._layout import Page, Layout
-    from esparto._content import Content
-
 from esparto import _INSTALLED_MODULES
-from esparto._contentdeps import resolve_deps
 from esparto._options import options, resolve_config_option
+from esparto.design.base import AbstractContent, AbstractLayout
+from esparto.publish.contentdeps import resolve_deps
+
+if TYPE_CHECKING:
+    from esparto.design.layout import Page
 
 
 def publish_html(
@@ -59,8 +59,8 @@ def publish_html(
         head_deps=resolved_deps.head,
         tail_deps=resolved_deps.tail,
     )
-    html_rendered = _prettify_html(html_rendered)
-    html_rendered = _relocate_scripts(html_rendered)
+    html_rendered = prettify_html(html_rendered)
+    html_rendered = relocate_scripts(html_rendered)
 
     if filepath:
         Path(filepath).write_text(html_rendered)
@@ -106,7 +106,7 @@ def publish_pdf(
         f.unlink()
     temp_dir.rmdir()
 
-    html_prettified = _prettify_html(html_rendered)
+    html_prettified = prettify_html(html_rendered)
 
     if return_html:
         return html_prettified
@@ -114,7 +114,7 @@ def publish_pdf(
 
 
 def nb_display(
-    item: Union["Layout", "Content"],
+    item: Union["AbstractLayout", "AbstractContent"],
     return_html: bool = False,
     dependency_source: Optional[str] = None,
 ) -> Optional[str]:
@@ -131,7 +131,7 @@ def nb_display(
     """
     from IPython.display import HTML, display  # type: ignore
 
-    from esparto._layout import Layout
+    from esparto.design.layout import Layout
 
     if isinstance(item, Layout):
         required_deps = item._required_dependencies()
@@ -153,7 +153,7 @@ def nb_display(
         f"<!doctype html>\n<html>\n<head>{head_deps}</head>\n"
         f"<body>\n{html_rendered}\n{tail_deps}\n</body>\n</html>\n"
     )
-    html_rendered = _relocate_scripts(html_rendered)
+    html_rendered = relocate_scripts(html_rendered)
     print()
 
     # This allows time to download plotly.js from the CDN - otherwise cell can render empty
@@ -175,7 +175,7 @@ def nb_display(
     return None
 
 
-def _prettify_html(html: Optional[str]) -> str:
+def prettify_html(html: Optional[str]) -> str:
     """Prettify HTML."""
     html = html or ""
     html = str(BeautifulSoup(html, features="html.parser").prettify())
@@ -183,7 +183,7 @@ def _prettify_html(html: Optional[str]) -> str:
     return html
 
 
-def _relocate_scripts(html: str) -> str:
+def relocate_scripts(html: str) -> str:
     """Move all JavaScript in page body to end of section."""
     soup = BeautifulSoup(html, "html.parser")
     body = soup.find("body")

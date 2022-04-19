@@ -1,4 +1,4 @@
-# esparto._publish
+# esparto.publish.output
 
 !!! info
     Publishing methods are accessed via Layout classes.
@@ -17,10 +17,10 @@
 
     ```
 
-## ::: esparto._publish.publish_html
+## ::: esparto.publish.output.publish_html
 
-## ::: esparto._publish.publish_pdf
+## ::: esparto.publish.output.publish_pdf
 
-## ::: esparto._publish.nb_display
+## ::: esparto.publish.output.nb_display
 
 <br>

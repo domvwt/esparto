@@ -1,33 +1,24 @@
 """Content classes for rendering objects and markdown to HTML."""
 
 import base64
+import re
 from abc import ABC, abstractmethod
+from collections import namedtuple
 from io import BytesIO, StringIO
 from pathlib import Path
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    Dict,
-    Iterator,
-    Optional,
-    Set,
-    Tuple,
-    TypeVar,
-    Union,
-)
+from typing import Any, Dict, Iterator, List, Optional, Set, Tuple, TypeVar, Union
 from uuid import uuid4
 
 import markdown as md
 
 from esparto import _INSTALLED_MODULES
 from esparto._options import options
-from esparto._publish import nb_display
-from esparto._typing import Child
-from esparto._utils import responsive_svg_mpl
+from esparto.design.base import AbstractContent, AbstractLayout, Child
+from esparto.design.layout import Row
+from esparto.publish.output import nb_display
 
 if "PIL" in _INSTALLED_MODULES:
-    import PIL.Image as Img  # type: ignore
-    from PIL.Image import Image as PILImage
+    from PIL.Image import Image as PILImage  # type: ignore
 
 if "pandas" in _INSTALLED_MODULES:
     from pandas import DataFrame  # type: ignore
@@ -43,13 +34,11 @@ if "plotly" in _INSTALLED_MODULES:
     from plotly.graph_objs._figure import Figure as PlotlyFigure  # type: ignore
     from plotly.io import to_html as plotly_to_html  # type: ignore
 
-if TYPE_CHECKING:
-    from esparto._layout import Row
 
 T = TypeVar("T", bound="Content")
 
 
-class Content(ABC):
+class Content(AbstractContent, ABC):
     """Template for Content elements.
 
     Attributes:
@@ -75,7 +64,7 @@ class Content(ABC):
         nb_display(self)
 
     def __add__(self, other: Child) -> "Row":
-        from esparto._layout import Row
+        from esparto.design.layout import Row
 
         return Row(children=[self, other])
 
@@ -151,20 +140,13 @@ class Markdown(Content):
 class Image(Content):
     """Image content.
 
-    Can be read from a filepath, PIL.Image object, or from bytes.
-
-    Note:
-        Requires optional `Pillow` library.
-
-    Only one of `scale`, `set_width`, or `set_height` should be used.
-    If more than one is populated, the values will be prioritised in the order:
-         `set_width` -> `set_height` -> `scale`
+    Can be read from a filepath, PIL.Image object, or from bytes..
 
     Args:
-        image (str, PIL.Image, BytesIO): Image data.
+        image (str, Path, PIL.Image, BytesIO): Image data.
         caption (str): Image caption (default = None)
         alt_text (str): Alternative text. (default = None)
-        scale (float): Scale image proportionately, must be > 0 and <= 1. (default = None)
+        scale (float): Scale image by proportion. (default = None)
         set_width (int): Set width in pixels. (default = None)
         set_height (int): Set height in pixels. (default = None)
 
@@ -181,11 +163,16 @@ class Image(Content):
         set_width: Optional[int] = None,
         set_height: Optional[int] = None,
     ):
-        if "PIL" not in _INSTALLED_MODULES:
-            raise ModuleNotFoundError("Install `Pillow` for image content support.")
 
-        if not isinstance(image, (str, Path, PILImage, BytesIO)):
-            raise TypeError(r"`image` must be one of {str, Path, PIL.Image, BytesIO}")
+        valid_types: Tuple[Any, ...]
+
+        if "PIL" in _INSTALLED_MODULES:
+            valid_types = (str, Path, PILImage, BytesIO)
+        else:
+            valid_types = (str, Path, BytesIO)
+
+        if not isinstance(image, (valid_types)):
+            raise TypeError(r"`image` must be one of {}".format(valid_types))
 
         self.content = image
         self.alt_text = alt_text
@@ -213,10 +200,7 @@ class Image(Content):
         self._height = height
 
     def rescale(self, scale: float) -> None:
-        """Resize the image by a scaling factor prior to rendering.
-
-        Note:
-            Images can be scaled down only.
+        """Resize the image by a scaling factor.
 
         Args:
             scale (float): Scaling ratio.
@@ -225,22 +209,17 @@ class Image(Content):
         self._scale = scale
 
     def to_html(self, **kwargs: bool) -> str:
-        if isinstance(self.content, PILImage):
-            image = self.content
-        else:
-            image = Img.open(self.content)
+        image_bytes = image_to_bytes(self.content)
+        image_encoded = bytes_to_base64(image_bytes)
 
-        if self._width or self._height or self._scale:
-            image = _rescale_image(image, self._width, self._height, self._scale)
-
-        image_encoded = _image_to_base64(image)
-
-        width, _ = image.size
+        width = f"min({self._width}, 100%)" if self._width else "auto"
+        height = f"min({self._height}, 100%)" if self._height else "auto"
+        scale = f"transform: scale({self._scale});" if self._scale else ""
 
         html = (
             "<figure class='es-figure'>"
             "<img class='img-fluid figure-img rounded es-image' "
-            f"style='width: min({int(width)}px, 100%);' "
+            f"style='width: {width}; height: {height}; {scale}' "
             f"alt='{self.alt_text}' "
             f"src='data:image/png;base64,{image_encoded}'>"
         )
@@ -420,7 +399,7 @@ class FigureBokeh(Content):
         html, js = components(self.content)
 
         # Remove outer <div> tag so we can give our own attributes
-        html = _remove_outer_div(html)
+        html = remove_outer_div(html)
 
         fig_width = self.content.properties_with_values().get("width", 1000)
 
@@ -474,7 +453,7 @@ class FigurePlotly(Content):
                 self.content, include_plotlyjs=False, full_html=False
             )
             # Remove outer <div> tag so we can give our own attributes.
-            inner = _remove_outer_div(inner)
+            inner = remove_outer_div(inner)
 
         html = f"<div class='es-plotly-figure' style='width: min({fig_width}px, 100%);'>{inner}\n</div>"
 
@@ -484,61 +463,114 @@ class FigurePlotly(Content):
         return html
 
 
-def _remove_outer_div(html: str) -> str:
+def remove_outer_div(html: str) -> str:
     """Remove outer <div> tags."""
     html = html.replace("<div>", "", 1)
     html = "".join(html.rsplit("</div>", 1))
     return html
 
 
-def _image_to_base64(image: "PILImage") -> str:
-    """
-    Convert an image from PIL to base64 representation.
+def image_to_bytes(image: Union[str, Path, BytesIO, "PILImage"]) -> BytesIO:
+    """Convert `image` to bytes.
 
     Args:
-        image (PIL.Image):
+        image (Union[str, Path, BytesIO, PIL.Image]): image object.
+
+    Raises:
+        TypeError: image type not recognised.
 
     Returns:
-        str: Image encoded as a base64 utf-8 string.
+        BytesIO: image as bytes object.
 
     """
-    buffer = BytesIO()
-    image.save(buffer, format="png")
-    image_encoded = base64.b64encode(buffer.getvalue()).decode("utf-8")
-    return image_encoded
-
-
-def _rescale_image(
-    image: "PILImage",
-    width: Optional[int] = None,
-    height: Optional[int] = None,
-    scale: Optional[float] = None,
-) -> "PILImage":
-    """Rescale image by width in px, height in px, or ratio."""
-    image = image.copy()
-    new_size = _rescale_dims(image.size, width, height, scale)
-    image.thumbnail(new_size)
-    return image
-
-
-def _rescale_dims(
-    size: Tuple[int, int],
-    width: Optional[int] = None,
-    height: Optional[int] = None,
-    scale: Optional[float] = None,
-) -> Tuple[int, int]:
-    """Rescale dimensions by width in px, height in px, or ratio."""
-    if width:
-        ratio = width / size[0]
-    elif height:
-        ratio = height / size[1]
-    elif scale:
-        ratio = scale
+    if isinstance(image, BytesIO):
+        return image
+    elif "PIL" in _INSTALLED_MODULES and isinstance(image, PILImage):
+        return BytesIO(image.tobytes())
+    elif isinstance(image, (str, Path)):
+        return BytesIO(Path(image).read_bytes())
     else:
-        raise ValueError("One of {'width', 'height', scale'} must be supplied")
+        raise TypeError(type(image))
 
-    if ratio > 1:
-        raise ValueError("Target size must be less than original size")
 
-    new_size = (int(size[0] * ratio), int(size[1] * ratio))
-    return new_size
+def bytes_to_base64(bytes: BytesIO) -> str:
+    """
+    Convert an image from bytes to base64 representation.
+
+    Args:
+        image (BytesIO): image bytes object.
+
+    Returns:
+        str: image encoded as a base64 utf-8 string.
+
+    """
+    return base64.b64encode(bytes.getvalue()).decode("utf-8")
+
+
+def table_of_contents(
+    object: AbstractLayout, max_depth: Optional[int] = None, numbered: bool = True
+) -> "Markdown":
+    """Produce table of contents for a Layout object.
+
+    Args:
+        object (Layout): Target object for TOC.
+        max_depth (int): Maximum depth of returned TOC.
+        numbered (bool): If True TOC items are numbered.
+            If False, bulletpoints are used.
+
+    """
+    from esparto.design.content import Markdown
+
+    max_depth = max_depth or 99
+
+    TOCItem = namedtuple("TOCItem", "title, level, id")
+
+    def get_toc_items(parent: AbstractLayout) -> List[TOCItem]:
+        def find_ids(parent: Any, level: int, acc: List[TOCItem]) -> List[TOCItem]:
+            if hasattr(parent, "get_title_identifier") and parent.title:
+                acc.append(TOCItem(parent.title, level, parent.get_title_identifier()))
+                level += 1
+            if hasattr(parent, "children"):
+                for child in parent.children:
+                    find_ids(child, level, acc)
+            else:
+                return acc
+            return acc
+
+        acc_new = find_ids(parent, 0, [])
+        return acc_new
+
+    toc_items = get_toc_items(object)
+
+    tab = "\t"
+    marker = "1." if numbered else "*"
+    markdown_list = [
+        f"{(item.level - 1) * tab} {marker} [{item.title}](#{item.id})"
+        for item in toc_items
+        if item.level > 0 and item.level <= max_depth
+    ]
+    markdown_str = "\n".join(markdown_list)
+
+    return Markdown(markdown_str)
+
+
+def responsive_svg_mpl(
+    source: str, width: Optional[int] = None, height: Optional[int] = None
+) -> str:
+    """Make SVG element responsive."""
+
+    regex_w = r"width=\S*"
+    regex_h = r"height=\S*"
+
+    width_ = f"width='{width}px'" if width else ""
+    height_ = f"height='{height}px'" if height else ""
+
+    source = re.sub(regex_w, width_, source, count=1)
+    source = re.sub(regex_h, height_, source, count=1)
+
+    # Preserve aspect ratio of SVG
+    old_str = r"<svg"
+    new_str = '<svg class="svg-content-mpl" preserveAspectRatio="xMinYMin meet" '
+    source = source.replace(old_str, new_str, 1)
+
+    return source

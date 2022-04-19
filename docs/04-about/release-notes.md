@@ -1,6 +1,18 @@
 Release Notes
 =============
 
+4.0.0 (2022-04-19)
+------------------
+
+- New Features
+    - Command line tools for printing default Jinja and CSS files
+- Fixes
+    - Config YAML now read with safe loader
+- Deprecations
+    - Removed CDN theme links
+- Dependencies
+    - Image content now supported without PIL
+
 3.0.2 (2022-02-28)
 ------------------
 
