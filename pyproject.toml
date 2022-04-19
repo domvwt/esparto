@@ -50,7 +50,7 @@ weasyprint = "52.5"
 kaleido = "^0.2.1,!=0.2.1.post1"
 types-Markdown = "^3.3.0"
 pylint = {version = "^2.12.2", python = ">=3.6.2"}
-types-PyYAML = "^6.0.4"
+types-PyYAML = "^6.0.6"
 
 [tool.poetry.extras]
 extras = ["weasyprint", "Pillow"]
