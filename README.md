@@ -57,7 +57,6 @@ Main Features
 - Responsive Bootstrap grid layout
 - Content adaptors for:
     - [Markdown][Markdown]
-    - [Images]
     - [Pandas DataFrames][Pandas]
     - [Matplotlib][Matplotlib]
     - [Bokeh][Bokeh]
