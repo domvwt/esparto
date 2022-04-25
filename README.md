@@ -1,6 +1,6 @@
 <div align="center">
-    <img src="logo/esparto-logo.png/"><br>
-</div>
+
+<img src="logo/esparto-logo.png/" width="400px"><br>
 
 [![image](https://img.shields.io/pypi/v/esparto.svg)](https://pypi.python.org/pypi/esparto)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/esparto.svg)](https://pypi.python.org/pypi/esparto/)
@@ -8,6 +8,8 @@
 [![codecov](https://codecov.io/gh/domvwt/esparto/branch/main/graph/badge.svg?token=35J8NZCUYC)](https://codecov.io/gh/domvwt/esparto)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&metric=alert_status)](https://sonarcloud.io/dashboard?id=domvwt_esparto)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/esparto)
+
+</div>
 
 Introduction
 ------------
