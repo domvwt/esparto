@@ -1,5 +1,6 @@
-esparto
-=======
+<div align="center">
+    <img src="logo/esparto-logo.png/"><br>
+</div>
 
 [![image](https://img.shields.io/pypi/v/esparto.svg)](https://pypi.python.org/pypi/esparto)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/esparto.svg)](https://pypi.python.org/pypi/esparto/)
