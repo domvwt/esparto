@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="logo/esparto-logo.png/" width="400px"><br>
+<br><img src="logo/esparto-logo.png/" width="400px"><br>
 
 [![image](https://img.shields.io/pypi/v/esparto.svg)](https://pypi.python.org/pypi/esparto)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/esparto.svg)](https://pypi.python.org/pypi/esparto/)
@@ -10,9 +10,6 @@
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/esparto)
 
 </div>
-
-Introduction
-------------
 
 **esparto** is a Python library for building data driven reports with content
 from popular analytics packages. The project takes a straightforward approach
