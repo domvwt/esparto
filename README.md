@@ -1,6 +1,6 @@
 <div align="center">
 
-<br><img src="logo/esparto-logo.png/" width="400px"><br>
+<br><img src="logo/esparto-logo.png/" width="250px"><br>
 
 [![image](https://img.shields.io/pypi/v/esparto.svg)](https://pypi.python.org/pypi/esparto)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/esparto.svg)](https://pypi.python.org/pypi/esparto/)
