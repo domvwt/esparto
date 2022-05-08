@@ -69,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#esparto" class="md-skip">
+        <a href="#main-features" class="md-skip">
           Skip to content
         </a>
       
@@ -295,8 +295,6 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
-        
-      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           Overview
@@ -312,28 +310,12 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#introduction" class="md-nav__link">
-    Introduction
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#basic-usage" class="md-nav__link">
-    Basic Usage
-  </a>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#main-features" class="md-nav__link">
@@ -665,38 +647,29 @@
                   </a>
                 
                 
-                <h1 id="esparto">esparto</h1>
-<p><a href="https://pypi.python.org/pypi/esparto"><img alt="image" src="https://img.shields.io/pypi/v/esparto.svg" /></a>
-<a href="https://pypi.python.org/pypi/esparto/"><img alt="PyPI pyversions" src="https://img.shields.io/pypi/pyversions/esparto.svg" /></a>
+                  <h1>Overview</h1>
+                
+                <p><img alt="esparto logo" src="https://github.com/domvwt/esparto/blob/be47d4c4a5f33d233727260e97f99d2f124a105b/logo/esparto-logo.png?raw=true" /></p>
+<p><a href="https://pypi.python.org/pypi/esparto/"><img alt="PyPI pyversions" src="https://img.shields.io/pypi/pyversions/esparto.svg" /></a>
 <img alt="Build Status" src="https://github.com/domvwt/esparto/actions/workflows/lint-and-test.yml/badge.svg" />
 <a href="https://codecov.io/gh/domvwt/esparto"><img alt="codecov" src="https://codecov.io/gh/domvwt/esparto/branch/main/graph/badge.svg?token=35J8NZCUYC" /></a>
-<a href="https://sonarcloud.io/dashboard?id=domvwt_esparto"><img alt="Quality Gate Status" src="https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&amp;metric=alert_status" /></a>
-<img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/esparto" /></p>
-<h2 id="introduction">Introduction</h2>
+<a href="https://sonarcloud.io/dashboard?id=domvwt_esparto"><img alt="Quality Gate Status" src="https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&amp;metric=alert_status" /></a></p>
 <p><strong>esparto</strong> is a Python library for building data driven reports with content
-from popular analytics packages. The project takes a straightforward approach
-to document design; with a focus on usability, portability, and extensiblity.</p>
-<p>Creating a report is as simple as instantiating a Page object and 'adding' content
-in the form of DataFrames, plots, and markdown text. Documents can be built interactively
-in a notebook environment, and the results shared as a self-contained HTML
-page or PDF file.</p>
-<p>Further customisation of the output is possible by passing a CSS stylesheet,
-changing the <a href="Jinja">Jinja</a> template, or declaring additional element styles within
-the code. The responsive <a href="Bootstrap">Bootstrap</a> grid ensures documents adapt to
-any viewing device.</p>
-<h2 id="basic-usage">Basic Usage</h2>
+from popular analytics packages.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">esparto</span> <span class="k">as</span> <span class="nn">es</span>
 
 <span class="c1"># Do some analysis</span>
-<span class="n">pandas_dataframe</span> <span class="o">=</span> <span class="o">...</span>
-<span class="n">plotly_figure</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">pandas_df</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">plot_fig</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">markdown_str</span> <span class="o">=</span> <span class="o">...</span>
 
-<span class="c1"># Create a Page object</span>
+<span class="c1"># Create a page</span>
 <span class="n">page</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Page</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;My Report&quot;</span><span class="p">)</span>
 
 <span class="c1"># Add content</span>
-<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Data Analysis&quot;</span><span class="p">][</span><span class="s2">&quot;Plot&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plotly_figure</span>
-<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Data Analysis&quot;</span><span class="p">][</span><span class="s2">&quot;Data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pandas_dataframe</span>
+<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Data Analysis&quot;</span><span class="p">][</span><span class="s2">&quot;Plot&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plot_fig</span>
+<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Data Analysis&quot;</span><span class="p">][</span><span class="s2">&quot;Data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pandas_df</span>
+<span class="n">page</span><span class="p">[</span><span class="s2">&quot;Data Analysis&quot;</span><span class="p">][</span><span class="s2">&quot;Notes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">markdown_str</span>
 
 <span class="c1"># Save to HTML or PDF</span>
 <span class="n">page</span><span class="o">.</span><span class="n">save_html</span><span class="p">(</span><span class="s2">&quot;my-report.html&quot;</span><span class="p">)</span>
@@ -705,9 +678,9 @@ any viewing device.</p>
 <h2 id="main-features">Main Features</h2>
 <ul>
 <li>Interactive document design with Jupyter Notebooks</li>
-<li>Share as self-contained HTML or PDF</li>
+<li>Share as self-contained webpage or PDF</li>
 <li>Customise with CSS and Jinja</li>
-<li>Responsive Bootstrap grid layout</li>
+<li>Responsive <a href="https://getbootstrap.com/">Bootstrap</a> grid layout</li>
 <li>Content adaptors for:<ul>
 <li><a href="https://www.markdownguide.org/">Markdown</a></li>
 <li><a href="https://pandas.pydata.org/">Pandas DataFrames</a></li>
