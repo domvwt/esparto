@@ -17,24 +17,21 @@
 **esparto** is a Python library for building data driven reports with content
 from popular analytics packages.
 
-Basic Usage
------------
-
 ```python
 import esparto as es
 
 # Do some analysis
-pandas_dataframe = ...
-plot_figure = ...
+pandas_df = ...
+plot_fig = ...
 markdown_str = ...
 
-# Create a Page object
+# Create a Page
 page = es.Page(title="My Report")
 
 # Add content
-page["Data Analysis"]["Plot"] = plot_figure
-page["Data Analysis"]["Data"] = pandas_dataframe
-page["Data Analysis"]["Commentary"] = markdown_str
+page["Data Analysis"]["Plot"] = plot_fig
+page["Data Analysis"]["Data"] = pandas_df
+page["Data Analysis"]["Notes"] = markdown_str
 
 # Save to HTML or PDF
 page.save_html("my-report.html")
@@ -112,6 +109,7 @@ Iris Report - [Webpage](https://domvwt.github.io/esparto/examples/iris-report.ht
 </p>
 
 <!-- * Links -->
+[Documentation]: https://domvwt.github.io/esparto/
 [PyPI]: https://pypi.org/project/esparto/
 [Conda]: https://anaconda.org/conda-forge/esparto
 [Bootstrap]: https://getbootstrap.com/
