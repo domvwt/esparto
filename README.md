@@ -2,28 +2,20 @@
 
 <br><img src="logo/esparto-logo.png/" width="250px"><br>
 
-[![image](https://img.shields.io/pypi/v/esparto.svg)](https://pypi.python.org/pypi/esparto)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/esparto.svg)](https://pypi.python.org/pypi/esparto/)
+[![image](https://img.shields.io/pypi/v/esparto.svg)](https://pypi.python.org/pypi/esparto)
+[![Anaconda-Server Badge](https://anaconda.org/conda-forge/esparto/badges/version.svg)](https://anaconda.org/conda-forge/esparto)
 ![Build Status](https://github.com/domvwt/esparto/actions/workflows/lint-and-test.yml/badge.svg)
 [![codecov](https://codecov.io/gh/domvwt/esparto/branch/main/graph/badge.svg?token=35J8NZCUYC)](https://codecov.io/gh/domvwt/esparto)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&metric=alert_status)](https://sonarcloud.io/dashboard?id=domvwt_esparto)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Anaconda-Server Badge](https://anaconda.org/conda-forge/esparto/badges/license.svg)](https://anaconda.org/conda-forge/esparto)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/esparto)
 
 </div>
 
 **esparto** is a Python library for building data driven reports with content
-from popular analytics packages. The project takes a straightforward approach
-to document design; with a focus on usability, portability, and extensiblity.
-
-Creating a report is as simple as instantiating a Page object and 'adding' content
-in the form of DataFrames, plots, and markdown text. Documents can be built interactively
-in a notebook environment, and the results shared as a self-contained HTML
-page or PDF file.
-
-Further customisation of the output is possible by passing a CSS stylesheet,
-changing the [Jinja](Jinja) template, or declaring additional element styles within
-the code. The responsive [Bootstrap](Bootstrap) grid ensures documents adapt to
-any viewing device.
+from popular analytics packages.
 
 Basic Usage
 -----------
@@ -33,14 +25,16 @@ import esparto as es
 
 # Do some analysis
 pandas_dataframe = ...
-plotly_figure = ...
+plot_figure = ...
+markdown_str = ...
 
 # Create a Page object
 page = es.Page(title="My Report")
 
 # Add content
-page["Data Analysis"]["Plot"] = plotly_figure
+page["Data Analysis"]["Plot"] = plot_figure
 page["Data Analysis"]["Data"] = pandas_dataframe
+page["Data Analysis"]["Commentary"] = markdown_str
 
 # Save to HTML or PDF
 page.save_html("my-report.html")
@@ -52,9 +46,9 @@ Main Features
 -------------
 
 - Interactive document design with Jupyter Notebooks
-- Share as self-contained HTML or PDF
+- Share as self-contained webpage or PDF
 - Customise with CSS and Jinja
-- Responsive Bootstrap grid layout
+- Responsive [Bootstrap][Bootstrap] grid layout
 - Content adaptors for:
     - [Markdown][Markdown]
     - [Pandas DataFrames][Pandas]
