@@ -1,9 +1,14 @@
-![esparto logo](https://github.com/domvwt/esparto/blob/be47d4c4a5f33d233727260e97f99d2f124a105b/logo/esparto-logo.png?raw=true)
+#
 
-[![PyPI pyversions](https://img.shields.io/pypi/pyversions/esparto.svg)](https://pypi.python.org/pypi/esparto/)
-![Build Status](https://github.com/domvwt/esparto/actions/workflows/lint-and-test.yml/badge.svg)
-[![codecov](https://codecov.io/gh/domvwt/esparto/branch/main/graph/badge.svg?token=35J8NZCUYC)](https://codecov.io/gh/domvwt/esparto)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&metric=alert_status)](https://sonarcloud.io/dashboard?id=domvwt_esparto)
+<div align="center">
+
+<br><img src="https://github.com/domvwt/esparto/blob/be47d4c4a5f33d233727260e97f99d2f124a105b/logo/esparto-logo.png?raw=true"><br><br>
+
+<a href="https://pypi.python.org/pypi/esparto/"><img src="https://img.shields.io/pypi/pyversions/esparto.svg"></img></a>
+<img src="https://github.com/domvwt/esparto/actions/workflows/lint-and-test.yml/badge.svg"></img>
+<a href="https://codecov.io/gh/domvwt/esparto"><img src="https://codecov.io/gh/domvwt/esparto/branch/main/graph/badge.svg?token=35J8NZCUYC"></img></a>
+<a href="https://sonarcloud.io/dashboard?id=domvwt_esparto"><img src="https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&metric=alert_status"></img></a>
+</div><br>
 
 **esparto** is a Python library for building data driven reports with content
 from popular analytics packages.
