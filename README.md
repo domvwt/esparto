@@ -1,13 +1,9 @@
-<div align="center">
-
-<br><img src="logo/esparto-logo.png/"><br>
+![esparto logo](https://github.com/domvwt/esparto/blob/be47d4c4a5f33d233727260e97f99d2f124a105b/logo/esparto-logo.png?raw=true)
 
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/esparto.svg)](https://pypi.python.org/pypi/esparto/)
 ![Build Status](https://github.com/domvwt/esparto/actions/workflows/lint-and-test.yml/badge.svg)
 [![codecov](https://codecov.io/gh/domvwt/esparto/branch/main/graph/badge.svg?token=35J8NZCUYC)](https://codecov.io/gh/domvwt/esparto)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&metric=alert_status)](https://sonarcloud.io/dashboard?id=domvwt_esparto)
-
-</div>
 
 **esparto** is a Python library for building data driven reports with content
 from popular analytics packages.
@@ -20,7 +16,7 @@ pandas_df = ...
 plot_fig = ...
 markdown_str = ...
 
-# Create a Page
+# Create a page
 page = es.Page(title="My Report")
 
 # Add content

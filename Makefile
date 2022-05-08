@@ -84,7 +84,7 @@ docs: class-diagram ## generate documentation, including API docs
 	mkdocs build --clean
 
 servedocs: ## compile the docs watching for changes
-	mkdocs serve -a "`hostname -I | xargs`:8000"
+	mkdocs serve
 
 deploydocs: ## deploy docs to github pages
 	mkdocs gh-deploy
