@@ -3,14 +3,9 @@
 <br><img src="logo/esparto-logo.png/"><br>
 
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/esparto.svg)](https://pypi.python.org/pypi/esparto/)
-[![image](https://img.shields.io/pypi/v/esparto.svg)](https://pypi.python.org/pypi/esparto)
-[![Anaconda-Server Badge](https://anaconda.org/conda-forge/esparto/badges/version.svg)](https://anaconda.org/conda-forge/esparto)
 ![Build Status](https://github.com/domvwt/esparto/actions/workflows/lint-and-test.yml/badge.svg)
 [![codecov](https://codecov.io/gh/domvwt/esparto/branch/main/graph/badge.svg?token=35J8NZCUYC)](https://codecov.io/gh/domvwt/esparto)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&metric=alert_status)](https://sonarcloud.io/dashboard?id=domvwt_esparto)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Anaconda-Server Badge](https://anaconda.org/conda-forge/esparto/badges/license.svg)](https://anaconda.org/conda-forge/esparto)
-![PyPI - Downloads](https://img.shields.io/pypi/dm/esparto)
 
 </div>
 
