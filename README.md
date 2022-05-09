@@ -13,10 +13,8 @@
 **esparto** is a Python library for building data driven reports with content
 from popular analytics packages.
 
-Please visit the [project home page][ProjectHome] for documentation, user
-guides, and examples.
-
-## Basic Usage
+Basic Usage
+-----------
 
 ```python
 import esparto as es
@@ -88,7 +86,7 @@ License
 Documentation
 -------------
 
-Documentation and examples are available [here][ProjectHome].
+Documentation and examples are available on our [project home page][ProjectHome].
 
 Contributions, Issues, and Requests
 -----------------------------------
