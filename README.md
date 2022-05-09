@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<br><img src="https://github.com/domvwt/esparto/blob/be47d4c4a5f33d233727260e97f99d2f124a105b/logo/esparto-logo.png?raw=true"><br><br>
+<br><a href="https://domvwt.github.io/esparto/"><img src="https://github.com/domvwt/esparto/blob/be47d4c4a5f33d233727260e97f99d2f124a105b/logo/esparto-logo.png?raw=true"></a><br><br>
 
 <a href="https://pypi.python.org/pypi/esparto/"><img src="https://img.shields.io/pypi/pyversions/esparto.svg"></img></a>
 <img src="https://github.com/domvwt/esparto/actions/workflows/lint-and-test.yml/badge.svg"></img>
@@ -12,6 +12,9 @@
 
 **esparto** is a Python library for building data driven reports with content
 from popular analytics packages.
+
+Please visit the [project home page][ProjectHome] for documentation, user
+guides, and examples.
 
 ## Basic Usage
 
@@ -85,8 +88,7 @@ License
 Documentation
 -------------
 
-Documentation and examples are available at
-[domvwt.github.io/esparto/](https://domvwt.github.io/esparto/).
+Documentation and examples are available [here][ProjectHome].
 
 Contributions, Issues, and Requests
 -----------------------------------
@@ -107,7 +109,7 @@ Iris Report - [Webpage](https://domvwt.github.io/esparto/examples/iris-report.ht
 </p>
 
 <!-- * Links -->
-[Documentation]: https://domvwt.github.io/esparto/
+[ProjectHome]: https://domvwt.github.io/esparto/
 [PyPI]: https://pypi.org/project/esparto/
 [Conda]: https://anaconda.org/conda-forge/esparto
 [Bootstrap]: https://getbootstrap.com/
