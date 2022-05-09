@@ -628,8 +628,8 @@
                 <h1 id="output-options">Output Options</h1>
 <h2 id="css-and-jinja">CSS and Jinja</h2>
 <p>Customising the look and feel of <strong>esparto</strong> pages is best achieved through
-modifying or replacing the Jinja template and CSS style sheets.
-Alternatively, CSS and Jinja sources can be passed to <code>es.options</code> as global
+modifying the default Jinja template and CSS style sheet.
+New templates and styles can be passed to <code>es.options</code> to replace the global
 defaults, or passed to the <code>es.Page</code> constructor using the <code>es.OutputOptions</code> class.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Updating global defaults.</span>
 <span class="n">es</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">esparto_css</span> <span class="o">=</span> <span class="s2">&quot;./esparto.css&quot;</span>
@@ -645,7 +645,7 @@ defaults, or passed to the <code>es.Page</code> constructor using the <code>es.O
 <p>Options can be saved and loaded from disk using class methods.
 If an <code>esparto-config.yaml</code> file is found in the working directory, or at
 <code>~/esparto-data/esparto-config.yaml</code>, it will be loaded automatically when
-the library is imported.</p>
+<strong>esparto</strong> is imported.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># These options will be loaded automatically for sessions in the same directory.</span>
 <span class="n">output_options</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;./esparto-config.yaml&quot;</span><span class="p">)</span>
 
