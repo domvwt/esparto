@@ -1089,7 +1089,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-markdown"
-version = "3.3.12"
+version = "3.3.20"
 description = "Typing stubs for Markdown"
 category = "dev"
 optional = false
@@ -1206,7 +1206,7 @@ extras = ["weasyprint"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.6.1"
-content-hash = "be86ef62da15331013850b282ef81baa99ad7ef85477e6e3572cad34bc7b893e"
+content-hash = "b35b9429ee3537172ef7e84b1f58818ece12c9973e846f03c915aaeebfdfcf67"
 
 [metadata.files]
 appdirs = [
@@ -2119,8 +2119,8 @@ typed-ast = [
     {file = "typed_ast-1.4.3.tar.gz", hash = "sha256:fb1bbeac803adea29cedd70781399c99138358c26d05fcbd23c13016b7f5ec65"},
 ]
 types-markdown = [
-    {file = "types-Markdown-3.3.12.tar.gz", hash = "sha256:bcc56dfb95be2389646e01808dc637c45805a9bb38047c93a509d96d183ca79d"},
-    {file = "types_Markdown-3.3.12-py3-none-any.whl", hash = "sha256:9a1428bfe856a0df0ac1e74507ee0cfe841c8b2a676cb83672ca249cb9f54a00"},
+    {file = "types-Markdown-3.3.20.tar.gz", hash = "sha256:477bf07ebc29ff277a4c841e6148469e69b56611108699131bf712d85bd2ad8c"},
+    {file = "types_Markdown-3.3.20-py3-none-any.whl", hash = "sha256:aea0d2e10aea0f4e09e63aa6de4a1d52bb7ee2ff946aa2fd9dcb48b542972d64"},
 ]
 types-pyyaml = [
     {file = "types-PyYAML-6.0.4.tar.gz", hash = "sha256:6252f62d785e730e454dfa0c9f0fb99d8dae254c5c3c686903cf878ea27c04b7"},
