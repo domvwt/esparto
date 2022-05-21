@@ -3,8 +3,8 @@
 ## CSS and Jinja
 
 Customising the look and feel of **esparto** pages is best achieved through
-modifying or replacing the Jinja template and CSS style sheets.
-Alternatively, CSS and Jinja sources can be passed to `es.options` as global
+modifying the default Jinja template and CSS style sheet.
+New templates and styles can be passed to `es.options` to replace the global
 defaults, or passed to the `es.Page` constructor using the `es.OutputOptions` class.
 
 ```python
@@ -25,7 +25,7 @@ page = es.Page(output_options=output_options)
 Options can be saved and loaded from disk using class methods.
 If an `esparto-config.yaml` file is found in the working directory, or at
 `~/esparto-data/esparto-config.yaml`, it will be loaded automatically when
-the library is imported.
+**esparto** is imported.
 
 ```python
 # These options will be loaded automatically for sessions in the same directory.

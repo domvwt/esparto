@@ -3,7 +3,7 @@ theme:
   name: material
   icon:
     logo:
-      material/file
+      material/poll
   palette:
     primary: 'teal'
     accent: 'cyan'
