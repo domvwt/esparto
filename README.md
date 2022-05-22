@@ -86,7 +86,7 @@ License
 Documentation
 -------------
 
-Usage guides, documentation, and examples are availble on the [project home page][ProjectHome].
+Usage guides, documentation, and examples are available on the [project home page][ProjectHome].
 
 Contributions, Issues, and Requests
 -----------------------------------
