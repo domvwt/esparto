@@ -94,7 +94,7 @@ License
 Documentation
 -------------
 
-Usage guides, documentation, and examples are available on the [project home page][ProjectHome].
+User guides, documentation, and examples are available on the [project home page][ProjectHome].
 
 Contributions, Issues, and Requests
 -----------------------------------
