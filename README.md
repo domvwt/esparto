@@ -24,15 +24,16 @@ from popular analytics packages.
 Main Features
 -------------
 
+- Create beautiful analytical reports using idiomatic Python
 - Generate content from:
     - [Markdown][Markdown]
     - [Pandas DataFrames][Pandas]
     - [Matplotlib][Matplotlib]
     - [Bokeh][Bokeh]
     - [Plotly][Plotly]
-- Develop interactively with Jupyter Notebooks
-- Share reports as a self-contained webpage or PDF
-- Customise with CSS and Jinja
+- Develop interactively with [Jupyter Notebooks][Jupyter]
+- Share documents as a self-contained webpage or PDF
+- Customise with [CSS][CSS] and [Jinja][Jinja]
 - Responsive [Bootstrap][Bootstrap] layout
 
 Basic Usage
@@ -71,6 +72,10 @@ pip install esparto
 
 ```bash
 conda install esparto -c conda-forge
+```
+
+```bash
+poetry add esparto
 ```
 
 Dependencies
@@ -120,10 +125,12 @@ Iris Report - [Webpage](https://domvwt.github.io/esparto/examples/iris-report.ht
 [Conda]: https://anaconda.org/conda-forge/esparto
 [Bootstrap]: https://getbootstrap.com/
 [Jinja]: https://jinja.palletsprojects.com/
+[CSS]: https://developer.mozilla.org/en-US/docs/Web/CSS
 [Markdown]: https://www.markdownguide.org/
 [Pandas]: https://pandas.pydata.org/
 [Matplotlib]: https://matplotlib.org/
 [Bokeh]: https://bokeh.org/
 [Plotly]: https://plotly.com/
+[Jupyter]: https://jupyter.org/
 [GitHub]: https://github.com/domvwt/esparto
 [Issues]: https://github.com/domvwt/esparto/issues

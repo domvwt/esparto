@@ -1,4 +1,4 @@
-# Output Options
+# Report Style
 
 ## CSS and Jinja
 
@@ -61,7 +61,7 @@ python -m esparto print_bootstrap_css > bootstrap.css
 python -m esparto print_default_options > esparto-config.yaml
 ```
 
-## More options
+## More Options
 
 For details on additional options please read the
 [documentation for the Options module.](/03-api-reference/options/)
