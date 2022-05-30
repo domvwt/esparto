@@ -4,6 +4,7 @@
 <div align="center">
 <a href="https://domvwt.github.io/esparto/"><img src="https://github.com/domvwt/esparto/blob/main/logo/logo.svg?raw=true"></a>
 <br>
+<br>
 
 <a href="https://pypi.python.org/pypi/esparto/"><img src="https://img.shields.io/pypi/pyversions/esparto.svg"></img></a>
 <img src="https://github.com/domvwt/esparto/actions/workflows/lint-and-test.yml/badge.svg"></img>
