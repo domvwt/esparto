@@ -322,15 +322,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#basic-usage" class="md-nav__link">
-    Basic Usage
+  <a href="#main-features" class="md-nav__link">
+    Main Features
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#main-features" class="md-nav__link">
-    Main Features
+  <a href="#basic-usage" class="md-nav__link">
+    Basic Usage
   </a>
   
 </li>
@@ -433,8 +433,8 @@
   
   
     <li class="md-nav__item">
-      <a href="02-user-guide/output-options/" class="md-nav__link">
-        Output Options
+      <a href="02-user-guide/report-style/" class="md-nav__link">
+        Report Style
       </a>
     </li>
   
@@ -659,9 +659,10 @@
                 
                 
                 <h1 id="_1"></h1>
+<p><br></p>
 <div align="center">
-
-<br><a href="https://domvwt.github.io/esparto/"><img src="https://github.com/domvwt/esparto/blob//main/logo/logo.svg?raw=true"></a><br><br>
+<a href="https://domvwt.github.io/esparto/"><img src="https://github.com/domvwt/esparto/blob/main/logo/logo.svg?raw=true"></a>
+<br>
 
 <a href="https://pypi.python.org/pypi/esparto/"><img src="https://img.shields.io/pypi/pyversions/esparto.svg"></img></a>
 <img src="https://github.com/domvwt/esparto/actions/workflows/lint-and-test.yml/badge.svg"></img>
@@ -671,6 +672,27 @@
 <p><br></p>
 <p><strong>esparto</strong> is a Python library for building data driven reports with content
 from popular analytics packages.</p>
+<ul>
+<li><a href="https://domvwt.github.io/esparto/">Documentation</a></li>
+<li><a href="https://github.com/domvwt/esparto">Source Code</a></li>
+<li><a href="#contributions-issues-and-requests">Contributing</a></li>
+<li><a href="https://github.com/domvwt/esparto/issues">Bug Reports</a></li>
+</ul>
+<h2 id="main-features">Main Features</h2>
+<ul>
+<li>Generate content from:<ul>
+<li><a href="https://www.markdownguide.org/">Markdown</a></li>
+<li><a href="https://pandas.pydata.org/">Pandas DataFrames</a></li>
+<li><a href="https://matplotlib.org/">Matplotlib</a></li>
+<li><a href="https://bokeh.org/">Bokeh</a></li>
+<li><a href="https://plotly.com/">Plotly</a></li>
+</ul>
+</li>
+<li>Develop interactively with Jupyter Notebooks</li>
+<li>Share reports as a self-contained webpage or PDF</li>
+<li>Customise with CSS and Jinja</li>
+<li>Responsive <a href="https://getbootstrap.com/">Bootstrap</a> layout</li>
+</ul>
 <h2 id="basic-usage">Basic Usage</h2>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">esparto</span> <span class="k">as</span> <span class="nn">es</span>
 
@@ -691,21 +713,6 @@ from popular analytics packages.</p>
 <span class="n">page</span><span class="o">.</span><span class="n">save_html</span><span class="p">(</span><span class="s2">&quot;my-report.html&quot;</span><span class="p">)</span>
 <span class="n">page</span><span class="o">.</span><span class="n">save_pdf</span><span class="p">(</span><span class="s2">&quot;my-report.pdf&quot;</span><span class="p">)</span>
 </code></pre></div>
-<h2 id="main-features">Main Features</h2>
-<ul>
-<li>Interactive document design with Jupyter Notebooks</li>
-<li>Share as self-contained webpage or PDF</li>
-<li>Customise with CSS and Jinja</li>
-<li>Responsive <a href="https://getbootstrap.com/">Bootstrap</a> grid layout</li>
-<li>Content adaptors for:<ul>
-<li><a href="https://www.markdownguide.org/">Markdown</a></li>
-<li><a href="https://pandas.pydata.org/">Pandas DataFrames</a></li>
-<li><a href="https://matplotlib.org/">Matplotlib</a></li>
-<li><a href="https://bokeh.org/">Bokeh</a></li>
-<li><a href="https://plotly.com/">Plotly</a></li>
-</ul>
-</li>
-</ul>
 <h2 id="installation">Installation</h2>
 <p><strong>esparto</strong> is available from <a href="https://pypi.org/project/esparto/">PyPI</a> and <a href="https://anaconda.org/conda-forge/esparto">Conda</a>:</p>
 <div class="highlight"><pre><span></span><code>pip install esparto
