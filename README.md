@@ -1,17 +1,38 @@
 #
 
+<br>
 <div align="center">
-
-<br><a href="https://domvwt.github.io/esparto/"><img src="https://github.com/domvwt/esparto/blob/main/logo/logo.svg?raw=true"></a><br><br>
+<a href="https://domvwt.github.io/esparto/"><img src="https://github.com/domvwt/esparto/blob/main/logo/logo.svg?raw=true"></a>
+<br>
 
 <a href="https://pypi.python.org/pypi/esparto/"><img src="https://img.shields.io/pypi/pyversions/esparto.svg"></img></a>
 <img src="https://github.com/domvwt/esparto/actions/workflows/lint-and-test.yml/badge.svg"></img>
 <a href="https://codecov.io/gh/domvwt/esparto"><img src="https://codecov.io/gh/domvwt/esparto/branch/main/graph/badge.svg?token=35J8NZCUYC"></img></a>
 <a href="https://sonarcloud.io/dashboard?id=domvwt_esparto"><img src="https://sonarcloud.io/api/project_badges/measure?project=domvwt_esparto&metric=alert_status"></img></a>
-</div><br>
+</div>
+<br>
 
 **esparto** is a Python library for building data driven reports with content
 from popular analytics packages.
+
+- [Documentation][ProjectHome]
+- [Source Code][GitHub]
+- [Contributing](#contributions-issues-and-requests)
+- [Bug Reports][Issues]
+
+Main Features
+-------------
+
+- Generate content from:
+    - [Markdown][Markdown]
+    - [Pandas DataFrames][Pandas]
+    - [Matplotlib][Matplotlib]
+    - [Bokeh][Bokeh]
+    - [Plotly][Plotly]
+- Develop interactively with Jupyter Notebooks
+- Share reports as a self-contained webpage or PDF
+- Customise with CSS and Jinja
+- Responsive [Bootstrap][Bootstrap] layout
 
 Basic Usage
 -----------
@@ -37,20 +58,6 @@ page.save_html("my-report.html")
 page.save_pdf("my-report.pdf")
 
 ```
-
-Main Features
--------------
-
-- Interactive document design with Jupyter Notebooks
-- Share as self-contained webpage or PDF
-- Customise with CSS and Jinja
-- Responsive [Bootstrap][Bootstrap] grid layout
-- Content adaptors for:
-    - [Markdown][Markdown]
-    - [Pandas DataFrames][Pandas]
-    - [Matplotlib][Matplotlib]
-    - [Bokeh][Bokeh]
-    - [Plotly][Plotly]
 
 Installation
 ------------
@@ -118,3 +125,4 @@ Iris Report - [Webpage](https://domvwt.github.io/esparto/examples/iris-report.ht
 [Bokeh]: https://bokeh.org/
 [Plotly]: https://plotly.com/
 [GitHub]: https://github.com/domvwt/esparto
+[Issues]: https://github.com/domvwt/esparto/issues
