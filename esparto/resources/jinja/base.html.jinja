@@ -36,10 +36,17 @@
   </main>
 
   <!-- Footer -->
-  <footer class="footer d-flex bg-light mt-5 d-print-none" width="100vw" height="2em">
+  <footer class="footer d-flex justify-content-between bg-light mt-5 d-print-none" width="100vw" height="2em">
     <a class="small text-decoration-none text-dark" href="https://domvwt.github.io/esparto/" style="margin-left: 10vw; padding: 0.3em; font-family: 'Carter One', cursive;">
       esparto
     </a>
+    <div id="share-button" class="text-dark" style="margin-right: 10vw; padding: 0.3em;">
+        <a class="text-decoration-none" href="#share-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-share" viewBox="0 0 16 16">
+                <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
+            </svg>
+        </a>
+    </div>
   </footer>
 
   <!-- JavaScript -->
@@ -48,6 +55,28 @@
   {{ dep }}
   {% endfor %}
   {% endif %}
-</body>
 
+  <!-- Share Document Script -->
+  <script type="text/javascript">
+      const getDocumentFile = function () {
+          let filename = document.title + ".html"
+          let docString = new XMLSerializer().serializeToString(document)
+          let docFile = new File([docString], filename, { type: "text/html" })
+          return docFile
+      }
+
+      const btn = document.getElementById('share-button');
+
+      // Share must be triggered by "user activation"
+      btn.addEventListener('click', async () => {
+          try {
+              let docFile = getDocumentFile()
+              let shareData = { files: [docFile] }
+              await navigator.share(shareData)
+          } catch(err) {
+              alert('Error: ' + err)
+          }
+      });
+  </script>
+</body>
 </html>
