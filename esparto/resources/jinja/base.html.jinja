@@ -74,7 +74,7 @@
               let shareData = { files: [docFile] }
               await navigator.share(shareData)
           } catch(err) {
-              alert('Error: ' + err)
+              alert("Your system doesn't support sharing files.")
           }
       });
   </script>
