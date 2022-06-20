@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "esparto"
-version = "4.0.0.post1"
+version = "4.1.0"
 description = "Data driven report builder for the PyData ecosystem."
 authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
 license = "MIT"

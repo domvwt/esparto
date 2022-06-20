@@ -1,6 +1,16 @@
 Release Notes
 =============
 
+4.1.0 (2022-06-24)
+------------------
+
+- Page Template
+    - Replace footer with buttons
+        - Esparto home
+        - Share document
+        - Print page
+    - Add CSS style for icon buttons
+
 4.0.0 (2022-04-19)
 ------------------
 
