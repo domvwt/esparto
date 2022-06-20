@@ -141,6 +141,23 @@ p {
     margin: auto;
 }
 
+.es-icon {
+    margin: 0.5em;
+    margin-left: 1em;
+    margin-right: 1em;
+    font-size: 1.8em;
+    color: var(--bs-gray-700) !important;
+    fill: var(--bs-gray-700) !important;
+    height: 0.9em;
+    width: 0.9em;
+}
+
+.es-icon:hover,
+.es-icon:focus {
+    cursor: pointer;
+    filter: invert(38%) sepia(71%) saturate(6204%) hue-rotate(211deg) brightness(104%) contrast(98%);
+}
+
 @media print {
     .es-page-title,
     .es-section-title,
