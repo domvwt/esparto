@@ -40,19 +40,18 @@
   <footer class="footer d-flex justify-content-center d-print-none" width="100vw">
     <div class="btn-group px-2 mt-5 mb-4" role="group">
       <a class="es-icon" href="https://domvwt.github.io/esparto/">
-        <svg id="es-link-button" xmlns="http://www.w3.org/2000/svg" class="bi bi-file-earmark-bar-graph" style="display: block;" viewBox="0 0 16 16">
+        <svg id="es-link-button" class="bi bi-file-earmark-bar-graph" style="display: block;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
           <path
             d="M10 13.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-6a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v6zm-2.5.5a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm-3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1z" />
           <path
             d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
         </svg>
       </a>
-      <svg id="share-button" xmlns="http://www.w3.org/2000/svg" class="es-icon bi bi-share" viewBox="0 0 16 16">
+      <svg id="share-button" class="es-icon bi bi-share" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
         <path
           d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" />
       </svg>
-      <svg id="print-button" xmlns="http://www.w3.org/2000/svg" class="es-icon bi bi-printer" onclick="window.print()"
-        viewBox="0 0 16 16">
+      <svg id="print-button" class="es-icon bi bi-printer" style="display: block;" onclick="window.print()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
         <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
         <path
           d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z" />
@@ -69,6 +68,8 @@
 
   <!-- Share Document Script -->
   <script type="text/javascript">
+
+    // Convert document to text file.
     const getDocumentFile = function () {
       let filename = document.title + ".html"
       let docString = new XMLSerializer().serializeToString(document)
@@ -76,9 +77,16 @@
       return docFile
     }
 
+    // Only show share button if web share API is supported.
     const btn = document.getElementById('share-button');
 
-    // Share must be triggered by "user activation"
+    if (navigator.canShare) {
+      btn.style.display = "block";
+    } else {
+      console.log("Web Share API not supported.")
+    }
+
+    // Share must be triggered by "user activation".
     btn.addEventListener('click', async () => {
       try {
         let docFile = getDocumentFile()
@@ -86,7 +94,7 @@
         await navigator.share(shareData)
 
       } catch (err) {
-        alert("This system does not support web share!")
+        alert(`Error while sharing document:\n${err}`)
       }
     });
   </script>

@@ -4,12 +4,13 @@ Release Notes
 4.1.0 (2022-06-24)
 ------------------
 
-- Page Template
-    - Replace footer with buttons
+- Page Style
+    - Replace footer with icon buttons
         - Esparto home
-        - Share document
+        - Share document (for compatible systems)
         - Print page
     - Add CSS style for icon buttons
+    - Remove underline from URLs
 
 4.0.0 (2022-04-19)
 ------------------
