@@ -13,7 +13,7 @@ end_of_line = lf
 [*.html*]
 indent_size = 2
 
-[.js]
+[*.js]
 indent_size = 2
 
 [*.bat]
