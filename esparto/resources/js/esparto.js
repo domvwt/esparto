@@ -2,8 +2,7 @@
 const getDocumentFile = function () {
     let filename = document.title + ".html"
     let docString = new XMLSerializer().serializeToString(document)
-    let docFile = new File([docString], filename, { type: "text/html" })
-    return docFile
+    return new File([docString], filename, { type: "text/html" })
 }
 
 const share_button = document.getElementById('share-button');

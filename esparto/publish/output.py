@@ -22,7 +22,7 @@ def publish_html(
     return_html: bool = False,
     dependency_source: Optional[str] = None,
     esparto_css: Optional[str] = None,
-    esparto_js:  Optional[str] = None,
+    esparto_js: Optional[str] = None,
     jinja_template: Optional[str] = None,
     **kwargs: bool,
 ) -> Optional[str]:
