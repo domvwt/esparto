@@ -22,6 +22,7 @@ def publish_html(
     return_html: bool = False,
     dependency_source: Optional[str] = None,
     esparto_css: Optional[str] = None,
+    esparto_js:  Optional[str] = None,
     jinja_template: Optional[str] = None,
     **kwargs: bool,
 ) -> Optional[str]:
@@ -33,6 +34,7 @@ def publish_html(
       return_html (bool): Returns HTML string if True.
       dependency_source (str): One of 'cdn' or 'inline' (default = None).
       esparto_css (str): Path to CSS stylesheet. (default = None).
+      esparto_js (str): Path to JavaScript code. (default = None).
       jinja_template (str): Path to Jinja template. (default = None).
       **kwargs (Dict[str, Any]): Arguments passed to `page.to_html()`.
 
@@ -46,6 +48,7 @@ def publish_html(
     resolved_deps = resolve_deps(required_deps, source=dependency_source)
 
     esparto_css = Path(resolve_config_option("esparto_css", esparto_css)).read_text()
+    esparto_js = Path(resolve_config_option("esparto_js", esparto_js)).read_text()
 
     page_html = page.to_html(**kwargs)
     jinja_template_object = Template(
@@ -55,6 +58,7 @@ def publish_html(
         navbrand=page.navbrand,
         doc_title=page.title,
         esparto_css=esparto_css,
+        esparto_js=esparto_js,
         content=page_html,
         head_deps=resolved_deps.head,
         tail_deps=resolved_deps.tail,
