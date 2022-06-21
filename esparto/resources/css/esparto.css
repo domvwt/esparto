@@ -55,6 +55,22 @@ p {
     margin-bottom: 0.25em;
 }
 
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+
 .es-figure {
     text-align: center;
     margin: 0;
@@ -155,10 +171,12 @@ p {
 .es-icon:hover,
 .es-icon:focus {
     cursor: pointer;
-    filter: invert(38%) sepia(71%) saturate(6204%) hue-rotate(211deg) brightness(104%) contrast(98%);
+    color: var(--bs-primary) !important;
+    fill: var(--bs-primary) !important;
 }
 
 @media print {
+
     .es-page-title,
     .es-section-title,
     .es-row-title,
@@ -182,6 +200,3 @@ p {
         flex: 1 !important;
     }
 }
-
-/* esparto logo font */
-@import url('https://fonts.googleapis.com/css2?family=Carter+One&display=swap');
