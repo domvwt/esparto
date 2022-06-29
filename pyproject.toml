@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "esparto"
-version = "4.0.0.post1"
+version = "4.1.0"
 description = "Data driven report builder for the PyData ecosystem."
 authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
 license = "MIT"
@@ -51,13 +51,10 @@ kaleido = "^0.2.1,!=0.2.1.post1"
 types-Markdown = "^3.3.0"
 pylint = {version = "^2.12.2", python = ">=3.6.2"}
 types-PyYAML = "^6.0.4"
+jupyter = "^1.0.0"
 
 [tool.poetry.extras]
 extras = ["weasyprint", "Pillow"]
-
-[tool.isort]
-profile = "black"
-multi_line_output = 3
 
 [build-system]
 requires = ["poetry>=0.12"]

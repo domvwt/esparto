@@ -116,7 +116,7 @@ Iris Report - [Webpage](https://domvwt.github.io/esparto/examples/iris-report.ht
 <br>
 
 <p width=100%>
-<img width=100%  src="https://github.com/domvwt/esparto/blob/1857f1d7411f12c37c96f8f5d60ff7012071851f/docs/images/iris-report-compressed.png?raw=true" alt="example page" style="border-radius:0.5%;">
+<img width=100%  src="https://github.com/domvwt/esparto/blob/main/docs/images/iris-report-compressed.png?raw=true" alt="example page" style="border-radius:0.5%;">
 </p>
 
 <!-- * Links -->

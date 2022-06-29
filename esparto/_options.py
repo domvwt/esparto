@@ -108,6 +108,8 @@ class OutputOptions(yaml.YAMLObject, ConfigMixin):
             Path to Bootstrap CSS file. Used if dependency source is 'inline'.
         esparto_css (str):
             Path to additional CSS file with esparto specific styles.
+        esparto_js (str):
+            Path to JavaScript file for interactive page elements.
         jinja_template (str):
             Path to Jinja HTML page template.
 
@@ -129,6 +131,7 @@ class OutputOptions(yaml.YAMLObject, ConfigMixin):
     )
     bootstrap_css: str = str(_MODULE_PATH / "resources/css/bootstrap.min.css")
     esparto_css: str = str(_MODULE_PATH / "resources/css/esparto.css")
+    esparto_js: str = str(_MODULE_PATH / "resources/js/esparto.js")
     jinja_template: str = str(_MODULE_PATH / "resources/jinja/base.html.jinja")
 
     matplotlib: MatplotlibOptions = MatplotlibOptions()

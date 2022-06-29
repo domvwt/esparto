@@ -1,6 +1,18 @@
 Release Notes
 =============
 
+4.1.0 (2022-06-29)
+------------------
+
+- Page Style
+    - Replace footer with icon buttons
+        - Esparto home
+        - Share document (for compatible systems)
+        - Print page
+    - Add CSS style for icon buttons
+    - Prefer fully specified fonts to system fonts
+    - Remove underline from URLs
+
 4.0.0 (2022-04-19)
 ------------------
 
