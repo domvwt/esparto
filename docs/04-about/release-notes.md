@@ -10,6 +10,7 @@ Release Notes
         - Share document (for compatible systems)
         - Print page
     - Add CSS style for icon buttons
+    - Prefer fully specified fonts to system fonts
     - Remove underline from URLs
 
 4.0.0 (2022-04-19)
