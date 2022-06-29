@@ -57,10 +57,10 @@ lint: ## check style with flake8
 	flake8 esparto tests
 
 mypy: ## check type hints
-	mypy esparto --strict
+	mypy esparto
 
 isort: ## sort imports
-	isort esparto tests --profile black
+	isort esparto tests
 
 cqa: format isort lint mypy ## run all cqa tools
 

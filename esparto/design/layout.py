@@ -543,7 +543,7 @@ class Page(Layout):
         self.title_classes = ["es-page-title"]
         self.title_styles = {}
 
-        self.body_html_tag = "div"
+        self.body_html_tag = "article"
         self.body_classes = ["es-page-body"]
         self.body_styles = {}
 
@@ -574,7 +574,7 @@ class Section(Layout):
         self.title_classes = ["es-section-title"]
         self.title_styles = {}
 
-        self.body_html_tag = "div"
+        self.body_html_tag = "section"
         self.body_classes = ["es-section-body"]
         self.body_styles = {}
 
