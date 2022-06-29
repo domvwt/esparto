@@ -648,7 +648,7 @@
 
 
 <h2 id="esparto.publish.output.publish_html" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">publish_html</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;./esparto-doc.html&#39;</span><span class="p">,</span> <span class="n">return_html</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dependency_source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">esparto_css</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">jinja_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">publish_html</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;./esparto-doc.html&#39;</span><span class="p">,</span> <span class="n">return_html</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dependency_source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">esparto_css</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">esparto_js</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">jinja_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
 </h2>
@@ -699,6 +699,12 @@
         <td><code>None</code></td>
       </tr>
       <tr>
+        <td><code>esparto_js</code></td>
+        <td><code>Optional[str]</code></td>
+        <td><p>Path to JavaScript code. (default = None).</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
         <td><code>jinja_template</code></td>
         <td><code>Optional[str]</code></td>
         <td><p>Path to Jinja template. (default = None).</p></td>
@@ -735,6 +741,7 @@
     <span class="n">return_html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">dependency_source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">esparto_css</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">esparto_js</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">jinja_template</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -746,6 +753,7 @@
 <span class="sd">      return_html (bool): Returns HTML string if True.</span>
 <span class="sd">      dependency_source (str): One of &#39;cdn&#39; or &#39;inline&#39; (default = None).</span>
 <span class="sd">      esparto_css (str): Path to CSS stylesheet. (default = None).</span>
+<span class="sd">      esparto_js (str): Path to JavaScript code. (default = None).</span>
 <span class="sd">      jinja_template (str): Path to Jinja template. (default = None).</span>
 <span class="sd">      **kwargs (Dict[str, Any]): Arguments passed to `page.to_html()`.</span>
 
@@ -759,6 +767,7 @@
     <span class="n">resolved_deps</span> <span class="o">=</span> <span class="n">resolve_deps</span><span class="p">(</span><span class="n">required_deps</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">dependency_source</span><span class="p">)</span>
 
     <span class="n">esparto_css</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">resolve_config_option</span><span class="p">(</span><span class="s2">&quot;esparto_css&quot;</span><span class="p">,</span> <span class="n">esparto_css</span><span class="p">))</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+    <span class="n">esparto_js</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">resolve_config_option</span><span class="p">(</span><span class="s2">&quot;esparto_js&quot;</span><span class="p">,</span> <span class="n">esparto_js</span><span class="p">))</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
 
     <span class="n">page_html</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">jinja_template_object</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span>
@@ -768,6 +777,7 @@
         <span class="n">navbrand</span><span class="o">=</span><span class="n">page</span><span class="o">.</span><span class="n">navbrand</span><span class="p">,</span>
         <span class="n">doc_title</span><span class="o">=</span><span class="n">page</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
         <span class="n">esparto_css</span><span class="o">=</span><span class="n">esparto_css</span><span class="p">,</span>
+        <span class="n">esparto_js</span><span class="o">=</span><span class="n">esparto_js</span><span class="p">,</span>
         <span class="n">content</span><span class="o">=</span><span class="n">page_html</span><span class="p">,</span>
         <span class="n">head_deps</span><span class="o">=</span><span class="n">resolved_deps</span><span class="o">.</span><span class="n">head</span><span class="p">,</span>
         <span class="n">tail_deps</span><span class="o">=</span><span class="n">resolved_deps</span><span class="o">.</span><span class="n">tail</span><span class="p">,</span>
