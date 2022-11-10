@@ -1,6 +1,6 @@
 # Report Style
 
-## CSS and Jinja
+## Output Options
 
 Customising the look and feel of **esparto** pages is best achieved through
 modifying the default Jinja template and CSS style sheet.
