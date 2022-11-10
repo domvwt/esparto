@@ -4,7 +4,7 @@
     Default options are configured through `es.options`, page level options can
     be passed to the `Page` constructor.
 
-    Please read [the user guide](/02-user-guide/output-options) for more details.
+    Please read [the user guide](/02-user-guide/report-style) for more details.
 
 ## ::: esparto._options.OutputOptions
 
