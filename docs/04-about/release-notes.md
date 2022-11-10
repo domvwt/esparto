@@ -4,8 +4,8 @@ Release Notes
 4.2.0 (2022-11-10)
 ------------------
 
-- Bug Fixes
-    - Fix bug that prevents converting some Matplotlib figures to SVG and HTML (#127).
+- Fixes
+    - Fix bug preventing some Matplotlib figures from being converted to SVG and HTML (#127).
 
 4.1.0 (2022-06-29)
 ------------------
