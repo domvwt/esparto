@@ -79,7 +79,7 @@ if _EXTRAS:
         (Path(_irises_path), co.Image),
         (pd.DataFrame({"a": range(1, 11), "b": range(11, 21)}), co.DataFramePd),
         (plt.figure(), co.FigureMpl),
-        (bkp.Figure(), co.FigureBokeh),
+        (bkp.figure(), co.FigureBokeh),
         (bkl.column(bkp.figure()), co.FigureBokeh),
         (px.line(x=range(10), y=range(10)), co.FigurePlotly),
     ]

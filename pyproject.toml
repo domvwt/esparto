@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "esparto"
-version = "4.1.0"
+version = "4.2.0"
 description = "Data driven report builder for the PyData ecosystem."
 authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
 license = "MIT"
@@ -24,6 +24,8 @@ markdown = ">=3.1"
 pyyaml = ">=5.1"
 beautifulsoup4 = ">=4.7"
 dataclasses = {version = "*", python = "<3.7"}
+
+# Optional dependencies
 weasyprint = {version = ">=51", optional = true}
 
 [tool.poetry.dev-dependencies]
@@ -32,9 +34,10 @@ pytest = "^6.2.2"
 rope = "^0.19.0"
 IPython = "^7.3"
 mkdocs = "^1.1.2"
-matplotlib = "^3.3.0"
+matplotlib = {version = ">=3.4.0", python = ">=3.8"}
 html5lib = "^1.1"
-pandas = "^1.0.0"
+numpy = {version = "^1.22", python = ">=3.8"}
+pandas = {version = "^1.5.0", python = ">=3.8"}
 coverage = {version = "^5.5", python = "<4"}
 mkdocs-material = "^7.1.0"
 mkdocstrings = {version = "^0.15.0", python = "<4"}
