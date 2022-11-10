@@ -379,8 +379,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#css-and-jinja" class="md-nav__link">
-    CSS and Jinja
+  <a href="#output-options" class="md-nav__link">
+    Output Options
   </a>
   
 </li>
@@ -626,7 +626,7 @@
                 
                 
                 <h1 id="report-style">Report Style</h1>
-<h2 id="css-and-jinja">CSS and Jinja</h2>
+<h2 id="output-options">Output Options</h2>
 <p>Customising the look and feel of <strong>esparto</strong> pages is best achieved through
 modifying the default Jinja template and CSS style sheet.
 New templates and styles can be passed to <code>es.options</code> to replace the global
@@ -634,12 +634,15 @@ defaults, or passed to the <code>es.Page</code> constructor using the <code>es.O
 <div class="highlight"><pre><span></span><code><span class="c1"># Updating global defaults.</span>
 <span class="n">es</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">esparto_css</span> <span class="o">=</span> <span class="s2">&quot;./esparto.css&quot;</span>
 <span class="n">es</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">jinja_template</span> <span class="o">=</span> <span class="s2">&quot;./esparto.html.jinja&quot;</span>
+<span class="n">es</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">notebook_format</span> <span class="o">=</span> <span class="s2">&quot;png&quot;</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="c1"># Using page level options.</span>
-<span class="n">output_options</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">OutputOptions</span><span class="p">(</span>
-    <span class="n">esparto_css</span><span class="o">=</span><span class="s2">&quot;./esparto.css&quot;</span><span class="p">,</span>
-    <span class="n">jinja_template</span><span class="o">=</span><span class="s2">&quot;./esparto.html.jinja&quot;</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">output_options</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">OutputOptions</span><span class="p">()</span>
+
+<span class="n">output_options</span><span class="o">.</span><span class="n">esparto_css</span> <span class="o">=</span> <span class="s2">&quot;./esparto.css&quot;</span>
+<span class="n">output_options</span><span class="o">.</span><span class="n">jinja_template</span> <span class="o">=</span> <span class="s2">&quot;./esparto.html.jinja&quot;</span>
+<span class="n">output_options</span><span class="o">.</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">notebook_format</span> <span class="o">=</span> <span class="s2">&quot;png&quot;</span>
+
 <span class="n">page</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Page</span><span class="p">(</span><span class="n">output_options</span><span class="o">=</span><span class="n">output_options</span><span class="p">)</span>
 </code></pre></div>
 <p>Options can be saved and loaded from disk using class methods.
