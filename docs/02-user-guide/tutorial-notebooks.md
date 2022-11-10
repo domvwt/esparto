@@ -2,7 +2,6 @@
 
 ## Data Analysis
 
-The Iris dataset is one of the best known datasets in statistics.
 In this example we put together a simple data analysis report using:
 
 * Text content with markdown formatting

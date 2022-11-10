@@ -67,7 +67,7 @@ def publish_html(
     html_rendered = relocate_scripts(html_rendered)
 
     if filepath:
-        Path(filepath).write_text(html_rendered)
+        Path(filepath).write_text(html_rendered, encoding="utf-8")
 
     if return_html:
         return html_rendered

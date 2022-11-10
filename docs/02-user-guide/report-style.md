@@ -1,6 +1,6 @@
 # Report Style
 
-## CSS and Jinja
+## Output Options
 
 Customising the look and feel of **esparto** pages is best achieved through
 modifying the default Jinja template and CSS style sheet.
@@ -11,14 +11,17 @@ defaults, or passed to the `es.Page` constructor using the `es.OutputOptions` cl
 # Updating global defaults.
 es.options.esparto_css = "./esparto.css"
 es.options.jinja_template = "./esparto.html.jinja"
+es.options.matplotlib.notebook_format = "png"
 ```
 
 ```python
 # Using page level options.
-output_options = es.OutputOptions(
-    esparto_css="./esparto.css",
-    jinja_template="./esparto.html.jinja",
-)
+output_options = es.OutputOptions()
+
+output_options.esparto_css = "./esparto.css"
+output_options.jinja_template = "./esparto.html.jinja"
+output_options.matplotlib.notebook_format = "png"
+
 page = es.Page(output_options=output_options)
 ```
 

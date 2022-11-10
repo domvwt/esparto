@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+4.2.0 (2022-11-10)
+------------------
+
+- Fixes
+    - Fix bug preventing some Matplotlib figures from being converted to SVG and HTML [(#127)](https://github.com/domvwt/esparto/issues/127)
+
 4.1.0 (2022-06-29)
 ------------------
 

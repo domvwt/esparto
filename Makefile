@@ -98,7 +98,7 @@ reqs: ## output requirements.txt
 	poetry export -f requirements.txt -o requirements.txt --without-hashes
 
 release: dist ## package and upload a release
-	poetry publish
+	twine upload
 
 dist: clean ## builds source and wheel package
 	poetry build
