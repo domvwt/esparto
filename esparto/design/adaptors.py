@@ -3,7 +3,7 @@ import mimetypes as mt
 from pathlib import Path
 from typing import Any, Dict, Union
 
-from esparto import _INSTALLED_MODULES
+from esparto import _OptionalDependencies
 from esparto.design.content import (
     Content,
     DataFramePd,
@@ -65,7 +65,7 @@ def content_adaptor_dict(content: Dict[str, Any]) -> Dict[str, Any]:
 
 
 # Function only available if Pandas is installed.
-if "pandas" in _INSTALLED_MODULES:
+if _OptionalDependencies.pandas:
     from pandas.core.frame import DataFrame  # type: ignore
 
     @content_adaptor.register(DataFrame)
@@ -75,7 +75,7 @@ if "pandas" in _INSTALLED_MODULES:
 
 
 # Function only available if Matplotlib is installed.
-if "matplotlib" in _INSTALLED_MODULES:
+if _OptionalDependencies.matplotlib:
     from matplotlib.figure import Figure  # type: ignore
 
     @content_adaptor.register(Figure)
@@ -85,7 +85,7 @@ if "matplotlib" in _INSTALLED_MODULES:
 
 
 # Function only available if Bokeh is installed.
-if "bokeh" in _INSTALLED_MODULES:
+if _OptionalDependencies.bokeh:
     from bokeh.layouts import LayoutDOM as BokehObject  # type: ignore
 
     @content_adaptor.register(BokehObject)
@@ -95,7 +95,7 @@ if "bokeh" in _INSTALLED_MODULES:
 
 
 # Function only available if Plotly is installed.
-if "plotly" in _INSTALLED_MODULES:
+if _OptionalDependencies.plotly:
     from plotly.graph_objs._figure import Figure as PlotlyFigure  # type: ignore
 
     @content_adaptor.register(PlotlyFigure)

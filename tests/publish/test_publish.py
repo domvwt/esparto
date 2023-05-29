@@ -5,10 +5,13 @@ import pytest
 
 import esparto as es
 import esparto.publish.output as pu
-from tests.conftest import _EXTRAS, content_list, layout_list
+from esparto import _OptionalDependencies
+from tests.conftest import content_list, layout_list
 
 
-def html_is_valid(html: Optional[str], fragment: bool = False, plotly_chars: bool = False):
+def html_is_valid(
+    html: Optional[str], fragment: bool = False, plotly_chars: bool = False
+):
     from html5lib import HTMLParser  # type: ignore
 
     htmlparser = HTMLParser(strict=True)
@@ -132,7 +135,7 @@ def test_relocate_scripts():
     assert output == expected
 
 
-if _EXTRAS:
+if _OptionalDependencies().all_extras():
     from tests.conftest import content_pdf
 
     def test_notebook_html_valid_cdn(page_layout, monkeypatch):

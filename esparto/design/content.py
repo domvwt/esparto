@@ -11,26 +11,26 @@ from uuid import uuid4
 
 import markdown as md
 
-from esparto import _INSTALLED_MODULES
+from esparto import _OptionalDependencies
 from esparto._options import options
 from esparto.design.base import AbstractContent, AbstractLayout, Child
 from esparto.design.layout import Row
 from esparto.publish.output import nb_display
 
-if "PIL" in _INSTALLED_MODULES:
+if _OptionalDependencies.PIL:
     from PIL.Image import Image as PILImage  # type: ignore
 
-if "pandas" in _INSTALLED_MODULES:
+if _OptionalDependencies.pandas:
     from pandas import DataFrame  # type: ignore
 
-if "matplotlib" in _INSTALLED_MODULES:
+if _OptionalDependencies.matplotlib:
     from matplotlib.figure import Figure as MplFigure  # type: ignore
 
-if "bokeh" in _INSTALLED_MODULES:
+if _OptionalDependencies.bokeh:
     from bokeh.embed import components  # type: ignore
     from bokeh.models.layouts import LayoutDOM as BokehObject  # type: ignore
 
-if "plotly" in _INSTALLED_MODULES:
+if _OptionalDependencies.plotly:
     from plotly.graph_objs._figure import Figure as PlotlyFigure  # type: ignore
     from plotly.io import to_html as plotly_to_html  # type: ignore
 
@@ -103,7 +103,6 @@ class RawHTML(Content):
     content: str
 
     def __init__(self, html: str) -> None:
-
         if not isinstance(html, str):
             raise TypeError(r"HTML must be str")
 
@@ -124,7 +123,6 @@ class Markdown(Content):
     _dependencies = {"bootstrap"}
 
     def __init__(self, text: str) -> None:
-
         if not isinstance(text, str):
             raise TypeError(r"text must be str")
 
@@ -163,10 +161,9 @@ class Image(Content):
         set_width: Optional[int] = None,
         set_height: Optional[int] = None,
     ):
-
         valid_types: Tuple[Any, ...]
 
-        if "PIL" in _INSTALLED_MODULES:
+        if _OptionalDependencies.PIL:
             valid_types = (str, Path, PILImage, BytesIO)
         else:
             valid_types = (str, Path, BytesIO)
@@ -250,7 +247,6 @@ class DataFramePd(Content):
     def __init__(
         self, df: "DataFrame", index: bool = True, col_space: Union[int, str] = 0
     ):
-
         if not isinstance(df, DataFrame):
             raise TypeError(r"df must be Pandas DataFrame")
 
@@ -292,7 +288,6 @@ class FigureMpl(Content):
         output_format: Optional[str] = None,
         pdf_figsize: Optional[Union[Tuple[int, int], float]] = None,
     ) -> None:
-
         if not isinstance(figure, MplFigure):
             raise TypeError(r"figure must be a Matplotlib Figure")
 
@@ -303,7 +298,6 @@ class FigureMpl(Content):
         self._original_figsize = figure.get_size_inches()
 
     def to_html(self, **kwargs: bool) -> str:
-
         if kwargs.get("notebook_mode"):
             output_format = options.matplotlib.notebook_format
         else:
@@ -317,7 +311,6 @@ class FigureMpl(Content):
             self.content.set_size_inches(*figsize)
 
         if output_format == "svg":
-
             string_buffer = StringIO()
             self.content.savefig(string_buffer, format="svg")
             string_buffer.seek(0)
@@ -382,7 +375,6 @@ class FigureBokeh(Content):
         self.layout_attributes = layout_attributes or options.bokeh.layout_attributes
 
     def to_html(self, **kwargs: bool) -> str:
-
         if self.layout_attributes:
             for key, value in self.layout_attributes.items():
                 setattr(self.content, key, value)
@@ -426,7 +418,6 @@ class FigurePlotly(Content):
         figure: "PlotlyFigure",
         layout_args: Optional[Dict[Any, Any]] = None,
     ):
-
         if not isinstance(figure, PlotlyFigure):
             raise TypeError(r"figure must be a Plotly Figure")
 
@@ -436,7 +427,6 @@ class FigurePlotly(Content):
         self._original_layout = figure.layout
 
     def to_html(self, **kwargs: bool) -> str:
-
         if self.layout_args:
             self.content.update_layout(**self.layout_args)
 
@@ -485,7 +475,7 @@ def image_to_bytes(image: Union[str, Path, BytesIO, "PILImage"]) -> BytesIO:
     """
     if isinstance(image, BytesIO):
         return image
-    elif "PIL" in _INSTALLED_MODULES and isinstance(image, PILImage):
+    elif _OptionalDependencies.PIL and isinstance(image, PILImage):
         return BytesIO(image.tobytes())
     elif isinstance(image, (str, Path)):
         return BytesIO(Path(image).read_bytes())
