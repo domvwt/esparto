@@ -21,7 +21,11 @@ const share_button = document.getElementById('share-button');
 if (share_button) {
   if (navigator.canShare) {
     share_button.style.display = "block";
-    share_button.addEventListener('click', () => shareDocument());
+    share_button.addEventListener('click', () => {
+      shareDocument().catch(err => {
+        console.error(`Error while sharing document:\n${err}`);
+      });
+    });
   } else {
     console.log("Web Share API not supported.")
   }
