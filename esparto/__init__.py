@@ -11,11 +11,10 @@ Please visit https://domvwt.github.io/esparto/ for documentation and examples.
 
 from importlib.util import find_spec as _find_spec
 from pathlib import Path as _Path
-from typing import Set as _Set
 
 __author__ = """Dominic Thorn"""
 __email__ = "dominic.thorn@gmail.com"
-__version__ = "4.2.0"
+__version__ = "4.3.0"
 
 _MODULE_PATH: _Path = _Path(__file__).parent.absolute()
 
