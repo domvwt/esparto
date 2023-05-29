@@ -15,7 +15,7 @@ from pathlib import Path as _Path
 
 __author__ = """Dominic Thorn"""
 __email__ = "dominic.thorn@gmail.com"
-__version__ = "4.3.0"
+__version__ = "4.3.1"
 
 _MODULE_PATH: _Path = _Path(__file__).parent.absolute()
 
