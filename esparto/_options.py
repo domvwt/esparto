@@ -134,9 +134,9 @@ class OutputOptions(yaml.YAMLObject, ConfigMixin):
     esparto_js: str = str(_MODULE_PATH / "resources/js/esparto.js")
     jinja_template: str = str(_MODULE_PATH / "resources/jinja/base.html.jinja")
 
-    matplotlib: MatplotlibOptions = MatplotlibOptions()
-    bokeh: BokehOptions = BokehOptions()
-    plotly: PlotlyOptions = PlotlyOptions()
+    matplotlib: MatplotlibOptions = field(default_factory=MatplotlibOptions)
+    bokeh: BokehOptions = field(default_factory=BokehOptions)
+    plotly: PlotlyOptions = field(default_factory=PlotlyOptions)
 
     _pdf_temp_dir: str = TemporaryDirectory().name
 

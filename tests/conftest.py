@@ -6,9 +6,7 @@ import pytest
 
 import esparto.design.content as co
 import esparto.design.layout as la
-from esparto import _INSTALLED_MODULES, _OPTIONAL_DEPENDENCIES
-
-_EXTRAS = _OPTIONAL_DEPENDENCIES <= _INSTALLED_MODULES
+from esparto import _OptionalDependencies
 
 _irises_path = str(Path("tests/resources/irises.jpg").absolute())
 _markdown_path = str(Path("tests/resources/markdown.md").absolute())
@@ -43,7 +41,7 @@ adaptor_list = [
     (Path(_markdown_path), co.Markdown),
 ]
 
-if _EXTRAS:
+if _OptionalDependencies().all_extras():
     import bokeh.layouts as bkl  # type: ignore
     import bokeh.plotting as bkp  # type: ignore
     import matplotlib.pyplot as plt  # type: ignore

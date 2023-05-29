@@ -5,13 +5,19 @@ import pytest
 
 import esparto as es
 import esparto.publish.output as pu
-from tests.conftest import _EXTRAS, content_list, layout_list
+from esparto import _OptionalDependencies
+from tests.conftest import content_list, layout_list
 
 
-def html_is_valid(html: Optional[str], fragment: bool = False):
+def html_is_valid(
+    html: Optional[str], fragment: bool = False, plotly_chars: bool = False
+):
     from html5lib import HTMLParser  # type: ignore
 
     htmlparser = HTMLParser(strict=True)
+    if plotly_chars:  # Plotly.js includes chars htmlparser considers invalid codepoints
+        for char in ("\x01", "\x1a", "\x1b", "\x89"):
+            html = html.replace(char, "")
     try:
         if fragment:
             htmlparser.parseFragment(html)
@@ -71,7 +77,7 @@ def test_saved_html_valid_options_inline(page_layout: es.Page, tmp_path, monkeyp
     path: Path = tmp_path / "my_page.html"
     page_layout.save_html(str(path))
     html = path.read_text()
-    assert html_is_valid(html)
+    assert html_is_valid(html, plotly_chars=True)
 
 
 def test_saved_html_valid_bad_source(page_layout: es.Page, tmp_path):
@@ -129,7 +135,7 @@ def test_relocate_scripts():
     assert output == expected
 
 
-if _EXTRAS:
+if _OptionalDependencies().all_extras():
     from tests.conftest import content_pdf
 
     def test_notebook_html_valid_cdn(page_layout, monkeypatch):
@@ -152,7 +158,7 @@ if _EXTRAS:
         monkeypatch.setattr(es.options.matplotlib, "notebook_format", "png")
         monkeypatch.setattr(es.options, "dependency_source", "inline")
         html = pu.nb_display(page_layout, return_html=True)
-        assert html_is_valid(html)
+        assert html_is_valid(html, plotly_chars=True)
 
     @pytest.mark.parametrize("content", content_pdf)
     def test_pdf_output(content, tmp_path):

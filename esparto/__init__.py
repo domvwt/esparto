@@ -9,30 +9,30 @@ Please visit https://domvwt.github.io/esparto/ for documentation and examples.
 
 """
 
+import dataclasses as _dc
 from importlib.util import find_spec as _find_spec
 from pathlib import Path as _Path
-from typing import Set as _Set
 
 __author__ = """Dominic Thorn"""
 __email__ = "dominic.thorn@gmail.com"
-__version__ = "4.2.0"
+__version__ = "4.3.0"
 
 _MODULE_PATH: _Path = _Path(__file__).parent.absolute()
 
 
-_OPTIONAL_DEPENDENCIES: _Set[str] = {
-    "PIL",  # Only used for type checking and conversion
-    "IPython",
-    "matplotlib",
-    "pandas",
-    "bokeh",
-    "plotly",
-    "weasyprint",
-}
+@_dc.dataclass(frozen=True)
+class _OptionalDependencies:
+    PIL: bool = _find_spec("PIL") is not None
+    IPython: bool = _find_spec("IPython") is not None
+    matplotlib: bool = _find_spec("matplotlib") is not None
+    pandas: bool = _find_spec("pandas") is not None
+    bokeh: bool = _find_spec("bokeh") is not None
+    plotly: bool = _find_spec("plotly") is not None
+    weasyprint: bool = _find_spec("weasyprint") is not None
 
-_INSTALLED_MODULES: _Set[str] = {
-    x.name for x in [_find_spec(dep) for dep in _OPTIONAL_DEPENDENCIES] if x
-}
+    def all_extras(self) -> bool:
+        return all(_dc.astuple(self))
+
 
 from esparto._options import OutputOptions, options
 from esparto.design.content import (

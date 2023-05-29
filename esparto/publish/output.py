@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Optional, Union
 from bs4 import BeautifulSoup, Tag  # type: ignore
 from jinja2 import Template
 
-from esparto import _INSTALLED_MODULES
+from esparto import _OptionalDependencies
 from esparto._options import options, resolve_config_option
 from esparto.design.base import AbstractContent, AbstractLayout
 from esparto.publish.contentdeps import resolve_deps
@@ -88,7 +88,7 @@ def publish_pdf(
       str: HTML string if return_html is True.
 
     """
-    if "weasyprint" not in _INSTALLED_MODULES:
+    if not _OptionalDependencies.weasyprint:
         raise ModuleNotFoundError("Install weasyprint for PDF support")
     import weasyprint as wp  # type: ignore
 

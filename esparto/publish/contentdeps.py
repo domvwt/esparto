@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List, Optional, Set
 
-from esparto import _INSTALLED_MODULES
+from esparto import _OptionalDependencies
 from esparto._options import options
 
 
@@ -40,7 +40,7 @@ def lazy_content_dependency_dict() -> ContentDependencyDict:
         "bootstrap", options.bootstrap_cdn, bootstrap_inline, "head"
     )
 
-    if "bokeh" in _INSTALLED_MODULES:
+    if _OptionalDependencies.bokeh:
         import bokeh.resources as bk_resources  # type: ignore
 
         bokeh_cdn = bk_resources.CDN.render_js()
@@ -50,7 +50,7 @@ def lazy_content_dependency_dict() -> ContentDependencyDict:
             "bokeh", bokeh_cdn, bokeh_inline, "tail"
         )
 
-    if "plotly" in _INSTALLED_MODULES:
+    if _OptionalDependencies.plotly:
         from plotly import offline as plotly_offline  # type: ignore
 
         plotly_version = "latest"

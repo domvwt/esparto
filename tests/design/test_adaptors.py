@@ -4,9 +4,10 @@ from pathlib import Path, PosixPath
 import pytest
 
 import esparto.design.adaptors as ad
+from esparto import _OptionalDependencies
 from esparto.design.content import Content, Markdown
 from esparto.design.layout import Column
-from tests.conftest import _EXTRAS, adaptor_list
+from tests.conftest import adaptor_list
 
 
 def get_dispatch_type(fn):
@@ -20,7 +21,7 @@ def test_all_adaptors_covered(adaptor_list_fn):
     module_functions = [x[1] for x in getmembers(ad, isfunction)]
     adaptor_types = {get_dispatch_type(fn) for fn in module_functions}
     adaptor_types.remove(Content)  # Can't use abstract base class in a test
-    if _EXTRAS:
+    if _OptionalDependencies.bokeh:
         adaptor_types.remove(ad.BokehObject)  # Can't use abstract base class in a test
     if PosixPath in test_classes:
         test_classes.remove(PosixPath)

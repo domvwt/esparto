@@ -4,7 +4,8 @@ import pytest
 
 import esparto.design.content as co
 import esparto.design.layout as la
-from tests.conftest import _EXTRAS, content_list
+from esparto import _OptionalDependencies
+from tests.conftest import content_list
 
 
 @pytest.mark.parametrize("a", content_list)
@@ -24,7 +25,7 @@ def test_content_equality(content_list_fn):
                 assert a != b
 
 
-if _EXTRAS:
+if _OptionalDependencies().all_extras():
 
     def test_all_content_classes_covered(content_list_fn):
         test_classes = {type(c) for c in content_list_fn}
@@ -44,7 +45,6 @@ if _EXTRAS:
 
 @pytest.mark.parametrize("a", content_list)
 def test_incorrect_content_rejected(a):
-
     b = type(a)
 
     class FakeClass:
